@@ -35,6 +35,7 @@ $base-brown: #583131;
 $base-purple: #583156;
 
 .container {
+  margin: 0 auto;
   max-width: 1440px;
 }
 

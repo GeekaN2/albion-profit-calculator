@@ -1,7 +1,10 @@
 <template>
   <div class="wrapper">
-    <div  class="images">
+    <div class="images">
       <div
+        :class="{
+          'line': isOpen && item.name == nextSection
+        }"
         @click="toggle(item.name, item.children || [])"
         v-for="(item, index) in items"
         :key="index"> 
@@ -12,8 +15,8 @@
         v-for="(item, index) in items"
         v-show="isOpen"
         :key="index">
-      <Row 
-        v-show="nextName == item.name"
+      <Row  
+        v-show="nextSection == item.name"
         :items="item.children">
       </Row>
     </div>
@@ -29,7 +32,7 @@ export default {
   data() {
     return {
       isOpen: false,
-      nextName: ''
+      nextSection: ''
     }
   },
   methods: {
@@ -40,19 +43,19 @@ export default {
       this.switcher(name);
     },
     switcher: function(name) {
-      if (this.nextName == name) {
+      if (this.nextSection == name) {
         this.isOpen = !this.isOpen;
       } else {
         this.isOpen = true;
       }
 
-      this.nextName = name;
+      this.nextSection = name;
     }
   }
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .images {
   display: flex;
   justify-content: center;
@@ -68,5 +71,21 @@ export default {
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+.line {
+  position: relative;
+
+  &:after {
+    content: ''; 
+    position: absolute;
+    bottom: -6px;
+    left: calc(50% - 10px);
+    width: 20px;
+    height: 20px;
+    background:url('../static/images/triangle.png') no-repeat;
+    background-size: cover;
+    z-index: -1;
+  }
 }
 </style>
