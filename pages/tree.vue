@@ -1,0 +1,45 @@
+<template>
+  <section class="container">
+    <Header class="header" />
+    <!--<TreeItem :item="tree"/>-->
+    <Row :items="tree">
+    </Row>
+  </section>
+</template>
+
+<script>
+import Header from "~/components/Header.vue";
+import Row from "~/components/Row.vue";
+
+export default {
+  components: {
+    Header,
+    Row
+  },
+  data() {
+    return {
+      tree: this.$store.state.tree
+    };
+  },
+  methods: {
+
+  },
+  created() {
+    // this.tree = this.$store.state.tree;
+  }
+};
+</script>
+
+<style scored lang="scss">
+$base-brown: #583131;
+$base-purple: #583156;
+
+.container {
+  max-width: 1440px;
+}
+
+img {
+  width: 80px;
+}
+</style>
+

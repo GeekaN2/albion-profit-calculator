@@ -17,6 +17,10 @@ module.exports = {
   ** Customize the progress bar color
   */
   loading: { color: '#3B8070' },
+  /**
+   * Uses store
+   */
+  store: true,
   /*
   ** Build configuration
   */
@@ -34,6 +38,10 @@ module.exports = {
         })
       }
     }
-  }
+  },
+  /**
+   * Build typescript
+   */
+  buildModules: ['@nuxt/typescript-build']
 }
 

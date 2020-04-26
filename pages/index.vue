@@ -1,38 +1,32 @@
 <template>
   <section class="container">
     <div>
-      <app-logo/>
       <h1 class="title">
-        albion-profit-calculator
+        Albion Profit Calculator
       </h1>
       <h2 class="subtitle">
-        Nuxt.js project
+        
       </h2>
       <div class="links">
         <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
+          href="/tree"
+          class="links__button--brown">Дерево профита</a>
         <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
+          href="#"
+          class="links__button--purple">Таблица профита</a>
       </div>
     </div>
+    <footer>
+      <a href="https://github.com/GeekaN2">by GeekaN a.k.a. Awilixandria</a>
+      <a href="https://www.albion-online-data.com/">Uses Albion online data project</a>
+    </footer>
   </section>
 </template>
 
-<script>
-import AppLogo from '~/components/AppLogo.vue'
+<style scored lang="scss">
+$base-brown: #583131;
+$base-purple: #583156;
 
-export default {
-  components: {
-    AppLogo
-  }
-}
-</script>
-
-<style>
 .container {
   min-height: 100vh;
   display: flex;
@@ -42,11 +36,10 @@ export default {
 }
 
 .title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
   display: block;
   font-weight: 300;
   font-size: 100px;
-  color: #35495e;
+  color: $base-brown;
   letter-spacing: 1px;
 }
 
@@ -60,6 +53,43 @@ export default {
 
 .links {
   padding-top: 15px;
+  
+  &__button--purple, &__button--brown {
+    display: inline-block;
+    border-radius: 4px;
+    border: 1px solid $base-brown;
+    color: $base-brown;
+    text-decoration: none;
+    padding: 10px 30px;
+    margin-left: 15px;
+  }
+
+  &__button--purple {
+    border-color: $base-purple;
+    color: $base-purple;
+  }
+
+  &__button--purple:hover {
+    color: #fff;
+    background-color: $base-purple;
+  }
+
+  &__button--brown:hover {
+    color: #fff;
+    background: $base-brown;
+  }
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  justify-content: space-evenly;
+
+  a {
+    color: $base-brown;
+  }
 }
 </style>
-
