@@ -75,7 +75,7 @@ export default {
         }
 
         &:nth-child(2) {
-            background: #ca6860;
+            background: #ce7d76;
         }
 
         &:nth-child(3) {
@@ -98,7 +98,7 @@ export default {
 
     &__unprofitable {
         text-shadow: 1px 0 1px #4a0404;
-        color: #9f3d3d;
+        color: #a52a2a;
     }
 }
 

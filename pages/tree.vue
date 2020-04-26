@@ -2,9 +2,8 @@
   <section class="container">
     <Header class="header" />
     <!--<TreeItem :item="tree"/>-->
-    <Row :items="tree">
-    </Row>
-    <ItemTable />
+    <Row :items="tree" v-on:showTable="showTable" />
+    <ItemTable v-if="isTableShowed" />
   </section>
 </template>
 
@@ -12,6 +11,7 @@
 import Header from "~/components/Header.vue";
 import Row from "~/components/Row.vue";
 import ItemTable from "~/components/ItemTable.vue";
+
 export default {
   components: {
     Header,
@@ -20,14 +20,21 @@ export default {
   },
   data() {
     return {
-      tree: this.$store.state.tree
+      tree: this.$store.state.tree,
+      isTableShowed: false,
+      lastName: ''
     };
   },
   methods: {
-
-  },
-  created() {
-    // this.tree = this.$store.state.tree;
+    /**
+     * Show or hide table for selected item
+     * @param itemName - name of selected item
+     * @param show - hides or shows the table
+     */
+    showTable: function({itemName, show}) {
+      this.isTableShowed = show;
+      console.log(itemName, show);
+    }
   }
 };
 </script>

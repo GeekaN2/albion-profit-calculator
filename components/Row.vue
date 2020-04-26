@@ -5,7 +5,7 @@
         :class="{
           'selected': isOpen && item.name == nextSection
         }"
-        @click="toggle(item.name, item.children || [])"
+        @click="toggle(item.name, isLeaf(item.children))"
         v-for="(item, index) in items"
         :key="index"> 
         <img :src="`/images/${item.name}.png`" alt="">
@@ -15,33 +15,56 @@
         v-for="(item, index) in items"
         v-show="isOpen"
         :key="index">
-      <Row  
+      <Row v-on:showTable="showTable"
         v-show="nextSection == item.name"
         :items="item.children">
       </Row>
     </div>
+
   </div>
 </template>
 
 <script>
 export default {
-  name: "Row",
+  name: 'Row',
   props: {
-    items: Array
+    items: Array,
   },
   data() {
     return {
       isOpen: false,
-      nextSection: ''
+      nextSection: '',
     }
   },
   methods: {
-    toggle: function(name, children) {
-      if (!children.length) {
-        alert('I\'m LEAF');
-      }
+    /**
+     * Change function condition
+     * And call profit table for current item it it's leaf
+     * @param name - name of current item
+     * @param isLeaf - shows does this element have not empty children[]
+     */
+    toggle: function(name, isLeaf) {
       this.switcher(name);
+      if (isLeaf && this.isOpen) {
+        this.showTable({
+          itemName: name,
+          show: true,
+        });
+        this.isTableShowed = true;
+      } else if (!isLeaf || !this.isOpen){
+        this.showTable({
+          itemName: name,
+          show: false,
+        });
+      }
+      
     },
+
+    /**
+     * Switch component condition
+     * Show small triangle under icon if it's open
+     * @param name - name of clicked item
+     */
     switcher: function(name) {
       if (this.nextSection == name) {
         this.isOpen = !this.isOpen;
@@ -50,6 +73,20 @@ export default {
       }
 
       this.nextSection = name;
+    },
+
+    /**
+     * Call function in parent
+     */
+    showTable: function(data) {
+      this.$emit('showTable', data);
+    },
+
+    /**
+     * Check array for emptiness
+     */
+    isLeaf: function(children) {
+      return !(children && children.length);
     }
   }
 };
