@@ -3,7 +3,7 @@
     <div class="images">
       <div
         :class="{
-          'line': isOpen && item.name == nextSection
+          'selected': isOpen && item.name == nextSection
         }"
         @click="toggle(item.name, item.children || [])"
         v-for="(item, index) in items"
@@ -73,7 +73,7 @@ export default {
   flex-direction: column;
 }
 
-.line {
+.selected {
   position: relative;
 
   &:after {

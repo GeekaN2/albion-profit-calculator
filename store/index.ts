@@ -5,7 +5,6 @@ Vue.use(Vuex)
 
 const store = () => new Vuex.Store({
   state: {
-    todos: [],
     tree: [{
       name: 'ROOT',
       children: [
@@ -152,8 +151,142 @@ const store = () => new Vuex.Store({
         }, {
           name: 'ROOT_HUNTER',
           children: [{
-            name: 'T4_SHOES_CLOTH_SET1',
-            children: [],
+            name: 'T4_SHOES_LEATHER_SET1',
+            children: [{
+              name: 'T4_SHOES_LEATHER_SET1',
+            }, {
+              name: 'T4_SHOES_LEATHER_SET2'
+            }, {
+              name: 'T4_SHOES_LEATHER_SET3'
+            }, {
+              name: 'T4_SHOES_LEATHER_MORGANA'
+            }, {
+              name: 'T4_SHOES_LEATHER_HELL'
+            }, {
+              name: 'T4_SHOES_LEATHER_UNDEAD'
+            }, {
+              name: 'T4_SHOES_LEATHER_AVALON'
+            }],
+          }, {
+            name: 'T4_ARMOR_LEATHER_SET1',
+            children: [{
+              name: 'T4_ARMOR_LEATHER_SET1',
+            }, {
+              name: 'T4_ARMOR_LEATHER_SET2'
+            }, {
+              name: 'T4_ARMOR_LEATHER_SET3'
+            }, {
+              name: 'T4_ARMOR_LEATHER_MORGANA'
+            }, {
+              name: 'T4_ARMOR_LEATHER_HELL'
+            }, {
+              name: 'T4_ARMOR_LEATHER_UNDEAD'
+            }, {
+              name: 'T4_ARMOR_LEATHER_AVALON'
+            }],
+          }, {
+            name: 'T4_HEAD_LEATHER_SET1',
+            children: [{
+              name: 'T4_HEAD_LEATHER_SET1',
+            }, {
+              name: 'T4_HEAD_LEATHER_SET2'
+            }, {
+              name: 'T4_HEAD_LEATHER_SET3'
+            }, {
+              name: 'T4_HEAD_LEATHER_MORGANA'
+            }, {
+              name: 'T4_HEAD_LEATHER_HELL'
+            }, {
+              name: 'T4_HEAD_LEATHER_UNDEAD'
+            }, {
+              name: 'T4_HEAD_LEATHER_AVALON'
+            }],
+          },  {
+            name: 'T4_2H_BOW',
+            children: [{
+              name: 'T4_2H_BOW',
+            }, {
+              name: 'T4_2H_WARBOW'
+            }, {
+              name: 'T4_2H_LONGBOW'
+            }, {
+              name: 'T4_2H_LONGBOW_UNDEAD'
+            }, {
+              name: 'T4_2H_BOW_HELL'
+            }, {
+              name: 'T4_2H_BOW_KEEPER'
+            }],
+          }, {
+            name: 'T4_MAIN_SPEAR',
+            children: [{
+              name: 'T4_MAIN_SPEAR',
+            }, {
+              name: 'T4_2H_SPEAR'
+            }, {
+              name: 'T4_2H_GLAIVE'
+            }, {
+              name: 'T4_MAIN_SPEAR_KEEPER'
+            }, {
+              name: 'T4_2H_HARPOON_HELL'
+            }, {
+              name: 'T4_2H_TRIDENT_UNDEAD'
+            }],
+          }, {
+            name: 'T4_MAIN_NATURESTAFF',
+            children: [{
+              name: 'T4_MAIN_NATURESTAFF',
+            }, {
+              name: 'T4_2H_NATURESTAFF'
+            }, {
+              name: 'T4_2H_WILDSTAFF'
+            }, {
+              name: 'T4_MAIN_NATURESTAFF_KEEPER'
+            }, {
+              name: 'T4_2H_NATURESTAFF_HELL'
+            }, {
+              name: 'T4_2H_NATURESTAFF_KEEPER'
+            }],
+          }, {
+            name: 'T4_MAIN_DAGGER',
+            children: [{
+              name: 'T4_MAIN_DAGGER',
+            }, {
+              name: 'T4_2H_DAGGERPAIR'
+            }, {
+              name: 'T4_2H_CLAWPAIR'
+            }, {
+              name: 'T4_MAIN_RAPIER_MORGANA'
+            }, {
+              name: 'T4_2H_IRONGAUNTLETS_HELL'
+            }, {
+              name: 'T4_2H_DUALSICKLE_UNDEAD'
+            }],
+          },  {
+            name: 'T4_2H_QUARTERSTAFF',
+            children: [{
+              name: 'T4_2H_QUARTERSTAFF',
+            }, {
+              name: 'T4_2H_IRONCLADEDSTAFF'
+            }, {
+              name: 'T4_2H_DOUBLEBLADEDSTAFF'
+            }, {
+              name: 'T4_2H_COMBATSTAFF_MORGANA'
+            }, {
+              name: 'T4_2H_TWINSCYTHE_HELL'
+            }, {
+              name: 'T4_2H_ROCKSTAFF_KEEPER'
+            }],
+          }, {
+            name: 'T4_OFF_TORCH',
+            children: [{
+              name: 'T4_OFF_TORCH',
+            }, {
+              name: 'T4_OFF_HORN_KEEPER'
+            }, {
+              name: 'T4_OFF_JESTERCANE_HELL'
+            }, {
+              name: 'T4_OFF_LAMP_UNDEAD'
+            }],
           }]
         }, {
           name: 'ROOT_MAGE',
@@ -297,7 +430,91 @@ const store = () => new Vuex.Store({
           }]
         }, {
           name: 'ROOT_LOCKSMITH',
-          children: []
+          children: [{
+            name: 'T4_2H_TOOL_SICKLE',
+            children: [{
+              name: 'T4_2H_TOOL_SICKLE',
+            }, {
+              name: 'T4_SHOES_GATHERER_FIBER'
+            }, {
+              name: 'T4_ARMOR_GATHERER_FIBER'
+            }, {
+              name: 'T4_HEAD_GATHERER_FIBER'
+            }, {
+              name: 'T4_BACKPACK_GATHERER_FIBER'
+            }]
+          }, {
+            name: 'T4_2H_TOOL_KNIFE',
+            children: [{
+              name: 'T4_2H_TOOL_KNIFE',
+            }, {
+              name: 'T4_SHOES_GATHERER_HIDE'
+            }, {
+              name: 'T4_ARMOR_GATHERER_HIDE'
+            }, {
+              name: 'T4_HEAD_GATHERER_HIDE'
+            }, {
+              name: 'T4_BACKPACK_GATHERER_HIDE'
+            }]
+          }, {
+            name: 'T4_2H_TOOL_PICK',
+            children: [{
+              name: 'T4_2H_TOOL_PICK',
+            }, {
+              name: 'T4_SHOES_GATHERER_ORE'
+            }, {
+              name: 'T4_ARMOR_GATHERER_ORE'
+            }, {
+              name: 'T4_HEAD_GATHERER_ORE'
+            }, {
+              name: 'T4_BACKPACK_GATHERER_ORE'
+            }]
+          }, {
+            name: 'T4_2H_TOOL_HAMMER',
+            children: [{
+              name: 'T4_2H_TOOL_HAMMER',
+            }, {
+              name: 'T4_SHOES_GATHERER_ROCK'
+            }, {
+              name: 'T4_ARMOR_GATHERER_ROCK'
+            }, {
+              name: 'T4_HEAD_GATHERER_ROCK'
+            }, {
+              name: 'T4_BACKPACK_GATHERER_ROCK'
+            }]
+          }, {
+            name: 'T4_2H_TOOL_AXE',
+            children: [{
+              name: 'T4_2H_TOOL_AXE',
+            }, {
+              name: 'T4_SHOES_GATHERER_WOOD'
+            }, {
+              name: 'T4_ARMOR_GATHERER_WOOD'
+            }, {
+              name: 'T4_HEAD_GATHERER_WOOD'
+            }, {
+              name: 'T4_BACKPACK_GATHERER_WOOD'
+            }]
+          }, {
+            name: 'T4_2H_TOOL_FISHINGROD',
+            children: [{
+              name: 'T4_2H_TOOL_FISHINGROD',
+            }, {
+              name: 'T4_SHOES_GATHERER_FISH'
+            }, {
+              name: 'T4_ARMOR_GATHERER_FISH'
+            }, {
+              name: 'T4_HEAD_GATHERER_FISH'
+            }, {
+              name: 'T4_BACKPACK_GATHERER_FISH'
+            }]
+          }, {
+            name: 'T4_CAPE'
+          }, {
+            name: 'T4_BAG'
+          }, {
+            name: 'T4_2H_TOOL_SIEGEHAMMER'
+          }]
         }
       ],
     }]
