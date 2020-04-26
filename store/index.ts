@@ -11,7 +11,144 @@ const store = () => new Vuex.Store({
       children: [
         {
           name: 'ROOT_BLACKSMITH',
-          children: []
+          children: [{  
+            name: 'T4_SHOES_PLATE_SET1',
+            children: [{
+              name: 'T4_SHOES_PLATE_SET1',
+            }, {
+              name: 'T4_SHOES_PLATE_SET2'
+            }, {
+              name: 'T4_SHOES_PLATE_SET3'
+            }, {
+              name: 'T4_SHOES_PLATE_UNDEAD'
+            }, {
+              name: 'T4_SHOES_PLATE_HELL'
+            }, {
+              name: 'T4_SHOES_PLATE_KEEPER'
+            }, {
+              name: 'T4_SHOES_PLATE_AVALON'
+            }]
+          }, {
+            name: 'T4_ARMOR_PLATE_SET1',
+            children: [{
+              name: 'T4_ARMOR_PLATE_SET1',
+            }, {
+              name: 'T4_ARMOR_PLATE_SET2'
+            }, {
+              name: 'T4_ARMOR_PLATE_SET3'
+            }, {
+              name: 'T4_ARMOR_PLATE_UNDEAD'
+            }, {
+              name: 'T4_ARMOR_PLATE_HELL'
+            }, {
+              name: 'T4_ARMOR_PLATE_KEEPER'
+            }, {
+              name: 'T4_ARMOR_PLATE_AVALON'
+            }]
+          }, {
+            name: 'T4_HEAD_PLATE_SET1',
+            children: [{
+              name: 'T4_HEAD_PLATE_SET1',
+            }, {
+              name: 'T4_HEAD_PLATE_SET2'
+            }, {
+              name: 'T4_HEAD_PLATE_SET3'
+            }, {
+              name: 'T4_HEAD_PLATE_UNDEAD'
+            }, {
+              name: 'T4_HEAD_PLATE_HELL'
+            }, {
+              name: 'T4_HEAD_PLATE_KEEPER'
+            }, {
+              name: 'T4_HEAD_PLATE_AVALON'
+            }]
+          }, {
+            name: 'T4_MAIN_SWORD',
+            children: [{
+              name: 'T4_MAIN_SWORD',
+            }, {
+              name: 'T4_2H_CLAYMORE'
+            }, {
+              name: 'T4_2H_DUALSWORD'
+            }, {
+              name: 'T4_MAIN_SCIMITAR_MORGANA'
+            }, {
+              name: 'T4_2H_CLEAVER_HELL'
+            }, {
+              name: 'T4_2H_DUALSCIMITAR_UNDEAD'
+            }]
+          }, {
+            name: 'T4_MAIN_AXE',
+            children: [{
+              name: 'T4_MAIN_AXE',
+            }, {
+              name: 'T4_2H_AXE'
+            }, {
+              name: 'T4_2H_HALBERD'
+            }, {
+              name: 'T4_2H_HALBERD_MORGANA'
+            }, {
+              name: 'T4_2H_SCYTHE_HELL'
+            }, {
+              name: 'T4_2H_DUALAXE_KEEPER'
+            }]
+          }, {
+            name: 'T4_MAIN_MACE',
+            children: [{
+              name: 'T4_MAIN_MACE',
+            }, {
+              name: 'T4_2H_MACE'
+            }, {
+              name: 'T4_2H_FLAIL'
+            }, {
+              name: 'T4_MAIN_ROCKMACE_KEEPER'
+            }, {
+              name: 'T4_MAIN_MACE_HELL'
+            }, {
+              name: 'T4_2H_MACE_MORGANA'
+            }]
+          }, {
+            name: 'T4_MAIN_HAMMER',
+            children: [{
+              name: 'T4_MAIN_HAMMER',
+            }, {
+              name: 'T4_2H_POLEHAMMER'
+            }, {
+              name: 'T4_2H_HAMMER'
+            }, {
+              name: 'T4_2H_HAMMER_UNDEAD'
+            }, {
+              name: 'T4_2H_DUALHAMMER_HELL'
+            }, {
+              name: 'T4_2H_RAM_KEEPER'
+            }]
+          }, {
+            name: 'T4_2H_CROSSBOW',
+            children: [{
+              name: 'T4_2H_CROSSBOW',
+            }, {
+              name: 'T4_2H_CROSSBOWLARGE'
+            }, {
+              name: 'T4_MAIN_1HCROSSBOW'
+            }, {
+              name: 'T4_2H_REPEATINGCROSSBOW_UNDEAD'
+            }, {
+              name: 'T4_2H_DUALCROSSBOW_HELL'
+            }, {
+              name: 'T4_2H_CROSSBOWLARGE_MORGANA'
+            }]
+          }, {
+            name: 'T4_OFF_SHIELD',
+            children: [{
+              name: 'T4_OFF_SHIELD',
+            }, {
+              name: 'T4_OFF_TOWERSHIELD_UNDEAD'
+            }, {
+              name: 'T4_OFF_SHIELD_HELL'
+            }, {
+              name: 'T4_OFF_SPIKEDSHIELD_MORGANA'
+            }]
+          }]
         }, {
           name: 'ROOT_HUNTER',
           children: [{
@@ -148,7 +285,15 @@ const store = () => new Vuex.Store({
             }],
           }, {
             name: 'T4_OFF_BOOK',
-            children: [],
+            children: [{
+              name: 'T4_OFF_BOOK'
+            }, {
+              name: 'T4_OFF_ORB_MORGANA'
+            }, {
+              name: 'T4_OFF_DEMONSKULL_HELL'
+            }, {
+              name: 'T4_OFF_TOTEM_KEEPER'
+            }],
           }]
         }, {
           name: 'ROOT_LOCKSMITH',
