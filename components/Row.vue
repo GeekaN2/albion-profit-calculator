@@ -84,6 +84,7 @@ export default {
 
     /**
      * Check array for emptiness
+     * @param children - array for check
      */
     isLeaf: function(children) {
       return !(children && children.length);

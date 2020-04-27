@@ -1,39 +1,72 @@
 <template>
-    <div class="table">
+    <div class="table" v-if="Object.keys(tableData).length">
         <div class="common row">
-            <div class="row__unprofitable">-1263</div>
-            <div class="row__unprofitable">-542345</div>
-            <div class="row__profitable">4123413</div>
-            <div class="row__profitable">623345</div>
-            <div class="row__profitable">-12345</div>
+            <div 
+                :class="{
+                    'row__profitable': item.minPrice > 0,
+                    'row__unprofitable': item.minPrice < 0,
+                    'row__unknown': item.minPrice == 0
+                }"
+                v-for="(item, name) in getRow(0)"
+                :key=name
+            >{{formatePrice(item.minPrice)}}</div>
         </div> 
         <div class="uncommon row">
-            <div class="row__profitable">1263</div>
-            <div class="row__profitable">542345</div>
-            <div class="row__unprofitable">-4123413</div>
-            <div class="row__unprofitable">-623345</div>
-            <div class="row__profitable">-12345</div>
+            <div 
+                :class="{
+                    'row__profitable': item.minPrice > 0,
+                    'row__unprofitable': item.minPrice < 0,
+                    'row__unknown': item.minPrice == 0
+                }"
+                v-for="(item, name) in getRow(1)"
+                :key=name
+            >{{formatePrice(item.minPrice)}}</div>
         </div>
         <div class="rare row">
-            <div class="row__profitable">1263</div>
-            <div class="row__profitable">542345</div>
-            <div class="row__profitable">4123413</div>
-            <div class="row__unprofitable">-623345</div>
-            <div class="row__profitable">-12345</div>
+            <div 
+                :class="{
+                    'row__profitable': item.minPrice > 0,
+                    'row__unprofitable': item.minPrice < 0,
+                    'row__unknown': item.minPrice == 0
+                }"
+                v-for="(item, name) in getRow(2)"
+                :key=name
+            >{{formatePrice(item.minPrice)}}</div>
         </div>
         <div class="exceptional row">
-            <div class="row__profitable">1263</div>
-            <div class="row__profitable">542345</div>
-            <div class="row__profitable">4123413</div>
-            <div class="row__profitable">623345</div>
-            <div class="row__unprofitable">-12345</div>
+            <div 
+                :class="{
+                    'row__profitable': item.minPrice > 0,
+                    'row__unprofitable': item.minPrice < 0,
+                    'row__unknown': item.minPrice == 0
+                }"
+                v-for="(item, name) in getRow(3)"
+                :key=name
+            >{{formatePrice(item.minPrice)}}</div>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'ItemTable'
+    name: 'ItemTable',
+    props: {
+        tableData: {}
+    },
+    methods: {
+        getRow: function(subtier){
+            let row = {};
+            for (let key in this.tableData) {
+                if ((key.slice(-2) == `@${subtier}`) || (subtier == 0 && key.slice(-2, -1) != '@')) {
+                    row[key] = this.tableData[key];
+                }
+            }
+            return row;
+        },
+        formatePrice: function(price) {
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        }
+    }
 }
 </script>
 
@@ -99,6 +132,11 @@ export default {
     &__unprofitable {
         text-shadow: 1px 0 1px #4a0404;
         color: #a52a2a;
+    }
+
+    &__unknown {
+        text-shadow: 0px 0 1px #131313;
+        color: #585858;
     }
 }
 

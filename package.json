@@ -13,6 +13,8 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "@nuxt/typescript-build": "^0.6.6",
+    "axios": "^0.19.2",
     "minireset.css": "^0.0.6",
     "node-sass": "^4.14.0",
     "nuxt": "^2.0.0",
@@ -20,7 +22,6 @@
     "style-loader": "^1.2.0"
   },
   "devDependencies": {
-    "@nuxt/typescript-build": "^0.6.5",
     "babel-eslint": "^10.0.1",
     "eslint": "^4.19.1",
     "eslint-friendly-formatter": "^4.0.1",

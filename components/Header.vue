@@ -1,8 +1,10 @@
 <template>
     <div class="header">
         <a href="/" class="header__logo">Albion profit calculator</a>
-        <a href="/tree" class="header__link">profit tree</a>
-        <a href="/table" class="header__link">profit table</a>
+        <div>
+            <a href="/tree" class="header__link">profit tree</a>
+            <a href="/table" class="header__link">profit table</a>
+        </div>
     </div>
 </template>
 
@@ -22,13 +24,14 @@ $base-purple: #583156;
     font-size: 20px;
     width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
 
     &__logo {
         color: $base-brown;
     }
 
     &__link {
+        margin-left: 50px;
         position: relative;
         color: $base-brown;
     }

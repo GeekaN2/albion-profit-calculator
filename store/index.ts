@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
+import {createStringOfAllTiers} from './utils'
+import {Prices, ItemModel, RootState} from './typeDefs'
 
 Vue.use(Vuex)
-
 const store = () => new Vuex.Store({
   state: {
     tree: [{
@@ -517,7 +519,45 @@ const store = () => new Vuex.Store({
           }]
         }
       ],
-    }]
+    }],
+    prices: {}
+  } as RootState,
+  actions: {
+    async FETCH_ITEM_PRICE({commit, state}, {itemName, location}) {
+      const prices: Prices = state.prices[itemName];
+
+      if (!prices || !prices[location]) {
+        const allNames: string = createStringOfAllTiers(itemName);
+
+        await axios
+          .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}&qualities=2`)
+          .then(response => {
+            const data = response.data;
+            console.log(data);
+
+            commit('SET_ITEM_PRICE', {
+              'baseItem': itemName,
+              'location': location,
+              'data': data
+            });
+          });
+      }
+    }
+  },
+  mutations: {
+    SET_ITEM_PRICE(state, {baseItem, location, data}) {
+      if (!state.prices[baseItem]) {
+        state.prices[baseItem] = {};
+      }
+      state.prices[baseItem][location] = {};
+
+      data.forEach((item: ItemModel) => {
+          state.prices[baseItem][location][item.item_id] = {
+            minPrice: 0
+          };
+          state.prices[baseItem][location][item.item_id].minPrice = item.sell_price_min
+      });
+    }
   }
 });
 
