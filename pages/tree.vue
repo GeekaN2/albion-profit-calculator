@@ -1,22 +1,26 @@
 <template>
-  <section class="container">
-    <Header class="header" />
-    <!--<TreeItem :item="tree"/>-->
-    <div class="wrapper">
-      <Settings class="wrapper__fixed" />
+  <section class='container'>
+    <Header class='header' />
+    <!--<TreeItem :item='tree'/>-->
+    <div class='wrapper'>
+      <Settings class='wrapper__fixed' 
+      v-on:changeUseJournals='changeUseJournals' 
+      v-on:changeCity='changeCity' 
+      v-on:downloadResourcePrices='fetchResourcePrices'
+      />
       <div>
-        <Row :items="tree" v-on:showTable="showTable" class="wrapper__tree"/>
-        <ItemTable v-if="isTableShowed" :tableData="prices" />
+        <Row :items='tree' v-on:showTable='showTable' class='wrapper__tree' />
+        <ItemTable v-if='isTableShowed' :tableData='prices' />
       </div>
     </div>
   </section>
 </template>
 
 <script>
-import Header from "~/components/Header.vue";
-import Row from "~/components/Row.vue";
-import ItemTable from "~/components/ItemTable.vue";
-import Settings from "~/components/Settings.vue";
+import Header from '~/components/Header.vue';
+import Row from '~/components/Row.vue';
+import ItemTable from '~/components/ItemTable.vue';
+import Settings from '~/components/Settings.vue';
 
 export default {
   components: {
@@ -29,9 +33,11 @@ export default {
     return {
       tree: this.$store.state.tree,
       isTableShowed: false,
-      lastName: "",
+      lastName: '',
       prices: {},
-      location: "Caerleon"
+      city: 'Caerleon',
+      useJournals: false,
+      currentItem: ''
     };
   },
   methods: {
@@ -43,23 +49,47 @@ export default {
     showTable: async function({ itemName, show }) {
       if (show) {
         this.$store
-          .dispatch("FETCH_ITEM_PRICE", {
+          .dispatch('FETCH_ITEM_PRICE', {
             itemName: itemName,
-            location: this.location
+            location: this.city
           })
           .then(() => {
-            this.prices = this.$store.state.prices[itemName][this.location];
+            this.prices = this.$store.state.prices[itemName][this.city];
+            this.currentItem = itemName;
           });
       } else {
         this.prices = {};
       }
       this.isTableShowed = show;
+    },
+    changeUseJournals: function(useJournals) {
+      this.useJournals = useJournals;
+    },
+    changeCity: function(city) {
+      this.city = city;
+      if (this.isTableShowed) {
+        this.$store
+          .dispatch('FETCH_ITEM_PRICE', {
+            itemName: this.currentItem,
+            location: this.city
+          })
+          .then(() => {
+            this.prices = this.$store.state.prices[this.currentItem][this.city];
+          });
+      }
+    },
+    fetchResourcePrices: function() {
+      console.log('GO FETCH');
+      this.$store.dispatch('FETCH_RESOURCES_PRICES');
     }
+  },
+  created: function() {
+    // this.$store.dispatch('FETCH_RESOURCES_PRICES');
   }
 };
 </script>
 
-<style scored lang="scss">
+<style scored lang='scss'>
 $base-brown: #583131;
 $base-purple: #583156;
 

@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import {createStringOfAllTiers} from './utils'
-import {Prices, ItemModel, RootState} from './typeDefs'
+import {createStringOfAllTiers, createStringOfAllResources} from './utils'
+import {Prices, ItemModel, RootState, Resources} from './typeDefs'
 
 Vue.use(Vuex)
 const store = () => new Vuex.Store({
@@ -520,9 +520,22 @@ const store = () => new Vuex.Store({
         }
       ],
     }],
-    prices: {}
+    prices: {},
+    resources: {
+      'Caerleon': {},
+      'Bridgewatch': {},
+      'Fort Sterling': {},
+      'Lymhurst': {},
+      'Martlock': {},
+      'Thetford': {},
+    }
   } as RootState,
   actions: {
+    /**
+     * 
+     * @param itemName - name of item's group
+     * @param location - city or Black Market 
+     */
     async FETCH_ITEM_PRICE({commit, state}, {itemName, location}) {
       const prices: Prices = state.prices[itemName];
 
@@ -533,7 +546,6 @@ const store = () => new Vuex.Store({
           .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}&qualities=2`)
           .then(response => {
             const data = response.data;
-            console.log(data);
 
             commit('SET_ITEM_PRICE', {
               'baseItem': itemName,
@@ -542,9 +554,34 @@ const store = () => new Vuex.Store({
             });
           });
       }
+    },
+    async FETCH_RESOURCES_PRICES({commit, state}) {
+      const resources = ['CLOTH', 'LEATHER', 'PLANKS', 'METALBAR'];
+      let allNames = resources.reduce((acc, resource) => {
+        acc = acc + createStringOfAllResources(resource);
+
+        return acc;
+      }, '').slice(0,-1);
+
+
+      await axios
+          .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=Caerleon,Bridgewatch,Fort Sterling,Lymhurst,Martlock,Thetford`)
+          .then(response => {
+            const data = response.data;
+
+            commit('SET_RESOURCE_PRICES', data);
+          });
+      console.log(allNames);
     }
   },
   mutations: {
+    /**
+     * 
+     * @param state - vuex state
+     * @param baseItem - t4 item of the section
+     * @param location - selected city
+     * @param data - api response
+     */
     SET_ITEM_PRICE(state, {baseItem, location, data}) {
       if (!state.prices[baseItem]) {
         state.prices[baseItem] = {};
@@ -557,6 +594,13 @@ const store = () => new Vuex.Store({
           };
           state.prices[baseItem][location][item.item_id].minPrice = item.sell_price_min
       });
+    },
+    SET_RESOURCE_PRICES(state, data) {
+      data.forEach((resource: ItemModel) => {
+        state.resources[resource.city][resource.item_id] = {
+          price: resource.sell_price_min
+        }
+      })
     }
   }
 });

@@ -1,3 +1,6 @@
+/**
+ * city -> all_item_prices
+ */
 export interface Prices {
     [key: string]: {
         [key: string]: {
@@ -24,5 +27,17 @@ export interface RootState {
     tree: any;
     prices: {
         [key: string]: Prices
+    },
+    resources: Resources
+}
+
+/**
+ * city -> all_resources
+ */
+export interface Resources {
+    [key: string]: {
+        [key: string]: {
+            price: number
+        }
     }
 }
