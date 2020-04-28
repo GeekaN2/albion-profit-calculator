@@ -27,9 +27,10 @@ export interface RootState {
     tree: any;
     prices: {
         [key: string]: Prices
-    },
-    resources: Resources,
-    artefacts: Artefacts
+    };
+    resources: Resources;
+    artefacts: Artefacts;
+    recipes: Recipes;
 }
 
 /**
@@ -53,5 +54,17 @@ export interface Artefacts {
                 price: number
             }
         }
+    }
+}
+
+/**
+ * item -> resources for crafting
+ */
+export interface Recipes {
+    [key: string]: {
+        PLANKS?: number
+        METALBAR?: number;
+        CLOTH?: number;
+        LEATHER?: number;
     }
 }

@@ -3,46 +3,46 @@
         <div class="common row">
             <div 
                 :class="{
-                    'row__profitable': item.price > 0,
-                    'row__unprofitable': item.price < 0,
-                    'row__unknown': item.price == 0
+                    'row__profitable': item > 0,
+                    'row__unprofitable': item < 0,
+                    'row__unknown': item == 0
                 }"
                 v-for="(item, name) in getRow(0)"
                 :key=name
-            >{{formatePrice(item.price)}}</div>
+            >{{formatePrice(item)}}</div>
         </div> 
         <div class="uncommon row">
             <div 
                 :class="{
-                    'row__profitable': item.price > 0,
-                    'row__unprofitable': item.price < 0,
-                    'row__unknown': item.price == 0
+                    'row__profitable': item > 0,
+                    'row__unprofitable': item < 0,
+                    'row__unknown': item == 0
                 }"
                 v-for="(item, name) in getRow(1)"
                 :key=name
-            >{{formatePrice(item.price)}}</div>
+            >{{formatePrice(item)}}</div>
         </div>
         <div class="rare row">
             <div 
                 :class="{
-                    'row__profitable': item.price > 0,
-                    'row__unprofitable': item.price < 0,
-                    'row__unknown': item.price == 0
+                    'row__profitable': item > 0,
+                    'row__unprofitable': item < 0,
+                    'row__unknown': item == 0
                 }"
                 v-for="(item, name) in getRow(2)"
                 :key=name
-            >{{formatePrice(item.price)}}</div>
+            >{{formatePrice(item)}}</div>
         </div>
         <div class="exceptional row">
             <div 
                 :class="{
-                    'row__profitable': item.price > 0,
-                    'row__unprofitable': item.price < 0,
-                    'row__unknown': item.price == 0
+                    'row__profitable': item > 0,
+                    'row__unprofitable': item < 0,
+                    'row__unknown': item == 0
                 }"
                 v-for="(item, name) in getRow(3)"
                 :key=name
-            >{{formatePrice(item.price)}}</div>
+            >{{formatePrice(item)}}</div>
         </div>
     </div>
 </template>
@@ -58,20 +58,40 @@ export default {
             let row = {};
             for (let key in this.tableData.items) {
                 if ((key.slice(-2) == `@${subtier}`) || (subtier == 0 && key.slice(-2, -1) != '@')) {
-                    row[key] = this.tableData.items[key];
+                    if (this.tableData.items[key].price == 0) {
+                        row[key] = 0;
+                    } else {
+                        let creationCost = 0;
+                        const tier = key.slice(1, 2);
+                        creationCost += this.itemCreationCost(tier, subtier);
+                        creationCost += this.getArtefactPrice(tier);
+                        row[key] = this.tableData.items[key].price - creationCost;
+                    }
                 }
             }
             return row;
         },
         getArtefactPrice: function(tier){
-
+            if (this.tableData.artefacts) {
+                return this.tableData.artefacts[`T${tier}_ARTEFACT${this.tableData.itemName.slice(2)}`].price
+            }
+            return 0;
         },
         formatePrice: function(price) {
             return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
         },
-        itemCreationCost: function() {
-            const itemName = this.tableData.itemName;
-            
+        itemCreationCost: function(tier, subtier) {
+            let cost = 0;
+            for (let resourceName in this.tableData.recipe) {
+                const resourceFullName = `T${tier}_${resourceName}` + (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : '');
+                const resourceCost = this.tableData.resources[resourceFullName].price;
+                const returnPercentage = 0.152; 
+
+                cost += Math.floor(resourceCost * this.tableData.recipe[resourceName] * (1 - returnPercentage));
+                
+            }
+
+            return cost;
         },
     }
 }

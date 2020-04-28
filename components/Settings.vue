@@ -18,7 +18,7 @@
     </div>
     <div class="refresh_item" v-on:click="$emit('downloadResourcePrices')">
       <img src="images/arrow-alt-circle-down.svg" alt />
-      <p>Download resource prices</p>
+      <p>Update resource prices</p>
     </div>
     <select class="city" 
     v-model="city"

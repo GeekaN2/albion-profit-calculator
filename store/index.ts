@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import {createStringOfAllTiers, createStringOfAllResources, createStringOfAllArtefacts} from './utils'
-import {Prices, ItemModel, RootState, Resources, Artefacts} from './typeDefs'
+import {Prices, ItemModel, RootState} from './typeDefs'
 
 Vue.use(Vuex)
 
@@ -18,15 +18,31 @@ const store = () => new Vuex.Store({
   state: {
     tree: [],
     prices: {},
-    resources: cities,
-    artefacts: cities
+    recipes: {},
+    resources: {
+      'Caerleon': {},
+      'Bridgewatch': {},
+      'Fort Sterling': {},
+      'Lymhurst': {},
+      'Martlock': {},
+      'Thetford': {},
+    },
+    artefacts: {
+      'Caerleon': {},
+      'Bridgewatch': {},
+      'Fort Sterling': {},
+      'Lymhurst': {},
+      'Martlock': {},
+      'Thetford': {},
+    }
   } as RootState,
   actions: {
     async FETCH_STATE({commit}){
       const tree = await axios.get('/json/tree.json');
       const recipes = await axios.get('/json/recipes.json');
       commit('SET_STATE', {
-        'tree': tree.data
+        'tree': tree.data,
+        'recipes': recipes.data
       });
     },
     /**
@@ -106,9 +122,9 @@ const store = () => new Vuex.Store({
     }
   },
   mutations: {
-    SET_STATE(state, {tree}) {
-      console.log(tree);
+    SET_STATE(state, {tree, recipes}) {
       state.tree = tree;
+      state.recipes = recipes;
     },
     /**
      * 
@@ -132,8 +148,16 @@ const store = () => new Vuex.Store({
           }
           const currentPrice = state.prices[baseItem][location][item.item_id].price;
           // choose the minimun no zero price
-          const minPrice = currentPrice == 0 ? item.sell_price_min : Math.min(currentPrice, item.sell_price_min);
           
+          let minPrice = 0;
+          if (currentPrice == 0) {
+            minPrice = item.sell_price_min
+          } else if (item.sell_price_min == 0) {
+            minPrice = currentPrice;
+          } else {
+            minPrice = Math.min(currentPrice, item.sell_price_min)
+          }
+
           state.prices[baseItem][location][item.item_id].price = minPrice;
       });
     },
