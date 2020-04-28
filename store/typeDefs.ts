@@ -5,6 +5,7 @@ export interface Prices {
     [key: string]: {
         [key: string]: {
             price: number
+            date: string
         }
     }
 }

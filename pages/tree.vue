@@ -54,8 +54,10 @@ export default {
             location: this.city
           })
           .then(async () => {
+            const city = this.city == 'Black Market' ? 'Caerleon' : this.city;
+            const resourcesLoaded = (Object.keys(this.$store.state.resources[city]).length != 0);
+
             this.currentItem = itemName;
-            const resourcesLoaded = (Object.keys(this.$store.state.resources[this.city]).length != 0);
             console.log(resourcesLoaded ? 'Rresources loaded' : 'Resources NOT loaded');
             if (!resourcesLoaded) {
               await this.fetchResourcePrices();
@@ -88,7 +90,9 @@ export default {
             location: this.city
           })
           .then(async () => {
-            const resourcesLoaded = (Object.keys(this.$store.state.resources[this.city]).length != 0);
+            const city = this.city == 'Black Market' ? 'Caerleon' : this.city;
+            const resourcesLoaded = (Object.keys(this.$store.state.resources[city]).length != 0);
+            
             if (!resourcesLoaded){
               await this.fetchResourcePrices();
             } else {
@@ -113,10 +117,12 @@ export default {
 
     updateTableData: function() {
       console.log('UPDATE TABLE');
+      const city = this.city == 'Black Market' ? 'Caerleon' : this.city;
+
       this.tableData = {
         items: this.$store.state.prices[this.currentItem][this.city],
-        resources: this.$store.state.resources[this.city],
-        artefacts: this.$store.state.artefacts[this.city][this.currentItem],
+        resources: this.$store.state.resources[city],
+        artefacts: this.$store.state.artefacts[city][this.currentItem],
         itemName: this.currentItem,
         recipe: this.$store.state.recipes[this.currentItem]
       };

@@ -143,7 +143,8 @@ const store = () => new Vuex.Store({
       data.forEach((item: ItemModel) => {
           if (!state.prices[baseItem][location][item.item_id]) {
             state.prices[baseItem][location][item.item_id] = {
-              price: 0
+              price: 0,
+              date: ''
             };
           }
           const currentPrice = state.prices[baseItem][location][item.item_id].price;
@@ -159,6 +160,7 @@ const store = () => new Vuex.Store({
           }
 
           state.prices[baseItem][location][item.item_id].price = minPrice;
+          state.prices[baseItem][location][item.item_id].date = item.sell_price_min_date;
       });
     },
 
