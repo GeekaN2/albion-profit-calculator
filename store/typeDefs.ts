@@ -4,7 +4,7 @@
 export interface Prices {
     [key: string]: {
         [key: string]: {
-            minPrice: number
+            price: number
         }
     }
 }
@@ -28,7 +28,8 @@ export interface RootState {
     prices: {
         [key: string]: Prices
     },
-    resources: Resources
+    resources: Resources,
+    artefacts: Artefacts
 }
 
 /**
@@ -38,6 +39,19 @@ export interface Resources {
     [key: string]: {
         [key: string]: {
             price: number
+        }
+    }
+}
+
+/**
+ * city -> all_artefacts
+ */
+export interface Artefacts {
+    [key: string]: {
+        [key: string]: {
+            [key: string]: {
+                price: number
+            }
         }
     }
 }

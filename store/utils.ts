@@ -1,8 +1,8 @@
-function createStringOfAllTiers(baseName: string) {
+function createStringOfAllTiers(itemName: string) {
     let allNames = '';
     for (let tier = 4; tier <= 8; tier++) {
         for (let subtier = 0; subtier <= 3; subtier++) {
-            allNames = allNames + `T${tier}` + baseName.slice(2) + (subtier != 0 ? `@${subtier}` : '') + ',';
+            allNames = allNames + `T${tier}` + itemName.slice(2) + (subtier != 0 ? `@${subtier}` : '') + ',';
         }
     }
 
@@ -20,5 +20,12 @@ function createStringOfAllResources(resource: string) {
     return allNames.slice(0, -1);
 }
 
-export {createStringOfAllTiers, createStringOfAllResources};
+function createStringOfAllArtefacts(itemName: string) {
+    let allNames = '';
+    for (let tier = 4; tier <= 8; tier++) {
+        allNames = allNames + `T${tier}_ARTEFACT${itemName.slice(2)},`;
+    }
+    return allNames.slice(0, -1);
+}
 
+export {createStringOfAllTiers, createStringOfAllResources, createStringOfAllArtefacts};

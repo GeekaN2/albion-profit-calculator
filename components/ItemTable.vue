@@ -3,46 +3,46 @@
         <div class="common row">
             <div 
                 :class="{
-                    'row__profitable': item.minPrice > 0,
-                    'row__unprofitable': item.minPrice < 0,
-                    'row__unknown': item.minPrice == 0
+                    'row__profitable': item.price > 0,
+                    'row__unprofitable': item.price < 0,
+                    'row__unknown': item.price == 0
                 }"
                 v-for="(item, name) in getRow(0)"
                 :key=name
-            >{{formatePrice(item.minPrice)}}</div>
+            >{{formatePrice(item.price)}}</div>
         </div> 
         <div class="uncommon row">
             <div 
                 :class="{
-                    'row__profitable': item.minPrice > 0,
-                    'row__unprofitable': item.minPrice < 0,
-                    'row__unknown': item.minPrice == 0
+                    'row__profitable': item.price > 0,
+                    'row__unprofitable': item.price < 0,
+                    'row__unknown': item.price == 0
                 }"
                 v-for="(item, name) in getRow(1)"
                 :key=name
-            >{{formatePrice(item.minPrice)}}</div>
+            >{{formatePrice(item.price)}}</div>
         </div>
         <div class="rare row">
             <div 
                 :class="{
-                    'row__profitable': item.minPrice > 0,
-                    'row__unprofitable': item.minPrice < 0,
-                    'row__unknown': item.minPrice == 0
+                    'row__profitable': item.price > 0,
+                    'row__unprofitable': item.price < 0,
+                    'row__unknown': item.price == 0
                 }"
                 v-for="(item, name) in getRow(2)"
                 :key=name
-            >{{formatePrice(item.minPrice)}}</div>
+            >{{formatePrice(item.price)}}</div>
         </div>
         <div class="exceptional row">
             <div 
                 :class="{
-                    'row__profitable': item.minPrice > 0,
-                    'row__unprofitable': item.minPrice < 0,
-                    'row__unknown': item.minPrice == 0
+                    'row__profitable': item.price > 0,
+                    'row__unprofitable': item.price < 0,
+                    'row__unknown': item.price == 0
                 }"
                 v-for="(item, name) in getRow(3)"
                 :key=name
-            >{{formatePrice(item.minPrice)}}</div>
+            >{{formatePrice(item.price)}}</div>
         </div>
     </div>
 </template>
@@ -56,12 +56,15 @@ export default {
     methods: {
         getRow: function(subtier){
             let row = {};
-            for (let key in this.tableData) {
+            for (let key in this.tableData.items) {
                 if ((key.slice(-2) == `@${subtier}`) || (subtier == 0 && key.slice(-2, -1) != '@')) {
-                    row[key] = this.tableData[key];
+                    row[key] = this.tableData.items[key];
                 }
             }
             return row;
+        },
+        getArtefactPrice: function(tier){
+
         },
         formatePrice: function(price) {
             return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")

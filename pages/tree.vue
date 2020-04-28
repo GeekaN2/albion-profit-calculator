@@ -10,7 +10,7 @@
       />
       <div>
         <Row :items='tree' v-on:showTable='showTable' class='wrapper__tree' />
-        <ItemTable v-if='isTableShowed' :tableData='prices' />
+        <ItemTable v-if='isTableShowed' :tableData='tableData' />
       </div>
     </div>
   </section>
@@ -34,7 +34,7 @@ export default {
       tree: this.$store.state.tree,
       isTableShowed: false,
       lastName: '',
-      prices: {},
+      tableData: {},
       city: 'Caerleon',
       useJournals: false,
       currentItem: ''
@@ -54,17 +54,25 @@ export default {
             location: this.city
           })
           .then(() => {
-            this.prices = this.$store.state.prices[itemName][this.city];
             this.currentItem = itemName;
+            this.updateTableData();
           });
       } else {
-        this.prices = {};
+        this.tableData = {};
       }
       this.isTableShowed = show;
     },
+
+    /**
+     * @param useJournals - use or no
+     */
     changeUseJournals: function(useJournals) {
       this.useJournals = useJournals;
     },
+
+    /**
+     * @param city
+     */
     changeCity: function(city) {
       this.city = city;
       if (this.isTableShowed) {
@@ -74,17 +82,33 @@ export default {
             location: this.city
           })
           .then(() => {
-            this.prices = this.$store.state.prices[this.currentItem][this.city];
+            this.updateTableData();
           });
       }
     },
+
+    /**
+     * Get resource prices for current city
+     */
     fetchResourcePrices: function() {
       console.log('GO FETCH');
-      this.$store.dispatch('FETCH_RESOURCES_PRICES');
+      this.$store.dispatch('FETCH_RESOURCE_PRICES', this.city)
+        .then(() => {
+          this.updateTableData();
+        });
+    },
+
+    updateTableData: function() {
+      this.tableData = {
+        items: this.$store.state.prices[this.currentItem][this.city],
+        resources: this.$store.state.resources[this.city],
+        artefacts: this.$store.state.artefacts[this.city][this.currentItem],
+        itemName: this.currentItem
+      };
     }
   },
   created: function() {
-    // this.$store.dispatch('FETCH_RESOURCES_PRICES');
+    // this.$store.dispatch('FETCH_RESOURCE_PRICES');
   }
 };
 </script>
