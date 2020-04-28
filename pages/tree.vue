@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      tree: this.$store.state.tree,
+      tree: [],
       isTableShowed: false,
       lastName: '',
       tableData: {},
@@ -107,8 +107,9 @@ export default {
       };
     }
   },
-  created: function() {
-    // this.$store.dispatch('FETCH_RESOURCE_PRICES');
+  created: async function() {
+    await this.$store.dispatch('FETCH_STATE');
+    this.tree = this.$store.state.tree;
   }
 };
 </script>

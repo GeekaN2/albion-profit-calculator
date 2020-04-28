@@ -68,7 +68,11 @@ export default {
         },
         formatePrice: function(price) {
             return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-        }
+        },
+        itemCreationCost: function() {
+            const itemName = this.tableData.itemName;
+            
+        },
     }
 }
 </script>
