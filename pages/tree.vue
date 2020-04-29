@@ -7,7 +7,7 @@
         :loading-text="loadingText" 
         class="wrapper__fixed" 
         @changeUseJournals="changeUseJournals" 
-        @dropStore="/*dropStore*/"
+        @dropStore="dropStore"
         @changeCity="changeCity"
       />
       <div>
@@ -184,7 +184,7 @@ export default {
         recipe: this.$store.state.recipes[this.currentItem],
         useJournals: this.useJournals,
         journals: this.useJournals
-          ? this.$store.state.journals[this.city][this.root]
+          ? this.$store.state.journals[city][this.root]
           : {},
         root: this.root
       };
@@ -224,4 +224,3 @@ img {
   }
 }
 </style>
-
