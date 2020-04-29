@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import {createStringOfAllTiers, createStringOfAllResources, createStringOfAllArtefacts, createStringOfAllJournals} from './utils'
-import {Prices, ResponseModel, RootState} from './typeDefs'
+import {ResponseModel, RootState} from './typeDefs'
 
 Vue.use(Vuex)
 
@@ -40,7 +40,7 @@ const store = () => new Vuex.Store({
      */
     async FETCH_ITEM_PRICE({commit, state, dispatch}, {itemName, location}) {
       const allNames: string = createStringOfAllTiers(itemName);
-      const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA'];
+      const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON'];
 
       await axios
         .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}&qualities=1,2,3`)

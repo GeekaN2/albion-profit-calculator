@@ -251,7 +251,7 @@ export default {
     align-items: center;
     flex-direction: column;
     height: 100%;
-    bottom: 0px;
+    bottom: -1px;
     right: -1px;
     z-index: 50;
     padding: 3px 6px 6px 6px;

@@ -12,26 +12,34 @@
     </div>
     <div 
       class="refresh_item" 
-      @click="$emit('updateCurrentItem')">
+      @click="$emit('dropStore','journals')">
+      <img 
+        src="/images/redo-alt.svg" 
+        alt >
+      <p>Update journal prices</p>
+    </div>
+    <div 
+      class="refresh_item" 
+      @click="$emit('dropStore', 'items')">
       <img 
         src="images/redo-alt.svg" 
         alt >
       <p>Update current item</p>
     </div>
-    <div class="refresh_item">
+    <div 
+      class="refresh_item" 
+      @click="$emit('dropStore', 'resources')">
+      <img 
+        src="/images/redo-alt.svg" 
+        alt >
+      <p>Update resource prices</p>
+    </div>
+    <!--<div class="refresh_item">
       <img 
         src="images/sync-alt.svg" 
         alt >
       <p>Reload all prices</p>
-    </div>
-    <div 
-      class="refresh_item" 
-      @click="$emit('downloadResourcePrices')">
-      <img 
-        src="images/arrow-alt-circle-down.svg" 
-        alt >
-      <p>Update resource prices</p>
-    </div>
+    </div>-->
     <select 
       v-model="city" 
       class="city"
@@ -90,7 +98,8 @@ export default {
     display: none;
 
     &:checked + label:after {
-      background: #488a36;
+      background: #e08c4c;
+      animation: gradient 60s ease infinite;
     }
   }
 

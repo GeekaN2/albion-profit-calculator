@@ -3,13 +3,12 @@
     <Header class="header" />
     <!--<TreeItem :item='tree'/>-->
     <div class="wrapper">
-      <Settings 
+      <Settings
         :loading-text="loadingText" 
         class="wrapper__fixed" 
         @changeUseJournals="changeUseJournals" 
+        @dropStore="/*dropStore*/"
         @changeCity="changeCity"
-        @downloadResourcePrices="fetchResourcePrices"
-        @updateCurrentItem="updateCurrentItem"
       />
       <div>
         <Row 
@@ -29,11 +28,11 @@
 </template>
 
 <script>
-import Header from '~/components/Header';
-import Row from '~/components/Row';
-import ItemTable from '~/components/ItemTable';
-import Settings from '~/components/Settings';
-import Loading from '~/components/Loading';
+import Header from "~/components/Header";
+import Row from "~/components/Row";
+import ItemTable from "~/components/ItemTable";
+import Settings from "~/components/Settings";
+import Loading from "~/components/Loading";
 
 export default {
   components: {
@@ -41,23 +40,23 @@ export default {
     Row,
     ItemTable,
     Settings,
-    Loading,
+    Loading
   },
   data() {
     return {
       tree: [],
       isTableShowed: false,
-      lastName: '',
+      lastName: "",
       tableData: {},
-      city: 'Caerleon',
+      city: "Caerleon",
       useJournals: false,
-      currentItem: '',
-      root: '',
-      loadingText: ''
+      currentItem: "",
+      root: "",
+      loadingText: ""
     };
   },
   created: async function() {
-    await this.$store.dispatch('FETCH_STATE');
+    await this.$store.dispatch("FETCH_STATE");
     this.tree = this.$store.state.tree;
   },
   methods: {
@@ -100,57 +99,82 @@ export default {
     },
 
     fetchItemPricesWithArtefacts: async function() {
-      this.loadingText = 'Loading item prices';
+      this.loadingText = "Loading item prices";
 
-      await this.$store.dispatch('FETCH_ITEM_PRICE', {
+      await this.$store.dispatch("FETCH_ITEM_PRICE", {
         itemName: this.currentItem,
         location: this.city
-      })
+      });
     },
 
     /**
      * Get resource prices for current city
      */
     fetchResourcePrices: async function() {
-      this.loadingText = 'Loading resource prices';
+      this.loadingText = "Loading resource prices";
 
-      await this.$store.dispatch('FETCH_RESOURCE_PRICES', this.city);
+      await this.$store.dispatch("FETCH_RESOURCE_PRICES", this.city);
     },
 
     fetchJournalPrices: async function() {
-      this.loadingText = 'Loading journal prices';
+      this.loadingText = "Loading journal prices";
 
-      await this.$store.dispatch('FETCH_JOURNAL_PRICES', {
+      await this.$store.dispatch("FETCH_JOURNAL_PRICES", {
         location: this.city,
         root: this.root
-      })
+      });
     },
 
     updateCurrentItem: function() {
-      console.log('Doesn\'t work yet');
+      console.log("Doesn't work yet");
     },
 
     checkAllPricesAndFetchIt: async function() {
-      const normalCity = this.city == 'Black Market' ? 'Caerleon' : this.city;
+      const normalCity = this.city == "Black Market" ? "Caerleon" : this.city;
 
-      if (!this.$store.state.prices[this.currentItem] || !this.$store.state.prices[this.currentItem][this.city]){
+      if (
+        !this.$store.state.prices[this.currentItem] ||
+        !this.$store.state.prices[this.currentItem][this.city]
+      ) {
         await this.fetchItemPricesWithArtefacts();
       }
-      
+
       if (isObjectEmpty(this.$store.state.resources[normalCity])) {
         await this.fetchResourcePrices();
       }
 
-      if (this.useJournals && !this.$store.state.journals[normalCity][this.root] && this.root.slice(0,5) == 'ROOT_') {
+      if (
+        this.useJournals &&
+        !this.$store.state.journals[normalCity][this.root] &&
+        this.root.slice(0, 5) == "ROOT_"
+      ) {
         await this.fetchJournalPrices();
       }
 
       this.updateTableData();
     },
 
+    dropStore: function(data) {
+      const normalCity = this.city == "Black Market" ? "Caerleon" : this.city;
+      
+      switch (data) {
+        case "items":
+          this.$store.state.prices[this.currentItem] = {};
+          break;
+        case "resources":
+          this.$store.state.resources[normalCity] = {};
+          break;
+        case "journals":
+          this.$store.state.journals[normalCity] = {};
+          break;
+      }
+
+      this.checkAllPricesAndFetchIt();
+    },
+
     updateTableData: function() {
-      this.loadingText = 'Profit calculated';
-      const city = this.city == 'Black Market' ? 'Caerleon' : this.city;
+      this.loadingText = "Profit calculated";
+      const city = this.city == "Black Market" ? "Caerleon" : this.city;
 
       this.tableData = {
         items: this.$store.state.prices[this.currentItem][this.city],
@@ -159,11 +183,13 @@ export default {
         itemName: this.currentItem,
         recipe: this.$store.state.recipes[this.currentItem],
         useJournals: this.useJournals,
-        journals: this.useJournals ? this.$store.state.journals[this.city][this.root] : {},
+        journals: this.useJournals
+          ? this.$store.state.journals[this.city][this.root]
+          : {},
         root: this.root
       };
     }
-  },
+  }
 };
 
 function isObjectEmpty(obj) {
