@@ -1,4 +1,4 @@
-# albion-profit-calculator
+# Albion profit calculator
 
 > Nuxt.js project
 

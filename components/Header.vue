@@ -8,7 +8,7 @@
         href="/tree" 
         class="header__link">profit tree</a>
       <a 
-        href="/table" 
+        href="#" 
         class="header__link">profit table</a>
     </div>
   </div>
