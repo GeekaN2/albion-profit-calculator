@@ -2,23 +2,26 @@
   <div class="wrapper">
     <div class="images">
       <div
+        v-for="(item, index) in items"
         :class="{
           'selected': isOpen && item.name == nextSection
         }"
-        @click="toggle(item.name, isLeaf(item.children))"
-        v-for="(item, index) in items"
-        :key="index"> 
-        <img :src="`/images/${item.name}.png`" alt="">
+        :key="index"
+        @click="toggle(item.name, isLeaf(item.children))"> 
+        <img 
+          :src="`/images/${item.name}.png`" 
+          alt="">
       </div>
     </div>
     <div 
-        v-for="(item, index) in items"
-        v-show="isOpen"
-        :key="index">
-      <Row v-on:showTable="showTable"
+      v-for="(item, index) in items"
+      v-show="isOpen"
+      :key="index">
+      <Row 
         v-show="nextSection == item.name"
-        :items="item.children">
-      </Row>
+        :items="item.children"
+        :last-root="`${item.name.slice(0,4) == 'ROOT' ? item.name : lastRoot}`"
+        @showTable="showTable"/>
     </div>
 
   </div>
@@ -28,12 +31,19 @@
 export default {
   name: 'Row',
   props: {
-    items: Array,
+    items: {
+      type: Array,
+      default: () => []
+    },
+    lastRoot: {
+      type: String,
+      default: 'ROOT'
+    }
   },
   data() {
     return {
       isOpen: false,
-      nextSection: '',
+      nextSection: ''
     }
   },
   methods: {
@@ -49,12 +59,14 @@ export default {
         this.showTable({
           itemName: name,
           show: true,
+          root: this.lastRoot
         });
         this.isTableShowed = true;
       } else if (!isLeaf || !this.isOpen){
         this.showTable({
           itemName: name,
           show: false,
+          root: this.lastRoot
         });
       }
       

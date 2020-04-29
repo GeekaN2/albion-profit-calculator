@@ -2,27 +2,40 @@
   <div class="settings">
     <h2>Settings</h2>
     <div class="setting">
-      <input type="checkbox" id="checkbox" 
-      v-model="useJournals" 
-      v-on:change="$emit('changeUseJournals', useJournals)"
-      />
+      <input 
+        id="checkbox" 
+        v-model="useJournals" 
+        type="checkbox" 
+        @change="$emit('changeUseJournals', useJournals)"
+      >
       <label for="checkbox">Use journals</label>
     </div>
-    <div class="refresh_item">
-      <img src="images/redo-alt.svg" alt />
+    <div 
+      class="refresh_item" 
+      @click="$emit('updateCurrentItem')">
+      <img 
+        src="images/redo-alt.svg" 
+        alt >
       <p>Update current item</p>
     </div>
     <div class="refresh_item">
-      <img src="images/sync-alt.svg" alt />
+      <img 
+        src="images/sync-alt.svg" 
+        alt >
       <p>Reload all prices</p>
     </div>
-    <div class="refresh_item" v-on:click="$emit('downloadResourcePrices')">
-      <img src="images/arrow-alt-circle-down.svg" alt />
+    <div 
+      class="refresh_item" 
+      @click="$emit('downloadResourcePrices')">
+      <img 
+        src="images/arrow-alt-circle-down.svg" 
+        alt >
       <p>Update resource prices</p>
     </div>
-    <select class="city" 
-    v-model="city"
-    v-on:change="$emit('changeCity', city)"
+    <select 
+      v-model="city" 
+      class="city"
+      @change="$emit('changeCity', city)"
     >
       <option>Caerleon</option>
       <option>Black Market</option>
@@ -38,6 +51,12 @@
 <script>
 export default {
   name: "Settings",
+  props: {
+    loadingText: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
       useJournals: false,

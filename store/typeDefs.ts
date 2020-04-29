@@ -10,7 +10,7 @@ export interface Prices {
     }
 }
 
-export interface ItemModel {
+export interface ResponseModel {
     buy_price_max: number
     buy_price_max_date: string
     buy_price_min: number
@@ -32,6 +32,7 @@ export interface RootState {
     resources: Resources;
     artefacts: Artefacts;
     recipes: Recipes;
+    journals: Journals;
 }
 
 /**
@@ -46,7 +47,7 @@ export interface Resources {
 }
 
 /**
- * city -> all_artefacts
+ * city -> item -> artefacts
  */
 export interface Artefacts {
     [key: string]: {
@@ -67,5 +68,19 @@ export interface Recipes {
         METALBAR?: number;
         CLOTH?: number;
         LEATHER?: number;
+    }
+}
+
+/**
+ * city -> ROOT_specialization -> journal
+ */
+export interface Journals {
+    [key: string]: {
+        [key: string]: {
+            [key: string]: {
+                buyPrice: number,
+                sellPrice: number
+            }
+        }
     }
 }

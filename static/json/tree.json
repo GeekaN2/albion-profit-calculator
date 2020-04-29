@@ -2,7 +2,7 @@
   "name": "ROOT",
   "children": [
     {
-      "name": "ROOT_BLACKSMITH",
+      "name": "ROOT_WARRIOR",
       "children": [
         {
           "name": "T4_SHOES_PLATE_SET1",
@@ -647,7 +647,7 @@
       ]
     },
     {
-      "name": "ROOT_LOCKSMITH",
+      "name": "ROOT_TOOLMAKER",
       "children": [
         {
           "name": "T4_2H_TOOL_SICKLE",

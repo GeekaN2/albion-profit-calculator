@@ -4,9 +4,7 @@
       <h1 class="title">
         Albion Profit Calculator
       </h1>
-      <h2 class="subtitle">
-        
-      </h2>
+      <h2 class="subtitle"/>
       <div class="links">
         <a
           href="/tree"

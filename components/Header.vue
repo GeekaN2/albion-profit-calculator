@@ -1,11 +1,17 @@
 <template>
-    <div class="header">
-        <a href="/" class="header__logo">Albion profit calculator</a>
-        <div>
-            <a href="/tree" class="header__link">profit tree</a>
-            <a href="/table" class="header__link">profit table</a>
-        </div>
+  <div class="header">
+    <a 
+      href="/" 
+      class="header__logo">Albion profit calculator</a>
+    <div>
+      <a 
+        href="/tree" 
+        class="header__link">profit tree</a>
+      <a 
+        href="/table" 
+        class="header__link">profit table</a>
     </div>
+  </div>
 </template>
 
 <script>
