@@ -1,3 +1,5 @@
+import {ResponseModel, miniItem} from './typeDefs'
+
 function createStringOfAllTiers(itemName: string) {
     let allNames = '';
 
@@ -42,9 +44,42 @@ function createStringOfAllJournals(root: string) {
     return allNames.slice(0, -1);
 }
 
+/**
+ * Minimum price from sales orders or maximum price from purchase orders
+ * @param item 
+ */
+function normalizedPriceAndDate(item: ResponseModel) {
+    if (item.sell_price_min != 0 && item.buy_price_max == 0) {
+        return {
+            price: item.sell_price_min,
+            date: item.sell_price_min_date
+        }
+    }
+
+    if (item.sell_price_min == 0 && item.buy_price_max != 0) {
+        return {
+            price: item.buy_price_max,
+            date: item.buy_price_max_date
+        }
+    }
+
+    if (item.sell_price_min == 0 && item.buy_price_max == 0) {
+        return {
+            price: 0,
+            date: item.sell_price_min_date
+        }
+    }
+
+    return {
+        price: item.sell_price_min,
+        date: item.sell_price_min_date
+    }
+}
+
 export {
     createStringOfAllTiers, 
     createStringOfAllResources, 
     createStringOfAllArtefacts,
-    createStringOfAllJournals
+    createStringOfAllJournals,
+    normalizedPriceAndDate
 };

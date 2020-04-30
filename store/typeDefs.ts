@@ -41,7 +41,8 @@ export interface RootState {
 export interface Resources {
     [key: string]: {
         [key: string]: {
-            price: number
+            price: number,
+            date: string
         }
     }
 }
@@ -53,7 +54,8 @@ export interface Artefacts {
     [key: string]: {
         [key: string]: {
             [key: string]: {
-                price: number
+                price: number,
+                date: string
             }
         }
     }
@@ -79,8 +81,14 @@ export interface Journals {
         [key: string]: {
             [key: string]: {
                 buyPrice: number,
-                sellPrice: number
+                sellPrice: number,
+                date: string,
             }
         }
     }
+}
+
+export interface miniItem {
+    price: number,
+    date: string
 }

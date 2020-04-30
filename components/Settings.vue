@@ -79,7 +79,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 250px;
-  padding: 10px;
+  padding: 0px 10px 10px 10px;
   font-size: 16px;
 
   h2 {

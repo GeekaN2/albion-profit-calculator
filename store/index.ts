@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import {createStringOfAllTiers, createStringOfAllResources, createStringOfAllArtefacts, createStringOfAllJournals} from './utils'
+import {createStringOfAllTiers, createStringOfAllResources, createStringOfAllArtefacts, createStringOfAllJournals, normalizedPriceAndDate} from './utils'
 import {ResponseModel, RootState} from './typeDefs'
 
 Vue.use(Vuex)
@@ -166,26 +166,11 @@ const store = () => new Vuex.Store({
               date: ''
             };
           }
-          const currentPrice = state.prices[baseItem][location][item.item_id].price;
-          // choose the minimun no zero price
-          
-          let minPrice = 0;
-          let date = item.sell_price_min_date;
-          if (currentPrice == 0) {
-            minPrice = item.sell_price_min
-          } else if (item.sell_price_min == 0) {
-            minPrice = currentPrice;
-          } else {
-            minPrice = Math.min(currentPrice, item.sell_price_min)
-          }
 
-          if (location == 'Black Market') {
-            minPrice = Math.max(minPrice, item.buy_price_max);
-            date = item.buy_price_max_date;
-          }
-
-          state.prices[baseItem][location][item.item_id].price = minPrice;
-          state.prices[baseItem][location][item.item_id].date = date;
+          const currentPrice = state.prices[baseItem][location][item.item_id];
+          let newPrice = normalizedPriceAndDate(item);
+          newPrice = newPrice.price >= currentPrice.price ? newPrice : currentPrice;
+          state.prices[baseItem][location][item.item_id] = newPrice;
       });
     },
 
@@ -197,7 +182,8 @@ const store = () => new Vuex.Store({
     SET_RESOURCE_PRICES(state, data) {
       data.forEach((resource: ResponseModel) => {
         state.resources[resource.city][resource.item_id] = {
-          price: resource.sell_price_min
+          price: resource.sell_price_min,
+          date: resource.sell_price_min_date
         }
       })
     },
@@ -214,7 +200,8 @@ const store = () => new Vuex.Store({
         }
 
         state.artefacts[artefact.city][itemName][artefact.item_id] = {
-          price: artefact.sell_price_min
+          price: artefact.sell_price_min,
+          date: artefact.sell_price_min_date
         }
       })
     },
@@ -236,15 +223,21 @@ const store = () => new Vuex.Store({
         if (!state.journals[journal.city][root][journalName]) {
           state.journals[journal.city][root][journalName] = {
             buyPrice: 0,
-            sellPrice: 0
+            sellPrice: 0,
+            date: ''
           }
         }
-
-        if (journal.item_id.slice(-4) == 'FULL'){
-          state.journals[journal.city][root][journalName].sellPrice = journal.sell_price_min;
-        } else {
+        
+        if (journal.item_id.slice(-5) == 'EMPTY'){
           state.journals[journal.city][root][journalName].buyPrice = journal.sell_price_min;
+          state.journals[journal.city][root][journalName].date = journal.sell_price_min_date;
+        } else {
+          const normalizedJournal = normalizedPriceAndDate(journal);
+          state.journals[journal.city][root][journalName].sellPrice = normalizedJournal.price;
+          state.journals[journal.city][root][journalName].date = normalizedJournal.date;
         }
+        
+
       })
     }
   }

@@ -11,8 +11,8 @@
       <div
         v-for="(item, name) of getRow(subtier - 1)"
         :class="[{
-          'row__profitable': item.price > 0,
           'row__unprofitable': item.price < 0,
+          'row__profitable': item.price > 0,
           'row__unknown': item.price == 0 || outdated(item.date) || noArtefactForSale(name),
         }, `tier${name.slice(1, 2)} tier item`]"
         :key="name"
@@ -35,26 +35,62 @@
             alt="i">
           <div class="item__warnings__tooltip">
             <div class="item__warnings__tooltip__table">
-              <div class="text-algin-left">Market price</div>
-              <div>{{ tableInfo['T4.0'].marketPrice.price | formatPrice }}</div>
+              <div class="text-algin-left">Market price -3%</div>
               <div 
                 :class="{
-                  'error': outdated(tableInfo['T4.0'].marketPrice.price)
+                  'error': tableInfo[createName(name, subtier)].marketPrice.price == 0
                 }"
-              >{{ tableInfo['T4.0'].marketPrice.date | formatDate }}</div>
-              <div class="text-algin-left">Materials</div>
-              <div>{{ tableInfo['T4.0'].materials.price | addMinus | formatPrice }}</div>
-              <div>{{ tableInfo['T4.0'].materials.date | formatDate }}</div>
-              <div class="text-algin-left">Artifact</div>
+              >{{ tableInfo[createName(name, subtier)].marketPrice.price | formatPrice }}</div>
               <div 
                 :class="{
-                  'error': tableInfo['T4.0'].artifact.price == 0
+                  'error': outdated(tableInfo[createName(name, subtier)].marketPrice.date),
+                  'success': !outdated(tableInfo[createName(name, subtier)].marketPrice.date)
                 }"
-              >{{ tableInfo['T4.0'].artifact.price | addMinus | formatPrice }}</div>
-              <div>{{ tableInfo['T4.0'].artifact.date | formatDate }}</div>
-              <div class="text-algin-left">Journals</div>
-              <div>{{ tableInfo['T4.0'].journals.price | addPlus | formatPrice }}</div>
-              <div>{{ tableInfo['T4.0'].journals.date | formatDate }}</div>
+              >{{ tableInfo[createName(name, subtier)].marketPrice.date | formatDate }}</div>
+              <div class="text-algin-left">Materials -{{ tableData.returnPercentage }}%</div>
+              <div
+                :class="{
+                  'error': tableInfo[createName(name, subtier)].materials.price == 0
+                }"
+              >{{ tableInfo[createName(name, subtier)].materials.price | addMinus | formatPrice }}</div>
+              <div
+                :class="{
+                  'error': outdated(tableInfo[createName(name, subtier)].materials.date),
+                  'success': !outdated(tableInfo[createName(name, subtier)].materials.date)
+                }"
+              >{{ tableInfo[createName(name, subtier)].materials.date | formatDate }}</div>
+              <div 
+                v-if="tableInfo[createName(name, subtier)].artefact" 
+                class="text-algin-left">Artifact</div>
+              <div 
+                v-if="tableInfo[createName(name, subtier)].artefact" 
+                :class="{
+                  'error': tableInfo[createName(name, subtier)].artefact.price == 0
+                }"
+              >{{ tableInfo[createName(name, subtier)].artefact.price | addMinus | formatPrice }}</div>
+              <div
+                v-if="tableInfo[createName(name, subtier)].artefact" 
+                :class="{
+                  'error': outdated(tableInfo[createName(name, subtier)].artefact.date),
+                  'success': !outdated(tableInfo[createName(name, subtier)].artefact.date)
+                }"
+              >{{ tableInfo[createName(name, subtier)].artefact.date | formatDate }}</div>
+              <div 
+                v-if="tableData.useJournals" 
+                class="text-algin-left">Journals</div>
+              <div  
+                v-if="tableData.useJournals"
+                :class="{
+                  'error': tableInfo[createName(name, subtier)].journals.price == 0
+                }"
+              >{{ tableInfo[createName(name, subtier)].journals.price | addPlus | formatPrice }}</div>
+              <div 
+                v-if="tableData.useJournals" 
+                :class="{
+                  'error': outdated(tableInfo[createName(name, subtier)].journals.date),
+                  'success': !outdated(tableInfo[createName(name, subtier)].journals.date)
+                }"
+              >{{ tableInfo[createName(name, subtier)].journals.date | formatDate }}</div>
             </div>
           </div>
         </div>
@@ -89,7 +125,7 @@ export default {
 
     formatDate: function(date) {
       date = new Date(date);
-      let lastCheckInHours = Math.floor((Date.now() - date.getTime()) / 3600000);
+      let lastCheckInHours = Math.floor((Date.now() - date.getTime() + new Date().getTimezoneOffset() * 60000 ) / 3600000);
       let lastCheckInDays = Math.floor(lastCheckInHours / 24);
       if (lastCheckInDays > 100) {
         return '∞';
@@ -112,29 +148,22 @@ export default {
         'T7': 645,
         'T8': 1395,
       },
-      tableInfo: {
-        'T4.0': {
-          marketPrice: {
-            price: 6789400,
-            date: "2020-04-29T05:11:00"
-          },
-          materials: {
-            price: 2001000,
-            date: "2020-04-30T05:11:00"
-          },
-          artifact: {
-            price: 213454,
-            date: "0001-01-01T00:00:00"
-          },
-          journals: {
-            price: 87000,
-            date: "2020-04-30T08:11:00"
-          }
-        }
+      tableInfo: {}
+    }
+  },
+  created() {
+    for (let tier = 4; tier <= 8; tier++) {
+      for (let subtier = 0; subtier <= 3; subtier++) {
+        this.tableInfo[`T${tier}.${subtier}`] = {};
       }
     }
   },
   methods: {
+    createName: function(name, subtier){
+      const str = `T${name.slice(1, 2)}.${subtier - 1}`;  
+      return str;
+
+    },
     /**
      * Calculate t4-t8 item prices with current subtier
      * @param subtier - items subtier
@@ -146,19 +175,27 @@ export default {
           key.slice(-2) == `@${subtier}` ||
           (subtier == 0 && key.slice(-2, -1) != "@")
         ) {
+          
           row[key] = {
             price: 0,
-            date: Date.now() 
+            date: this.dateNow()
           };
 
+          const tier = key.slice(1, 2);
+
+          this.tableInfo[`T${tier}.${subtier}`].marketPrice = {
+            price: Math.floor(this.tableData.items[key].price * 0.97),
+            date: this.tableData.items[key].date
+          }
+
+          
+          let creationCost = 0;
+
+          creationCost += this.itemCreationCost(tier, subtier, key);
+          creationCost += this.getArtefactPrice(tier, subtier);
+          creationCost -= this.journalProfit(tier, subtier);
+          
           if (this.tableData.items[key].price != 0) {
-            const tier = key.slice(1, 2);
-            let creationCost = 0;
-
-            creationCost += this.itemCreationCost(tier, subtier);
-            creationCost += this.getArtefactPrice(tier);
-            creationCost -= this.journalProfit(tier, subtier);
-
             row[key].price = this.tableData.items[key].price - creationCost;
             row[key].date = this.tableData.items[key].date;
           }
@@ -171,11 +208,18 @@ export default {
      * Return cost of the artefact, if used
      * @param tier - artefact tier
      */
-    getArtefactPrice: function(tier) {
+    getArtefactPrice: function(tier, subtier) {
       if (!this.isObjectEmpty(this.tableData.artefacts)) {
-        return this.tableData.artefacts[
+        const artefact = this.tableData.artefacts[
           `T${tier}_ARTEFACT${this.tableData.itemName.slice(2)}`
-        ].price;
+        ];
+
+        this.tableInfo[`T${tier}.${subtier}`].artefact = {
+          price: artefact.price,
+          date: artefact.date
+        }
+
+        return artefact.price;
       }
       return 0;
     },
@@ -185,20 +229,28 @@ export default {
      * @param tier - resource tier
      * @param subtier - resource subtier
      */
-    itemCreationCost: function(tier, subtier) {
+    itemCreationCost: function(tier, subtier, itemName) {
       let cost = 0;
       for (let resourceName in this.tableData.recipe) {
         const resourceFullName =
           `T${tier}_${resourceName}` +
           (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : "");
         const resourceCost = this.tableData.resources[resourceFullName].price;
-        const returnPercentage = 0.152;
+        const returnPercentage = this.tableData.returnPercentage / 100;
 
         cost += Math.floor(
           resourceCost *
             this.tableData.recipe[resourceName] *
             (1 - returnPercentage)
         );
+
+        // update tableInfo
+        this.tableInfo[`T${tier}.${subtier}`].materials = {
+          price: cost,
+          date: this.tableData.resources[resourceFullName].date
+        }
+
+        
       }
 
       return cost;
@@ -224,9 +276,15 @@ export default {
         const journalFame = 1200 * 2 ** (tier - 3);
         const journalName = `T${tier}_JOURNAL${this.tableData.root.slice(4)}`;
         
-        const profit = (this.tableData.journals[journalName].sellPrice - this.tableData.journals[journalName].buyPrice) * (craftFame / journalFame);
+        let profit = (this.tableData.journals[journalName].sellPrice - this.tableData.journals[journalName].buyPrice) * (craftFame / journalFame);
+        profit = Math.floor(profit);
 
-        return Math.floor(profit);
+        this.tableInfo[`T${tier}.${subtier}`].journals = {
+          price: profit,
+          date: this.tableData.journals[journalName].date
+        }
+
+        return profit;
       }
       
       return 0;
@@ -239,7 +297,7 @@ export default {
      * @param date - last check date
      */
     outdated: function(date) {
-      return Date.now() - (new Date(date)).getTime() > 86400000;
+      return (this.dateNow() - (new Date(date)).getTime()) > 86400000;
     },
 
     /**
@@ -261,6 +319,10 @@ export default {
      */
     isObjectEmpty: function(obj) {
       return Object.keys(obj).length == 0;
+    },
+
+    dateNow: function() {
+      return Date.now() + new Date().getTimezoneOffset() * 60000;
     }
   }
 };
@@ -293,6 +355,10 @@ export default {
 
   .error {
     color: #e73939;
+  }
+
+  .success {
+    color: #1d7d18;
   }
 }
 

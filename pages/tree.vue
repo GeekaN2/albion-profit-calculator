@@ -52,7 +52,8 @@ export default {
       useJournals: false,
       currentItem: "",
       root: "",
-      loadingText: ""
+      loadingText: "",
+      returnPercentage: 15.2
     };
   },
   created: async function() {
@@ -134,7 +135,8 @@ export default {
 
       if (
         !this.$store.state.prices[this.currentItem] ||
-        !this.$store.state.prices[this.currentItem][this.city]
+        !this.$store.state.prices[this.currentItem][this.city] &&
+        this.currentItem
       ) {
         await this.fetchItemPricesWithArtefacts();
       }
@@ -186,7 +188,8 @@ export default {
         journals: this.useJournals
           ? this.$store.state.journals[city][this.root]
           : {},
-        root: this.root
+        root: this.root,
+        returnPercentage: this.returnPercentage
       };
     }
   }
