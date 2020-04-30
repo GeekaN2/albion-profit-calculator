@@ -14,24 +14,48 @@
           'row__profitable': item.price > 0,
           'row__unprofitable': item.price < 0,
           'row__unknown': item.price == 0 || outdated(item.date) || noArtefactForSale(name),
-        }, `tier${name.slice(1, 2)} tier`]"
+        }, `tier${name.slice(1, 2)} tier item`]"
         :key="name"
-      >
-        {{ formatePrice(item.price) }}
+      > 
+        {{ item.price | formatPrice }}
         <div 
-          v-if="outdated(item.date) || noArtefactForSale(name)" 
-          class="row__warnings">
+          class="item__warnings">
           <img
             v-if="outdated(item.date)"
             src="/images/clock.svg"
-            class="row__warnings__icon"
+            class="item__warnings__icon"
           ><img 
             v-if="noArtefactForSale(name)"
             src="/images/exclamation-triangle.svg" 
-            class="row__warnings__icon">
-          <div class="row__warnings__tooltip">
-            <p v-if="outdated(item.date)" >Outdated</p>
-            <p v-if="noArtefactForSale(name)" >No artifacts for sale</p>
+            class="item__warnings__icon">
+          <img 
+            v-if="!outdated(item.date) && !noArtefactForSale(name)"
+            class="item__warnings__info"
+            src="/images/info.svg" 
+            alt="i">
+          <div class="item__warnings__tooltip">
+            <div class="item__warnings__tooltip__table">
+              <div class="text-algin-left">Market price</div>
+              <div>{{ tableInfo['T4.0'].marketPrice.price | formatPrice }}</div>
+              <div 
+                :class="{
+                  'error': outdated(tableInfo['T4.0'].marketPrice.price)
+                }"
+              >{{ tableInfo['T4.0'].marketPrice.date | formatDate }}</div>
+              <div class="text-algin-left">Materials</div>
+              <div>{{ tableInfo['T4.0'].materials.price | addMinus | formatPrice }}</div>
+              <div>{{ tableInfo['T4.0'].materials.date | formatDate }}</div>
+              <div class="text-algin-left">Artifact</div>
+              <div 
+                :class="{
+                  'error': tableInfo['T4.0'].artifact.price == 0
+                }"
+              >{{ tableInfo['T4.0'].artifact.price | addMinus | formatPrice }}</div>
+              <div>{{ tableInfo['T4.0'].artifact.date | formatDate }}</div>
+              <div class="text-algin-left">Journals</div>
+              <div>{{ tableInfo['T4.0'].journals.price | addPlus | formatPrice }}</div>
+              <div>{{ tableInfo['T4.0'].journals.date | formatDate }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -42,6 +66,37 @@
 <script>
 export default {
   name: "ItemTable",
+  filters: {
+    /**
+     * Format the price for the convenience
+     * @param price - string for formatting
+     */
+    formatPrice: function(price) {
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
+
+    /**
+     * Add plus before the number
+     * @param price
+     */
+    addMinus: function(price) {
+      return price > 0 ? `-${price}` : price;
+    },
+
+    addPlus: function(price) {
+      return price > 0 ? `+${price}` : price;
+    },
+
+    formatDate: function(date) {
+      date = new Date(date);
+      let lastCheckInHours = Math.floor((Date.now() - date.getTime()) / 3600000);
+      let lastCheckInDays = Math.floor(lastCheckInHours / 24);
+      if (lastCheckInDays > 100) {
+        return '∞';
+      }
+      return lastCheckInHours < 24 ? `${lastCheckInHours}h` : `${Math.floor(lastCheckInHours / 24)}d`;
+    }
+  },
   props: {
     tableData: {
       type: Object,
@@ -56,6 +111,26 @@ export default {
         'T6': 270,
         'T7': 645,
         'T8': 1395,
+      },
+      tableInfo: {
+        'T4.0': {
+          marketPrice: {
+            price: 6789400,
+            date: "2020-04-29T05:11:00"
+          },
+          materials: {
+            price: 2001000,
+            date: "2020-04-30T05:11:00"
+          },
+          artifact: {
+            price: 213454,
+            date: "0001-01-01T00:00:00"
+          },
+          journals: {
+            price: 87000,
+            date: "2020-04-30T08:11:00"
+          }
+        }
       }
     }
   },
@@ -103,14 +178,6 @@ export default {
         ].price;
       }
       return 0;
-    },
-
-    /**
-     * Format the price for the convenience
-     * @param price - string for formatting
-     */
-    formatePrice: function(price) {
-      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
 
     /**
@@ -219,6 +286,14 @@ export default {
     background: #b987f7;
     box-shadow: 0 0 4px 5px #b987f7;
   }
+
+  .text-algin-left {
+    text-align: left;
+  }
+
+  .error {
+    color: #e73939;
+  }
 }
 
 .row {
@@ -231,76 +306,17 @@ export default {
 
   &__profitable {
     text-shadow: 1px 0 1px #043204;
-    color: #118711;
+    color: #14a014;
   }
 
   &__unprofitable {
     text-shadow: 1px 0 1px #4a0404;
-    color: #a52a2a;
+    color: #ae3a3a;
   }
 
   &__unknown {
     text-shadow: 0px 0 1px #131313;
     color: #585858;
-  }
-
-  &__warnings {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 100%;
-    bottom: -1px;
-    right: -1px;
-    z-index: 50;
-    padding: 3px 6px 6px 6px;
-
-    &__icon { 
-      top: 6px; 
-      padding: 1px 0;
-      width: 11px;
-    }
-
-    &__tooltip {
-      visibility: hidden;
-      right: 50%;
-      transform: translateX(50%);
-      bottom: 24px;
-      position: absolute;
-      background: #dfdfdf;
-      color: #5e5e5e;
-      font-weight: bold;
-      transition: 0.15s;
-      opacity: 0;
-      border-radius: 4px;
-      box-shadow: 0 0 6px 0px #6a6a6a;
-      font-size: 12px;
-      text-shadow: none;
-      padding: 5px;
-      white-space:nowrap;
-
-      &:after {
-        content: '';
-        position: absolute;
-        right: calc(50% - 5px);
-        bottom: -5px;
-        width: 10px;
-        height: 10px;
-        background: #dfdfdf;
-        transform: rotate(45deg);
-      }
-    }
-
-    &:hover &__tooltip{
-      bottom: 28px;
-      opacity: 1;
-      visibility: visible;
-    }
-
-    &:hover &__tooltip:after {
-      opacity: 1;
-    }
   }
   
   .tier {
@@ -333,4 +349,78 @@ export default {
   }
 }
 
+.item {
+
+  &__warnings {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    bottom: -1px;
+    right: -1px;
+    z-index: 50;
+    padding: 3px 6px 6px 6px;
+
+    &__icon { 
+      top: 6px; 
+      padding: 1px 0;
+      width: 11px;
+    }
+
+    &__info {
+      width: 10px;
+      height: 10px;
+    }
+
+    &__tooltip {
+      visibility: hidden;
+      right: 50%;
+      transform: translateX(50%);
+      bottom: 24px;
+      position: absolute;
+      background: #dfdfdf;
+      color: #5e5e5e;
+      font-weight: bold;
+      transition: 0.15s;
+      opacity: 0;
+      border-radius: 4px;
+      box-shadow: 0 0 6px 0px #6a6a6a;
+      font-size: 12px;
+      text-shadow: none;
+      padding: 5px;
+      white-space:nowrap;
+
+      &:after {
+        content: '';
+        position: absolute;
+        right: calc(50% - 5px);
+        bottom: -5px;
+        width: 10px;
+        height: 10px;
+        background: #dfdfdf;
+        transform: rotate(45deg);
+      }
+
+      &__table {
+        display: grid;
+        grid-template-columns: 3fr 3fr 1fr;
+        text-align: right;
+        grid-gap: 5px 10px;
+
+      }
+    }
+
+    &:hover &__tooltip{
+      bottom: 28px;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    &:hover &__tooltip:after {
+      opacity: 1;
+    }
+  }
+}
 </style>

@@ -11,7 +11,7 @@
       <label for="checkbox">Use journals</label>
     </div>
     <div 
-      class="refresh_item" 
+      class="refresh" 
       @click="$emit('dropStore','journals')">
       <img 
         src="/images/redo-alt.svg" 
@@ -19,7 +19,7 @@
       <p>Update journal prices</p>
     </div>
     <div 
-      class="refresh_item" 
+      class="refresh" 
       @click="$emit('dropStore', 'items')">
       <img 
         src="images/redo-alt.svg" 
@@ -27,14 +27,14 @@
       <p>Update current item</p>
     </div>
     <div 
-      class="refresh_item" 
+      class="refresh" 
       @click="$emit('dropStore', 'resources')">
       <img 
         src="/images/redo-alt.svg" 
         alt >
       <p>Update resource prices</p>
     </div>
-    <!--<div class="refresh_item">
+    <!--<div class="refresh">
       <img 
         src="images/sync-alt.svg" 
         alt >
@@ -134,7 +134,7 @@ select {
   font-size: 16px;
 }
 
-.refresh_item {
+.refresh {
   display: flex;
   justify-content: left;
   margin-bottom: 10px;
