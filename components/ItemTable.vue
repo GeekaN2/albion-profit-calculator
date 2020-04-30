@@ -273,9 +273,9 @@ export default {
         let craftFame = (fame * (subtier + 1) - 7.5 * subtier) * amountOfMaterials;
         craftFame += !this.isObjectEmpty(this.tableData.artefacts) ? 500 : 0;
 
-        const journalFame = 1200 * 2 ** (tier - 3);
+        const journalFame = 1200 * 2 ** (tier - 4);
         const journalName = `T${tier}_JOURNAL${this.tableData.root.slice(4)}`;
-        
+
         let profit = (this.tableData.journals[journalName].sellPrice - this.tableData.journals[journalName].buyPrice) * (craftFame / journalFame);
         profit = Math.floor(profit);
 
