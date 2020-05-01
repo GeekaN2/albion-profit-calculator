@@ -35,63 +35,28 @@
             alt="i">
           <div class="item__warnings__tooltip">
             <div class="item__warnings__tooltip__table">
-              <div class="text-algin-left">Market price -3%</div>
-              <div 
-                :class="{
-                  'error': tableInfo[createName(name, subtier)].marketPrice.price == 0
-                }"
-              >{{ tableInfo[createName(name, subtier)].marketPrice.price | formatPrice }}</div>
-              <div 
-                :class="{
-                  'error': outdated(tableInfo[createName(name, subtier)].marketPrice.date),
-                  'success': !outdated(tableInfo[createName(name, subtier)].marketPrice.date)
-                }"
-              >{{ tableInfo[createName(name, subtier)].marketPrice.date | formatDate }}</div>
-              <div class="text-algin-left">Materials -{{ tableData.returnPercentage }}%</div>
-              <div
-                :class="{
-                  'error': tableInfo[createName(name, subtier)].materials.price == 0
-                }"
-              >{{ tableInfo[createName(name, subtier)].materials.price | addMinus | formatPrice }}</div>
-              <div
-                :class="{
-                  'error': outdated(tableInfo[createName(name, subtier)].materials.date),
-                  'success': !outdated(tableInfo[createName(name, subtier)].materials.date)
-                }"
-              >{{ tableInfo[createName(name, subtier)].materials.date | formatDate }}</div>
-              <div 
-                v-if="tableInfo[createName(name, subtier)].artefact" 
-                class="text-algin-left">Artifact</div>
-              <div 
-                v-if="tableInfo[createName(name, subtier)].artefact" 
-                :class="{
-                  'error': tableInfo[createName(name, subtier)].artefact.price == 0
-                }"
-              >{{ tableInfo[createName(name, subtier)].artefact.price | addMinus | formatPrice }}</div>
-              <div
-                v-if="tableInfo[createName(name, subtier)].artefact" 
-                :class="{
-                  'error': outdated(tableInfo[createName(name, subtier)].artefact.date),
-                  'success': !outdated(tableInfo[createName(name, subtier)].artefact.date)
-                }"
-              >{{ tableInfo[createName(name, subtier)].artefact.date | formatDate }}</div>
-              <div 
-                v-if="tableData.useJournals" 
-                class="text-algin-left">Journals</div>
-              <div  
-                v-if="tableData.useJournals"
-                :class="{
-                  'error': tableInfo[createName(name, subtier)].journals.price == 0
-                }"
-              >{{ tableInfo[createName(name, subtier)].journals.price | addPlus | formatPrice }}</div>
-              <div 
-                v-if="tableData.useJournals" 
-                :class="{
-                  'error': outdated(tableInfo[createName(name, subtier)].journals.date),
-                  'success': !outdated(tableInfo[createName(name, subtier)].journals.date)
-                }"
-              >{{ tableInfo[createName(name, subtier)].journals.date | formatDate }}</div>
+              <template
+                v-for="(tooltipRow, infoName) in tableInfo[createName(name, subtier)]">  
+                <div 
+                  :key="`${infoName}:0`"
+                  class="text-algin-left">{{ tooltipRow.name }} 
+                  {{ tooltipRow.percentage ? `-${tooltipRow.percentage}%` : '' }}</div>
+                <div
+                  :key="`${infoName}:1`"
+                  :class="{
+                    'error': tooltipRow.price == 0
+                  }"
+                >{{ tooltipRow.price | formatPrice }}</div>
+                <div 
+                  :key="`${infoName}:2`"
+                  :class="{
+                    'error': outdated(tooltipRow.date),
+                    'success': !outdated(tooltipRow.date)
+                  }"
+                >{{ tooltipRow.date | formatDate }}</div>
+              </template>
             </div>
+
           </div>
         </div>
       </div>
@@ -184,6 +149,8 @@ export default {
           const tier = key.slice(1, 2);
 
           this.tableInfo[`T${tier}.${subtier}`].marketPrice = {
+            name: 'Market price',
+            percentage: 3,
             price: Math.floor(this.tableData.items[key].price * 0.97),
             date: this.tableData.items[key].date
           }
@@ -215,6 +182,8 @@ export default {
         ];
 
         this.tableInfo[`T${tier}.${subtier}`].artefact = {
+          name: 'Artifact',
+          percentage: 0,
           price: artefact.price,
           date: artefact.date
         }
@@ -246,6 +215,8 @@ export default {
 
         // update tableInfo
         this.tableInfo[`T${tier}.${subtier}`].materials = {
+          name: 'Materials',
+          percentage: 15.2,
           price: cost,
           date: this.tableData.resources[resourceFullName].date
         }
@@ -280,6 +251,8 @@ export default {
         profit = Math.floor(profit);
 
         this.tableInfo[`T${tier}.${subtier}`].journals = {
+          name: 'Journals',
+          percentage: 0,
           price: profit,
           date: this.tableData.journals[journalName].date
         }
