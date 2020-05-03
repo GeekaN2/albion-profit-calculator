@@ -38,16 +38,19 @@
               <template
                 v-for="(tooltipRow, infoName) in tableInfo[createName(name, subtier)]">  
                 <div 
+                  v-if="!isObjectEmpty(tooltipRow)"
                   :key="`${infoName}:0`"
                   class="text-algin-left">{{ tooltipRow.name }} 
                   {{ tooltipRow.percentage ? `-${tooltipRow.percentage}%` : '' }}</div>
                 <div
+                  v-if="!isObjectEmpty(tooltipRow)"
                   :key="`${infoName}:1`"
                   :class="{
                     'error': tooltipRow.price == 0
                   }"
-                >{{ tooltipRow.price | formatPrice }}</div>
+                >{{ infoName == 'journals' ? '+' : '' }}{{ tooltipRow.price | formatPrice }}</div>
                 <div 
+                  v-if="!isObjectEmpty(tooltipRow)"
                   :key="`${infoName}:2`"
                   :class="{
                     'error': outdated(tooltipRow.date),
@@ -56,7 +59,6 @@
                 >{{ tooltipRow.date | formatDate }}</div>
               </template>
             </div>
-
           </div>
         </div>
       </div>
@@ -184,11 +186,13 @@ export default {
         this.tableInfo[`T${tier}.${subtier}`].artefact = {
           name: 'Artifact',
           percentage: 0,
-          price: artefact.price,
+          price: -artefact.price,
           date: artefact.date
         }
 
         return artefact.price;
+      } else {
+        this.$set(this.tableInfo[`T${tier}.${subtier}`], 'artefact', {});
       }
       return 0;
     },
@@ -217,11 +221,9 @@ export default {
         this.tableInfo[`T${tier}.${subtier}`].materials = {
           name: 'Materials',
           percentage: 15.2,
-          price: cost,
+          price: -cost,
           date: this.tableData.resources[resourceFullName].date
         }
-
-        
       }
 
       return cost;
@@ -250,14 +252,16 @@ export default {
         let profit = (this.tableData.journals[journalName].sellPrice - this.tableData.journals[journalName].buyPrice) * (craftFame / journalFame);
         profit = Math.floor(profit);
 
-        this.tableInfo[`T${tier}.${subtier}`].journals = {
+        this.$set(this.tableInfo[`T${tier}.${subtier}`], 'journals', {
           name: 'Journals',
           percentage: 0,
           price: profit,
           date: this.tableData.journals[journalName].date
-        }
+        });
 
         return profit;
+      } else {
+        this.$set(this.tableInfo[`T${tier}.${subtier}`], 'journals', {});
       }
       
       return 0;
