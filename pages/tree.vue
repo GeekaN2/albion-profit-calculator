@@ -9,6 +9,7 @@
         @changeUseJournals="changeUseJournals" 
         @dropStore="dropStore"
         @changeCity="changeCity"
+        @inputFee="updateFee"
       />
       <div>
         <Row 
@@ -35,6 +36,7 @@ import Settings from "~/components/Settings";
 import Loading from "~/components/Loading";
 
 export default {
+  name: 'Tree',
   components: {
     Header,
     Row,
@@ -53,8 +55,15 @@ export default {
       currentItem: "",
       root: "",
       loadingText: "",
-      returnPercentage: 15.2
+      returnPercentage: 15.2,
+      fee: 10,
+      artefactLevel: ""
     };
+  },
+  computed: {
+    feef: function(){
+      return 0;
+    }
   },
   created: async function() {
     await this.$store.dispatch("FETCH_STATE");
@@ -66,14 +75,16 @@ export default {
      * @param itemName - name of selected item
      * @param show - hides or shows the table
      */
-    showTable: async function({ itemName, show, root }) {
+    showTable: async function({ itemName, show, root, artefactLevel }) {
       this.root = root;
+      this.artefactLevel = artefactLevel;
       if (show) {
         this.currentItem = itemName;
         this.checkAllPricesAndFetchIt();
       } else {
         this.tableData = {};
       }
+
       this.isTableShowed = show;
     },
 
@@ -126,10 +137,6 @@ export default {
       });
     },
 
-    updateCurrentItem: function() {
-      console.log("Doesn't work yet");
-    },
-
     checkAllPricesAndFetchIt: async function() {
       const normalCity = this.city == "Black Market" ? "Caerleon" : this.city;
 
@@ -174,6 +181,10 @@ export default {
       this.checkAllPricesAndFetchIt();
     },
 
+    updateFee: function(value) {
+      this.fee = value;
+    },
+
     updateTableData: function() {
       this.loadingText = "Profit calculated";
       const city = this.city == "Black Market" ? "Caerleon" : this.city;
@@ -189,7 +200,9 @@ export default {
           ? this.$store.state.journals[city][this.root]
           : {},
         root: this.root,
-        returnPercentage: this.returnPercentage
+        returnPercentage: this.returnPercentage,
+        fee: this.fee,
+        artefactLevel: this.artefactLevel
       };
     }
   }
@@ -226,4 +239,6 @@ img {
     margin-top: -25px;
   }
 }
+
+
 </style>

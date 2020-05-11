@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import {createStringOfAllTiers, createStringOfAllResources, createStringOfAllArtefacts, createStringOfAllJournals, normalizedPriceAndDate} from './utils'
-import {ResponseModel, RootState} from './typeDefs'
+import {ResponseModel, RootState, Item} from './typeDefs'
 
 Vue.use(Vuex)
 
@@ -163,12 +163,13 @@ const store = () => new Vuex.Store({
           if (!state.prices[baseItem][location][item.item_id]) {
             state.prices[baseItem][location][item.item_id] = {
               price: 0,
-              date: ''
+              date: '',
+              marketFee: 3
             };
           }
 
           const currentPrice = state.prices[baseItem][location][item.item_id];
-          let newPrice = normalizedPriceAndDate(item);
+          let newPrice: Item = normalizedPriceAndDate(item);
           newPrice = newPrice.price >= currentPrice.price ? newPrice : currentPrice;
           state.prices[baseItem][location][item.item_id] = newPrice;
       });
@@ -224,7 +225,8 @@ const store = () => new Vuex.Store({
           state.journals[journal.city][root][journalName] = {
             buyPrice: 0,
             sellPrice: 0,
-            date: ''
+            date: '',
+            marketFee: 4.5
           }
         }
         
@@ -235,6 +237,7 @@ const store = () => new Vuex.Store({
           const normalizedJournal = normalizedPriceAndDate(journal);
           state.journals[journal.city][root][journalName].sellPrice = normalizedJournal.price;
           state.journals[journal.city][root][journalName].date = normalizedJournal.date;
+          state.journals[journal.city][root][journalName].marketFee = normalizedJournal.marketFee;
         }
         
 

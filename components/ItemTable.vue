@@ -40,15 +40,16 @@
                 <div 
                   v-if="!isObjectEmpty(tooltipRow)"
                   :key="`${infoName}:0`"
-                  class="text-algin-left">{{ tooltipRow.name }} 
-                  {{ tooltipRow.percentage ? `-${tooltipRow.percentage}%` : '' }}</div>
+                  class="text-algin-left">
+                  {{ tooltipRow.name }} 
+                  {{ tooltipRow.percentage ? `${tooltipRow.percentage}%` : '' }}</div>
                 <div
                   v-if="!isObjectEmpty(tooltipRow)"
                   :key="`${infoName}:1`"
                   :class="{
                     'error': tooltipRow.price == 0
                   }"
-                >{{ infoName == 'journals' ? '+' : '' }}{{ tooltipRow.price | formatPrice }}</div>
+                >{{ tooltipRow.price | formatPrice(infoName) }}</div>
                 <div 
                   v-if="!isObjectEmpty(tooltipRow)"
                   :key="`${infoName}:2`"
@@ -72,25 +73,19 @@ export default {
   filters: {
     /**
      * Format the price for the convenience
-     * @param price - string for formatting
+     * @param {number} price - number for formatting
      */
-    formatPrice: function(price) {
+    formatPrice: function(price, infoName) {
+      if (infoName == 'journals' && price > 0) {
+        price = '+' + price;
+      }
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
 
-    /**
-     * Add plus before the number
-     * @param price
-     */
-    addMinus: function(price) {
-      return price > 0 ? `-${price}` : price;
-    },
-
-    addPlus: function(price) {
-      return price > 0 ? `+${price}` : price;
-    },
-
     formatDate: function(date) {
+      if (date.length == 0) {
+        return '-';
+      }
       date = new Date(date);
       let lastCheckInHours = Math.floor((Date.now() - date.getTime() + new Date().getTimezoneOffset() * 60000 ) / 3600000);
       let lastCheckInDays = Math.floor(lastCheckInHours / 24);
@@ -115,7 +110,60 @@ export default {
         'T7': 645,
         'T8': 1395,
       },
+      itemAndArtefactValues: {
+        'T4.0': 14,
+        'T4.1': 30,
+        'T4.2': 54,
+        'T4.3': 102,
+        'T5.0': 30,
+        'T5.1': 61,
+        'T5.2': 118,
+        'T5.3': 229,
+        'T6.0': 62,
+        'T6.1': 125,
+        'T6.2': 246,
+        'T6.3': 485,
+        'T7.0': 126,
+        'T7.1': 253,
+        'T7.2': 502,
+        'T7.3': 997,
+        'T8.0': 254,
+        'T8.1': 509,
+        'T8.2': 1014,
+        'T8.3': 2021,
+        'T4_rune': 4 ,
+        'T4_soul': 12,
+        'T4_relic': 28,
+        'T4_avalon': 60,
+        'T5_rune': 8,
+        'T5_soul': 24,
+        'T5_relic': 56,
+        'T5_avalon': 119.5,
+        'T6_rune': 16,
+        'T6_soul': 48,
+        'T6_relic': 111.5,
+        'T6_avalon': 240,
+        'T7_rune': 32,
+        'T7_soul': 95.5,
+        'T7_relic': 222.5,
+        'T7_avalon': 480,
+        'T8_rune': 63.5,
+        'T8_soul': 190.5,
+        'T8_relic': 444.5,
+        'T8_avalon': 952.5,
+      },
       tableInfo: {}
+    }
+  },
+  computed: {
+    amountOfMaterials: function() {
+      let amountOfMaterials = 0;
+
+      for (let material in this.tableData.recipe) {
+        amountOfMaterials += this.tableData.recipe[material];
+      }
+
+      return amountOfMaterials;
     }
   },
   created() {
@@ -149,10 +197,11 @@ export default {
           };
 
           const tier = key.slice(1, 2);
+          const marketFee = this.tableData.items[key].marketFee;
 
           this.tableInfo[`T${tier}.${subtier}`].marketPrice = {
             name: 'Market price',
-            percentage: 3,
+            percentage: -marketFee,
             price: Math.floor(this.tableData.items[key].price * 0.97),
             date: this.tableData.items[key].date
           }
@@ -162,10 +211,12 @@ export default {
 
           creationCost += this.itemCreationCost(tier, subtier, key);
           creationCost += this.getArtefactPrice(tier, subtier);
+            creationCost += this.craftFee(tier, subtier);
           creationCost -= this.journalProfit(tier, subtier);
           
           if (this.tableData.items[key].price != 0) {
-            row[key].price = this.tableData.items[key].price - creationCost;
+            const itemPrice = Math.floor(this.tableData.items[key].price * (1 - marketFee / 100));
+            row[key].price = itemPrice - creationCost;
             row[key].date = this.tableData.items[key].date;
           }
         }
@@ -220,7 +271,7 @@ export default {
         // update tableInfo
         this.tableInfo[`T${tier}.${subtier}`].materials = {
           name: 'Materials',
-          percentage: 15.2,
+          percentage: -15.2,
           price: -cost,
           date: this.tableData.resources[resourceFullName].date
         }
@@ -230,20 +281,16 @@ export default {
     },
 
     /**
-     * 
+     * @param tier - resource tier
+     * @param subtier - resource subtier
      */
     journalProfit: function(tier, subtier) {
       if (this.tableData.useJournals){
-        let amountOfMaterials = 0;
-
-        for (let material in this.tableData.recipe) {
-          amountOfMaterials += this.tableData.recipe[material];
-        }
 
         // amount of fame per unit of this tier material 
         const fame = this.materialsBaseFame[`T${tier}`];
 
-        let craftFame = (fame * (subtier + 1) - 7.5 * subtier) * amountOfMaterials;
+        let craftFame = (fame * (subtier + 1) - 7.5 * subtier) * this.amountOfMaterials;
         craftFame += !this.isObjectEmpty(this.tableData.artefacts) ? 500 : 0;
 
         const journalFame = 1200 * 2 ** (tier - 4);
@@ -265,6 +312,30 @@ export default {
       }
       
       return 0;
+    },
+
+    /**
+     * @param tier - resource tier
+     * @param subtier - resource subtier
+     */
+    craftFee(tier, subtier){
+      const fee = this.tableData.fee != '' ? this.tableData.fee : 0;
+      const artefactLevel = this.tableData.artefactLevel;
+      let itemValue = this.itemAndArtefactValues[`T${tier}.${subtier}`];
+      if (artefactLevel.length != 0) {
+        console.log(itemValue, this.itemAndArtefactValues[`T${tier}_${artefactLevel}`]);
+        itemValue += this.itemAndArtefactValues[`T${tier}_${artefactLevel}`];
+      }
+      
+      const feePrice = Math.floor(itemValue * this.amountOfMaterials / 20 * fee);
+      this.$set(this.tableInfo[`T${tier}.${subtier}`], 'fee', {
+        name: 'Fee',
+        percentage: fee,
+        price: -feePrice,
+        date: ''
+      });
+
+      return feePrice;
     },
     
     /**
@@ -434,6 +505,7 @@ export default {
       text-shadow: none;
       padding: 5px;
       white-space:nowrap;
+      transition-delay: 0.03s;
 
       &:after {
         content: '';

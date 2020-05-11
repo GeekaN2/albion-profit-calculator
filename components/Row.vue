@@ -49,24 +49,28 @@ export default {
   methods: {
     /**
      * Change function condition
-     * And call profit table for current item it it's leaf
+     * And call profit table for current item if it's leaf
      * @param name - name of current item
      * @param isLeaf - shows does this element have not empty children[]
      */
     toggle: function(name, isLeaf) {
       this.switcher(name);
       if (isLeaf && this.isOpen) {
+
         this.showTable({
           itemName: name,
           show: true,
-          root: this.lastRoot
+          root: this.lastRoot,
+          artefactLevel: this.artefactLevel(name)
         });
+
         this.isTableShowed = true;
       } else if (!isLeaf || !this.isOpen){
         this.showTable({
           itemName: name,
           show: false,
-          root: this.lastRoot
+          root: this.lastRoot,
+          artefactLevel: ''
         });
       }
       
@@ -100,6 +104,40 @@ export default {
      */
     isLeaf: function(children) {
       return !(children && children.length);
+    },
+
+    /**
+     * Determines the type of artifact by the item number in the array
+     * @param {string} name - name of current item
+     * @return {string} - artefact name: rune, soul... or empty string
+     */
+    artefactLevel: function(name){
+      const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON'];
+      const isArtefactItem = artefacts.some(artefact => {
+        return name.search(artefact) != -1
+      });
+
+      if (!isArtefactItem) {
+        return '';
+      }
+
+      const items = this.items;
+      let index = 0;
+      for (; index < items.length; index++) {
+        if (items[index].name == name) {
+          break;
+        }
+      }
+      
+      let artefact = '';
+      switch (index) {
+        case 3: artefact = 'rune'; break;
+        case 4: artefact = 'soul'; break;
+        case 5: artefact = 'relic'; break;
+        case 6: artefact = 'avalon'; break;
+      }
+
+      return artefact;
     }
   }
 };

@@ -15,7 +15,7 @@
       </div>
     </div>
     <footer>
-      <a href="https://github.com/GeekaN2">&copy; GeekaN a.k.a. Awilixandria</a>
+      <a href="https://github.com/GeekaN2">&copy; GeekaN</a>
       <a href="https://www.albion-online-data.com/">Powered by Albion Online Data Project</a>
     </footer>
   </section>

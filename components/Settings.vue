@@ -34,12 +34,14 @@
         alt >
       <p>Update resource prices</p>
     </div>
-    <!--<div class="refresh">
-      <img 
-        src="images/sync-alt.svg" 
-        alt >
-      <p>Reload all prices</p>
-    </div>-->
+    <div class="input">
+      <input 
+        :value="fee"
+        placeholder="0"
+        maxlength="4"
+        @change="updateFee($event.target.value)">
+      <span>% craft fee</span>
+    </div>
     <select 
       v-model="city" 
       class="city"
@@ -63,13 +65,23 @@ export default {
     loadingText: {
       type: String,
       default: ''
+    },
+    fee: {
+      type: Number,
+      default: 10
     }
   },
   data() {
     return {
       useJournals: false,
-      city: "Caerleon"
+      city: "Caerleon",
+      showedFee: 10,
     };
+  },
+  methods: {
+    updateFee: function (value) {
+      this.$emit('inputFee', value);
+    }
   }
 };
 </script>
@@ -146,6 +158,33 @@ select {
 
   p {
     margin-left: 5px;
+  }
+}
+
+.input {
+  margin-bottom: 10px;
+  font-size: 16px;
+  position: relative;
+  
+  
+  input {
+    display: inline-block;
+    font-size: 14px;
+    width: 100%;
+    border-image-source: linear-gradient(90deg, #000000 0%,#000000 8%, #5a5a5a 30%, #ffffff 70%);  
+    border-image-slice: 1;
+    border-width: 0 0 2px 0;
+    margin-bottom: 2px;
+    letter-spacing: 1px;
+    padding-left: 0.4em;
+    color: #222222;
+  }
+
+  span {
+    position: absolute;
+    background: #fff;
+    left: 2.8em;
+    color: #222222;
   }
 }
 </style>

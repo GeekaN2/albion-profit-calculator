@@ -1,4 +1,4 @@
-import {ResponseModel, miniItem} from './typeDefs'
+import {ResponseModel, Item} from './typeDefs'
 
 function createStringOfAllTiers(itemName: string) {
     let allNames = '';
@@ -33,6 +33,10 @@ function createStringOfAllArtefacts(itemName: string) {
     return allNames.slice(0, -1);
 }
 
+/**
+ * 
+ * @param {string} root 
+ */
 function createStringOfAllJournals(root: string) {
     let allNames = '';
 
@@ -46,33 +50,40 @@ function createStringOfAllJournals(root: string) {
 
 /**
  * Minimum price from sales orders or maximum price from purchase orders
- * @param item 
+ * @param {ResponseModel} item 
  */
-function normalizedPriceAndDate(item: ResponseModel) {
+function normalizedPriceAndDate(item: ResponseModel): Item {
     if (item.sell_price_min != 0 && item.buy_price_max == 0) {
         return {
             price: item.sell_price_min,
-            date: item.sell_price_min_date
+            date: item.sell_price_min_date,
+            marketFee: 4.5
         }
     }
 
     if (item.sell_price_min == 0 && item.buy_price_max != 0) {
         return {
             price: item.buy_price_max,
-            date: item.buy_price_max_date
+            date: item.buy_price_max_date,
+            marketFee: 3
         }
     }
 
     if (item.sell_price_min == 0 && item.buy_price_max == 0) {
         return {
             price: 0,
-            date: item.sell_price_min_date
+            date: item.sell_price_min_date,
+            marketFee: 3
         }
     }
 
+    // You can still compare prices with fee,
+    // but the difference isn't so significant
+
     return {
         price: item.sell_price_min,
-        date: item.sell_price_min_date
+        date: item.sell_price_min_date,
+        marketFee: 4.5
     }
 }
 
