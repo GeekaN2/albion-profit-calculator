@@ -34,6 +34,7 @@ import Row from "~/components/Row";
 import ItemTable from "~/components/ItemTable";
 import Settings from "~/components/Settings";
 import Loading from "~/components/Loading";
+import { getReturnMaterialsPercentage } from "~/store/utils";
 
 export default {
   name: 'Tree',
@@ -57,7 +58,8 @@ export default {
       loadingText: "",
       returnPercentage: 15.2,
       fee: 10,
-      artefactLevel: ""
+      artefactLevel: "",
+      parentItem: "",
     };
   },
   computed: {
@@ -75,9 +77,11 @@ export default {
      * @param itemName - name of selected item
      * @param show - hides or shows the table
      */
-    showTable: async function({ itemName, show, root, artefactLevel }) {
+    showTable: async function({ itemName, show, root, artefactLevel, parentItem }) {
       this.root = root;
       this.artefactLevel = artefactLevel;
+      this.parentItem = parentItem
+
       if (show) {
         this.currentItem = itemName;
         this.checkAllPricesAndFetchIt();
@@ -160,6 +164,8 @@ export default {
         await this.fetchJournalPrices();
       }
 
+      this.returnPercentage = getReturnMaterialsPercentage(this.parentItem, this.city);
+
       this.updateTableData();
     },
 
@@ -236,7 +242,7 @@ img {
   }
 
   &__loading {
-    margin-top: -25px;
+    margin-top: -5px;
   }
 }
 

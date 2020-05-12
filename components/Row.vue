@@ -18,9 +18,10 @@
       v-show="isOpen"
       :key="index">
       <Row 
-        v-show="nextSection == item.name"
+        v-if="nextSection == item.name && item.children"
         :items="item.children"
         :last-root="`${item.name.slice(0,4) == 'ROOT' ? item.name : lastRoot}`"
+        :parent-item="item.name"
         @showTable="showTable"/>
     </div>
 
@@ -36,6 +37,10 @@ export default {
       default: () => []
     },
     lastRoot: {
+      type: String,
+      default: 'ROOT',
+    },
+    parentItem: {
       type: String,
       default: 'ROOT'
     }
@@ -55,13 +60,14 @@ export default {
      */
     toggle: function(name, isLeaf) {
       this.switcher(name);
-      if (isLeaf && this.isOpen) {
 
+      if (isLeaf && this.isOpen) {
         this.showTable({
           itemName: name,
           show: true,
           root: this.lastRoot,
-          artefactLevel: this.artefactLevel(name)
+          artefactLevel: this.artefactLevel(name),
+          parentItem: this.parentItem
         });
 
         this.isTableShowed = true;
@@ -70,7 +76,8 @@ export default {
           itemName: name,
           show: false,
           root: this.lastRoot,
-          artefactLevel: ''
+          artefactLevel: '',
+          parentItem: this.parentItem
         });
       }
       

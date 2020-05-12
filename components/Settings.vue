@@ -90,7 +90,7 @@ export default {
 .settings {
   display: flex;
   flex-direction: column;
-  width: 250px;
+  min-width: 250px;
   padding: 0px 10px 10px 10px;
   font-size: 16px;
 
@@ -169,8 +169,9 @@ select {
   
   input {
     display: inline-block;
-    font-size: 14px;
+    text-align: left;
     width: 100%;
+    font-size: 14px;
     border-image-source: linear-gradient(90deg, #000000 0%,#000000 8%, #5a5a5a 30%, #ffffff 70%);  
     border-image-slice: 1;
     border-width: 0 0 2px 0;
@@ -182,7 +183,6 @@ select {
 
   span {
     position: absolute;
-    background: #fff;
     left: 2.8em;
     color: #222222;
   }

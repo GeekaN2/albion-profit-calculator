@@ -239,8 +239,6 @@ const store = () => new Vuex.Store({
           state.journals[journal.city][root][journalName].date = normalizedJournal.date;
           state.journals[journal.city][root][journalName].marketFee = normalizedJournal.marketFee;
         }
-        
-
       })
     }
   }

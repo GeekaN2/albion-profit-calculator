@@ -260,18 +260,18 @@ export default {
           `T${tier}_${resourceName}` +
           (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : "");
         const resourceCost = this.tableData.resources[resourceFullName].price;
-        const returnPercentage = this.tableData.returnPercentage / 100;
+        const returnPercentage = this.tableData.returnPercentage;
 
         cost += Math.floor(
           resourceCost *
             this.tableData.recipe[resourceName] *
-            (1 - returnPercentage)
+            (1 - returnPercentage / 100)
         );
 
         // update tableInfo
         this.tableInfo[`T${tier}.${subtier}`].materials = {
           name: 'Materials',
-          percentage: -15.2,
+          percentage: -returnPercentage,
           price: -cost,
           date: this.tableData.resources[resourceFullName].date
         }
@@ -295,13 +295,14 @@ export default {
 
         const journalFame = 1200 * 2 ** (tier - 4);
         const journalName = `T${tier}_JOURNAL${this.tableData.root.slice(4)}`;
+        const marketFee = this.tableData.journals[journalName].marketFee;
 
         let profit = (this.tableData.journals[journalName].sellPrice - this.tableData.journals[journalName].buyPrice) * (craftFame / journalFame);
         profit = Math.floor(profit);
 
         this.$set(this.tableInfo[`T${tier}.${subtier}`], 'journals', {
           name: 'Journals',
-          percentage: 0,
+          percentage: -marketFee,
           price: profit,
           date: this.tableData.journals[journalName].date
         });
@@ -323,7 +324,6 @@ export default {
       const artefactLevel = this.tableData.artefactLevel;
       let itemValue = this.itemAndArtefactValues[`T${tier}.${subtier}`];
       if (artefactLevel.length != 0) {
-        console.log(itemValue, this.itemAndArtefactValues[`T${tier}_${artefactLevel}`]);
         itemValue += this.itemAndArtefactValues[`T${tier}_${artefactLevel}`];
       }
       

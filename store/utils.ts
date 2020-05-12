@@ -87,10 +87,44 @@ function normalizedPriceAndDate(item: ResponseModel): Item {
     }
 }
 
+/**
+ * Returns the percentage of materials returned 
+ * for profile cities
+ * @param parentItem - branch of specific items e.g. T4_MAIN_FIRESTAFF
+ * @param city - current city
+ * @returns percentage
+ */
+function getReturnMaterialsPercentage(parentItem: string, city: string) {
+    let returnMaterialsPercentage = 15.2; 
+
+    // Keywords for the category of items that the bonus is assigned to
+    const bonus: {[key: string]: string[]} = {
+        'Martlock': ['AXE', 'QUARTERSTAFF', 'FROSTSTAFF', 'SHOES_PLATE', 'OFF'],
+        'Bridgewatch': ['CROSSBOW', 'DAGGER', 'CURSEDSTAFF', 'ARMOR_PLATE', 'SHOES_CLOTH'],
+        'Lymhurst': ['SWORD', 'BOW', 'ARCANESTAFF', 'HEAD_LEATHER', 'SHOES_LEATHER'],
+        'Fort Sterling': ['HAMMER', 'SPEAR', 'HOLYSTAFF', 'HEAD_PLATE', 'ARMOR_CLOTH'],
+        'Thetford': ['MACE', 'NATURESTAFF', 'FIRESTAFF', 'ARMOR_LEATHER', 'HEAD_CLOTH']
+    };
+
+    if (bonus[city]) {
+        const categories = bonus[city];
+        
+        const addBonus = categories.some(keyword => {
+            return parentItem.indexOf(keyword) != -1;
+        });
+
+        if (addBonus) {
+            returnMaterialsPercentage = 24.8;
+        }
+    }
+    return returnMaterialsPercentage;
+}
+
 export {
     createStringOfAllTiers, 
     createStringOfAllResources, 
     createStringOfAllArtefacts,
     createStringOfAllJournals,
-    normalizedPriceAndDate
+    normalizedPriceAndDate,
+    getReturnMaterialsPercentage
 };
