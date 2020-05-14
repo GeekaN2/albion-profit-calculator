@@ -1,6 +1,6 @@
 <template>
   <div class="settings">
-    <h2>Settings</h2>
+    <h2>{{ $t('settings.settings') }}</h2>
     <div class="setting">
       <input 
         id="checkbox" 
@@ -8,7 +8,7 @@
         type="checkbox" 
         @change="$emit('changeUseJournals', useJournals)"
       >
-      <label for="checkbox">Use journals</label>
+      <label for="checkbox">{{ $t('settings.useJournals') }}</label>
     </div>
     <div 
       class="refresh" 
@@ -16,15 +16,15 @@
       <img 
         src="/images/redo-alt.svg" 
         alt >
-      <p>Update journal prices</p>
+      <p>{{ $t('settings.updateJournals') }}</p>
     </div>
     <div 
       class="refresh" 
       @click="$emit('dropStore', 'items')">
       <img 
-        src="images/redo-alt.svg" 
+        src="/images/redo-alt.svg" 
         alt >
-      <p>Update current item</p>
+      <p>{{ $t('settings.updateItems') }}</p>
     </div>
     <div 
       class="refresh" 
@@ -32,7 +32,7 @@
       <img 
         src="/images/redo-alt.svg" 
         alt >
-      <p>Update resource prices</p>
+      <p>{{ $t('settings.updateResources') }}</p>
     </div>
     <div class="input">
       <input 
@@ -40,7 +40,7 @@
         placeholder="0"
         maxlength="4"
         @change="updateFee($event.target.value)">
-      <span>% craft fee</span>
+      <span>% {{ $t('settings.craftFee') }}</span>
     </div>
     <select 
       v-model="city" 

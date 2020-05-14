@@ -6,12 +6,10 @@
       </h1>
       <h2 class="subtitle"/>
       <div class="links">
-        <a
-          href="/tree"
-          class="links__button--brown">Дерево профита</a>
-        <a
-          href="#"
-          class="links__button--purple">Таблица профита</a>
+        <nuxt-link 
+          :to="localePath('/tree')"
+          class="links__button--brown">Profit tree
+        </nuxt-link>
       </div>
     </div>
     <footer>
@@ -21,7 +19,7 @@
   </section>
 </template>
 
-<style scored lang="scss">
+<style scoped lang="scss">
 $base-brown: #583131;
 $base-purple: #583156;
 

@@ -1,7 +1,6 @@
 <template>
   <section class="container">
     <Header />
-    <!--<TreeItem :item='tree'/>-->
     <div class="wrapper">
       <Settings
         :loading-text="loadingText" 
@@ -238,10 +237,11 @@ img {
 .wrapper {
   display: flex;
   justify-content: center;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 
   &__tree {
     width: 750px;
+    margin: 0 auto;
   }
 
   &__loading {
@@ -262,7 +262,7 @@ img {
 @media (max-width: 991px) {
   .wrapper {
     &__tree {
-      width: 100%;
+      width: 500px;
 
       img {
         width: 65px;
@@ -277,8 +277,12 @@ img {
     width: 100%;
     padding: 0 10px;
 
-    &__tree img {
-      width: 60px;
+    &__tree {
+      width: 100%;
+
+      img  {
+        width: 60px;
+      }
     }
   }
 }

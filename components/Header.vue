@@ -4,12 +4,22 @@
       href="/" 
       class="header__logo">Albion profit calculator</a>
     <div>
-      <a 
-        href="/tree" 
-        class="header__link">profit tree</a>
-      <a 
-        href="#" 
-        class="header__link">profit table</a>
+      <nuxt-link 
+        :to="localePath('/tree')"
+        class="header__link">profit tree</nuxt-link>
+        
+      <nuxt-link
+        v-if="$i18n.locale !== 'en'"
+        :to="switchLocalePath('en')"
+        class="header__link">
+        EN
+      </nuxt-link>
+      <nuxt-link
+        v-if="$i18n.locale !== 'ru'"
+        :to="switchLocalePath('ru')"
+        class="header__link">
+        RU
+      </nuxt-link>
     </div>
   </div>
 </template>
