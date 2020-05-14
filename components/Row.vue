@@ -1,6 +1,6 @@
 <template>
-  <div class="wrapper">
-    <div class="images">
+  <div class="row-wrapper">
+    <div class="row-wrapper__images images">
       <div
         v-for="(item, index) in items"
         :class="{
@@ -162,7 +162,7 @@ export default {
   cursor: pointer;
 }
 
-.wrapper {
+.row-wrapper {
   display: flex;
   justify-content: center;
   flex-direction: column;

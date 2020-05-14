@@ -1,12 +1,12 @@
 <template>
   <div 
     v-if="Object.keys(tableData).length" 
-    class="table">
+    class="item-table">
     <div 
       v-for="subtier in 4"
       :class="`subtier${subtier - 1}`"
       :key="subtier"
-      class="row"
+      class="item-table__row row"
     >
       <div
         v-for="(item, name) of getRow(subtier - 1)"
@@ -377,10 +377,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.table {
+.item-table {
   margin: 0 auto;
   display: grid;
   width: 600px;
+  font-size: 16px;
 
   .subtier1 {
     background: #6afe90;
@@ -501,7 +502,7 @@ export default {
       opacity: 0;
       border-radius: 4px;
       box-shadow: 0 0 6px 0px #6a6a6a;
-      font-size: 12px;
+      font-size: 0.75em;
       text-shadow: none;
       padding: 5px;
       white-space:nowrap;
@@ -538,4 +539,19 @@ export default {
     }
   }
 }
+
+@media (max-width: 840px) {
+  .item-table {
+    width: 100%;
+    font-size: 14px;
+    padding: 0 10px;
+  }
+}
+@media (max-width: 479px) {
+  .item-table {
+    width: 100%;
+    font-size: 10px;
+  }
+}
+
 </style>

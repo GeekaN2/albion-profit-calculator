@@ -90,7 +90,7 @@ export default {
 .settings {
   display: flex;
   flex-direction: column;
-  min-width: 250px;
+  min-width: 230px;
   padding: 0px 10px 10px 10px;
   font-size: 16px;
 

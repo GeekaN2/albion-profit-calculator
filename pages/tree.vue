@@ -1,11 +1,10 @@
 <template>
   <section class="container">
-    <Header class="header" />
+    <Header />
     <!--<TreeItem :item='tree'/>-->
     <div class="wrapper">
       <Settings
         :loading-text="loadingText" 
-        class="wrapper__fixed" 
         @changeUseJournals="changeUseJournals" 
         @dropStore="dropStore"
         @changeCity="changeCity"
@@ -16,13 +15,15 @@
           :items="tree" 
           class="wrapper__tree" 
           @showTable="showTable" />
-        <Loading 
-          v-if="isTableShowed" 
-          :text="loadingText" 
-          class="wrapper__loading" />
-        <ItemTable 
-          v-if="isTableShowed" 
-          :table-data="tableData" />
+        <div class="wrapper__table">
+          <Loading 
+            v-if="isTableShowed" 
+            :text="loadingText" 
+            class="wrapper__loading" />
+          <ItemTable 
+            v-if="isTableShowed" 
+            :table-data="tableData" />
+        </div>
       </div>
     </div>
   </section>
@@ -219,11 +220,12 @@ function isObjectEmpty(obj) {
 }
 </script>
 
-<style scored lang='scss'>
+<style lang='scss'>
 $base-brown: #583131;
 $base-purple: #583156;
 
 .container {
+  font-size: 16px;
   position: relative;
   margin: 0 auto 20px auto;
   max-width: 1200px;
@@ -236,15 +238,70 @@ img {
 .wrapper {
   display: flex;
   justify-content: center;
+  padding-bottom: 20px;
 
   &__tree {
-    min-width: 800px;
+    width: 750px;
   }
 
   &__loading {
     margin-top: -5px;
   }
+
+  &__table {
+    min-height: 220px;
+  }
 }
 
+@media (max-width: 1200px) {
+  img {
+    width: 75px;
+  }
+}
 
+@media (max-width: 991px) {
+  .wrapper {
+    &__tree {
+      width: 100%;
+
+      img {
+        width: 65px;
+      }
+    }
+  }
+}
+
+@media (max-width: 840px) {
+  .wrapper {
+    flex-direction: column;
+    width: 100%;
+    padding: 0 10px;
+
+    &__tree img {
+      width: 60px;
+    }
+  }
+}
+
+@media (max-width: 479px) {
+  .container {
+    max-width: 450px;
+  }
+
+  .wrapper {
+    flex-direction: column;
+
+    &__tree {
+      width: 100%;
+    }
+
+    &__table {
+      min-height: 220px;
+    }
+  }
+
+  img {
+    width: 65px;
+  }
+}
 </style>
