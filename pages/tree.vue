@@ -14,13 +14,13 @@
           :items="tree" 
           class="wrapper__tree" 
           @showTable="showTable" />
-        <div class="wrapper__table">
+        <div 
+          v-if="isTableShowed" 
+          class="wrapper__table" >
           <Loading 
-            v-if="isTableShowed" 
             :text="loadingText" 
             class="wrapper__loading" />
           <ItemTable 
-            v-if="isTableShowed" 
             :table-data="tableData" />
         </div>
       </div>
@@ -115,7 +115,7 @@ export default {
     },
 
     fetchItemPricesWithArtefacts: async function() {
-      this.loadingText = "Loading item prices";
+      this.loadingText = "items";
 
       await this.$store.dispatch("FETCH_ITEM_PRICE", {
         itemName: this.currentItem,
@@ -127,13 +127,13 @@ export default {
      * Get resource prices for current city
      */
     fetchResourcePrices: async function() {
-      this.loadingText = "Loading resource prices";
+      this.loadingText = "resources";
 
       await this.$store.dispatch("FETCH_RESOURCE_PRICES", this.city);
     },
 
     fetchJournalPrices: async function() {
-      this.loadingText = "Loading journal prices";
+      this.loadingText = "journals";
 
       await this.$store.dispatch("FETCH_JOURNAL_PRICES", {
         location: this.city,
@@ -192,7 +192,7 @@ export default {
     },
 
     updateTableData: function() {
-      this.loadingText = "Profit calculated";
+      this.loadingText = "calculated";
       const city = this.city == "Black Market" ? "Caerleon" : this.city;
 
       this.tableData = {

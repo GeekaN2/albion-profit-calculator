@@ -6,23 +6,34 @@
     <div>
       <nuxt-link 
         :to="localePath('/tree')"
-        class="header__link">profit tree</nuxt-link>
+        class="header__link">{{ $t('tree') }}</nuxt-link>
         
       <nuxt-link
         v-if="$i18n.locale !== 'en'"
         :to="switchLocalePath('en')"
-        class="header__link">
+        class="header__link header__link--purple">
         EN
       </nuxt-link>
       <nuxt-link
         v-if="$i18n.locale !== 'ru'"
         :to="switchLocalePath('ru')"
-        class="header__link">
+        class="header__link header__link--purple">
         RU
       </nuxt-link>
     </div>
   </div>
 </template>
+
+<i18n>
+{
+  "en": {
+    "tree": "profit tree"
+  },
+  "ru": {
+    "tree": "дерево профита"
+  }
+}
+</i18n>
 
 <script>
 export default {
@@ -51,6 +62,10 @@ $base-purple: #583156;
     position: relative;
     color: $base-brown;
     white-space: nowrap;
+
+    &--purple {
+      color: $base-purple;
+    }
   }
 
   &__link:before {

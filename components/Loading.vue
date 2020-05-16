@@ -2,9 +2,26 @@
   <div 
     v-if="text.length > 0" 
     class="container">
-    <span class="container__loading">{{ text }}</span>
+    <span class="container__loading">{{ $t(text) }}</span>
   </div>
 </template>
+
+<i18n>
+{
+    "en": {
+        "items": "Loading item and artifact prices",
+        "resources": "Loading resource prices",
+        "journals": "Loading journal prices",
+        "calculated": "Profit calculated"
+    },
+    "ru": {
+        "items": "Загружем цены предметов",
+        "resources": "Загружаем цены ресурсов",
+        "journals": "Загружаем цены журналов",
+        "calculated": "Профит посчитан"
+    }
+}
+</i18n>
 
 <script>
 export default {

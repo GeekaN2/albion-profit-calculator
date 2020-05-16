@@ -52,32 +52,9 @@ module.exports = {
       {
         locales: ['en', 'ru'],
         defaultLocale: 'en',
+        vueI18nLoader: true,
         vueI18n: {
           fallbackLocale: 'en',
-          messages: {
-            en: {
-              greeting: 'Hello world!',
-              settings: {
-                settings: 'Settings',
-                useJournals: 'Use journals',
-                updateJournals: 'Update journal prices',
-                updateItems: 'Update current item',
-                updateResources: 'Update resource prices',
-                craftFee: 'craft fee'
-              }
-            },
-            ru: {
-              greeting: 'Привет мир!',
-              settings: {
-                settings: 'Настройки',
-                useJournals: 'Использовать журналы',
-                updateJournals: 'Обновить цену журналов',
-                updateItems: 'Обновить цену предметов',
-                updateResources: 'Обновить цену ресурсов',
-                craftFee: 'налог станка'
-              }
-            }
-          }
         },
         detectBrowserLanguage: {
           useCookie: true,

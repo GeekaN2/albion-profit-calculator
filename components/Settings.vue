@@ -1,6 +1,6 @@
 <template>
   <div class="settings">
-    <h2>{{ $t('settings.settings') }}</h2>
+    <h2>{{ $t('settings') }}</h2>
     <div class="setting">
       <input 
         id="checkbox" 
@@ -8,7 +8,7 @@
         type="checkbox" 
         @change="$emit('changeUseJournals', useJournals)"
       >
-      <label for="checkbox">{{ $t('settings.useJournals') }}</label>
+      <label for="checkbox">{{ $t('useJournals') }}</label>
     </div>
     <div 
       class="refresh" 
@@ -16,7 +16,7 @@
       <img 
         src="/images/redo-alt.svg" 
         alt >
-      <p>{{ $t('settings.updateJournals') }}</p>
+      <p>{{ $t('updateJournals') }}</p>
     </div>
     <div 
       class="refresh" 
@@ -24,7 +24,7 @@
       <img 
         src="/images/redo-alt.svg" 
         alt >
-      <p>{{ $t('settings.updateItems') }}</p>
+      <p>{{ $t('updateItems') }}</p>
     </div>
     <div 
       class="refresh" 
@@ -32,7 +32,7 @@
       <img 
         src="/images/redo-alt.svg" 
         alt >
-      <p>{{ $t('settings.updateResources') }}</p>
+      <p>{{ $t('updateResources') }}</p>
     </div>
     <div class="input">
       <input 
@@ -40,7 +40,7 @@
         placeholder="0"
         maxlength="4"
         @change="updateFee($event.target.value)">
-      <span>% {{ $t('settings.craftFee') }}</span>
+      <span>% {{ $t('craftFee') }}</span>
     </div>
     <select 
       v-model="city" 
@@ -57,6 +57,27 @@
     </select>
   </div>
 </template>
+
+<i18n>
+{
+  "en": {
+    "settings": "Settings",
+    "useJournals": "Use journals",
+    "updateJournals": "Update journal prices",
+    "updateItems": "Update current item",
+    "updateResources": "Update resource prices",
+    "craftFee": "craft fee"
+  },
+  "ru": {
+    "settings": "Настройки",
+    "useJournals": "Использовать журналы",
+    "updateJournals": "Обновить цену журналов",
+    "updateItems": "Обновить цену предметов",
+    "updateResources": "Обновить цену ресурсов",
+    "craftFee": "налог станка"
+  }
+}
+</i18n>
 
 <script>
 export default {

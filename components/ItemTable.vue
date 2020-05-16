@@ -41,7 +41,7 @@
                   v-if="!isObjectEmpty(tooltipRow)"
                   :key="`${infoName}:0`"
                   class="text-algin-left">
-                  {{ tooltipRow.name }} 
+                  {{ $t(tooltipRow.name) }} 
                   {{ tooltipRow.percentage ? `${tooltipRow.percentage}%` : '' }}</div>
                 <div
                   v-if="!isObjectEmpty(tooltipRow)"
@@ -66,6 +66,25 @@
     </div>
   </div>
 </template>
+
+<i18n>
+{
+  "en": {
+    "Market price": "Market price",
+    "Materials": "Materials",
+    "Artifact": "Artifact",
+    "Fee": "Fee",
+    "Journals": "Journals"
+  },
+  "ru": {
+    "Market price": "Цена на рынке",
+    "Materials": "Материалы",
+    "Artifact": "Артефакт",
+    "Fee": "Налог",
+    "Journals": "Журналы"
+  }
+}
+</i18n>
 
 <script>
 export default {
@@ -152,7 +171,7 @@ export default {
         'T8_relic': 444.5,
         'T8_avalon': 952.5,
       },
-      tableInfo: {}
+      tableInfo: {},
     }
   },
   computed: {
