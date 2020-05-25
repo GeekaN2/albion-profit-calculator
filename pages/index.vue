@@ -29,6 +29,7 @@ $base-purple: #583156;
   justify-content: center;
   align-items: center;
   text-align: center;
+  margin: 0 auto;
 }
 
 .title {

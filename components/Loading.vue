@@ -9,7 +9,7 @@
 <i18n>
 {
     "en": {
-        "items": "Loading item and artifact prices",
+        "items": "Loading item prices",
         "resources": "Loading resource prices",
         "journals": "Loading journal prices",
         "calculated": "Profit calculated"
