@@ -7,7 +7,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js project' }
+      { hid: 'description', name: 'description', content: 'Albion profit calculator' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -42,7 +42,7 @@ module.exports = {
   /**
    * Build typescript
    */
-  buildModules: ['@nuxt/typescript-build'],
+  buildModules: ['@nuxt/typescript-build', '@nuxtjs/dotenv'],
   /**
    * Modules
    */
@@ -60,8 +60,22 @@ module.exports = {
           useCookie: true,
           cookieKey: 'i18n_redirected'
         }
-      }
+      },
+      '@nuxtjs/dotenv',
+      '@nuxtjs/axios',
+      '@nuxtjs/auth'
     ]
-  ]
+  ],
+  serverMiddleware: [
+    //'~/api/logger'
+    // body-parser middleware
+    // Api middleware
+    // We add /api/login & /api/logout routes
+    { path: '/api', handler: '~/api/logger.js' },
+  ],
+  plugins: [{ 
+    src: "@/plugins/vClickOutside", 
+    ssr: false 
+  }]
 }
 

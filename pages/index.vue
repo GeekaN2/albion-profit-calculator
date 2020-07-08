@@ -1,17 +1,35 @@
 <template>
-  <section class="container">
+  <section class="main_page_container main_page">
     <div>
-      <h1 class="title">
+      <h1 class="main_page__title">
         Albion Profit Calculator
       </h1>
-      <h2 class="subtitle"/>
-      <div class="links">
+      <h2 class="main_page__subtitle"/>
+      <div class="main_page__links">
         <nuxt-link 
           :to="localePath('/tree')"
-          class="links__button--brown">Profit tree
+          class="links__button--brown button">Profit tree
         </nuxt-link>
+        <span
+          class="links__button--brown button"
+          @click="showModalAuth"
+        >Login
+        </span>
+        <span
+          class="links__button--brown button"
+          @click="showModalRegister"
+        >Register
+        </span>
       </div>
     </div>
+    <UserAuthForm 
+      v-if="isModalAuthShowed" 
+      @hide-modal-auth="hideModalAuth"
+    />
+    <UserRegisterForm
+      v-if="isModalRegisterShowed"
+      @hide-modal-register="hideModalRegister"
+    />
     <footer>
       <a href="https://github.com/GeekaN2">&copy; GeekaN</a>
       <a href="https://www.albion-online-data.com/">Powered by Albion Online Data Project</a>
@@ -19,28 +37,63 @@
   </section>
 </template>
 
-<style scoped lang="scss">
+<script>
+import UserAuthForm from '~/components/UserAuthForm';
+import UserRegisterForm from '~/components/UserRegisterForm';
+
+export default {
+  name: 'MainPage',
+  components: {
+    UserAuthForm,
+    UserRegisterForm
+  },
+  data() {
+    return {
+      isModalAuthShowed: false,
+      isModalRegisterShowed: false,
+    }
+  },
+  methods: {
+    showModalAuth() {
+      this.isModalAuthShowed = true;
+    },
+    hideModalAuth() {
+      this.isModalAuthShowed = false;
+    },
+    showModalRegister() {
+      this.isModalRegisterShowed = true;
+    },
+    hideModalRegister() {
+      this.isModalRegisterShowed = false;
+    }
+  }
+}
+</script>
+
+<style lang="scss">
 $base-brown: #583131;
 $base-purple: #583156;
 
-.container {
+.main_page_container {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   margin: 0 auto;
+  width: 100%;
 }
 
-.title {
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: $base-brown;
-  letter-spacing: 1px;
-}
+.main_page {
+  &__title {
+    display: block;
+    font-weight: 300;
+    font-size: 80px;
+    color: $base-brown;
+    letter-spacing: 1px;
+  }
 
-.subtitle {
+  &__subtitle {
   font-weight: 300;
   font-size: 42px;
   color: #526488;
@@ -76,6 +129,7 @@ $base-purple: #583156;
     background: $base-brown;
   }
 }
+}
 
 footer {
   position: absolute;
@@ -88,5 +142,9 @@ footer {
   a {
     color: $base-brown;
   }
+}
+
+.button {
+  cursor: pointer;
 }
 </style>

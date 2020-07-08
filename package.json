@@ -13,16 +13,22 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "@hawk.so/javascript": "^2.4.0",
     "@nuxt/typescript-build": "^0.6.6",
+    "@nuxtjs/auth": "^4.9.1",
+    "@nuxtjs/axios": "^5.11.0",
     "axios": "^0.19.2",
+    "express": "^4.17.1",
     "minireset.css": "^0.0.6",
     "node-sass": "^4.14.0",
     "nuxt": "^2.0.0",
     "nuxt-i18n": "^6.11.1",
     "sass-loader": "^8.0.2",
-    "style-loader": "^1.2.0"
+    "style-loader": "^1.2.0",
+    "v-click-outside": "^3.0.1"
   },
   "devDependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^4.19.1",
     "eslint-friendly-formatter": "^4.0.1",
