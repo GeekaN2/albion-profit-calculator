@@ -188,6 +188,8 @@ footer {
 }
 
 .button {
+  border: none;
+  background: none;
   cursor: pointer;
   color: $base-purple;
 
