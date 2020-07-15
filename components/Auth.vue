@@ -12,6 +12,9 @@
           @click="hideModal"
         >
       </div>
+      <p class="modal_form__error">
+        Erorr
+      </p>
       <input 
         v-model="nickname"
         class="modal_form__input"   
@@ -27,7 +30,9 @@
         required
       >
       <button 
-        class="modal_form__button">
+        class="modal_form__button"
+        @click="login"
+      >
         Login
       </button>
     </div>
@@ -46,12 +51,28 @@ export default {
   data() {
     return {
       nickname: '',
-      password: ''
+      password: '',
+      error: ''
     }
   },
   methods: {
     hideModal() {
       this.$emit('hide-modal-auth');
+    },
+    async login() {
+      try {
+        const response = await this.$auth.loginWith('local', {
+          data: {
+            nickname: this.nickname,
+            password: this.password
+          }
+        });
+        console.log(response);
+
+        this.$router.push(this.localePath('/tree'));
+      } catch(error) {
+        this.error = error;
+      }
     }
   }
 };
@@ -82,6 +103,11 @@ export default {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+  }
+
+  &__error {
+    margin-bottom: 10px;
+    color: #ad0404;
   }
 
   &__input {

@@ -47,7 +47,7 @@ module.exports = {
    * Modules
    */
   modules: [
-    [
+    [ 
       'nuxt-i18n',
       {
         locales: ['en', 'ru'],
@@ -60,11 +60,11 @@ module.exports = {
           useCookie: true,
           cookieKey: 'i18n_redirected'
         }
-      },
-      '@nuxtjs/dotenv',
-      '@nuxtjs/axios',
-      '@nuxtjs/auth'
-    ]
+      }
+    ],
+    ['@nuxtjs/dotenv'],
+    ['@nuxtjs/axios'],
+    ['@nuxtjs/auth-next']
   ],
   serverMiddleware: [
     //'~/api/logger'
@@ -76,6 +76,40 @@ module.exports = {
   plugins: [{ 
     src: "@/plugins/vClickOutside", 
     ssr: false 
-  }]
+  }],
+
+  axios: {
+    baseURL: 'http://127.0.0.1:4000/'
+  },
+
+  auth: {
+    localStorage: false,
+    strategies: {
+      local: {
+        scheme: 'refresh',
+        token: {
+          property: 'token',
+          maxAge: 60 * 15,
+          // type: 'Bearer'
+        },
+        refreshToken: {
+          property: 'refreshToken',
+          data: 'refreshToken',
+          maxAge: 60 * 60 * 24 * 30
+        },
+        user: {
+          property: false,
+          autoFetch: true
+        },
+        endpoints: {
+          login: { url: 'auth/login', method: 'post' },
+          refresh: { url: 'auth/refresh', method: 'post' },
+          user: { url: 'user', method: 'post' },
+          logout: { url: 'auth/logout', method: 'post' }
+        },
+        autoLogout: false
+      }
+    }
+  }
 }
 

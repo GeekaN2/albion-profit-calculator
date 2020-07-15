@@ -38,6 +38,7 @@ import { getReturnMaterialsPercentage } from "~/store/utils";
 
 export default {
   name: 'Tree',
+  middleware: ['authenticated'],
   components: {
     Header,
     Row,
@@ -69,7 +70,7 @@ export default {
   },
   created: async function() {
     await this.$store.dispatch("FETCH_STATE");
-    this.tree = this.$store.state.tree;
+    this.tree = this.$store.state.tree.tree;
   },
   methods: {
     /**
@@ -145,20 +146,20 @@ export default {
       const normalCity = this.city == "Black Market" ? "Caerleon" : this.city;
 
       if (
-        !this.$store.state.prices[this.currentItem] ||
-        !this.$store.state.prices[this.currentItem][this.city] &&
+        !this.$store.state.tree.prices[this.currentItem] ||
+        !this.$store.state.tree.prices[this.currentItem][this.city] &&
         this.currentItem
       ) {
         await this.fetchItemPricesWithArtefacts();
       }
 
-      if (isObjectEmpty(this.$store.state.resources[normalCity])) {
+      if (isObjectEmpty(this.$store.state.tree.resources[normalCity])) {
         await this.fetchResourcePrices();
       }
 
       if (
         this.useJournals &&
-        !this.$store.state.journals[normalCity][this.root] &&
+        !this.$store.state.tree.journals[normalCity][this.root] &&
         this.root.slice(0, 5) == "ROOT_"
       ) {
         await this.fetchJournalPrices();
@@ -174,13 +175,13 @@ export default {
       
       switch (data) {
         case "items":
-          this.$store.state.prices[this.currentItem] = {};
+          this.$store.state.tree.prices[this.currentItem] = {};
           break;
         case "resources":
-          this.$store.state.resources[normalCity] = {};
+          this.$store.state.tree.resources[normalCity] = {};
           break;
         case "journals":
-          this.$store.state.journals[normalCity] = {};
+          this.$store.state.tree.journals[normalCity] = {};
           break;
       }
 
@@ -196,14 +197,14 @@ export default {
       const city = this.city == "Black Market" ? "Caerleon" : this.city;
 
       this.tableData = {
-        items: this.$store.state.prices[this.currentItem][this.city],
-        resources: this.$store.state.resources[city],
-        artefacts: this.$store.state.artefacts[city][this.currentItem] || {},
+        items: this.$store.state.tree.prices[this.currentItem][this.city],
+        resources: this.$store.state.tree.resources[city],
+        artefacts: this.$store.state.tree.artefacts[city][this.currentItem] || {},
         itemName: this.currentItem,
-        recipe: this.$store.state.recipes[this.currentItem],
+        recipe: this.$store.state.tree.recipes[this.currentItem],
         useJournals: this.useJournals,
         journals: this.useJournals
-          ? this.$store.state.journals[city][this.root]
+          ? this.$store.state.tree.journals[city][this.root]
           : {},
         root: this.root,
         returnPercentage: this.returnPercentage,

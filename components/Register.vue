@@ -35,7 +35,9 @@
       >
       <p class="modal_form__description">To get register token write me on Discord <span class="underline_text">GeekaN#8674</span></p>
       <button 
-        class="modal_form__button">
+        class="modal_form__button"
+        @click="register"
+      >
         Register
       </button>
     </div>
@@ -55,12 +57,33 @@ export default {
     return {
       nickname: '',
       password: '',
-      token: ''
+      token: '',
+      error: ''
     }
   },
   methods: {
     hideModal() {
       this.$emit('hide-modal-register');
+    },
+    async register() {
+      try {
+        const response = await this.$axios.$post('register', {
+          nickname: this.nickname,
+          password: this.password,
+          registerToken: this.token
+        });
+
+        await this.$auth.loginWith('local', {
+          data: {
+            nickname: this.nickname,
+            password: this.password
+          },
+        })
+
+        this.$router.push(this.localePath('/tree'));
+      } catch (e) {
+        this.error = e;
+      }
     }
   }
 };

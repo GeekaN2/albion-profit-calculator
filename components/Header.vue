@@ -1,39 +1,29 @@
 <template>
   <div class="header">
-    <a 
-      href="/" 
-      class="header__logo">Albion profit calculator</a>
+    <nuxt-link 
+      :to="localePath('/')"
+      class="header__logo">
+      Albion profit calculator
+    </nuxt-link >
     <div>
-      <nuxt-link 
-        :to="localePath('/tree')"
-        class="header__link">{{ $t('tree') }}</nuxt-link>
-        
+      <span 
+        class="header__user"
+      >{{ $auth.user.nickname }}</span>
       <nuxt-link
-        v-if="$i18n.locale !== 'en'"
-        :to="switchLocalePath('en')"
-        class="header__link header__link--purple">
-        EN
-      </nuxt-link>
-      <nuxt-link
-        v-if="$i18n.locale !== 'ru'"
+        :class="{
+          'header__link--underline': $i18n.locale === 'ru'
+        }"
         :to="switchLocalePath('ru')"
-        class="header__link header__link--purple">
-        RU
-      </nuxt-link>
+        class="header__link header__link--purple">RU</nuxt-link>
+      <nuxt-link
+        :class="{
+          'header__link--underline': $i18n.locale === 'en'
+        }"
+        :to="switchLocalePath('en')"
+        class="header__link header__link--purple">EN</nuxt-link>
     </div>
   </div>
 </template>
-
-<i18n>
-{
-  "en": {
-    "tree": "profit tree"
-  },
-  "ru": {
-    "tree": "дерево профита"
-  }
-}
-</i18n>
 
 <script>
 export default {
@@ -56,9 +46,14 @@ $base-purple: #583156;
   &__logo {
     color: $base-brown;
   }
+  
+  &__user {
+    margin-right: 20px;
+    color: $base-brown;
+  }
 
   &__link {
-    margin-left: 50px;
+    margin-left: 5px;
     position: relative;
     color: $base-brown;
     white-space: nowrap;
@@ -66,23 +61,10 @@ $base-purple: #583156;
     &--purple {
       color: $base-purple;
     }
-  }
 
-  &__link:before {
-    content: "";
-    border-bottom: 2px solid $base-brown;
-    position: absolute;
-    right: 51%;
-    left: 51%;
-    bottom: -3px;
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0, 0.98, 0.51, 0.93);
-    transition-duration: 200ms;
-  }
-
-  &__link:hover:before {
-    left: 0%;
-    right: 0%;
+    &--underline {
+      text-decoration: underline;
+    }
   }
 }
 </style>

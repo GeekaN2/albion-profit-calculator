@@ -7,45 +7,85 @@
       <h2 class="main_page__subtitle"/>
       <div class="main_page__links">
         <nuxt-link 
+          v-if="$auth.loggedIn"
           :to="localePath('/tree')"
-          class="links__button--brown button">Profit tree
+          class="links__button--brown button">{{ $t('tree') }}
         </nuxt-link>
         <span
+          v-if="$auth.loggedIn"
           class="links__button--brown button"
-          @click="showModalAuth"
-        >Login
+          @click="logout"
+        >{{ $t('logout') }}
         </span>
         <span
+          v-if="!$auth.loggedIn"
+          class="links__button--brown button"
+          @click="showModalAuth"
+        >{{ $t('login') }}
+        </span>
+        <span
+          v-if="!$auth.loggedIn"
           class="links__button--brown button"
           @click="showModalRegister"
-        >Register
+        >{{ $t('register') }}
         </span>
       </div>
     </div>
-    <UserAuthForm 
+    <Auth 
       v-if="isModalAuthShowed" 
       @hide-modal-auth="hideModalAuth"
     />
-    <UserRegisterForm
+    <Register
       v-if="isModalRegisterShowed"
       @hide-modal-register="hideModalRegister"
     />
     <footer>
       <a href="https://github.com/GeekaN2">&copy; GeekaN</a>
       <a href="https://www.albion-online-data.com/">Powered by Albion Online Data Project</a>
+      <span>
+        <nuxt-link
+          :class="{
+            'button__underline': $i18n.locale === 'ru'
+          }"
+          :to="switchLocalePath('ru')"
+          class="button">RU</nuxt-link>
+        <nuxt-link
+          :class="{
+            'button__underline': $i18n.locale === 'en'
+          }"
+          :to="switchLocalePath('en')"
+          class="button">EN</nuxt-link>
+      </span>
     </footer>
   </section>
 </template>
 
+<i18n>
+{
+  "en": {
+    "tree": "Profit tree",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout"
+  },
+  "ru": {
+    "tree": "Дерево профита",
+    "login": "Войти",
+    "register": "Зарегистрироваться",
+    "logout": "Выйти"
+  }
+}
+</i18n>
+
 <script>
-import UserAuthForm from '~/components/UserAuthForm';
-import UserRegisterForm from '~/components/UserRegisterForm';
+import Auth from '~/components/Auth';
+import Register from '~/components/Register';
 
 export default {
   name: 'MainPage',
   components: {
-    UserAuthForm,
-    UserRegisterForm
+    Auth,
+    Register
   },
   data() {
     return {
@@ -65,6 +105,9 @@ export default {
     },
     hideModalRegister() {
       this.isModalRegisterShowed = false;
+    },
+    async logout() {
+      await this.$auth.logout('local');
     }
   }
 }
@@ -146,5 +189,10 @@ footer {
 
 .button {
   cursor: pointer;
+  color: $base-purple;
+
+  &__underline {
+    text-decoration: underline;
+  }
 }
 </style>

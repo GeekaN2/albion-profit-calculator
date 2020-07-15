@@ -3,6 +3,9 @@ import {normalizedPriceAndDate} from '../utils'
 import {ResponseModel, RootState, Item} from '../typeDefs'
 
 export const mutations: MutationTree<RootState> = {
+  /**
+   * Set json files data into state
+   */
   SET_STATE(state, { tree, recipes }) {
     state.tree = tree;
     state.recipes = recipes;
@@ -51,6 +54,7 @@ export const mutations: MutationTree<RootState> = {
       }
     })
   },
+
   /**
    * Set artefact prices for current location and item
    * @param state - vuex state
