@@ -1,11 +1,19 @@
 /**
+ * Main item model
+ */
+export interface Item {
+    price: number,
+    date: string, 
+    marketFee?: number
+}
+
+/**
  * city -> all_item_prices
  */
 export interface Prices {
     [key: string]: {
         [key: string]: {
-            price: number
-            date: string
+            [key: string]: Item
         }
     }
 }
@@ -26,9 +34,7 @@ export interface ResponseModel {
 
 export interface RootState {
     tree: any;
-    prices: {
-        [key: string]: Prices
-    };
+    prices: Prices
     resources: Resources;
     artefacts: Artefacts;
     recipes: Recipes;
@@ -41,7 +47,8 @@ export interface RootState {
 export interface Resources {
     [key: string]: {
         [key: string]: {
-            price: number
+            price: number,
+            date: string
         }
     }
 }
@@ -53,7 +60,8 @@ export interface Artefacts {
     [key: string]: {
         [key: string]: {
             [key: string]: {
-                price: number
+                price: number,
+                date: string
             }
         }
     }
@@ -79,7 +87,9 @@ export interface Journals {
         [key: string]: {
             [key: string]: {
                 buyPrice: number,
-                sellPrice: number
+                sellPrice: number,
+                date: string,
+                marketFee?: number
             }
         }
     }

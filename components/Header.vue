@@ -1,23 +1,64 @@
 <template>
   <div class="header">
-    <a 
-      href="/" 
-      class="header__logo">Albion profit calculator</a>
-    <div>
+    <div class="header__left">
+      <nuxt-link 
+        :to="localePath('/')"
+        class="header__logo">
+        Albion profit calculator
+      </nuxt-link>
       <a 
-        href="/tree" 
-        class="header__link">profit tree</a>
-      <a 
-        href="#" 
-        class="header__link">profit table</a>
+        :title="$t('support')"
+        href="https://patreon.com/geekan"
+        target="_blank"
+      >
+        <img 
+          class="header__patreon" 
+          src="/images/patreon.svg">
+      </a>
+    </div>
+    <div class="header__wrapper">
+      <nuxt-link
+        :class="{
+          'header__link--underline': $i18n.locale === 'ru'
+        }"
+        :to="switchLocalePath('ru')"
+        class="header__link header__link--purple">RU</nuxt-link>
+      <nuxt-link
+        :class="{
+          'header__link--underline': $i18n.locale === 'en'
+        }"
+        :to="switchLocalePath('en')"
+        class="header__link header__link--purple">EN</nuxt-link>
+      <span 
+        class="header__user_nickname">{{ $auth.user.nickname }}</span>
+      <img
+        class="logout_button"
+        src="/images/exit.svg" 
+        @click="logout">
     </div>
   </div>
 </template>
 
+<i18n>
+{
+  "en": {
+    "support": "Support me on patreon :)"
+  },
+  "ru": {
+    "support": "Поддержи меня на патреоне :)"
+  }
+}
+</i18n>
+
 <script>
 export default {
-    name: 'Header'
-}
+  name: "Header",
+  methods: {
+    logout() {
+      this.$auth.logout('local');
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -25,38 +66,53 @@ $base-brown: #583131;
 $base-purple: #583156;
 
 .header {
-    padding: 15px;
-    margin-bottom: 40px;
-    font-size: 20px;
-    width: 100%;
+  padding: 15px;
+  margin-bottom: 40px;
+  font-size: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  &__logo {
+    color: $base-brown;
+  }
+
+  &__patreon {
+    width: 14px;
+    margin-left: 10px;
+  }
+
+  &__wrapper {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+  }
 
-    &__logo {
-        color: $base-brown;
+  &__user_nickname {
+    display: inline-block;
+    margin-left: 20px;
+    margin-right: 5px;
+    color: $base-brown;
+  }
+
+  &__link {
+    margin-right: 5px;
+    position: relative;
+    color: $base-brown;
+    white-space: nowrap;
+
+    &--purple {
+      color: $base-purple;
     }
 
-    &__link {
-        margin-left: 50px;
-        position: relative;
-        color: $base-brown;
+    &--underline {
+      text-decoration: underline;
     }
+  }
+}
 
-    &__link:before {
-        content: '';
-        border-bottom: 2px solid $base-brown;
-        position: absolute;
-        right: 51%;
-        left: 51%;
-        bottom: -5px;
-        transition-property: all;
-        transition-timing-function: cubic-bezier(0, 0.98, 0.51, 0.93);
-        transition-duration: 200ms;
-    }
-
-    &__link:hover:before {
-        left: 0%;
-        right: 0%;
-    }
+.logout_button {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
 </style>
