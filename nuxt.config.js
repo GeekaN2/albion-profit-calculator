@@ -104,7 +104,7 @@ module.exports = {
         endpoints: {
           login: { url: 'auth/login', method: 'post' },
           refresh: { url: 'auth/refresh', method: 'post' },
-          user: { url: 'user', method: 'post' },
+          user: { url: 'user', method: 'get' },
           logout: { url: 'auth/logout', method: 'post' }
         },
         autoLogout: false
