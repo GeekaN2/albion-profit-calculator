@@ -1,10 +1,21 @@
 <template>
   <div class="header">
-    <nuxt-link 
-      :to="localePath('/')"
-      class="header__logo">
-      Albion profit calculator
-    </nuxt-link >
+    <div class="header__left">
+      <nuxt-link 
+        :to="localePath('/')"
+        class="header__logo">
+        Albion profit calculator
+      </nuxt-link>
+      <a 
+        :title="$t('support')"
+        href="https://patreon.com/geekan"
+        target="_blank"
+      >
+        <img 
+          class="header__patreon" 
+          src="/images/patreon.svg">
+      </a>
+    </div>
     <div class="header__wrapper">
       <nuxt-link
         :class="{
@@ -27,6 +38,17 @@
     </div>
   </div>
 </template>
+
+<i18n>
+{
+  "en": {
+    "support": "Support me on patreon :)"
+  },
+  "ru": {
+    "support": "Поддержи меня на патреоне :)"
+  }
+}
+</i18n>
 
 <script>
 export default {
@@ -53,6 +75,11 @@ $base-purple: #583156;
 
   &__logo {
     color: $base-brown;
+  }
+
+  &__patreon {
+    width: 14px;
+    margin-left: 10px;
   }
 
   &__wrapper {

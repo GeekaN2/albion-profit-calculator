@@ -33,7 +33,11 @@
             class="item__warnings__info"
             src="/images/info.svg" 
             alt="i">
-          <div class="item__warnings__tooltip">
+          <div 
+            :class="[
+              'item__warnings__tooltip', 
+              `tooltip--tier${name.slice(1, 2)}`]"
+          >
             <div class="item__warnings__tooltip__table">
               <template
                 v-for="(tooltipRow, infoName) in tableInfo[createName(name, subtier)]">  
@@ -397,6 +401,7 @@ export default {
 
 <style scoped lang="scss">
 .item-table {
+  padding: 0 10px;
   margin: 0 auto;
   display: grid;
   width: 600px;
@@ -543,7 +548,6 @@ export default {
         grid-template-columns: 3fr 3fr 1fr;
         text-align: right;
         grid-gap: 5px 10px;
-
       }
     }
 
@@ -559,17 +563,45 @@ export default {
   }
 }
 
+.tooltip {
+  &--tier8 {
+    transform: translateX(10%);
+
+    &:after {
+      right: calc(10% - 5px);
+    }
+  }
+}
+
 @media (max-width: 840px) {
   .item-table {
     width: 100%;
     font-size: 14px;
     padding: 0 10px;
   }
+
+  .item__warnings__icon {
+    top: 6px; 
+    padding: 1px 0;
+    width: 9px;
+  }
+
+  .item__warnings__info {
+    width: 9px;
+    height: 9px;
+  }
+
 }
 @media (max-width: 479px) {
   .item-table {
     width: 100%;
     font-size: 10px;
+  }
+
+  .item__warnings__icon {
+    top: 6px; 
+    padding: 1px 0;
+    width: 7px;
   }
 }
 
