@@ -75,6 +75,7 @@ export default {
   methods: {
     /**
      * Show or hide table for selected item
+     * 
      * @param itemName - name of selected item
      * @param show - hides or shows the table
      */
@@ -94,7 +95,9 @@ export default {
     },
 
     /**
-     * @param useJournals - use or no
+     * Checkbox
+     * 
+     * @param {boolean} useJournals - use or no
      */
     changeUseJournals: function(useJournals) {
       this.useJournals = useJournals;
@@ -105,6 +108,8 @@ export default {
     },
 
     /**
+     * Change city method
+     * 
      * @param city
      */
     changeCity: function(city) {
