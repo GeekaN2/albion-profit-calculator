@@ -1,6 +1,11 @@
-import {ResponseModel, Item} from './typeDefs'
+import { ResponseModel, Item } from './typeDefs'
 
-function createStringOfAllTiers(itemName: string) {
+/**
+ * Creates a string to request for items of all tiers and subtiers
+ * 
+ * @param itemName - item name: T4_2H_NATURESTAFF_KEEPER etc.
+ */
+export function createStringOfAllItems(itemName: string): string {
     let allNames = '';
 
     for (let tier = 4; tier <= 8; tier++) {
@@ -12,7 +17,13 @@ function createStringOfAllTiers(itemName: string) {
     return allNames.slice(0, -1);
 }
 
-function createStringOfAllResources(resource: string) {
+/**
+ * Creates a string to request for materials of all tiers and subtiers
+ * 
+ * @param resource - basic resource: PLANKS, CLOTH etc.
+ * @returns string with all tiers and subtiers for materials
+ */
+export function createStringOfAllResources(resource: string): string {
     let allNames = '';
 
     for (let tier = 4; tier <= 8; tier++) {
@@ -24,20 +35,29 @@ function createStringOfAllResources(resource: string) {
     return allNames.slice(0, -1);
 }
 
-function createStringOfAllArtefacts(itemName: string) {
+/**
+ * Creates a string to request for artefacts of all tiers
+ * 
+ * @param itemName - artefact item name: T4_2H_NATURESTAFF_KEEPER etc.
+ * @returns string with all tiers for artefacts
+ */
+export function createStringOfAllArtefacts(itemName: string) {
     let allNames = '';
 
     for (let tier = 4; tier <= 8; tier++) {
         allNames = allNames + `T${tier}_ARTEFACT${itemName.slice(2)},`;
     }
+
     return allNames.slice(0, -1);
 }
 
 /**
+ * Creates a string to request for empty and full journals of all tiers and subtiers
  * 
- * @param {string} root 
+ * @param root - journals branch: ROOT_WARRIOR etc.
+ * @returns string with all tiers and subtiers for empty and full journals
  */
-function createStringOfAllJournals(root: string) {
+export function createStringOfAllJournals(root: string): string {
     let allNames = '';
 
     for (let tier = 4; tier <= 8; tier++) {
@@ -50,9 +70,10 @@ function createStringOfAllJournals(root: string) {
 
 /**
  * Minimum price from sales orders or maximum price from purchase orders
+ * 
  * @param {ResponseModel} item 
  */
-function normalizedPriceAndDate(item: ResponseModel): Item {
+export function normalizedPriceAndDate(item: ResponseModel): Item {
     if (item.sell_price_min != 0 && item.buy_price_max == 0) {
         return {
             price: item.sell_price_min,
@@ -90,11 +111,12 @@ function normalizedPriceAndDate(item: ResponseModel): Item {
 /**
  * Returns the percentage of materials returned 
  * for profile cities
- * @param parentItem - branch of specific items e.g. T4_MAIN_FIRESTAFF
+ * 
+ * @param parentItem - branch of specific items: T4_MAIN_FIRESTAFF etc.
  * @param city - current city
  * @returns percentage
  */
-function getReturnMaterialsPercentage(parentItem: string, city: string) {
+export function getReturnMaterialsPercentage(parentItem: string, city: string): number {
     let returnMaterialsPercentage = 15.2; 
 
     // Keywords for the category of items that the bonus is assigned to
@@ -110,7 +132,7 @@ function getReturnMaterialsPercentage(parentItem: string, city: string) {
         const categories = bonus[city];
         
         const addBonus = categories.some(keyword => {
-            return parentItem.indexOf(keyword) != -1;
+            return parentItem.includes(keyword);
         });
 
         if (addBonus) {
@@ -119,12 +141,3 @@ function getReturnMaterialsPercentage(parentItem: string, city: string) {
     }
     return returnMaterialsPercentage;
 }
-
-export {
-    createStringOfAllTiers, 
-    createStringOfAllResources, 
-    createStringOfAllArtefacts,
-    createStringOfAllJournals,
-    normalizedPriceAndDate,
-    getReturnMaterialsPercentage
-};

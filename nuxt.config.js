@@ -66,20 +66,13 @@ module.exports = {
     ['@nuxtjs/axios'],
     ['@nuxtjs/auth-next']
   ],
-  serverMiddleware: [
-    //'~/api/logger'
-    // body-parser middleware
-    // Api middleware
-    // We add /api/login & /api/logout routes
-    { path: '/api', handler: '~/api/logger.js' },
-  ],
   plugins: [{ 
     src: "@/plugins/vClickOutside", 
     ssr: false 
   }],
 
   axios: {
-    baseURL: 'http://127.0.0.1:4000/'
+    baseURL: 'http://127.0.0.1:4000/api/'
   },
 
   auth: {

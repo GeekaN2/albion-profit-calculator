@@ -1,11 +1,14 @@
 import Vue from 'vue'
-import Vuex, {StoreOptions} from 'vuex'
+import Vuex, { StoreOptions } from 'vuex'
 import axios from 'axios'
-import {RootState} from './typeDefs'
+import { RootState } from './typeDefs'
 import treeModule from './profit-tree';
 
 const store: StoreOptions<RootState> ={
   modules: {
+    /**
+     * Profit tree module
+     */
     tree: treeModule
   }
 };

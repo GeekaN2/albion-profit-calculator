@@ -1,10 +1,14 @@
-import {MutationTree} from 'vuex'
-import {normalizedPriceAndDate} from '../utils'
-import {ResponseModel, RootState, Item} from '../typeDefs'
+import { MutationTree } from 'vuex'
+import { normalizedPriceAndDate } from '../utils'
+import { ResponseModel, RootState, Item } from '../typeDefs'
 
 export const mutations: MutationTree<RootState> = {
   /**
    * Set json files data into state
+   * 
+   * @param state - vuex state
+   * @param tree - tree structure of items
+   * @param recipes - recipes of all items
    */
   SET_STATE(state, { tree, recipes }) {
     state.tree = tree;
@@ -12,6 +16,7 @@ export const mutations: MutationTree<RootState> = {
   },
 
   /**
+   * Set item prices to state
    * 
    * @param state - vuex state
    * @param baseItem - t4 item of the section: T4_SHOES_PLATE_SET1 etc.
@@ -19,10 +24,10 @@ export const mutations: MutationTree<RootState> = {
    * @param data - api response
    */
   SET_ITEM_PRICE(state, { baseItem, location, data }) {
-
     if (!state.prices[baseItem]) {
       state.prices[baseItem] = {};
     }
+
     state.prices[baseItem][location] = {};
 
     data.forEach((item: ResponseModel) => {
@@ -36,6 +41,7 @@ export const mutations: MutationTree<RootState> = {
 
       const currentPrice = state.prices[baseItem][location][item.item_id];
       let newPrice: Item = normalizedPriceAndDate(item);
+
       newPrice = newPrice.price >= currentPrice.price ? newPrice : currentPrice;
       state.prices[baseItem][location][item.item_id] = newPrice;
     });
@@ -43,6 +49,7 @@ export const mutations: MutationTree<RootState> = {
 
   /**
    * Set resource prices to state
+   * 
    * @param state - vuex state
    * @param data - api response
    */
@@ -57,6 +64,7 @@ export const mutations: MutationTree<RootState> = {
 
   /**
    * Set artefact prices for current location and item
+   * 
    * @param state - vuex state
    * @param data - api response
    * @param itemName - t4 item name: T4_SHOES_PLATE_SET1 etc.
@@ -75,10 +83,11 @@ export const mutations: MutationTree<RootState> = {
   },
 
   /**
+   * Set prices of full and empty journals
    * 
-   * @param state 
+   * @param state - vuex state
    * @param data - api response
-   * @param root - journal branch: 'ROOT_WARRIOR' etc. 
+   * @param root - journal branch: ROOT_HUNTER etc. 
    */
   SET_JOURNAL_PRICES(state, { data, root }) {
     data.forEach((journal: ResponseModel) => {
@@ -102,6 +111,7 @@ export const mutations: MutationTree<RootState> = {
         state.journals[journal.city][root][journalName].date = journal.sell_price_min_date;
       } else {
         const normalizedJournal = normalizedPriceAndDate(journal);
+
         state.journals[journal.city][root][journalName].sellPrice = normalizedJournal.price;
         state.journals[journal.city][root][journalName].date = normalizedJournal.date;
         state.journals[journal.city][root][journalName].marketFee = normalizedJournal.marketFee;

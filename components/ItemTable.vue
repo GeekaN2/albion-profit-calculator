@@ -98,23 +98,32 @@ export default {
      * Format the price for the convenience
      * @param {number} price - number for formatting
      */
-    formatPrice: function(price, infoName) {
+    formatPrice(price, infoName) {
       if (infoName == 'journals' && price > 0) {
         price = '+' + price;
       }
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
 
-    formatDate: function(date) {
+    /**
+     * Add h(hours) or d(days) to date
+     * 
+     * @param {string} date - timestamp
+     */
+    formatDate(date) {
       if (date.length == 0) {
         return '-';
       }
+
       date = new Date(date);
+
       let lastCheckInHours = Math.floor((Date.now() - date.getTime() + new Date().getTimezoneOffset() * 60000 ) / 3600000);
       let lastCheckInDays = Math.floor(lastCheckInHours / 24);
+
       if (lastCheckInDays > 100) {
         return '∞';
       }
+
       return lastCheckInHours < 24 ? `${lastCheckInHours}h` : `${Math.floor(lastCheckInHours / 24)}d`;
     }
   },
@@ -126,6 +135,9 @@ export default {
   },
   data() {
     return {
+      /**
+       * Amount of fame per unit of material
+       */
       materialsBaseFame: {
         'T4': 22.5,
         'T5': 90,
@@ -133,6 +145,10 @@ export default {
         'T7': 645,
         'T8': 1395,
       },
+
+      /**
+       * Craft bench fee per unit of material and artefact
+       */
       itemAndArtefactValues: {
         'T4.0': 14,
         'T4.1': 30,
@@ -179,7 +195,10 @@ export default {
     }
   },
   computed: {
-    amountOfMaterials: function() {
+    /**
+     * Total amount of required materials
+     */
+    amountOfMaterials() {
       let amountOfMaterials = 0;
 
       for (let material in this.tableData.recipe) {
@@ -197,16 +216,26 @@ export default {
     }
   },
   methods: {
-    createName: function(name, subtier){
-      const str = `T${name.slice(1, 2)}.${subtier - 1}`;  
-      return str;
+    /**
+     * Create string item tier and subtier
+     * 
+     * @param {string} name - item name
+     * @param {number} subtier - item subtier
+     * @returns {string}
+     */
+    createName(name, subtier) {
+      const str = `T${name.slice(1, 2)}.${subtier - 1}`; 
 
+      return str;
     },
+
     /**
      * Calculate t4-t8 item prices with current subtier
-     * @param subtier - items subtier
+     * 
+     * @param {number} subtier - item subtier
+     * @returns {object}
      */
-    getRow: function(subtier) {
+    getRow(subtier) {
       let row = {};
       for (let key in this.tableData.items) {
         if (
@@ -219,7 +248,7 @@ export default {
             date: this.dateNow()
           };
 
-          const tier = key.slice(1, 2);
+          const tier = Number(key.slice(1, 2));
           const marketFee = this.tableData.items[key].marketFee;
 
           this.tableInfo[`T${tier}.${subtier}`].marketPrice = {
@@ -232,9 +261,10 @@ export default {
           
           let creationCost = 0;
 
+          // calculate profit
           creationCost += this.itemCreationCost(tier, subtier, key);
           creationCost += this.getArtefactPrice(tier, subtier);
-            creationCost += this.craftFee(tier, subtier);
+          creationCost += this.craftFee(tier, subtier);
           creationCost -= this.journalProfit(tier, subtier);
           
           if (this.tableData.items[key].price != 0) {
@@ -244,14 +274,17 @@ export default {
           }
         }
       }
+
       return row;
     },
 
     /**
      * Return cost of the artefact, if used
-     * @param tier - artefact tier
+     * 
+     * @param {number} tier - artefact tier
+     * @returns {number} - artefact price
      */
-    getArtefactPrice: function(tier, subtier) {
+    getArtefactPrice(tier, subtier) {
       if (!this.isObjectEmpty(this.tableData.artefacts)) {
         const artefact = this.tableData.artefacts[
           `T${tier}_ARTEFACT${this.tableData.itemName.slice(2)}`
@@ -268,15 +301,17 @@ export default {
       } else {
         this.$set(this.tableInfo[`T${tier}.${subtier}`], 'artefact', {});
       }
+
       return 0;
     },
 
     /**
      * Cost of materials, taking into account the percentage of return on resources
-     * @param tier - resource tier
-     * @param subtier - resource subtier
+     * 
+     * @param {number} tier - resource tier
+     * @param {number} subtier - resource subtier
      */
-    itemCreationCost: function(tier, subtier, itemName) {
+    itemCreationCost(tier, subtier, itemName) {
       let cost = 0;
       for (let resourceName in this.tableData.recipe) {
         const resourceFullName =
@@ -304,10 +339,13 @@ export default {
     },
 
     /**
-     * @param tier - resource tier
-     * @param subtier - resource subtier
+     * Calculate journals profit
+     * 
+     * @param {number} tier - resource tier
+     * @param {number} subtier - resource subtier
+     * @returns {number}
      */
-    journalProfit: function(tier, subtier) {
+    journalProfit(tier, subtier) {
       if (this.tableData.useJournals){
 
         // amount of fame per unit of this tier material 
@@ -339,8 +377,11 @@ export default {
     },
 
     /**
-     * @param tier - resource tier
-     * @param subtier - resource subtier
+     * Return craft bench fee
+     * 
+     * @param {number} tier - resource tier
+     * @param {number} subtier - resource subtier
+     * @returns {number}
      */
     craftFee(tier, subtier){
       const fee = this.tableData.fee != '' ? this.tableData.fee : 0;
@@ -365,17 +406,21 @@ export default {
      * Check the date
      * if more than 1 day has passed since the last check
      * returns true
-     * @param date - last check date
+     * 
+     * @param {timestamp} date - last check date
+     * @returns {boolean}
      */
-    outdated: function(date) {
+    outdated(date) {
       return (this.dateNow() - (new Date(date)).getTime()) > 86400000;
     },
 
     /**
      * Checks for artifacts on sale
-     * @param name - item name
+     * 
+     * @param {string} name - item name
+     * @returns {boolean}
      */
-    noArtefactForSale: function(name) {
+    noArtefactForSale(name) {
       const artefactName = `T${name.slice(1, 2)}_ARTEFACT${this.tableData.itemName.slice(2)}`;
       if (!this.tableData.artefacts[artefactName]){
         return false;
@@ -386,13 +431,20 @@ export default {
 
     /**
      * Check object length
-     * @param obj
+     * 
+     * @param {object} obj
+     * @returns {boolean}
      */
-    isObjectEmpty: function(obj) {
+    isObjectEmpty(obj) {
       return Object.keys(obj).length == 0;
     },
 
-    dateNow: function() {
+    /**
+     * Get date with timezone offset
+     * 
+     * @returns {number}
+     */
+    dateNow() {
       return Date.now() + new Date().getTimezoneOffset() * 60000;
     }
   }

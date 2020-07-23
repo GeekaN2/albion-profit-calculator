@@ -32,14 +32,26 @@
 export default {
   name: 'Row',
   props: {
+    /**
+     * Array with objects that contains the following vertex name
+     * and the same array of childrens
+     */
     items: {
       type: Array,
       default: () => []
     },
+
+    /**
+     * Last root: ROOT_WARRIOR etc. We need it for journals
+     */
     lastRoot: {
       type: String,
       default: 'ROOT',
     },
+
+    /**
+     * Previous vertex
+     */
     parentItem: {
       type: String,
       default: 'ROOT'
@@ -47,7 +59,14 @@ export default {
   },
   data() {
     return {
+      /**
+       * Is this item or vertex open
+       */
       isOpen: false,
+
+      /**
+       * Which item is open in this row
+       */
       nextSection: ''
     }
   },
@@ -55,6 +74,7 @@ export default {
     /**
      * Change function condition
      * And call profit table for current item if it's leaf
+     * 
      * @param name - name of current item
      * @param isLeaf - shows does this element have not empty children[]
      */
@@ -86,6 +106,7 @@ export default {
     /**
      * Switch component condition
      * Show small triangle under icon if it's open
+     * 
      * @param name - name of clicked item
      */
     switcher: function(name) {
@@ -107,6 +128,7 @@ export default {
 
     /**
      * Check array for emptiness
+     * 
      * @param children - array for check
      */
     isLeaf: function(children) {
@@ -115,14 +137,13 @@ export default {
 
     /**
      * Determines the type of artifact by the item number in the array
+     * 
      * @param {string} name - name of current item
-     * @return {string} - artefact name: rune, soul... or empty string
+     * @returns {string} - artefact name: rune, soul... or empty string
      */
     artefactLevel: function(name){
       const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON'];
-      const isArtefactItem = artefacts.some(artefact => {
-        return name.search(artefact) != -1
-      });
+      const isArtefactItem = artefacts.some(artefact => name.includes(artefact));
 
       if (!isArtefactItem) {
         return '';
@@ -130,6 +151,7 @@ export default {
 
       const items = this.items;
       let index = 0;
+
       for (; index < items.length; index++) {
         if (items[index].name == name) {
           break;
@@ -137,6 +159,7 @@ export default {
       }
       
       let artefact = '';
+
       switch (index) {
         case 3: artefact = 'rune'; break;
         case 4: artefact = 'soul'; break;

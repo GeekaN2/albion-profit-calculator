@@ -83,10 +83,17 @@
 export default {
   name: "Settings",
   props: {
+    /**
+     * Loading text shows which request is being sent
+     */
     loadingText: {
       type: String,
       default: ''
     },
+
+    /**
+     * Craft bench tax on item creation
+     */
     fee: {
       type: Number,
       default: 10
@@ -94,12 +101,26 @@ export default {
   },
   data() {
     return {
+      /**
+       * Use journals to craft items or not
+       */
       useJournals: false,
+
+      /**
+       * Current city or Black Market
+       */
       city: "Caerleon",
+
+      /**
+       * Showed fee
+       */
       showedFee: 10,
     };
   },
   methods: {
+    /**
+     * Emit function on fee change
+     */
     updateFee: function (value) {
       this.$emit('inputFee', value);
     }

@@ -32,7 +32,7 @@
         >
         <input 
           v-model="token"
-          class="modal_form__input"   
+          class="modal_form__input"
           type="token"
           placeholder="e32ab7123e9a9f9451..."
           required
@@ -40,7 +40,7 @@
         <p class="modal_form__description">{{ $t('getToken') }} <span class="underline_text">GeekaN#8674</span></p>
         <button 
           class="modal_form__button"
-          @click="register"
+          @click.prevent="register"
         >
           {{ $t('registerButton') }}
         </button>
@@ -65,10 +65,10 @@
   },
   "ru": {
     "register": "Регистрация",
-    "registerButton": "Регистрация",
+    "registerButton": "Зарегистрироваться",
     "nickname": "Никнейм",
     "password": "Пароль",
-    "getToken": "Чтобы получить токен для регистрации, напиши мне в Дискорд ",
+    "getToken": "Чтобы получить токен для регистрации напиши мне в Дискорд ",
     "error": {
       "badToken": "Такого токена не существует",
       "empty": "Заполните все поля",
@@ -82,6 +82,9 @@
 export default {
   name: 'UserRegisterForm',
   props: {
+    /**
+     * Show this modal or not
+     */
     isModalShow: {
       type: Boolean,
       default: false
@@ -89,16 +92,38 @@ export default {
   },
   data() {
     return {
+      /**
+       * User nickname
+       */
       nickname: '',
+
+      /**
+       * User password
+       */
       password: '',
+
+      /**
+       * Token to register
+       */
       token: '',
+
+      /**
+       * Error message if something goes wrong
+       */
       error: ''
     }
   },
   methods: {
+    /**
+     * Call function to hide this modal form
+     */
     hideModal() {
       this.$emit('hide-modal-register');
     },
+
+    /**
+     * Regsiter user
+     */
     async register() {
       try {
         if (!this.nickname || !this.password || !this.token) {

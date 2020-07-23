@@ -48,25 +48,66 @@ export default {
   },
   data() {
     return {
+      /**
+       * Tree of all the items we can craft
+       */
       tree: [],
+
+      /**
+       * Is a specific item selected
+       */
       isTableShowed: false,
-      lastName: "",
+
+      /**
+       * Data to send to the table
+       */
       tableData: {},
+
+      /**
+       * Current city or Black Market
+       */
       city: "Caerleon",
+
+      /**
+       * Use journals or not
+       */
       useJournals: false,
+
+      /**
+       * The currently displayed item
+       */
       currentItem: "",
+
+      /**
+       * Root of current items
+       */
       root: "",
+
+      /**
+       * Loading text shows which request is being sent
+       */
       loadingText: "",
+
+      /**
+       * Return percentage of materials
+       */
       returnPercentage: 15.2,
+
+      /**
+       * Craft bench tax on item creation
+       */
       fee: 10,
+
+      /**
+       * Level of item artifact: relic, avalon etc.
+       */
       artefactLevel: "",
+
+      /**
+       * Parent item of the current item
+       */
       parentItem: "",
     };
-  },
-  computed: {
-    feef: function(){
-      return 0;
-    }
   },
   created: async function() {
     await this.$store.dispatch("FETCH_STATE");
@@ -75,8 +116,12 @@ export default {
   methods: {
     /**
      * Show or hide table for selected item
-     * @param itemName - name of selected item
-     * @param show - hides or shows the table
+     * 
+     * @param {string} itemName - name of selected item
+     * @param {boolean} show - hides or shows the table
+     * @param {string} root -
+     * @param {string} artefactLevel -
+     * @param {string} parentItem - name of previous vertex
      */
     showTable: async function({ itemName, show, root, artefactLevel, parentItem }) {
       this.root = root;
@@ -94,7 +139,9 @@ export default {
     },
 
     /**
-     * @param useJournals - use or no
+     * Checkbox
+     * 
+     * @param {boolean} useJournals - use or not
      */
     changeUseJournals: function(useJournals) {
       this.useJournals = useJournals;
@@ -105,6 +152,8 @@ export default {
     },
 
     /**
+     * Change city method
+     * 
      * @param city
      */
     changeCity: function(city) {
@@ -132,7 +181,10 @@ export default {
 
       await this.$store.dispatch("FETCH_RESOURCE_PRICES", this.city);
     },
-
+    
+    /**
+     * get journal prices for current city and root(ROOT_WARRIOR etc.)
+     */
     fetchJournalPrices: async function() {
       this.loadingText = "journals";
 
@@ -142,6 +194,10 @@ export default {
       });
     },
 
+    /**
+     * Check prices maybe they already exist in the state
+     * It don't fetch them
+     */
     checkAllPricesAndFetchIt: async function() {
       const normalCity = this.city == "Black Market" ? "Caerleon" : this.city;
 
@@ -169,7 +225,12 @@ export default {
 
       this.updateTableData();
     },
-
+    
+    /**
+     * Drop some part of the state
+     * 
+     * @param {string} data - what we need to update
+     */
     dropStore: function(data) {
       const normalCity = this.city == "Black Market" ? "Caerleon" : this.city;
       
@@ -188,10 +249,18 @@ export default {
       this.checkAllPricesAndFetchIt();
     },
 
+    /**
+     * Update craft bench fee
+     * 
+     * @param {number} value - new fee in percentage
+     */
     updateFee: function(value) {
       this.fee = value;
     },
 
+    /**
+     * Update ItemTable
+     */
     updateTableData: function() {
       this.loadingText = "calculated";
       const city = this.city == "Black Market" ? "Caerleon" : this.city;
@@ -215,6 +284,12 @@ export default {
   }
 };
 
+/**
+ * Check the object for emptiness
+ * 
+ * @param {object} obj - any object
+ * @returns {boolean}
+ */
 function isObjectEmpty(obj) {
   return Object.keys(obj).length == 0;
 }
