@@ -4,7 +4,8 @@
     <div class="wrapper">
       <Settings
         :loading-text="loadingText" 
-        @changeUseJournals="changeUseJournals" 
+        @changeUseJournals="changeUseJournals"
+        @changeUseFocus="changeUseFocus"
         @dropStore="dropStore"
         @changeCity="changeCity"
         @inputFee="updateFee"
@@ -72,6 +73,11 @@ export default {
        * Use journals or not
        */
       useJournals: false,
+
+      /**
+       * Use focus points or not
+       */
+      useFocus: false,
 
       /**
        * The currently displayed item
@@ -143,8 +149,21 @@ export default {
      * 
      * @param {boolean} useJournals - use or not
      */
-    changeUseJournals: function(useJournals) {
+    changeUseJournals(useJournals) {
       this.useJournals = useJournals;
+
+      if (this.isTableShowed) {
+        this.checkAllPricesAndFetchIt();
+      }
+    },
+
+    /**
+     * Checkbox
+     * 
+     * @param {boolean} useFocus - use or not
+     */
+    changeUseFocus(useFocus) {
+      this.useFocus = useFocus;
 
       if (this.isTableShowed) {
         this.checkAllPricesAndFetchIt();
@@ -221,7 +240,7 @@ export default {
         await this.fetchJournalPrices();
       }
 
-      this.returnPercentage = getReturnMaterialsPercentage(this.parentItem, this.city);
+      this.returnPercentage = getReturnMaterialsPercentage(this.parentItem, this.city, this.useFocus);
 
       this.updateTableData();
     },

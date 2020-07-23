@@ -3,12 +3,27 @@
     <h2>{{ $t('settings') }}</h2>
     <div class="setting">
       <input 
-        id="checkbox" 
+        id="checkbox-journals" 
         v-model="useJournals" 
+        class="checkbox"
         type="checkbox" 
         @change="$emit('changeUseJournals', useJournals)"
       >
-      <label for="checkbox">{{ $t('useJournals') }}</label>
+      <label 
+        for="checkbox-journals" 
+      >{{ $t('useJournals') }}</label>
+    </div>
+    <div class="setting">
+      <input 
+        id="checkbox-focus" 
+        v-model="useFocus"
+        class="checkbox"
+        type="checkbox" 
+        @change="$emit('changeUseFocus', useFocus)"
+      >
+      <label 
+        for="checkbox-focus"
+      >{{ $t('useFocus') }}</label>
     </div>
     <div 
       class="refresh" 
@@ -63,6 +78,7 @@
   "en": {
     "settings": "Settings",
     "useJournals": "Use journals",
+    "useFocus": "Use focus",
     "updateJournals": "Update journal prices",
     "updateItems": "Update current item",
     "updateResources": "Update resource prices",
@@ -71,6 +87,7 @@
   "ru": {
     "settings": "Настройки",
     "useJournals": "Использовать журналы",
+    "useFocus": "Использовать фокус",
     "updateJournals": "Обновить цену журналов",
     "updateItems": "Обновить цену предметов",
     "updateResources": "Обновить цену ресурсов",
@@ -105,6 +122,11 @@ export default {
        * Use journals to craft items or not
        */
       useJournals: false,
+
+      /**
+       * Use focus points or not
+       */
+      useFocus: false,
 
       /**
        * Current city or Black Market
@@ -148,33 +170,34 @@ export default {
   font-size: 16px;
   margin-bottom: 10px;
 
-  input[type="checkbox"] {
+  .checkbox {
     display: none;
 
     &:checked + label:after {
       background: #e08c4c;
-      animation: gradient 60s ease infinite;
+    }
+
+    & + label {
+      position: relative;
+      cursor: pointer;
+      margin-left: 20px;
+      padding-left: 5px;
+
+      &:after {
+        content: "";
+        position: absolute;
+        left: -20px;
+        top: 1px;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #000;
+        background: white;
+        display: block;
+      }
     }
   }
 
-  label[for="checkbox"] {
-    position: relative;
-    cursor: pointer;
-    margin-left: 20px;
-    padding-left: 5px;
-
-    &:after {
-      content: "";
-      position: absolute;
-      left: -20px;
-      top: 1px;
-      width: 16px;
-      height: 16px;
-      border: 2px solid #000;
-      background: white;
-      display: block;
-    }
-  }
+  
 }
 
 .city {
