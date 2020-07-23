@@ -116,8 +116,8 @@ export function normalizedPriceAndDate(item: ResponseModel): Item {
  * @param city - current city
  * @returns percentage
  */
-export function getReturnMaterialsPercentage(parentItem: string, city: string): number {
-    let returnMaterialsPercentage = 15.2; 
+export function getReturnMaterialsPercentage(parentItem: string, city: string, useFocus: boolean): number {
+    let returnMaterialsPercentage = useFocus ? 43.5 : 15.2;
 
     // Keywords for the category of items that the bonus is assigned to
     const bonus: {[key: string]: string[]} = {
@@ -136,7 +136,7 @@ export function getReturnMaterialsPercentage(parentItem: string, city: string): 
         });
 
         if (addBonus) {
-            returnMaterialsPercentage = 24.8;
+            returnMaterialsPercentage = useFocus ? 47.9 : 24.8;
         }
     }
     return returnMaterialsPercentage;

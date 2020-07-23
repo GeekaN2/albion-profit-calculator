@@ -7,7 +7,7 @@
 <script>
 import Vue from 'vue';
 
-if (process.client) {
+if (process.client && process.env.HAWK_CATCHER_TOKEN) {
   const HawkCatcher = require('@hawk.so/javascript');
 
   const hawk = new HawkCatcher({
