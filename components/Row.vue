@@ -32,14 +32,26 @@
 export default {
   name: 'Row',
   props: {
+    /**
+     * Array with objects that contains the following vertex name
+     * and the same array of childrens
+     */
     items: {
       type: Array,
       default: () => []
     },
+
+    /**
+     * Last root: ROOT_WARRIOR etc. We need it for journals
+     */
     lastRoot: {
       type: String,
       default: 'ROOT',
     },
+
+    /**
+     * Previous vertex
+     */
     parentItem: {
       type: String,
       default: 'ROOT'
@@ -47,7 +59,14 @@ export default {
   },
   data() {
     return {
+      /**
+       * Is this item or vertex open
+       */
       isOpen: false,
+
+      /**
+       * Which item is open in this row
+       */
       nextSection: ''
     }
   },
@@ -55,6 +74,7 @@ export default {
     /**
      * Change function condition
      * And call profit table for current item if it's leaf
+     * 
      * @param name - name of current item
      * @param isLeaf - shows does this element have not empty children[]
      */

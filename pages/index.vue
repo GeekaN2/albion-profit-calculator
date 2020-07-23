@@ -89,23 +89,49 @@ export default {
   },
   data() {
     return {
+      /**
+       * Is modal form shown or not
+       */
       isModalAuthShowed: false,
+
+      /**
+       * Is modal form shown or not
+       */
       isModalRegisterShowed: false,
     }
   },
   methods: {
+    /**
+     * Show modal auth form
+     */
     showModalAuth() {
       this.isModalAuthShowed = true;
     },
+
+    /**
+     * Hide modal auth form
+     */
     hideModalAuth() {
       this.isModalAuthShowed = false;
     },
+
+    /**
+     * Show modal register form
+     */
     showModalRegister() {
       this.isModalRegisterShowed = true;
     },
+
+    /**
+     * Hide modal register form
+     */
     hideModalRegister() {
       this.isModalRegisterShowed = false;
     },
+
+    /**
+     * Logout user
+     */
     async logout() {
       await this.$auth.logout('local');
     }

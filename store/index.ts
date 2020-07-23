@@ -6,6 +6,9 @@ import treeModule from './profit-tree';
 
 const store: StoreOptions<RootState> ={
   modules: {
+    /**
+     * Profit tree module
+     */
     tree: treeModule
   }
 };
