@@ -8,18 +8,18 @@
 
 <i18n>
 {
-    "en": {
-        "items": "Loading item prices",
-        "resources": "Loading resource prices",
-        "journals": "Loading journal prices",
-        "calculated": "Profit calculated"
-    },
-    "ru": {
-        "items": "Загружем цены предметов",
-        "resources": "Загружаем цены ресурсов",
-        "journals": "Загружаем цены журналов",
-        "calculated": "Профит посчитан"
-    }
+  "en": {
+      "items": "Loading item prices",
+      "resources": "Loading resource prices",
+      "journals": "Loading journal prices",
+      "calculated": "Profit calculated"
+  },
+  "ru": {
+      "items": "Загружем цены предметов",
+      "resources": "Загружаем цены ресурсов",
+      "journals": "Загружаем цены журналов",
+      "calculated": "Профит посчитан"
+  }
 }
 </i18n>
 
@@ -27,6 +27,9 @@
 export default {
   name: "Loading",
   props: {
+    /**
+     * Text of loading
+     */
     text: {
       type: String,
       default: ""
