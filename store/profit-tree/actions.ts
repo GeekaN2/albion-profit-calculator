@@ -1,9 +1,9 @@
 import { ActionTree } from 'vuex'
 import axios from 'axios'
 import { createStringOfAllItems, createStringOfAllResources, createStringOfAllArtefacts, createStringOfAllJournals } from '../utils'
-import { RootState } from '../typeDefs'
+import { TreeState } from '../typeDefs'
 
-export const actions: ActionTree<RootState, {}> = {
+export const actions: ActionTree<TreeState, {}> = {
   /**
    * Fetch json files data. Set recipes of items and tree structure of items
    */

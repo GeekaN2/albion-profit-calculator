@@ -285,19 +285,13 @@ export default {
       const city = this.city == "Black Market" ? "Caerleon" : this.city;
 
       this.tableData = {
-        items: this.$store.state.tree.prices[this.currentItem][this.city],
-        resources: this.$store.state.tree.resources[city],
-        artefacts: this.$store.state.tree.artefacts[city][this.currentItem] || {},
         itemName: this.currentItem,
-        recipe: this.$store.state.tree.recipes[this.currentItem],
         useJournals: this.useJournals,
-        journals: this.useJournals
-          ? this.$store.state.tree.journals[city][this.root]
-          : {},
         root: this.root,
         returnPercentage: this.returnPercentage,
         fee: this.fee,
-        artefactLevel: this.artefactLevel
+        artefactLevel: this.artefactLevel,
+        city: this.city
       };
     }
   }

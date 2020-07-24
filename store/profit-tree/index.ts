@@ -1,5 +1,6 @@
 import { actions } from './actions';
 import { mutations } from './mutations';
+import { getters } from './getters'
 import Vuex from 'vuex';
 import Vue from 'vue'
 
@@ -23,6 +24,7 @@ const treeModule = {
     artefacts: JSON.parse(JSON.stringify(cities)),
     journals: JSON.parse(JSON.stringify(cities))
   },
+  getters,
   actions,
   mutations
 }

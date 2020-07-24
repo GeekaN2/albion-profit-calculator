@@ -1,8 +1,8 @@
 import { MutationTree } from 'vuex'
 import { normalizedPriceAndDate } from '../utils'
-import { ResponseModel, RootState, Item } from '../typeDefs'
+import { ResponseModel, TreeState, Item } from '../typeDefs'
 
-export const mutations: MutationTree<RootState> = {
+export const mutations: MutationTree<TreeState> = {
   /**
    * Set json files data into state
    * 

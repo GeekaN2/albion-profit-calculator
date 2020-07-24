@@ -38,7 +38,7 @@ export interface ResponseModel {
 /**
  * Vuex root state
  */
-export interface RootState {
+export interface TreeState {
     tree: any;
     prices: Prices
     resources: Resources;
