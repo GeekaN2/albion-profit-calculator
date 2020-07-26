@@ -45,7 +45,7 @@ export const mutations: MutationTree<TreeState> = {
   SET_ITEM_PRICES(state, data) {
     const itemName = state.currentItemInfo.name;
     const location = state.settings.cities.items;
-    let newPrices: {[key: string]: Item} = {};
+    let newPrices: { [key: string]: Item } = {};
 
     data.forEach((item: ResponseModel) => {
       if (!newPrices[item.item_id]) {
@@ -55,7 +55,7 @@ export const mutations: MutationTree<TreeState> = {
           marketFee: 3
         };
       }
-      
+
       const currentPrice = newPrices[item.item_id];
 
       let newPrice: Item = normalizedPriceAndDate(item);
@@ -75,7 +75,7 @@ export const mutations: MutationTree<TreeState> = {
    */
   SET_RESOURCE_PRICES(state, data) {
     const city = state.settings.cities.resources;
-    let newPrices: {[key: string]: Item} = {};
+    let newPrices: { [key: string]: Item } = {};
 
     data.forEach((resource: ResponseModel) => {
       newPrices[resource.item_id] = {
@@ -96,7 +96,7 @@ export const mutations: MutationTree<TreeState> = {
   SET_ARTEFACT_PRICES(state, data) {
     const itemName = state.currentItemInfo.name;
     const city = state.settings.cities.artefacts;
-    let newPrices: {[key: string]: Item} = {};
+    let newPrices: { [key: string]: Item } = {};
 
     data.forEach((artefact: ResponseModel) => {
       newPrices[artefact.item_id] = {
@@ -117,8 +117,8 @@ export const mutations: MutationTree<TreeState> = {
   SET_JOURNAL_PRICES(state, data) {
     const city = state.settings.cities.journals;
     const root = state.currentItemInfo.root;
-    const newPrices: {[key: string]: JournalsItem } = {};
-    
+    const newPrices: { [key: string]: JournalsItem } = {};
+
     data.forEach((journal: ResponseModel) => {
       const journalName = journal.item_id.slice(0, journal.item_id.lastIndexOf('_'));
 
@@ -163,7 +163,7 @@ export const mutations: MutationTree<TreeState> = {
     state.features.loadingText = loadingText;
   },
 
-  SET_ITEM_INFO(state, itemInfo: ItemInfo){
+  SET_ITEM_INFO(state, itemInfo: ItemInfo) {
     state.currentItemInfo = itemInfo;
   },
 

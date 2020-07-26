@@ -7,32 +7,33 @@
           'selected': isOpen && item.name == nextSection
         }"
         :key="index"
-        @click="toggle(item.name, isLeaf(item.children))"> 
+        @click="toggle(item.name, isLeaf(item.children))"
+      >
         <img 
           :src="`/images/${item.name}.png`" 
-          alt="">
+          alt >
       </div>
     </div>
     <div 
-      v-for="(item, index) in items"
-      v-show="isOpen"
+      v-for="(item, index) in items" 
+      v-show="isOpen" 
       :key="index">
-      <Row 
+      <Row
         v-if="nextSection == item.name && item.children"
         :items="item.children"
         :last-root="`${item.name.slice(0,4) == 'ROOT' ? item.name : lastRoot}`"
         :parent-item="item.name"
-        @showTable="showTable"/>
+        @showTable="showTable"
+      />
     </div>
-
   </div>
 </template>
 
 <script>
-import { isArtefactItem } from '../store/utils'
+import { isArtefactItem } from "../store/utils";
 
 export default {
-  name: 'Row',
+  name: "Row",
   props: {
     /**
      * Array with objects that contains the following vertex name
@@ -40,7 +41,7 @@ export default {
      */
     items: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
 
     /**
@@ -48,7 +49,7 @@ export default {
      */
     lastRoot: {
       type: String,
-      default: 'ROOT',
+      default: "ROOT",
     },
 
     /**
@@ -56,8 +57,8 @@ export default {
      */
     parentItem: {
       type: String,
-      default: 'ROOT'
-    }
+      default: "ROOT",
+    },
   },
   data() {
     return {
@@ -69,44 +70,43 @@ export default {
       /**
        * Which item is open in this row
        */
-      nextSection: ''
-    }
+      nextSection: "",
+    };
   },
   methods: {
     /**
      * Change function condition
      * And call profit table for current item if it's leaf
-     * 
+     *
      * @param name - name of current item
      * @param isLeaf - shows does this element have not empty children[]
      */
-    toggle: function(name, isLeaf) {
+    toggle: function (name, isLeaf) {
       this.switcher(name);
 
       if (isLeaf && this.isOpen) {
         this.showTable(true);
 
-        this.$store.dispatch('CHECK_ALL', {
+        this.$store.dispatch("CHECK_ALL", {
           name: name,
           parent: this.parentItem,
           root: this.lastRoot,
-          artefactLevel: this.artefactLevel(name)
+          artefactLevel: this.artefactLevel(name),
         });
 
         this.isTableShowed = true;
       } else if (!isLeaf || !this.isOpen) {
         this.showTable(false);
       }
-      
     },
 
     /**
      * Switch component condition
      * Show small triangle under icon if it's open
-     * 
+     *
      * @param name - name of clicked item
      */
-    switcher: function(name) {
+    switcher: function (name) {
       if (this.nextSection == name) {
         this.isOpen = !this.isOpen;
       } else {
@@ -119,34 +119,39 @@ export default {
     /**
      * Call function in parent
      */
-    showTable: function(data) {
-      this.$emit('showTable', data);
+    showTable: function (data) {
+      this.$emit("showTable", data);
     },
 
     /**
      * Check array for emptiness
-     * 
+     *
      * @param children - array for check
+     * @return {boolean}
      */
-    isLeaf: function(children) {
+    isLeaf: function (children) {
       return !(children && children.length);
     },
 
     /**
      * Determines the type of artifact by the item number in the array
-     * 
+     *
      * @param {string} name - name of current item
      * @returns {string} - artefact name: rune, soul... or empty string
      */
     artefactLevel(name) {
       if (!isArtefactItem(name)) {
-        return '';
+        return "";
       }
 
       let currentItemIndex = 0;
       let firstArtefactItemIndex = 0;
 
-      for (; firstArtefactItemIndex < this.items.length; firstArtefactItemIndex++) {
+      for (
+        ;
+        firstArtefactItemIndex < this.items.length;
+        firstArtefactItemIndex++
+      ) {
         if (isArtefactItem(this.items[firstArtefactItemIndex].name)) {
           break;
         }
@@ -157,19 +162,27 @@ export default {
           break;
         }
       }
-      
-      let artefact = '';
+
+      let artefact = "";
 
       switch (currentItemIndex - firstArtefactItemIndex) {
-        case 0: artefact = 'rune'; break;
-        case 1: artefact = 'soul'; break;
-        case 2: artefact = 'relic'; break;
-        case 3: artefact = 'avalon'; break;
+        case 0:
+          artefact = "rune";
+          break;
+        case 1:
+          artefact = "soul";
+          break;
+        case 2:
+          artefact = "relic";
+          break;
+        case 3:
+          artefact = "avalon";
+          break;
       }
 
       return artefact;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -195,13 +208,13 @@ export default {
   position: relative;
 
   &:after {
-    content: ''; 
+    content: "";
     position: absolute;
     bottom: -6px;
     left: calc(50% - 10px);
     width: 20px;
     height: 20px;
-    background:url('../static/images/triangle.png') no-repeat;
+    background: url("../static/images/triangle.png") no-repeat;
     background-size: cover;
     z-index: -1;
   }

@@ -10,7 +10,7 @@
           @showTable="showTable" />
         <div 
           v-if="isTableShowed" 
-          class="wrapper__table" >
+          class="wrapper__table">
           <Loading class="wrapper__loading" />
           <ItemTable />
         </div>
@@ -26,17 +26,17 @@ import ItemTable from "~/components/ItemTable";
 import Settings from "~/components/Settings";
 import Loading from "~/components/Loading";
 import { getReturnMaterialsPercentage } from "~/store/utils";
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
-  name: 'Tree',
-  middleware: ['authenticated'],
+  name: "Tree",
+  middleware: ["authenticated"],
   components: {
     Header,
     Row,
     ItemTable,
     Settings,
-    Loading
+    Loading,
   },
   data() {
     return {
@@ -53,25 +53,25 @@ export default {
   },
   computed: {
     ...mapState({
-      settings: state => state.tree.settings,
-      currentItemInfo: state => state.tree.currentItemInfo
-    })
+      settings: (state) => state.tree.settings,
+      currentItemInfo: (state) => state.tree.currentItemInfo,
+    }),
   },
-  created: async function() {
+  created: async function () {
     await this.$store.dispatch("FETCH_STATE");
     this.tree = this.$store.state.tree.tree;
   },
   methods: {
     /**
      * Show or hide table for selected item
-     * 
+     *
      * @param {string} itemName - name of selected item
      * @param {boolean} show - hides or shows the table
      */
-    async showTable (show) {
+    async showTable(show) {
       this.isTableShowed = show;
     },
-  }
+  },
 };
 </script>
 
@@ -136,7 +136,7 @@ img {
     &__tree {
       width: 100%;
 
-      img  {
+      img {
         width: 60px;
       }
     }

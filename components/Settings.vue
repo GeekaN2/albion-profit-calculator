@@ -2,40 +2,34 @@
   <div class="settings">
     <h2>{{ $t('settings') }}</h2>
     <div class="setting">
-      <input 
-        id="checkbox-journals" 
-        v-model="useJournals" 
+      <input
+        id="checkbox-journals"
+        v-model="useJournals"
         class="checkbox"
-        type="checkbox" 
+        type="checkbox"
         @change="changeUseJournals"
       >
-      <label 
-        for="checkbox-journals" 
-      >{{ $t('useJournals') }}</label>
+      <label for="checkbox-journals">{{ $t('useJournals') }}</label>
     </div>
     <div class="setting">
-      <input 
-        id="checkbox-focus" 
+      <input
+        id="checkbox-focus"
         v-model="useFocus"
         class="checkbox"
-        type="checkbox" 
+        type="checkbox"
         @change="changeUseFocus"
       >
-      <label 
-        for="checkbox-focus"
-      >{{ $t('useFocus') }}</label>
+      <label for="checkbox-focus">{{ $t('useFocus') }}</label>
     </div>
     <div class="setting">
-      <input 
-        id="checkbox-cities" 
+      <input
+        id="checkbox-cities"
         v-model="multipleCities"
         class="checkbox"
-        type="checkbox" 
+        type="checkbox"
         @change="toggleMultipleCities"
       >
-      <label 
-        for="checkbox-cities"
-      >{{ $t('multipleCities') }}</label>
+      <label for="checkbox-cities">{{ $t('multipleCities') }}</label>
     </div>
     <div 
       class="refresh" 
@@ -63,52 +57,42 @@
     </div>
     <div class="input">
       <input 
-        :value="fee"
-        placeholder="0"
-        maxlength="4"
-        @change="updateFee($event.target.value)">
+        :value="fee" 
+        placeholder="0" 
+        maxlength="4" 
+        @change="updateFee($event.target.value)" >
       <span>% {{ $t('craftFee') }}</span>
     </div>
     <p class="setting__city-header">{{ $t('cities.items') }}</p>
     <select 
       v-model="cities.items" 
-      class="city"
-      @change="changeCity"
-    >
+      class="city" 
+      @change="changeCity">
       <option>Black Market</option>
       <template v-for="city in baseCities">
-        <option :key="city">
-          {{ city }}
-        </option>
+        <option :key="city">{{ city }}</option>
       </template>
     </select>
     <div 
-      v-if="multipleCities"
-      class="setting__multiple-cities"
-    >
+      v-if="multipleCities" 
+      class="setting__multiple-cities">
       <p class="setting__city-header">{{ $t('cities.resources') }}</p>
-      <select
+      <select 
         v-model="cities.resources" 
-        class="city"
-        @change="changeCity"
-      >
+        class="city" 
+        @change="changeCity">
         <template v-for="city in baseCities">
-          <option :key="city">
-            {{ city }}
-          </option>
+          <option :key="city">{{ city }}</option>
         </template>
       </select>
       <template v-if="isArtefactItem">
         <p class="setting__city-header">{{ $t('cities.artefacts') }}</p>
         <select 
           v-model="cities.artefacts" 
-          class="city"
-          @change="changeCity"
-        >
+          class="city" 
+          @change="changeCity">
           <template v-for="city in baseCities">
-            <option :key="city">
-              {{ city }}
-            </option>
+            <option :key="city">{{ city }}</option>
           </template>
         </select>
       </template>
@@ -116,13 +100,10 @@
         <p class="setting__city-header">{{ $t('cities.journals') }}</p>
         <select 
           v-model="cities.journals" 
-          class="city"
-          @change="changeCity"
-        >
+          class="city" 
+          @change="changeCity">
           <template v-for="city in baseCities">
-            <option :key="city">
-              {{ city }}
-            </option>
+            <option :key="city">{{ city }}</option>
           </template>
         </select>
       </template>
@@ -176,8 +157,8 @@ export default {
      */
     fee: {
       type: Number,
-      default: 10
-    }
+      default: 10,
+    },
   },
   data() {
     return {
@@ -200,7 +181,7 @@ export default {
         artefacts: "Caerleon",
         journals: "Caerleon",
       },
-      
+
       /**
        * Showed fee
        */
@@ -211,20 +192,33 @@ export default {
        */
       multipleCities: false,
 
-      baseCities: ["Bridgewatch", "Caerleon", "Fort Sterling", "Lymhurst", "Martlock", "Thetford" ]
+      /**
+       * Royal cities of the continent
+       */
+      baseCities: [
+        "Bridgewatch",
+        "Caerleon",
+        "Fort Sterling",
+        "Lymhurst",
+        "Martlock",
+        "Thetford",
+      ],
     };
   },
   computed: {
+    /**
+     * Is the current item an artifact
+     */
     isArtefactItem() {
       return this.$store.getters.isArtefactItem;
-    }
+    },
   },
   methods: {
     /**
      * Emit function on fee change
      */
     updateFee(value) {
-      this.$store.commit('UPDATE_CRAFT_FEE', value);
+      this.$store.commit("UPDATE_CRAFT_FEE", value);
     },
 
     /**
@@ -235,53 +229,63 @@ export default {
         this.normalizeCities();
       }
 
-      this.$store.commit('SET_CITIES', this.cities);
+      this.$store.commit("SET_CITIES", this.cities);
 
-      this.$store.dispatch('CHECK_ALL');
+      this.$store.dispatch("CHECK_ALL");
     },
 
     /**
-     * 
+     * Set the selection of multiple cities
      */
     toggleMultipleCities() {
       if (!this.multipleCities) {
         this.normalizeCities();
       }
 
-      this.$store.commit('SET_CITIES', this.cities);
+      this.$store.commit("SET_CITIES", this.cities);
 
-      this.$store.dispatch('CHECK_ALL');
+      this.$store.dispatch("CHECK_ALL");
     },
 
+    /**
+     * Normalize Black Market to set correct cities in settings
+     */
     normalizeCities() {
-      const normalizedCity = this.cities.items == 'Black Market' ? 'Caerleon' : this.cities.items;
+      const normalizedCity =
+        this.cities.items == "Black Market" ? "Caerleon" : this.cities.items;
 
       this.cities = {
         items: this.cities.items,
         resources: normalizedCity,
         artefacts: normalizedCity,
-        journals: normalizedCity
-      }
-    },
-
-    changeUseJournals() {
-      this.$store.commit('UPDATE_USE_JOURNALS', this.useJournals);
-
-      this.$store.dispatch('CHECK_ALL');
-    },
-
-    changeUseFocus() {
-      this.$store.commit('UPDATE_USE_FOCUS', this.useFocus);
-
-      this.$store.dispatch('CHECK_ALL');
+        journals: normalizedCity,
+      };
     },
 
     /**
-     * Drop some part of the state
-     * 
+     * Change useJournals checkbox state and try to update table
+     */
+    changeUseJournals() {
+      this.$store.commit("UPDATE_USE_JOURNALS", this.useJournals);
+
+      this.$store.dispatch("CHECK_ALL");
+    },
+
+    /**
+     * Change useFocus checkbox state and try to update table
+     */
+    changeUseFocus() {
+      this.$store.commit("UPDATE_USE_FOCUS", this.useFocus);
+
+      this.$store.dispatch("CHECK_ALL");
+    },
+
+    /**
+     * Drop some part of the state and try to get new data
+     *
      * @param {string} data - what we need to update
      */
-    dropStore: function(data) {      
+    dropStore: function (data) {
       switch (data) {
         case "items":
           this.$store.state.tree.prices[this.cities.items] = {};
@@ -294,9 +298,9 @@ export default {
           break;
       }
 
-      this.$store.dispatch('CHECK_ALL');
+      this.$store.dispatch("CHECK_ALL");
     },
-  }
+  },
 };
 </script>
 
@@ -383,14 +387,20 @@ select {
   margin-bottom: 10px;
   font-size: 16px;
   position: relative;
-  
+
   input {
     display: inline-block;
     outline: none;
     text-align: left;
     width: 100%;
     font-size: 14px;
-    border-image-source: linear-gradient(90deg, #000000 0%,#000000 8%, #5a5a5a 30%, #ffffff 70%);  
+    border-image-source: linear-gradient(
+      90deg,
+      #000000 0%,
+      #000000 8%,
+      #5a5a5a 30%,
+      #ffffff 70%
+    );
     border-image-slice: 1;
     border-width: 0 0 2px 0;
     margin-bottom: 2px;

@@ -1,14 +1,16 @@
 import { ActionTree } from 'vuex'
 import axios from 'axios'
 import { createStringOfAllItems, createStringOfAllResources, createStringOfAllArtefacts, createStringOfAllJournals, isObjectEmpty } from '../utils'
-import { TreeState } from '../typeDefs'
+import { TreeState, ItemInfo } from '../typeDefs'
 import { isArtefactItem } from '../utils'
 
 export const actions: ActionTree<TreeState, {}> = {
   /**
    * Fetch json files data. Set recipes of items and tree structure of items
+   * 
+   * @param commit - vuex commit
    */
-  async FETCH_STATE({commit}){
+  async FETCH_STATE({ commit }) {
     const tree = await axios.get('/json/tree.json');
     const recipes = await axios.get('/json/recipes.json');
 
@@ -18,12 +20,18 @@ export const actions: ActionTree<TreeState, {}> = {
     });
   },
 
-  async CHECK_ALL({commit, dispatch, state, getters}, data) {
-    // checkAllPricesAndFetchIt
+  /**
+   * Check all prices of items, resources, artefactsa and journals
+   * If there are no prices, then download them
+   * 
+   * @param data - selected item info
+   */
+  async CHECK_ALL({ commit, dispatch, state, getters }, data: ItemInfo) {
+    // set current item info
     if (data) {
       commit('SET_ITEM_INFO', data);
     }
-    
+
     const itemName = state.currentItemInfo.name;
     const cities = state.settings.cities;
 
@@ -55,23 +63,23 @@ export const actions: ActionTree<TreeState, {}> = {
   },
 
   /**
-   * Fetch item prices and artifact prices if necessary
+   * Fetch item prices
    * 
-   * @param {string} itemName - name of item's group: T4_2H_DAGGERPAIR etc.
-   * @param {string} location - royal city or Black Market 
+   * @param commit - vuex commit
+   * @param state - vuex state
    */
-  async FETCH_ITEM_PRICES({commit, state, dispatch}) {
+  async FETCH_ITEM_PRICES({ commit, state }) {
     commit('SET_LOADING_TEXT', 'items');
 
     const itemName = state.currentItemInfo.name;
     const allNames: string = createStringOfAllItems(itemName);
     const location = state.settings.cities.items;
-    
+
     await axios
       .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}&qualities=1,2,3`)
       .then(response => {
         const data = response.data;
-        
+
         commit('SET_ITEM_PRICES', data);
       });
   },
@@ -80,9 +88,9 @@ export const actions: ActionTree<TreeState, {}> = {
    * Fetch resource prices for current item with all tiers and subtiers
    * 
    * @param commit - vuex commit
-   * @param location - city
+   * @param state - vuex state
    */
-  async FETCH_RESOURCE_PRICES({commit, state}) {
+  async FETCH_RESOURCE_PRICES({ commit, state }) {
     commit('SET_LOADING_TEXT', 'resources');
 
     const resources = ['CLOTH', 'LEATHER', 'PLANKS', 'METALBAR'];
@@ -107,10 +115,9 @@ export const actions: ActionTree<TreeState, {}> = {
    * Fetch t4-t8 artifacts for current item 
    * 
    * @param commit - vuex commit 
-   * @param itemName - current item
-   * @param location - city 
+   * @param state - vuex state
    */
-  async FETCH_ARTEFACT_PRICES({commit, state}) {
+  async FETCH_ARTEFACT_PRICES({ commit, state }) {
     commit('SET_LOADING_TEXT', 'artefacts');
 
     const itemName = state.currentItemInfo.name;
@@ -130,10 +137,9 @@ export const actions: ActionTree<TreeState, {}> = {
    * Fetch t4-t8 empty and full journal prices
    * 
    * @param commit - vuex commit 
-   * @param itemName - current item
-   * @param root - journals branch: ROOT_WARRIOR etc. 
+   * @param state - vuex state
    */
-  async FETCH_JOURNAL_PRICES({commit, state}) {
+  async FETCH_JOURNAL_PRICES({ commit, state }) {
     commit('SET_LOADING_TEXT', 'journals');
 
     let allNames = createStringOfAllJournals(state.currentItemInfo.root);
@@ -143,7 +149,7 @@ export const actions: ActionTree<TreeState, {}> = {
       .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}`)
       .then(response => {
         const data = response.data;
-        
+
         commit('SET_JOURNAL_PRICES', data)
       });
   }

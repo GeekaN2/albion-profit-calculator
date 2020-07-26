@@ -142,10 +142,20 @@ export function getReturnMaterialsPercentage(parentItem: string, city: string, u
   return returnMaterialsPercentage;
 }
 
+/**
+ * Checking an object for emptiness
+ * 
+ * @param obj - any object
+ */
 export function isObjectEmpty(obj: object): boolean {
   return JSON.stringify(obj) == "{}";
 }
 
+/**
+ * Looking for an artifact substring in an item name
+ * 
+ * @param itemName - item name: T4_ARTEFACT_HEAD_CLOTH_HELL etc.
+ */
 export function isArtefactItem(itemName: string): boolean {
   const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON'];
 

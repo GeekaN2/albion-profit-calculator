@@ -3,6 +3,11 @@ import { TreeState } from '../typeDefs'
 import { getReturnMaterialsPercentage, isArtefactItem } from '../utils'
 
 export const getters: GetterTree<TreeState, {}> = {
+  /**
+   * Get t4-t8 item prices
+   * 
+   * @param state - vuex state
+   */
   getItems: (state: TreeState) => {
     const itemName = state.currentItemInfo.name;
     const city = state.settings.cities.items;
@@ -11,6 +16,11 @@ export const getters: GetterTree<TreeState, {}> = {
     return prices;
   },
 
+  /**
+   * Get artefact
+   * 
+   * @param state - vuex state
+   */
   getArtefacts: (state: TreeState) => {
     const itemName = state.currentItemInfo.name;
     const city = state.settings.cities.artefacts;
@@ -19,6 +29,11 @@ export const getters: GetterTree<TreeState, {}> = {
     return artefacts;
   },
 
+  /**
+   * Get item craft recipe
+   * 
+   * @param state - vuex state
+   */
   getRecipe: (state: TreeState) => {
     const itemName = state.currentItemInfo.name;
     const recipe = state.recipes[itemName];
@@ -26,6 +41,11 @@ export const getters: GetterTree<TreeState, {}> = {
     return recipe;
   },
 
+  /**
+   * Get resource prices for current city
+   * 
+   * @param state - vuex state
+   */
   getResources: (state: TreeState) => {
     const city = state.settings.cities.resources;
     const resources = state.resources[city] || {};
@@ -33,6 +53,11 @@ export const getters: GetterTree<TreeState, {}> = {
     return resources;
   },
 
+  /**
+   * Get journl prices for current city and root
+   * 
+   * @param state - vuex state
+   */
   getJournals: (state: TreeState) => {
     const city = state.settings.cities.journals;
     const root = state.currentItemInfo.root;
@@ -43,6 +68,8 @@ export const getters: GetterTree<TreeState, {}> = {
   
   /**
    * Get text of loading
+   * 
+   * @param state - vuex state
    */
   loadingText: (state: TreeState) => {
     return state.features.loadingText;
@@ -55,7 +82,12 @@ export const getters: GetterTree<TreeState, {}> = {
 
     return getReturnMaterialsPercentage(parentItem, city, useFocus);
   },
-
+  
+  /**
+   * Is the current item an artifact?
+   * 
+   * @param state - vuex state
+   */
   isArtefactItem: (state: TreeState) => {
     return isArtefactItem(state.currentItemInfo.name);
   }

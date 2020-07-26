@@ -34,8 +34,8 @@ export default {
      */
     text() {
       return this.$store.getters.loadingText;
-    }
-  }
+    },
+  },
 };
 </script>
 
