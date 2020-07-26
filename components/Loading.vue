@@ -10,13 +10,15 @@
 {
   "en": {
       "items": "Loading item prices",
+      "artefacts": "Loading artifact prices",
       "resources": "Loading resource prices",
       "journals": "Loading journal prices",
       "calculated": "Profit calculated"
   },
   "ru": {
       "items": "Загружем цены предметов",
-      "resources": "Загружаем цены ресурсов",
+      "artefacts": "Загружаем цены артефактов",
+      "resources": "Загружаем цены материалов",
       "journals": "Загружаем цены журналов",
       "calculated": "Профит посчитан"
   }
@@ -26,15 +28,14 @@
 <script>
 export default {
   name: "Loading",
-  props: {
+  computed: {
     /**
      * Text of loading
      */
-    text: {
-      type: String,
-      default: ""
-    }
-  }
+    text() {
+      return this.$store.getters.loadingText;
+    },
+  },
 };
 </script>
 
