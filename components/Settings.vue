@@ -7,7 +7,7 @@
         v-model="useJournals" 
         class="checkbox"
         type="checkbox" 
-        @change="$emit('changeUseJournals', useJournals)"
+        @change="changeUseJournals"
       >
       <label 
         for="checkbox-journals" 
@@ -19,15 +19,27 @@
         v-model="useFocus"
         class="checkbox"
         type="checkbox" 
-        @change="$emit('changeUseFocus', useFocus)"
+        @change="changeUseFocus"
       >
       <label 
         for="checkbox-focus"
       >{{ $t('useFocus') }}</label>
     </div>
+    <div class="setting">
+      <input 
+        id="checkbox-cities" 
+        v-model="multipleCities"
+        class="checkbox"
+        type="checkbox" 
+        @change="toggleMultipleCities"
+      >
+      <label 
+        for="checkbox-cities"
+      >{{ $t('multipleCities') }}</label>
+    </div>
     <div 
       class="refresh" 
-      @click="$emit('dropStore','journals')">
+      @click="dropStore('journals')">
       <img 
         src="/images/redo-alt.svg" 
         alt >
@@ -35,7 +47,7 @@
     </div>
     <div 
       class="refresh" 
-      @click="$emit('dropStore', 'items')">
+      @click="dropStore('items')">
       <img 
         src="/images/redo-alt.svg" 
         alt >
@@ -43,7 +55,7 @@
     </div>
     <div 
       class="refresh" 
-      @click="$emit('dropStore', 'resources')">
+      @click="dropStore('resources')">
       <img 
         src="/images/redo-alt.svg" 
         alt >
@@ -57,19 +69,64 @@
         @change="updateFee($event.target.value)">
       <span>% {{ $t('craftFee') }}</span>
     </div>
+    <p class="setting__city-header">{{ $t('cities.items') }}</p>
     <select 
-      v-model="city" 
+      v-model="cities.items" 
       class="city"
-      @change="$emit('changeCity', city)"
+      @change="changeCity"
     >
-      <option>Caerleon</option>
       <option>Black Market</option>
-      <option>Bridgewatch</option>
-      <option>Fort Sterling</option>
-      <option>Lymhurst</option>
-      <option>Martlock</option>
-      <option>Thetford</option>
+      <template v-for="city in baseCities">
+        <option :key="city">
+          {{ city }}
+        </option>
+      </template>
     </select>
+    <div 
+      v-if="multipleCities"
+      class="setting__multiple-cities"
+    >
+      <p class="setting__city-header">{{ $t('cities.resources') }}</p>
+      <select
+        v-model="cities.resources" 
+        class="city"
+        @change="changeCity"
+      >
+        <template v-for="city in baseCities">
+          <option :key="city">
+            {{ city }}
+          </option>
+        </template>
+      </select>
+      <template v-if="isArtefactItem">
+        <p class="setting__city-header">{{ $t('cities.artefacts') }}</p>
+        <select 
+          v-model="cities.artefacts" 
+          class="city"
+          @change="changeCity"
+        >
+          <template v-for="city in baseCities">
+            <option :key="city">
+              {{ city }}
+            </option>
+          </template>
+        </select>
+      </template>
+      <template v-if="useJournals">
+        <p class="setting__city-header">{{ $t('cities.journals') }}</p>
+        <select 
+          v-model="cities.journals" 
+          class="city"
+          @change="changeCity"
+        >
+          <template v-for="city in baseCities">
+            <option :key="city">
+              {{ city }}
+            </option>
+          </template>
+        </select>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -82,7 +139,14 @@
     "updateJournals": "Update journal prices",
     "updateItems": "Update current item",
     "updateResources": "Update resource prices",
-    "craftFee": "craft fee"
+    "craftFee": "craft fee",
+    "multipleCities": "Use multiple cities",
+    "cities": {
+      "items": "Items",
+      "resources": "Resources",
+      "artefacts": "Artifacts",
+      "journals": "Journals"
+    }
   },
   "ru": {
     "settings": "Настройки",
@@ -90,8 +154,15 @@
     "useFocus": "Использовать фокус",
     "updateJournals": "Обновить цену журналов",
     "updateItems": "Обновить цену предметов",
-    "updateResources": "Обновить цену ресурсов",
-    "craftFee": "налог станка"
+    "updateResources": "Обновить цену материалов",
+    "craftFee": "налог станка",
+    "multipleCities": "Цены из разных городов",
+    "cities": {
+      "items": "Предметы",
+      "resources": "Материалы",
+      "artefacts": "Артефакты",
+      "journals": "Журналы"
+    }
   }
 }
 </i18n>
@@ -100,14 +171,6 @@
 export default {
   name: "Settings",
   props: {
-    /**
-     * Loading text shows which request is being sent
-     */
-    loadingText: {
-      type: String,
-      default: ''
-    },
-
     /**
      * Craft bench tax on item creation
      */
@@ -131,21 +194,108 @@ export default {
       /**
        * Current city or Black Market
        */
-      city: "Caerleon",
-
+      cities: {
+        items: "Caerleon",
+        resources: "Caerleon",
+        artefacts: "Caerleon",
+        journals: "Caerleon",
+      },
+      
       /**
        * Showed fee
        */
       showedFee: 10,
+
+      /**
+       * Use prices from diffrent cities
+       */
+      multipleCities: false,
+
+      baseCities: ["Bridgewatch", "Caerleon", "Fort Sterling", "Lymhurst", "Martlock", "Thetford" ]
     };
+  },
+  computed: {
+    isArtefactItem() {
+      return this.$store.getters.isArtefactItem;
+    }
   },
   methods: {
     /**
      * Emit function on fee change
      */
-    updateFee: function (value) {
-      this.$emit('inputFee', value);
-    }
+    updateFee(value) {
+      this.$store.commit('UPDATE_CRAFT_FEE', value);
+    },
+
+    /**
+     * Emit function on city change
+     */
+    changeCity() {
+      if (!this.multipleCities) {
+        this.normalizeCities();
+      }
+
+      this.$store.commit('SET_CITIES', this.cities);
+
+      this.$store.dispatch('CHECK_ALL');
+    },
+
+    /**
+     * 
+     */
+    toggleMultipleCities() {
+      if (!this.multipleCities) {
+        this.normalizeCities();
+      }
+
+      this.$store.commit('SET_CITIES', this.cities);
+
+      this.$store.dispatch('CHECK_ALL');
+    },
+
+    normalizeCities() {
+      const normalizedCity = this.cities.items == 'Black Market' ? 'Caerleon' : this.cities.items;
+
+      this.cities = {
+        items: this.cities.items,
+        resources: normalizedCity,
+        artefacts: normalizedCity,
+        journals: normalizedCity
+      }
+    },
+
+    changeUseJournals() {
+      this.$store.commit('UPDATE_USE_JOURNALS', this.useJournals);
+
+      this.$store.dispatch('CHECK_ALL');
+    },
+
+    changeUseFocus() {
+      this.$store.commit('UPDATE_USE_FOCUS', this.useFocus);
+
+      this.$store.dispatch('CHECK_ALL');
+    },
+
+    /**
+     * Drop some part of the state
+     * 
+     * @param {string} data - what we need to update
+     */
+    dropStore: function(data) {      
+      switch (data) {
+        case "items":
+          this.$store.state.tree.prices[this.cities.items] = {};
+          break;
+        case "resources":
+          this.$store.state.tree.resources[this.cities.resources] = {};
+          break;
+        case "journals":
+          this.$store.state.tree.journals[this.cities.journals] = {};
+          break;
+      }
+
+      this.$store.dispatch('CHECK_ALL');
+    },
   }
 };
 </script>
@@ -197,12 +347,15 @@ export default {
     }
   }
 
-  
+  &__city-header {
+    font-size: 0.8rem;
+  }
 }
 
 .city {
   width: 100%;
   margin-bottom: 10px;
+  outline: none;
 }
 
 select {
@@ -231,9 +384,9 @@ select {
   font-size: 16px;
   position: relative;
   
-  
   input {
     display: inline-block;
+    outline: none;
     text-align: left;
     width: 100%;
     font-size: 14px;

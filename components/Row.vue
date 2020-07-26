@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import { isArtefactItem } from '../store/utils'
+
 export default {
   name: 'Row',
   props: {
@@ -82,23 +84,18 @@ export default {
       this.switcher(name);
 
       if (isLeaf && this.isOpen) {
-        this.showTable({
-          itemName: name,
-          show: true,
+        this.showTable(true);
+
+        this.$store.dispatch('CHECK_ALL', {
+          name: name,
+          parent: this.parentItem,
           root: this.lastRoot,
-          artefactLevel: this.artefactLevel(name),
-          parentItem: this.parentItem
+          artefactLevel: this.artefactLevel(name)
         });
 
         this.isTableShowed = true;
-      } else if (!isLeaf || !this.isOpen){
-        this.showTable({
-          itemName: name,
-          show: false,
-          root: this.lastRoot,
-          artefactLevel: '',
-          parentItem: this.parentItem
-        });
+      } else if (!isLeaf || !this.isOpen) {
+        this.showTable(false);
       }
       
     },
@@ -141,30 +138,33 @@ export default {
      * @param {string} name - name of current item
      * @returns {string} - artefact name: rune, soul... or empty string
      */
-    artefactLevel: function(name){
-      const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON'];
-      const isArtefactItem = artefacts.some(artefact => name.includes(artefact));
-
-      if (!isArtefactItem) {
+    artefactLevel(name) {
+      if (!isArtefactItem(name)) {
         return '';
       }
 
-      const items = this.items;
-      let index = 0;
+      let currentItemIndex = 0;
+      let firstArtefactItemIndex = 0;
 
-      for (; index < items.length; index++) {
-        if (items[index].name == name) {
+      for (; firstArtefactItemIndex < this.items.length; firstArtefactItemIndex++) {
+        if (isArtefactItem(this.items[firstArtefactItemIndex].name)) {
+          break;
+        }
+      }
+
+      for (; currentItemIndex < this.items.length; currentItemIndex++) {
+        if (this.items[currentItemIndex].name == name) {
           break;
         }
       }
       
       let artefact = '';
 
-      switch (index) {
-        case 3: artefact = 'rune'; break;
-        case 4: artefact = 'soul'; break;
-        case 5: artefact = 'relic'; break;
-        case 6: artefact = 'avalon'; break;
+      switch (currentItemIndex - firstArtefactItemIndex) {
+        case 0: artefact = 'rune'; break;
+        case 1: artefact = 'soul'; break;
+        case 2: artefact = 'relic'; break;
+        case 3: artefact = 'avalon'; break;
       }
 
       return artefact;

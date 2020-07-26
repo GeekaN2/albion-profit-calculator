@@ -1,6 +1,6 @@
 <template>
   <div 
-    v-if="Object.keys(tableData).length" 
+    v-if="loadingText == 'calculated'"
     class="item-table">
     <div 
       v-for="subtier in 4"
@@ -91,6 +91,8 @@
 </i18n>
 
 <script>
+import { mapGetters, mapState } from 'vuex';
+
 export default {
   name: "ItemTable",
   filters: {
@@ -125,12 +127,6 @@ export default {
       }
 
       return lastCheckInHours < 24 ? `${lastCheckInHours}h` : `${Math.floor(lastCheckInHours / 24)}d`;
-    }
-  },
-  props: {
-    tableData: {
-      type: Object,
-      default: () => {},
     }
   },
   data() {
@@ -212,40 +208,47 @@ export default {
      * Get all items(t4.0 - t8.3) for current item
      */
     items() {
-      return this.$store.getters.getItems(this.tableData.itemName, this.tableData.city);
+      return this.$store.getters.getItems;
     },
 
     /**
      * Get all resources for current city
      */
     resources() {
-      return this.$store.getters.getResources(this.tableData.city);
+      return this.$store.getters.getResources;
     },
 
     /**
      * Get artefacts. If artifacts are not needed returns {}
      */
     artefacts() {
-      return this.$store.getters.getArtefacts(this.tableData.itemName, this.tableData.city);
+      return this.$store.getters.getArtefacts;
     },
 
     /**
      * Get recipe to calculate craft cost
      */
     recipe() {
-      return this.$store.getters.getRecipe(this.tableData.itemName);
+      return this.$store.getters.getRecipe;
     },
     
     /**
      * Get journals
      */
     journals() {
-      if (!this.tableData.useJournals) {
-        return {};
-      }
+      return this.$store.getters.getJournals;
+    },
 
-      return this.$store.getters.getJournals(this.tableData.root, this.tableData.city);
-    }
+    ...mapGetters([
+      'returnMaterialPercentage',
+      'loadingText'
+    ]),
+
+    ...mapState({
+      settings: state => state.tree.settings,
+      currentItemInfo: state => state.tree.currentItemInfo
+    })
+
   },
   created() {
     for (let tier = 4; tier <= 8; tier++) {
@@ -326,7 +329,7 @@ export default {
     getArtefactPrice(tier, subtier) {
       if (!this.isObjectEmpty(this.artefacts)) {
         const artefact = this.artefacts[
-          `T${tier}_ARTEFACT${this.tableData.itemName.slice(2)}`
+          `T${tier}_ARTEFACT${this.currentItemInfo.name.slice(2)}`
         ];
 
         this.tableInfo[`T${tier}.${subtier}`].artefact = {
@@ -358,18 +361,17 @@ export default {
           `T${tier}_${resourceName}` +
           (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : "");
         const resourceCost = this.resources[resourceFullName].price;
-        const returnPercentage = this.tableData.returnPercentage;
 
         cost += Math.floor(
           resourceCost *
             this.recipe[resourceName] *
-            (1 - returnPercentage / 100)
+            (1 - this.returnMaterialPercentage / 100)
         );
 
         // update tableInfo
         this.tableInfo[`T${tier}.${subtier}`].materials = {
           name: 'Materials',
-          percentage: -returnPercentage,
+          percentage: -this.returnMaterialPercentage,
           price: -cost,
           date: this.resources[resourceFullName].date
         }
@@ -386,7 +388,7 @@ export default {
      * @returns {number}
      */
     journalProfit(tier, subtier) {
-      if (this.tableData.useJournals){
+      if (this.settings.useJournals){
 
         // amount of fame per unit of this tier material 
         const fame = this.materialsBaseFame[`T${tier}`];
@@ -395,7 +397,7 @@ export default {
         craftFame += !this.isObjectEmpty(this.artefacts) ? 500 : 0;
 
         const journalFame = 1200 * 2 ** (tier - 4);
-        const journalName = `T${tier}_JOURNAL${this.tableData.root.slice(4)}`;
+        const journalName = `T${tier}_JOURNAL${this.currentItemInfo.root.slice(4)}`;
         const marketFee = this.journals[journalName].marketFee;
 
         let profit = (this.journals[journalName].sellPrice - this.journals[journalName].buyPrice) * (craftFame / journalFame);
@@ -425,8 +427,8 @@ export default {
      * @returns {number}
      */
     craftFee(tier, subtier){
-      const fee = this.tableData.fee != '' ? this.tableData.fee : 0;
-      const artefactLevel = this.tableData.artefactLevel;
+      const fee = this.settings.craftFee;
+      const artefactLevel = this.currentItemInfo.artefactLevel;
       let itemValue = this.itemAndArtefactValues[`T${tier}.${subtier}`];
       
       if (artefactLevel.length != 0) {
@@ -464,7 +466,7 @@ export default {
      * @returns {boolean}
      */
     noArtefactForSale(name) {
-      const artefactName = `T${name.slice(1, 2)}_ARTEFACT${this.tableData.itemName.slice(2)}`;
+      const artefactName = `T${name.slice(1, 2)}_ARTEFACT${this.currentItemInfo.name.slice(2)}`;
       
       if (!this.artefacts[artefactName]){
         return false;
@@ -497,10 +499,10 @@ export default {
 
 <style scoped lang="scss">
 .item-table {
-  padding: 0 10px;
+  padding: 0 15px;
   margin: 0 auto;
   display: grid;
-  width: 600px;
+  max-width: 650px;
   font-size: 16px;
 
   .subtier1 {

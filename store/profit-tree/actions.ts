@@ -1,7 +1,8 @@
 import { ActionTree } from 'vuex'
 import axios from 'axios'
-import { createStringOfAllItems, createStringOfAllResources, createStringOfAllArtefacts, createStringOfAllJournals } from '../utils'
+import { createStringOfAllItems, createStringOfAllResources, createStringOfAllArtefacts, createStringOfAllJournals, isObjectEmpty } from '../utils'
 import { TreeState } from '../typeDefs'
+import { isArtefactItem } from '../utils'
 
 export const actions: ActionTree<TreeState, {}> = {
   /**
@@ -17,34 +18,62 @@ export const actions: ActionTree<TreeState, {}> = {
     });
   },
 
+  async CHECK_ALL({commit, dispatch, state, getters}, data) {
+    // checkAllPricesAndFetchIt
+    if (data) {
+      commit('SET_ITEM_INFO', data);
+    }
+    
+    const itemName = state.currentItemInfo.name;
+    const cities = state.settings.cities;
+
+    if (!itemName) {
+      return;
+    }
+
+    if (isObjectEmpty(getters.getItems)) {
+      await dispatch('FETCH_ITEM_PRICES');
+    }
+
+    if (isObjectEmpty(getters.getResources)) {
+      await dispatch('FETCH_RESOURCE_PRICES');
+    }
+
+    if (isArtefactItem(itemName) && isObjectEmpty(getters.getArtefacts)) {
+      await dispatch('FETCH_ARTEFACT_PRICES');
+    }
+
+    if (
+      state.settings.useJournals &&
+      isObjectEmpty(getters.getJournals) &&
+      state.currentItemInfo.root.slice(0, 5) == "ROOT_"
+    ) {
+      await dispatch('FETCH_JOURNAL_PRICES');
+    }
+
+    commit('SET_LOADING_TEXT', 'calculated');
+  },
+
   /**
    * Fetch item prices and artifact prices if necessary
    * 
    * @param {string} itemName - name of item's group: T4_2H_DAGGERPAIR etc.
    * @param {string} location - royal city or Black Market 
    */
-  async FETCH_ITEM_PRICE({commit, state, dispatch}, {itemName, location}: {itemName: string, location: string}) {
-    const allNames: string = createStringOfAllItems(itemName);
-    const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON'];
+  async FETCH_ITEM_PRICES({commit, state, dispatch}) {
+    commit('SET_LOADING_TEXT', 'items');
 
+    const itemName = state.currentItemInfo.name;
+    const allNames: string = createStringOfAllItems(itemName);
+    const location = state.settings.cities.items;
+    
     await axios
       .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}&qualities=1,2,3`)
       .then(response => {
         const data = response.data;
         
-        commit('SET_ITEM_PRICE', {
-          'baseItem': itemName,
-          'location': location,
-          'data': data
-        });
+        commit('SET_ITEM_PRICES', data);
       });
-
-    if (artefacts.some(artefact => itemName.includes(artefact))){
-      await dispatch('FETCH_ARTEFACT_PRICES', {
-        'itemName': itemName,
-        'location': location
-      })
-    }
   },
 
   /**
@@ -53,18 +82,17 @@ export const actions: ActionTree<TreeState, {}> = {
    * @param commit - vuex commit
    * @param location - city
    */
-  async FETCH_RESOURCE_PRICES({commit}, location) {
+  async FETCH_RESOURCE_PRICES({commit, state}) {
+    commit('SET_LOADING_TEXT', 'resources');
+
     const resources = ['CLOTH', 'LEATHER', 'PLANKS', 'METALBAR'];
+    const location = state.settings.cities.resources;
 
     let allNames = resources.reduce((acc, resource) => {
       acc = acc + createStringOfAllResources(resource) + ',';
 
       return acc;
     }, '').slice(0, -1);
-
-    if (location == 'Black Market') {
-      location = 'Caerleon';
-    }
 
     await axios
       .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}`)
@@ -82,22 +110,19 @@ export const actions: ActionTree<TreeState, {}> = {
    * @param itemName - current item
    * @param location - city 
    */
-  async FETCH_ARTEFACT_PRICES({commit}, {itemName, location}) {
-    let allNames = createStringOfAllArtefacts(itemName);
+  async FETCH_ARTEFACT_PRICES({commit, state}) {
+    commit('SET_LOADING_TEXT', 'artefacts');
 
-    if (location == 'Black Market') {
-      location = 'Caerleon';
-    }
+    const itemName = state.currentItemInfo.name;
+    let allNames = createStringOfAllArtefacts(itemName);
+    const location = state.settings.cities.artefacts;
 
     await axios
       .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}`)
       .then(response => {
         const data = response.data;
 
-        commit('SET_ARTEFACT_PRICES', {
-          'data': data,
-          'itemName': itemName
-        });
+        commit('SET_ARTEFACT_PRICES', data);
       });
   },
 
@@ -108,22 +133,18 @@ export const actions: ActionTree<TreeState, {}> = {
    * @param itemName - current item
    * @param root - journals branch: ROOT_WARRIOR etc. 
    */
-  async FETCH_JOURNAL_PRICES({commit}, {location, root}) {
-    let allNames = createStringOfAllJournals(root);
+  async FETCH_JOURNAL_PRICES({commit, state}) {
+    commit('SET_LOADING_TEXT', 'journals');
 
-    if (location == 'Black Market') {
-      location = 'Caerleon';
-    }
+    let allNames = createStringOfAllJournals(state.currentItemInfo.root);
+    const location = state.settings.cities.journals;
 
     await axios
       .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}`)
       .then(response => {
         const data = response.data;
         
-        commit('SET_JOURNAL_PRICES', {
-          'data': data,
-          'root': root
-        })
+        commit('SET_JOURNAL_PRICES', data)
       });
   }
 }
