@@ -17,6 +17,9 @@
               "name": "T4_SHOES_PLATE_SET3"
             },
             {
+              "name": "T4_SHOES_PLATE_ROYAL"
+            },
+            {
               "name": "T4_SHOES_PLATE_UNDEAD"
             },
             {
@@ -43,6 +46,9 @@
               "name": "T4_ARMOR_PLATE_SET3"
             },
             {
+              "name": "T4_ARMOR_PLATE_ROYAL"
+            },
+            {
               "name": "T4_ARMOR_PLATE_UNDEAD"
             },
             {
@@ -67,6 +73,9 @@
             },
             {
               "name": "T4_HEAD_PLATE_SET3"
+            },
+            {
+              "name": "T4_HEAD_PLATE_ROYAL"
             },
             {
               "name": "T4_HEAD_PLATE_UNDEAD"
@@ -232,6 +241,9 @@
               "name": "T4_SHOES_LEATHER_SET3"
             },
             {
+              "name": "T4_SHOES_LEATHER_ROYAL"
+            },
+            {
               "name": "T4_SHOES_LEATHER_MORGANA"
             },
             {
@@ -258,6 +270,9 @@
               "name": "T4_ARMOR_LEATHER_SET3"
             },
             {
+              "name": "T4_ARMOR_LEATHER_ROYAL"
+            },
+            {
               "name": "T4_ARMOR_LEATHER_MORGANA"
             },
             {
@@ -282,6 +297,9 @@
             },
             {
               "name": "T4_HEAD_LEATHER_SET3"
+            },
+            {
+              "name": "T4_HEAD_LEATHER_ROYAL"
             },
             {
               "name": "T4_HEAD_LEATHER_MORGANA"
@@ -447,6 +465,9 @@
               "name": "T4_SHOES_CLOTH_SET3"
             },
             {
+              "name": "T4_SHOES_CLOTH_ROYAL"
+            },
+            {
               "name": "T4_SHOES_CLOTH_KEEPER"
             },
             {
@@ -473,6 +494,9 @@
               "name": "T4_ARMOR_CLOTH_SET3"
             },
             {
+              "name": "T4_ARMOR_CLOTH_ROYAL"
+            },
+            {
               "name": "T4_ARMOR_CLOTH_KEEPER"
             },
             {
@@ -497,6 +521,9 @@
             },
             {
               "name": "T4_HEAD_CLOTH_SET3"
+            },
+            {
+              "name": "T4_HEAD_CLOTH_ROYAL"
             },
             {
               "name": "T4_HEAD_CLOTH_KEEPER"

@@ -79,6 +79,7 @@
     "Market price": "Market price",
     "Materials": "Materials",
     "Artifact": "Artifact",
+    "Sigils": "Royal Sigils",
     "Fee": "Fee",
     "Journals": "Journals"
   },
@@ -86,6 +87,7 @@
     "Market price": "Цена на рынке",
     "Materials": "Материалы",
     "Artifact": "Артефакт",
+    "Sigils": "Королевские знаки",
     "Fee": "Налог",
     "Journals": "Журналы"
   }
@@ -173,22 +175,27 @@ export default {
         "T8.1": 509,
         "T8.2": 1014,
         "T8.3": 2021,
+        T4_royal: 4,
         T4_rune: 4,
         T4_soul: 12,
         T4_relic: 28,
         T4_avalon: 60,
+        T5_royal: 8,
         T5_rune: 8,
         T5_soul: 24,
         T5_relic: 56,
         T5_avalon: 119.5,
+        T6_royal: 16,
         T6_rune: 16,
         T6_soul: 48,
         T6_relic: 111.5,
         T6_avalon: 240,
+        T7_royal: 32,
         T7_rune: 32,
         T7_soul: 95.5,
         T7_relic: 222.5,
-        T7_avalon: 480,
+        T7_avalon: 480, 
+        T8_royal: 952.5,
         T8_rune: 63.5,
         T8_soul: 190.5,
         T8_relic: 444.5,
@@ -332,18 +339,32 @@ export default {
      */
     getArtefactPrice(tier, subtier) {
       if (!this.isObjectEmpty(this.artefacts)) {
-        const artefact = this.artefacts[
-          `T${tier}_ARTEFACT${this.currentItemInfo.name.slice(2)}`
-        ];
+        let artefact = "";
+        let artefactPrice = 0;
+        let name = 'Artifact';
+
+        if (this.currentItemInfo.name.includes('ROYAL')) {
+          // number of sigils e.g. for 8 materials returns from t4 to t8: 2 4 8 8 8
+          const numberOfSigils = tier >= 6 ? this.amountOfMaterials : this.amountOfMaterials * (tier - 3) / 4;
+
+          artefact = this.artefacts[`QUESTITEM_TOKEN_ROYAL_T${tier}`];
+          artefactPrice = artefact.price * numberOfSigils;
+          name = 'Sigils';
+        } else {
+          artefact = this.artefacts[
+            `T${tier}_ARTEFACT${this.currentItemInfo.name.slice(2)}`
+          ];
+          artefactPrice = artefact.price;
+        }
 
         this.tableInfo[`T${tier}.${subtier}`].artefact = {
-          name: "Artifact",
+          name: name,
           percentage: 0,
-          price: -artefact.price,
+          price: -artefactPrice,
           date: artefact.date,
         };
 
-        return artefact.price;
+        return artefactPrice;
       } else {
         this.$set(this.tableInfo[`T${tier}.${subtier}`], "artefact", {});
       }

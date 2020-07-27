@@ -44,6 +44,14 @@ export function createStringOfAllResources(resource: string): string {
 export function createStringOfAllArtefacts(itemName: string) {
   let allNames = '';
 
+  if (itemName.includes('ROYAL')) {
+    for (let tier = 4; tier <= 8; tier++) {
+      allNames = allNames + `QUESTITEM_TOKEN_ROYAL_T${tier},`;
+    }
+
+    return allNames.slice(0, -1);
+  }
+
   for (let tier = 4; tier <= 8; tier++) {
     allNames = allNames + `T${tier}_ARTEFACT${itemName.slice(2)},`;
   }
@@ -157,7 +165,7 @@ export function isObjectEmpty(obj: object): boolean {
  * @param itemName - item name: T4_ARTEFACT_HEAD_CLOTH_HELL etc.
  */
 export function isArtefactItem(itemName: string): boolean {
-  const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON'];
+  const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL'];
 
   return artefacts.some(artefact => itemName.includes(artefact));
 }
