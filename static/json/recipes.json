@@ -8,6 +8,9 @@
   "T4_SHOES_PLATE_SET3": {
     "METALBAR": 8
   },
+  "T4_SHOES_PLATE_ROYAL": {
+    "METALBAR": 8
+  },
   "T4_SHOES_PLATE_UNDEAD": {
     "METALBAR": 8
   },
@@ -29,6 +32,9 @@
   "T4_ARMOR_PLATE_SET3": {
     "METALBAR": 16
   },
+  "T4_ARMOR_PLATE_ROYAL": {
+    "METALBAR": 16
+  },
   "T4_ARMOR_PLATE_UNDEAD": {
     "METALBAR": 16
   },
@@ -48,6 +54,9 @@
     "METALBAR": 8
   },
   "T4_HEAD_PLATE_SET3": {
+    "METALBAR": 8
+  },
+  "T4_HEAD_PLATE_ROYAL": {
     "METALBAR": 8
   },
   "T4_HEAD_PLATE_UNDEAD": {
@@ -206,6 +215,9 @@
   "T4_SHOES_LEATHER_SET3": {
     "LEATHER": 8
   },
+  "T4_SHOES_LEATHER_ROYAL": {
+    "LEATHER": 8
+  },
   "T4_SHOES_LEATHER_MORGANA": {
     "LEATHER": 8
   },
@@ -227,6 +239,9 @@
   "T4_ARMOR_LEATHER_SET3": {
     "LEATHER": 16
   },
+  "T4_ARMOR_LEATHER_ROYAL": {
+    "LEATHER": 16
+  },
   "T4_ARMOR_LEATHER_MORGANA": {
     "LEATHER": 16
   },
@@ -246,6 +261,9 @@
     "LEATHER": 8
   },
   "T4_HEAD_LEATHER_SET3": {
+    "LEATHER": 8
+  },
+  "T4_HEAD_LEATHER_ROYAL": {
     "LEATHER": 8
   },
   "T4_HEAD_LEATHER_MORGANA": {
@@ -399,6 +417,9 @@
   "T4_SHOES_CLOTH_SET3": {
     "CLOTH": 8
   },
+  "T4_SHOES_CLOTH_ROYAL": {
+    "CLOTH": 8
+  },
   "T4_SHOES_CLOTH_KEEPER": {
     "CLOTH": 8
   },
@@ -420,6 +441,9 @@
   "T4_ARMOR_CLOTH_SET3": {
     "CLOTH": 16
   },
+  "T4_ARMOR_CLOTH_ROYAL": {
+    "CLOTH": 16
+  },
   "T4_ARMOR_CLOTH_KEEPER": {
     "CLOTH": 16
   },
@@ -439,6 +463,9 @@
     "CLOTH": 8
   },
   "T4_HEAD_CLOTH_SET3": {
+    "CLOTH": 8
+  },
+  "T4_HEAD_CLOTH_ROYAL": {
     "CLOTH": 8
   },
   "T4_HEAD_CLOTH_KEEPER": {

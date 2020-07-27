@@ -138,6 +138,7 @@
       "items": "Items",
       "resources": "Resources",
       "artefacts": "Artifacts",
+      "sigils": "Royal sigils",
       "journals": "Journals"
     }
   },
@@ -157,6 +158,7 @@
       "items": "Предметы",
       "resources": "Материалы",
       "artefacts": "Артефакты",
+      "sigils": "Королевские знаки",
       "journals": "Журналы"
     }
   }
@@ -227,7 +229,7 @@ export default {
      */
     isArtefactItem() {
       return this.$store.getters.isArtefactItem;
-    },
+    }
   },
   methods: {
     /**
@@ -302,7 +304,7 @@ export default {
      *
      * @param {string} data - what we need to update
      */
-    dropStore: function (data) {
+    dropStore: function (data) {z
       switch (data) {
         case "items":
           this.$store.state.tree.prices[this.cities.items] = {};
