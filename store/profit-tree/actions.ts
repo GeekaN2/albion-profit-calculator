@@ -73,7 +73,7 @@ export const actions: ActionTree<TreeState, {}> = {
 
     const itemName = state.currentItemInfo.name;
     const allNames: string = createStringOfAllItems(itemName);
-    const location = state.settings.cities.items;
+    const location = state.settings.cities.sellItems;
 
     await axios
       .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}&qualities=1,2,3`)

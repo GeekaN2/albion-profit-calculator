@@ -10,7 +10,7 @@ export const getters: GetterTree<TreeState, {}> = {
    */
   getItems: (state: TreeState) => {
     const itemName = state.currentItemInfo.name;
-    const city = state.settings.cities.items;
+    const city = state.settings.cities.sellItems;
     const prices = state.prices[city][itemName] || {}
 
     return prices;
@@ -77,7 +77,7 @@ export const getters: GetterTree<TreeState, {}> = {
 
   returnMaterialPercentage: (state: TreeState) => {
     const parentItem = state.currentItemInfo.parent;
-    const city = state.settings.cities.items;
+    const city = state.settings.cities.craftItems;
     const useFocus = state.settings.useFocus;
 
     return getReturnMaterialsPercentage(parentItem, city, useFocus);
