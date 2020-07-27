@@ -32,7 +32,7 @@
         >
         <button 
           class="modal_form__button"
-          @click="login"
+          @click.prevent="login"
         >
           {{ $t('loginButton') }}
         </button>
@@ -70,6 +70,9 @@
 export default {
   name: 'UserAuthForm',
   props: {
+    /**
+     * Show this modal or not
+     */
     isModalShow: {
       type: Boolean,
       default: false
@@ -77,9 +80,20 @@ export default {
   },
   data() {
     return {
+      /**
+       * User nickname
+       */
       nickname: '',
+
+      /**
+       * User password
+       */
       password: '',
-      error: ''
+
+      /**
+       * Error message if something goes wrong
+       */
+      error: '',
     }
   },
   methods: {

@@ -8,30 +8,34 @@
 
 <i18n>
 {
-    "en": {
-        "items": "Loading item prices",
-        "resources": "Loading resource prices",
-        "journals": "Loading journal prices",
-        "calculated": "Profit calculated"
-    },
-    "ru": {
-        "items": "Загружем цены предметов",
-        "resources": "Загружаем цены ресурсов",
-        "journals": "Загружаем цены журналов",
-        "calculated": "Профит посчитан"
-    }
+  "en": {
+      "items": "Loading item prices",
+      "artefacts": "Loading artifact prices",
+      "resources": "Loading resource prices",
+      "journals": "Loading journal prices",
+      "calculated": "Profit calculated"
+  },
+  "ru": {
+      "items": "Загружем цены предметов",
+      "artefacts": "Загружаем цены артефактов",
+      "resources": "Загружаем цены материалов",
+      "journals": "Загружаем цены журналов",
+      "calculated": "Профит посчитан"
+  }
 }
 </i18n>
 
 <script>
 export default {
   name: "Loading",
-  props: {
-    text: {
-      type: String,
-      default: ""
-    }
-  }
+  computed: {
+    /**
+     * Text of loading
+     */
+    text() {
+      return this.$store.getters.loadingText;
+    },
+  },
 };
 </script>
 

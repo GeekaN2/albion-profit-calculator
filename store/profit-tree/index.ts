@@ -1,5 +1,6 @@
 import { actions } from './actions';
 import { mutations } from './mutations';
+import { getters } from './getters'
 import Vuex from 'vuex';
 import Vue from 'vue'
 
@@ -17,12 +18,16 @@ const cities = {
 const treeModule = {
   state: {
     tree: [],
-    prices: {},
+    prices: JSON.parse(JSON.stringify(Object.assign(cities, {'Black Market': {}}))),
     recipes: {},
+    settings: {},
+    features: {},
+    currentItemInfo: {},
     resources: JSON.parse(JSON.stringify(cities)),
     artefacts: JSON.parse(JSON.stringify(cities)),
     journals: JSON.parse(JSON.stringify(cities))
   },
+  getters,
   actions,
   mutations
 }

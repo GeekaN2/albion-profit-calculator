@@ -54,6 +54,9 @@
 export default {
   name: "Header",
   methods: {
+    /**
+     * Logout user
+     */
     logout() {
       this.$auth.logout('local');
     }
