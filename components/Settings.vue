@@ -63,9 +63,9 @@
         @change="updateFee($event.target.value)" >
       <span>% {{ $t('craftFee') }}</span>
     </div>
-    <p class="setting__city-header">{{ $t('cities.items') }}</p>
+    <p class="setting__city-header">{{ multipleCities ? $t('cities.sellItems') : $t('cities.mainCity') }}</p>
     <select 
-      v-model="cities.items" 
+      v-model="cities.sellItems" 
       class="city" 
       @change="changeCity">
       <option>Black Market</option>
@@ -76,6 +76,15 @@
     <div 
       v-if="multipleCities" 
       class="setting__multiple-cities">
+      <p class="setting__city-header">{{ $t('cities.craftItems') }}</p>
+      <select 
+        v-model="cities.craftItems" 
+        class="city" 
+        @change="changeCity">
+        <template v-for="city in baseCities">
+          <option :key="city">{{ city }}</option>
+        </template>
+      </select>
       <p class="setting__city-header">{{ $t('cities.resources') }}</p>
       <select 
         v-model="cities.resources" 
@@ -123,6 +132,9 @@
     "craftFee": "craft fee",
     "multipleCities": "Use multiple cities",
     "cities": {
+      "mainCity": "Main city",
+      "sellItems": "Sell items",
+      "craftItems": "Craft items",
       "items": "Items",
       "resources": "Resources",
       "artefacts": "Artifacts",
@@ -139,6 +151,9 @@
     "craftFee": "налог станка",
     "multipleCities": "Цены из разных городов",
     "cities": {
+      "mainCity": "Основной город",
+      "sellItems": "Продажа предметов",
+      "craftItems": "Крафт предметов",
       "items": "Предметы",
       "resources": "Материалы",
       "artefacts": "Артефакты",
@@ -176,7 +191,8 @@ export default {
        * Current city or Black Market
        */
       cities: {
-        items: "Caerleon",
+        sellItems: "Caerleon",
+        craftItems: "Caerleon",
         resources: "Caerleon",
         artefacts: "Caerleon",
         journals: "Caerleon",
@@ -252,10 +268,11 @@ export default {
      */
     normalizeCities() {
       const normalizedCity =
-        this.cities.items == "Black Market" ? "Caerleon" : this.cities.items;
+        this.cities.sellItems == "Black Market" ? "Caerleon" : this.cities.sellItems;
 
       this.cities = {
-        items: this.cities.items,
+        sellItems: this.cities.sellItems,
+        craftItems: normalizedCity,
         resources: normalizedCity,
         artefacts: normalizedCity,
         journals: normalizedCity,

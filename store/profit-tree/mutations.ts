@@ -22,7 +22,8 @@ export const mutations: MutationTree<TreeState> = {
       useFocus: false,
       craftFee: 10,
       cities: {
-        items: "Caerleon",
+        sellItems: "Caerleon",
+        craftItems: "Caerleon",
         resources: "Caerleon",
         artefacts: "Caerleon",
         journals: "Caerleon"
@@ -44,7 +45,7 @@ export const mutations: MutationTree<TreeState> = {
    */
   SET_ITEM_PRICES(state, data) {
     const itemName = state.currentItemInfo.name;
-    const location = state.settings.cities.items;
+    const location = state.settings.cities.sellItems;
     let newPrices: { [key: string]: Item } = {};
 
     data.forEach((item: ResponseModel) => {

@@ -114,7 +114,8 @@ export interface Settings {
   useFocus: boolean,
   craftFee: number,
   cities: {
-    items: string,
+    sellItems: string,
+    craftItems: string,
     resources: string,
     artefacts: string,
     journals: string

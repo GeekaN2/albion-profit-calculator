@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 module.exports = {
   /*
   ** Headers of the page
@@ -72,7 +74,7 @@ module.exports = {
   }],
 
   axios: {
-    baseURL: 'http://127.0.0.1:4000/api/'
+    baseURL: process.env.BASE_URL
   },
 
   auth: {
