@@ -57,10 +57,10 @@
     </div>
     <div class="input">
       <input 
-        :value="fee" 
+        v-model.number.lazy="fee"
         placeholder="0" 
         maxlength="4" 
-        @change="updateFee($event.target.value)" >
+        @change="updateFee" >
       <span>% {{ $t('craftFee') }}</span>
     </div>
     <p class="setting__city-header">{{ multipleCities ? $t('cities.sellItems') : $t('cities.mainCity') }}</p>
@@ -168,15 +168,6 @@
 <script>
 export default {
   name: "Settings",
-  props: {
-    /**
-     * Craft bench tax on item creation
-     */
-    fee: {
-      type: Number,
-      default: 10,
-    },
-  },
   data() {
     return {
       /**
@@ -188,6 +179,11 @@ export default {
        * Use focus points or not
        */
       useFocus: false,
+
+      /**
+       * Craft bench tax on item creation
+       */
+      fee: 10,
 
       /**
        * Current city or Black Market
@@ -236,7 +232,7 @@ export default {
      * Emit function on fee change
      */
     updateFee(value) {
-      this.$store.commit("UPDATE_CRAFT_FEE", value);
+      this.$store.commit("UPDATE_CRAFT_FEE", this.fee);
     },
 
     /**
