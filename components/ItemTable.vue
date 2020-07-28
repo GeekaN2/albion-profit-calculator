@@ -11,13 +11,15 @@
       <div
         v-for="(item, name) of getRow(subtier - 1)"
         :class="[{
-          'row__unprofitable': item.price < 0,
-          'row__profitable': item.price > 0,
-          'row__unknown': item.price == 0 || outdated(item.date) || noArtefactForSale(name),
+          'row__unprofitable': item.profit < 0,
+          'row__profitable': item.profit > 0,
+          'row__unknown': item.profit == 0 || outdated(item.date) || noArtefactForSale(name),
         }, `tier${name.slice(1, 2)} tier item`]"
         :key="name"
       >
-        {{ item.price | formatPrice }}
+        <div class="item__base-item-info base-item-info">
+          <span class="base-item-info__profit">{{ item.profit | formatPrice }}</span>
+        </div>
         <div class="item__warnings">
           <img 
             v-if="outdated(item.date)" 
@@ -108,6 +110,7 @@ export default {
       if (infoName == "journals" && price > 0) {
         price = "+" + price;
       }
+
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
 
@@ -137,6 +140,20 @@ export default {
         ? `${lastCheckInHours}h`
         : `${Math.floor(lastCheckInHours / 24)}d`;
     },
+
+    /**
+     * Floating point format
+     */
+    formatPercentage(num) {
+      if (Math.floor(num) == num) {
+        return num;
+      }
+
+      num = typeof num === 'number' ? num.toFixed(1) : 0;
+      num = num > 0 ? `+${num}` : `-${num}`;
+
+      return num;
+    }
   },
   data() {
     return {
@@ -295,7 +312,7 @@ export default {
           (subtier == 0 && itemName.slice(-2, -1) != "@")
         ) {
           row[itemName] = {
-            price: 0,
+            profit: 0,
             date: this.dateNow(),
           };
 
@@ -305,7 +322,7 @@ export default {
           this.tableInfo[`T${tier}.${subtier}`].marketPrice = {
             name: "Market price",
             percentage: -marketFee,
-            price: Math.floor(this.items[itemName].price * 0.97),
+            price: Math.floor(this.items[itemName].price * (1 - marketFee / 100)),
             date: this.items[itemName].date,
           };
 
@@ -317,12 +334,15 @@ export default {
           creationCost += this.craftFee(tier, subtier);
           creationCost -= this.journalProfit(tier, subtier);
 
+          const journalProfit = this.journalProfit(tier, subtier)
+
           if (this.items[itemName].price != 0) {
             const itemPrice = Math.floor(
               this.items[itemName].price * (1 - marketFee / 100)
             );
-            row[itemName].price = itemPrice - creationCost;
+            row[itemName].profit = itemPrice - creationCost;
             row[itemName].date = this.items[itemName].date;
+            row[itemName].percentageProfit = row[itemName].profit / creationCost * 100;
           }
         }
       }
@@ -517,7 +537,7 @@ export default {
      * @returns {boolean}
      */
     isObjectEmpty(obj) {
-      return Object.keys(obj).length == 0;
+      return JSON.stringify(obj) === '{}';
     },
 
     /**
@@ -577,12 +597,12 @@ export default {
   position: relative;
 
   &__profitable {
-    text-shadow: 1px 0 1px #043204;
+    text-shadow: 1px 0 1px #041e04;
     color: #14a014;
   }
 
   &__unprofitable {
-    text-shadow: 1px 0 1px #4a0404;
+    text-shadow: 1px 0 1px #380404;
     color: #ae3a3a;
   }
 
@@ -693,6 +713,24 @@ export default {
       opacity: 1;
     }
   }
+  
+  &__base-item-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: right;
+  }
+}
+
+.base-item-info__secondary-info {
+  background: rgba(0,0,0,0.1);
+  border-radius: 5px;
+  display: inline-flex;
+  padding: 0px 7px;
+  justify-content: space-around;
+  font-size: 10px;
+  gap: 7px;
+  /*color: #1c4c1b;*/
 }
 
 .tooltip {
@@ -722,6 +760,13 @@ export default {
     width: 9px;
     height: 9px;
   }
+
+  .base-item-info {
+    &__secondary-info {
+      font-size: 9px;
+      gap: 3px;
+    }
+  }
 }
 @media (max-width: 479px) {
   .item-table {
@@ -733,6 +778,12 @@ export default {
     top: 6px;
     padding: 1px 0;
     width: 7px;
+  }
+
+  .base-item-info {
+    &__secondary-info {
+      font-size: 8px;
+    }
   }
 }
 </style>
