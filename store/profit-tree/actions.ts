@@ -63,6 +63,36 @@ export const actions: ActionTree<TreeState, {}> = {
   },
 
   /**
+   * Update a part of state
+   * 
+   * @param data - items, resources, artifacts or journals
+   */
+  async UPDATE_STATE({ dispatch, state }, data: string) {
+    const itemName = state.currentItemInfo.name;
+
+    if (!itemName) {
+      return;
+    }
+
+    switch(data) {
+      case 'items':
+        await dispatch('FETCH_ITEM_PRICES');
+        break;
+      case 'resources':
+        await dispatch('FETCH_RESOURCE_PRICES');
+        break;
+      case 'artifacts':
+        await dispatch('FETCH_ARTEFACT_PRICES');
+        break;
+      case 'journals':
+        await dispatch('FETCH_JOURNAL_PRICES');
+        break;
+    }
+
+    await dispatch("CHECK_ALL");
+  },
+
+  /**
    * Fetch item prices
    * 
    * @param commit - vuex commit

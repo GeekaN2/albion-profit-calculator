@@ -167,5 +167,9 @@ export function isObjectEmpty(obj: object): boolean {
 export function isArtefactItem(itemName: string): boolean {
   const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL'];
 
+  if (!itemName) {
+    return false;
+  }
+  
   return artefacts.some(artefact => itemName.includes(artefact));
 }

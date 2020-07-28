@@ -33,27 +33,29 @@
     </div>
     <div 
       class="refresh" 
-      @click="dropStore('journals')">
-      <img 
-        src="/images/redo-alt.svg" 
-        alt >
-      <p>{{ $t('updateJournals') }}</p>
-    </div>
-    <div 
-      class="refresh" 
-      @click="dropStore('items')">
-      <img 
-        src="/images/redo-alt.svg" 
-        alt >
+      @click="updateState('items')">
+      <img src="/images/redo-alt.svg">
       <p>{{ $t('updateItems') }}</p>
     </div>
     <div 
       class="refresh" 
-      @click="dropStore('resources')">
-      <img 
-        src="/images/redo-alt.svg" 
-        alt >
+      @click="updateState('resources')">
+      <img src="/images/redo-alt.svg">
       <p>{{ $t('updateResources') }}</p>
+    </div>
+    <div
+      v-if="isArtefactItem"
+      class="refresh"
+      @click="updateState('artifacts')">
+      <img src="/images/redo-alt.svg">
+      <p>{{ $t('updateArtifacts') }}</p>
+    </div>
+    <div
+      v-if="useJournals"
+      class="refresh" 
+      @click="updateState('journals')">
+      <img src="/images/redo-alt.svg">
+      <p>{{ $t('updateJournals') }}</p>
     </div>
     <div class="input">
       <input 
@@ -126,9 +128,10 @@
     "settings": "Settings",
     "useJournals": "Use journals",
     "useFocus": "Use focus",
-    "updateJournals": "Update journal prices",
     "updateItems": "Update current item",
     "updateResources": "Update resource prices",
+    "updateArtifacts": "Update artifact prices",
+    "updateJournals": "Update journal prices",
     "craftFee": "craft fee",
     "multipleCities": "Use multiple cities",
     "cities": {
@@ -146,9 +149,10 @@
     "settings": "Настройки",
     "useJournals": "Использовать журналы",
     "useFocus": "Использовать фокус",
-    "updateJournals": "Обновить цену журналов",
-    "updateItems": "Обновить цену предметов",
-    "updateResources": "Обновить цену материалов",
+    "updateItems": "Обновить цены предметов",
+    "updateResources": "Обновить цены материалов",
+    "updateArtifacts": "Обновить цены артефактов",
+    "updateJournals": "Обновить цены журналов",
     "craftFee": "налог станка",
     "multipleCities": "Цены из разных городов",
     "cities": {
@@ -296,24 +300,12 @@ export default {
     },
 
     /**
-     * Drop some part of the state and try to get new data
+     * Update some part of the state and try to get new data
      *
      * @param {string} data - what we need to update
      */
-    dropStore: function (data) {z
-      switch (data) {
-        case "items":
-          this.$store.state.tree.prices[this.cities.items] = {};
-          break;
-        case "resources":
-          this.$store.state.tree.resources[this.cities.resources] = {};
-          break;
-        case "journals":
-          this.$store.state.tree.journals[this.cities.journals] = {};
-          break;
-      }
-
-      this.$store.dispatch("CHECK_ALL");
+    async updateState(data) {
+      await this.$store.dispatch('UPDATE_STATE', data);
     },
   },
 };
