@@ -371,8 +371,6 @@ export default {
         return 0;
       }
 
-      console.log('KEK', this.currentItemInfo.name, this.artefacts);
-
       let artefact = "";
       let artefactPrice = 0;
       let name = 'Artifact';
