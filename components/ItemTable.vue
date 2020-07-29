@@ -18,18 +18,21 @@
         :key="name"
       >
         <div class="item__base-item-info base-item-info">
-          <span class="base-item-info__profit">{{ item.profit | formatPrice }}</span>
+          <span>{{ item.profit | formatPrice }}</span>
+          <div class="base-item-info__secondary-info">
+            <span class="secondary-info__profit-percentage">{{ item.percentageProfit | formatPercentage }}%</span>
+          </div>
         </div>
         <div class="item__warnings">
-          <img 
-            v-if="outdated(item.date)" 
-            src="/images/clock.svg" 
-            class="item__warnings__icon" >
           <img
             v-if="noArtefactForSale(name)"
             src="/images/exclamation-triangle.svg"
             class="item__warnings__icon"
           >
+          <img 
+            v-if="outdated(item.date)" 
+            src="/images/clock.svg" 
+            class="item__warnings__icon" >
           <img
             v-if="!outdated(item.date) && !noArtefactForSale(name)"
             class="item__warnings__info"
@@ -145,12 +148,16 @@ export default {
      * Floating point format
      */
     formatPercentage(num) {
+      if (typeof num !== 'number') {
+        return 0;
+      } 
+
       if (Math.floor(num) == num) {
         return num;
       }
 
       num = typeof num === 'number' ? num.toFixed(1) : 0;
-      num = num > 0 ? `+${num}` : `-${num}`;
+      num = num > 0 ? `+${num}` : num;
 
       return num;
     }
@@ -334,7 +341,7 @@ export default {
           creationCost += this.craftFee(tier, subtier);
           creationCost -= this.journalProfit(tier, subtier);
 
-          const journalProfit = this.journalProfit(tier, subtier)
+          const journalProfit = this.journalProfit(tier, subtier);
 
           if (this.items[itemName].price != 0) {
             const itemPrice = Math.floor(
@@ -537,7 +544,7 @@ export default {
      * @returns {boolean}
      */
     isObjectEmpty(obj) {
-      return JSON.stringify(obj) === '{}';
+      return JSON.stringify(obj) === '{}' || obj === undefined;
     },
 
     /**
@@ -593,50 +600,62 @@ export default {
   justify-content: center;
   align-items: center;
   margin: 7px 0;
-  border-radius: 12px;
+  border-radius: 15px;
   position: relative;
 
   &__profitable {
-    text-shadow: 1px 0 1px #041e04;
+    text-shadow: .5px .5px .5px #041e04;
     color: #14a014;
+
+    .base-item-info__secondary-info {
+      color: #1bb31b;
+    }
   }
 
   &__unprofitable {
-    text-shadow: 1px 0 1px #380404;
+    text-shadow: .5px .5px .5px #380404;
     color: #ae3a3a;
+
+    .base-item-info__secondary-info {
+      color: #d54c4c;
+    }
   }
 
   &__unknown {
-    text-shadow: 0px 0 1px #131313;
+    text-shadow: .5px 0px .5px #131313;
     color: #585858;
+
+    .base-item-info__secondary-info {
+      color: #6a6a6a;
+    }
   }
 
   .tier {
     width: 20%;
-    text-align: center;
-    padding: 4px;
+    text-align: right;
+    padding: 4px 20px 4px 4px;
     position: relative;
   }
 
   .tier4 {
-    border-radius: 10px 0 0 10px;
-    background: #7fa6bf;
+    border-radius: 15px 0 0 15px;
+    background: #9bc8e2;
   }
 
   .tier5 {
-    background: #ce7d76;
+    background: #eb8f87;
   }
 
   .tier6 {
-    background: #d5803f;
+    background: #e09255;
   }
 
   .tier7 {
-    background: #dabc5b;
+    background: #eccc62;
   }
 
   .tier8 {
-    border-radius: 0 10px 10px 0;
+    border-radius: 0 15px 15px 0;
     background: #f5f5f5;
   }
 }
@@ -645,14 +664,14 @@ export default {
   &__warnings {
     position: absolute;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     flex-direction: column;
     height: 100%;
     bottom: -1px;
     right: -1px;
     z-index: 50;
-    padding: 3px 6px 6px 6px;
+    width: 20px;
 
     &__icon {
       top: 6px;
@@ -668,8 +687,8 @@ export default {
     &__tooltip {
       visibility: hidden;
       right: 50%;
-      transform: translateX(50%);
-      bottom: 24px;
+      transform: translateX(8%);
+      bottom: 90%;
       position: absolute;
       background: #dfdfdf;
       color: #5e5e5e;
@@ -687,7 +706,7 @@ export default {
       &:after {
         content: "";
         position: absolute;
-        right: calc(50% - 5px);
+        right: calc(8% - 5px);
         bottom: -5px;
         width: 10px;
         height: 10px;
@@ -704,7 +723,7 @@ export default {
     }
 
     &:hover &__tooltip {
-      bottom: 28px;
+      bottom: 100%;
       opacity: 1;
       visibility: visible;
     }
@@ -718,27 +737,28 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: right;
+    align-items: flex-end;
   }
 }
 
 .base-item-info__secondary-info {
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.08);
   border-radius: 5px;
-  display: inline-flex;
-  padding: 0px 7px;
-  justify-content: space-around;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
   font-size: 10px;
   gap: 7px;
+  width: 95%;
   /*color: #1c4c1b;*/
 }
 
 .tooltip {
-  &--tier8 {
-    transform: translateX(10%);
+  &--tier4 {
+    transform: translateX(50%);
 
     &:after {
-      right: calc(10% - 5px);
+      right: calc(50% - 5px);
     }
   }
 }
@@ -761,11 +781,9 @@ export default {
     height: 9px;
   }
 
-  .base-item-info {
-    &__secondary-info {
-      font-size: 9px;
-      gap: 3px;
-    }
+  .base-item-info__secondary-info {
+    font-size: 9px;
+    gap: 3px;
   }
 }
 @media (max-width: 479px) {
@@ -780,10 +798,8 @@ export default {
     width: 7px;
   }
 
-  .base-item-info {
-    &__secondary-info {
-      font-size: 8px;
-    }
+  .base-item-info__secondary-info {
+    font-size: 8px;
   }
 }
 </style>
