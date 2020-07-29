@@ -277,7 +277,7 @@ export default {
       return this.$store.getters.getJournals;
     },
 
-    ...mapGetters(["returnMaterialPercentage", "loadingText"]),
+    ...mapGetters(["returnMaterialPercentage", "loadingText", "isArtefactItem"]),
 
     ...mapState({
       settings: (state) => state.tree.settings,
@@ -365,38 +365,40 @@ export default {
      * @returns {number} - artefact price
      */
     getArtefactPrice(tier, subtier) {
-      if (!this.isObjectEmpty(this.artefacts)) {
-        let artefact = "";
-        let artefactPrice = 0;
-        let name = 'Artifact';
-
-        if (this.currentItemInfo.name.includes('ROYAL')) {
-          // number of sigils e.g. for 8 materials returns from t4 to t8: 2 4 8 8 8
-          const numberOfSigils = tier >= 6 ? this.amountOfMaterials : this.amountOfMaterials * (tier - 3) / 4;
-
-          artefact = this.artefacts[`QUESTITEM_TOKEN_ROYAL_T${tier}`];
-          artefactPrice = artefact.price * numberOfSigils;
-          name = 'Sigils';
-        } else {
-          artefact = this.artefacts[
-            `T${tier}_ARTEFACT${this.currentItemInfo.name.slice(2)}`
-          ];
-          artefactPrice = artefact.price;
-        }
-
-        this.tableInfo[`T${tier}.${subtier}`].artefact = {
-          name: name,
-          percentage: 0,
-          price: -artefactPrice,
-          date: artefact.date,
-        };
-
-        return artefactPrice;
-      } else {
+      if (!this.isArtefactItem) {
         this.$set(this.tableInfo[`T${tier}.${subtier}`], "artefact", {});
+
+        return 0;
       }
 
-      return 0;
+      console.log('KEK', this.currentItemInfo.name, this.artefacts);
+
+      let artefact = "";
+      let artefactPrice = 0;
+      let name = 'Artifact';
+
+      if (this.currentItemInfo.name.includes('ROYAL')) {
+        // number of sigils e.g. for 8 materials returns from t4 to t8: 2 4 8 8 8
+        const numberOfSigils = tier >= 6 ? this.amountOfMaterials : this.amountOfMaterials * (tier - 3) / 4;
+
+        artefact = this.artefacts[`QUESTITEM_TOKEN_ROYAL_T${tier}`];
+        artefactPrice = artefact.price * numberOfSigils;
+        name = 'Sigils';
+      } else {
+        artefact = this.artefacts[
+          `T${tier}_ARTEFACT${this.currentItemInfo.name.slice(2)}`
+        ];
+        artefactPrice = artefact.price;
+      }
+
+      this.tableInfo[`T${tier}.${subtier}`].artefact = {
+        name: name,
+        percentage: 0,
+        price: -artefactPrice,
+        date: artefact.date,
+      };
+
+      return artefactPrice;
     },
 
     /**
