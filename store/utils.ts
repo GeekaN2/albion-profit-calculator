@@ -129,6 +129,7 @@ export function getReturnMaterialsPercentage(parentItem: string, city: string, u
 
   // Keywords for the category of items that the bonus is assigned to
   const bonus: { [key: string]: string[] } = {
+    'Caerleon': ['TOOL'],
     'Martlock': ['AXE', 'QUARTERSTAFF', 'FROSTSTAFF', 'SHOES_PLATE', 'OFF'],
     'Bridgewatch': ['CROSSBOW', 'DAGGER', 'CURSEDSTAFF', 'ARMOR_PLATE', 'SHOES_CLOTH'],
     'Lymhurst': ['SWORD', 'BOW', 'ARCANESTAFF', 'HEAD_LEATHER', 'SHOES_LEATHER'],
