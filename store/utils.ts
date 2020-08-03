@@ -117,41 +117,6 @@ export function normalizedPriceAndDate(item: ResponseModel): Item {
 }
 
 /**
- * Returns the percentage of materials returned 
- * for profile cities
- * 
- * @param parentItem - branch of specific items: T4_MAIN_FIRESTAFF etc.
- * @param city - current city
- * @returns percentage
- */
-export function getReturnMaterialsPercentage(parentItem: string, city: string, useFocus: boolean): number {
-  let returnMaterialsPercentage = useFocus ? 43.5 : 15.2;
-
-  // Keywords for the category of items that the bonus is assigned to
-  const bonus: { [key: string]: string[] } = {
-    'Caerleon': ['TOOL'],
-    'Martlock': ['AXE', 'QUARTERSTAFF', 'FROSTSTAFF', 'SHOES_PLATE', 'OFF'],
-    'Bridgewatch': ['CROSSBOW', 'DAGGER', 'CURSEDSTAFF', 'ARMOR_PLATE', 'SHOES_CLOTH'],
-    'Lymhurst': ['SWORD', 'BOW', 'ARCANESTAFF', 'HEAD_LEATHER', 'SHOES_LEATHER'],
-    'Fort Sterling': ['HAMMER', 'SPEAR', 'HOLYSTAFF', 'HEAD_PLATE', 'ARMOR_CLOTH'],
-    'Thetford': ['MACE', 'NATURESTAFF', 'FIRESTAFF', 'ARMOR_LEATHER', 'HEAD_CLOTH']
-  };
-
-  if (bonus[city]) {
-    const categories = bonus[city];
-
-    const addBonus = categories.some(keyword => {
-      return parentItem.includes(keyword);
-    });
-
-    if (addBonus) {
-      returnMaterialsPercentage = useFocus ? 47.9 : 24.8;
-    }
-  }
-  return returnMaterialsPercentage;
-}
-
-/**
  * Checking an object for emptiness
  * 
  * @param obj - any object
