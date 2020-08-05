@@ -383,6 +383,7 @@ select {
 
   img {
     width: 18px;
+    height: 18px;
   }
 
   p {
