@@ -34,7 +34,6 @@ export default {};
 
 <style lang="scss">
 @import '~/node_modules/minireset.css/minireset.min.css';
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
 
 html {
   font-family: 'Ubuntu', sans-serif;
