@@ -68,7 +68,7 @@
                     'error': outdated(tooltipRow.date),
                     'success': !outdated(tooltipRow.date)
                   }"
-                >{{ tooltipRow.date | formatDate }}</div>
+                >{{ formatDate(tooltipRow.date) }}</div>
               </template>
             </div>
           </div>
@@ -86,7 +86,9 @@
     "Artifact": "Artifact",
     "Sigils": "Royal Sigils",
     "Fee": "Fee",
-    "Journals": "Journals"
+    "Journals": "Journals",
+    "hours": "h",
+    "days": "d"
   },
   "ru": {
     "Market price": "Цена на рынке",
@@ -94,7 +96,9 @@
     "Artifact": "Артефакт",
     "Sigils": "Королевские знаки",
     "Fee": "Налог",
-    "Journals": "Журналы"
+    "Journals": "Журналы",
+    "hours": "ч",
+    "days": "д"
   }
 }
 </i18n>
@@ -115,33 +119,6 @@ export default {
       }
 
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    },
-
-    /**
-     * Add h(hours) or d(days) to date
-     *
-     * @param {string} date - timestamp
-     */
-    formatDate(date) {
-      if (date.length == 0) {
-        return "-";
-      }
-
-      date = new Date(date);
-
-      let lastCheckInHours = Math.floor(
-        (Date.now() - date.getTime() + new Date().getTimezoneOffset() * 60000) /
-          3600000
-      );
-      let lastCheckInDays = Math.floor(lastCheckInHours / 24);
-
-      if (lastCheckInDays > 100) {
-        return "∞";
-      }
-
-      return lastCheckInHours < 24
-        ? `${lastCheckInHours}h`
-        : `${Math.floor(lastCheckInHours / 24)}d`;
     },
 
     /**
@@ -535,6 +512,33 @@ export default {
       }
 
       return this.artefacts[artefactName].price == 0;
+    },
+
+    /**
+     * Add h(hours) or d(days) to date
+     *
+     * @param {string} date - timestamp
+     */
+    formatDate(date) {
+      if (date.length == 0) {
+        return "-";
+      }
+
+      date = new Date(date);
+
+      let lastCheckInHours = Math.floor(
+        (Date.now() - date.getTime() + new Date().getTimezoneOffset() * 60000) /
+          3600000
+      );
+      let lastCheckInDays = Math.floor(lastCheckInHours / 24);
+
+      if (lastCheckInDays > 100) {
+        return "∞";
+      }
+
+      return lastCheckInHours < 24
+        ? lastCheckInHours + this.$t('hours')
+        : Math.floor(lastCheckInHours / 24) + this.$t('days');
     },
 
     /**
