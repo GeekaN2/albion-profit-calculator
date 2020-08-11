@@ -348,7 +348,7 @@ export default {
           }
 
           if (this.settings.showAverageItems) {
-            row[itemName].averageItems = this.averageData[itemName].averageItems
+            row[itemName].averageItems = this.averageData?.[itemName]?.averageItems || 0;
           }
         }
       }
