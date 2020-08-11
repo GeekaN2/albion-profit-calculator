@@ -21,6 +21,10 @@
           <span>{{ item.profit | formatPrice }}</span>
           <div class="base-item-info__secondary-info">
             <span class="secondary-info__profit-percentage">{{ item.percentageProfit | formatPercentage }}%</span>
+            <span 
+              v-if="settings.showAverageItems"
+              class="secondary-info__average-items"
+            >{{ item.averageItems | formatFloat }}/{{ $t('days') }}</span>
           </div>
         </div>
         <div class="item__warnings">
@@ -137,6 +141,13 @@ export default {
       num = num > 0 ? `+${num}` : num;
 
       return num;
+    },
+
+    /**
+     * Format float
+     */
+    formatFloat(num) {
+      return Math.floor(num) == num ? num : num.toFixed(1);
     }
   },
   data() {
@@ -253,6 +264,13 @@ export default {
     journals() {
       return this.$store.getters.getJournals;
     },
+    
+    /**
+     * Get average data
+     */
+    averageData() {
+      return this.$store.getters.getAverageData;
+    },
 
     ...mapGetters(["returnMaterialPercentage", "loadingText", "isArtefactItem"]),
 
@@ -297,7 +315,7 @@ export default {
         ) {
           row[itemName] = {
             profit: 0,
-            date: this.dateNow(),
+            date: this.dateNow()
           };
 
           const tier = Number(itemName.slice(1, 2));
@@ -327,6 +345,10 @@ export default {
             row[itemName].profit = itemPrice - creationCost;
             row[itemName].date = this.items[itemName].date;
             row[itemName].percentageProfit = row[itemName].profit / creationCost * 100;
+          }
+
+          if (this.settings.showAverageItems) {
+            row[itemName].averageItems = this.averageData[itemName].averageItems
           }
         }
       }
@@ -752,6 +774,7 @@ export default {
   justify-content: space-between;
   flex-direction: row-reverse;
   font-size: 10px;
+  padding-left: 3px;
   gap: 7px;
   width: 95%;
   /*color: #1c4c1b;*/

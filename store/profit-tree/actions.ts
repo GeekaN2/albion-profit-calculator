@@ -33,7 +33,6 @@ export const actions: ActionTree<TreeState, {}> = {
     }
 
     const itemName = state.currentItemInfo.name;
-    const cities = state.settings.cities;
 
     if (!itemName) {
       return;
@@ -49,6 +48,10 @@ export const actions: ActionTree<TreeState, {}> = {
 
     if (isArtefactItem(itemName) && isObjectEmpty(getters.getArtefacts)) {
       await dispatch('FETCH_ARTEFACT_PRICES');
+    }
+
+    if (state.settings.showAverageItems && isObjectEmpty(getters.getAverageData)) {
+      await dispatch('FETCH_AVERAGE_DATA');
     }
 
     if (
@@ -181,6 +184,26 @@ export const actions: ActionTree<TreeState, {}> = {
         const data = response.data;
 
         commit('SET_JOURNAL_PRICES', data)
+      });
+  },
+
+  /**
+   * Fetch average data for items
+   */
+  async FETCH_AVERAGE_DATA({ commit, state }) {
+    commit('SET_LOADING_TEXT', 'averageData');
+
+    const itemName = state.currentItemInfo.name;
+    const allNames = createStringOfAllItems(itemName);
+    const location = state.settings.cities.sellItems;
+    const baseURL = process.env.BASE_URL;
+
+    await axios
+      .get(`${baseURL}data?items=${allNames}&locations=${location}`)
+      .then(response => {
+        const data = response.data;
+
+        commit('SET_AVERAGE_DATA', data);
       });
   }
 }

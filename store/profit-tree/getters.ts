@@ -65,7 +65,20 @@ export const getters: GetterTree<TreeState, {}> = {
 
     return journals;
   },
-  
+
+  /**
+   * Get average data: average price and average number of items sold per day
+   * 
+   * @param state - vuex state
+   */
+  getAverageData: (state: TreeState) => {
+    const city = state.settings.cities.sellItems;
+    const itemName = state.currentItemInfo.name;
+    const averageData = state.averageData[city][itemName] || {};
+    
+    return averageData;
+  },
+
   /**
    * Get text of loading
    * 

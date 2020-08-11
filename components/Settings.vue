@@ -31,6 +31,16 @@
       >
       <label for="checkbox-cities">{{ $t('multipleCities') }}</label>
     </div>
+    <div class="setting">
+      <input
+        id="checkbox-average-items"
+        v-model="showAverageItems"
+        class="checkbox"
+        type="checkbox"
+        @change="changeShowAverageItems"
+      >
+      <label for="checkbox-average-items">{{ $t('averageItems') }}</label>
+    </div>
     <div 
       class="refresh" 
       @click="updateState('items')">
@@ -134,6 +144,7 @@
     "updateJournals": "Update journal prices",
     "craftFee": "craft fee",
     "multipleCities": "Use multiple cities",
+    "averageItems": "Number of items sold",
     "cities": {
       "mainCity": "Main city",
       "sellItems": "Sell items",
@@ -155,6 +166,7 @@
     "updateJournals": "Обновить цены журналов",
     "craftFee": "налог станка",
     "multipleCities": "Цены из разных городов",
+    "averageItems": "Кол-во проданных предметов",
     "cities": {
       "mainCity": "Основной город",
       "sellItems": "Продажа предметов",
@@ -183,6 +195,11 @@ export default {
        * Use focus points or not
        */
       useFocus: false,
+
+      /**
+       * Show average number of sold items per day or not
+       */
+      showAverageItems: false,
 
       /**
        * Craft bench tax on item creation
@@ -295,6 +312,15 @@ export default {
      */
     changeUseFocus() {
       this.$store.commit("UPDATE_USE_FOCUS", this.useFocus);
+
+      this.$store.dispatch("CHECK_ALL");
+    },
+    
+    /**
+     * 
+     */
+    changeShowAverageItems() {
+      this.$store.commit("UPDATE_SHOW_AVERAGE_ITEMS", this.showAverageItems);
 
       this.$store.dispatch("CHECK_ALL");
     },

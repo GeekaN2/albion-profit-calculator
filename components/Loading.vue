@@ -9,18 +9,20 @@
 <i18n>
 {
   "en": {
-      "items": "Loading item prices",
-      "artefacts": "Loading artifact prices",
-      "resources": "Loading resource prices",
-      "journals": "Loading journal prices",
-      "calculated": "Profit calculated"
+    "items": "Loading item prices",
+    "artefacts": "Loading artifact prices",
+    "resources": "Loading resource prices",
+    "journals": "Loading journal prices",
+    "averageData": "Loading average data",
+    "calculated": "Profit calculated"
   },
   "ru": {
-      "items": "Загружем цены предметов",
-      "artefacts": "Загружаем цены артефактов",
-      "resources": "Загружаем цены материалов",
-      "journals": "Загружаем цены журналов",
-      "calculated": "Профит посчитан"
+    "items": "Загружем цены предметов",
+    "artefacts": "Загружаем цены артефактов",
+    "resources": "Загружаем цены материалов",
+    "journals": "Загружаем цены журналов",
+    "averageData": "Загружаем средние значения",
+    "calculated": "Профит посчитан"
   }
 }
 </i18n>
