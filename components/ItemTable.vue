@@ -334,7 +334,7 @@ export default {
           creationCost += this.itemCreationCost(tier, subtier, itemName);
           creationCost += this.getArtefactPrice(tier, subtier);
           creationCost += this.craftFee(tier, subtier);
-          
+
           const journalProfit = this.journalProfit(tier, subtier);
 
           if (this.items[itemName].price != 0) {
@@ -447,9 +447,7 @@ export default {
         craftFame += !this.isObjectEmpty(this.artefacts) ? 500 : 0;
 
         const journalFame = 1200 * 2 ** (tier - 4);
-        const journalName = `T${tier}_JOURNAL${this.currentItemInfo.root.slice(
-          4
-        )}`;
+        const journalName = `T${tier}_JOURNAL${this.currentItemInfo.root.slice(4)}`;
         const marketFee = this.journals[journalName].marketFee;
 
         let profit =

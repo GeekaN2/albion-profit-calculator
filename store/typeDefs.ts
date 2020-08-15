@@ -157,3 +157,12 @@ export interface AverageDataForItem {
   averageItems: number;
   averagePrice: number;
 }
+
+/**
+ * Combined settings and info about item
+ * For convenience in actions and mutations
+ */
+export interface SettingsWithItem {
+  currentItemInfo: ItemInfo;
+  settings: Settings;
+}
