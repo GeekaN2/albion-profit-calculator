@@ -334,15 +334,14 @@ export default {
           creationCost += this.itemCreationCost(tier, subtier, itemName);
           creationCost += this.getArtefactPrice(tier, subtier);
           creationCost += this.craftFee(tier, subtier);
-          creationCost -= this.journalProfit(tier, subtier);
-
+          
           const journalProfit = this.journalProfit(tier, subtier);
 
           if (this.items[itemName].price != 0) {
             const itemPrice = Math.floor(
               this.items[itemName].price * (1 - marketFee / 100)
             );
-            row[itemName].profit = itemPrice - creationCost;
+            row[itemName].profit = itemPrice - creationCost + journalProfit;
             row[itemName].date = this.items[itemName].date;
             row[itemName].percentageProfit = row[itemName].profit / creationCost * 100;
           }
