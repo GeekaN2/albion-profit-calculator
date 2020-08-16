@@ -68,7 +68,7 @@ export const actions: ActionTree<TreeState, {}> = {
     if (
       state.settings.useJournals &&
       isObjectEmpty(getters.getJournals) &&
-      state.currentItemInfo.root.slice(0, 5) == "ROOT_"
+      state.currentItemInfo.root.slice(0, 5) == 'ROOT_'
     ) {
       await dispatch('FETCH_JOURNAL_PRICES', { currentItemInfo, settings });
     }
@@ -88,7 +88,7 @@ export const actions: ActionTree<TreeState, {}> = {
    * 
    * @param partOfState - part of the state to reset: items, resources, artifacts or journals
    */
-  async UPDATE_STATE({ dispatch, state }, partOfState: string) {
+  async UPDATE_STATE({ dispatch, commit, state }, partOfState: string) {
     const itemName = state.currentItemInfo.name;
 
     const settingsWithItem: SettingsWithItem = {
@@ -115,7 +115,9 @@ export const actions: ActionTree<TreeState, {}> = {
         break;
     }
 
-    await dispatch("CHECK_ALL");
+    commit('SET_LOADING_TEXT', 'load next');
+
+    await dispatch('CHECK_ALL');
   },
 
   /**
