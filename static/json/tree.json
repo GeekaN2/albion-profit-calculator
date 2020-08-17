@@ -111,6 +111,9 @@
             },
             {
               "name": "T4_2H_DUALSCIMITAR_UNDEAD"
+            },
+            {
+              "name": "T4_2H_CLAYMORE_AVALON"
             }
           ]
         },
@@ -134,6 +137,9 @@
             },
             {
               "name": "T4_2H_DUALAXE_KEEPER"
+            },
+            {
+              "name": "T4_2H_AXE_AVALON"
             }
           ]
         },
@@ -157,6 +163,9 @@
             },
             {
               "name": "T4_2H_MACE_MORGANA"
+            },
+            {
+              "name": "T4_2H_DUALMACE_AVALON"
             }
           ]
         },
@@ -180,6 +189,9 @@
             },
             {
               "name": "T4_2H_RAM_KEEPER"
+            },
+            {
+              "name": "T4_2H_HAMMER_AVALON"
             }
           ]
         },
@@ -203,6 +215,9 @@
             },
             {
               "name": "T4_2H_CROSSBOWLARGE_MORGANA"
+            },
+            {
+              "name": "T4_2H_CROSSBOW_CANNON_AVALON"
             }
           ]
         },
@@ -335,6 +350,9 @@
             },
             {
               "name": "T4_2H_BOW_KEEPER"
+            },
+            {
+              "name": "T4_2H_BOW_AVALON"
             }
           ]
         },
@@ -358,6 +376,9 @@
             },
             {
               "name": "T4_2H_TRIDENT_UNDEAD"
+            },
+            {
+              "name": "T4_MAIN_SPEAR_LANCE_AVALON"
             }
           ]
         },
@@ -381,6 +402,9 @@
             },
             {
               "name": "T4_2H_NATURESTAFF_KEEPER"
+            },
+            {
+              "name": "T4_MAIN_NATURESTAFF_AVALON"
             }
           ]
         },
@@ -404,6 +428,9 @@
             },
             {
               "name": "T4_2H_DUALSICKLE_UNDEAD"
+            },
+            {
+              "name": "T4_2H_DAGGER_KATAR_AVALON"
             }
           ]
         },
@@ -427,6 +454,9 @@
             },
             {
               "name": "T4_2H_ROCKSTAFF_KEEPER"
+            },
+            {
+              "name": "T4_2H_QUARTERSTAFF_AVALON"
             }
           ]
         },
@@ -559,6 +589,9 @@
             },
             {
               "name": "T4_2H_INFERNOSTAFF_MORGANA"
+            },
+            {
+              "name": "T4_2H_FIRE_RINGPAIR_AVALON"
             }
           ]
         },
@@ -582,6 +615,9 @@
             },
             {
               "name": "T4_2H_HOLYSTAFF_UNDEAD"
+            },
+            {
+              "name": "T4_MAIN_HOLYSTAFF_AVALON"
             }
           ]
         },
@@ -605,6 +641,9 @@
             },
             {
               "name": "T4_2H_ENIGMATICORB_MORGANA"
+            },
+            {
+              "name": "T4_2H_ARCANE_RINGPAIR_AVALON"
             }
           ]
         },
@@ -628,6 +667,9 @@
             },
             {
               "name": "T4_2H_ICECRYSTAL_UNDEAD"
+            },
+            {
+              "name": "T4_MAIN_FROSTSTAFF_AVALON"
             }
           ]
         },
@@ -651,6 +693,9 @@
             },
             {
               "name": "T4_2H_CURSEDSTAFF_MORGANA"
+            },
+            {
+              "name": "T4_MAIN_CURSEDSTAFF_AVALON"
             }
           ]
         },
