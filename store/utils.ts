@@ -52,6 +52,14 @@ export function createStringOfAllArtefacts(itemName: string) {
     return allNames.slice(0, -1);
   }
 
+  if (itemName.includes('INSIGHT')) {
+    for (let tier = 4; tier <= 8; tier++) {
+      allNames = allNames + `T${tier}_RANDOM_DUNGEON_SOLO_TOKEN_1,`;
+    }
+
+    return allNames.slice(0, -1);
+  }
+
   for (let tier = 4; tier <= 8; tier++) {
     allNames = allNames + `T${tier}_ARTEFACT${itemName.slice(2)},`;
   }
@@ -131,7 +139,7 @@ export function isObjectEmpty(obj: object): boolean {
  * @param itemName - item name: T4_ARTEFACT_HEAD_CLOTH_HELL etc.
  */
 export function isArtefactItem(itemName: string): boolean {
-  const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL'];
+  const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL', "INSIGHT"];
 
   if (!itemName) {
     return false;

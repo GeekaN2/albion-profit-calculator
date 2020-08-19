@@ -147,11 +147,7 @@ export default {
       let currentItemIndex = 0;
       let firstArtefactItemIndex = 0;
 
-      for (
-        ;
-        firstArtefactItemIndex < this.items.length;
-        firstArtefactItemIndex++
-      ) {
+      for (; firstArtefactItemIndex < this.items.length; firstArtefactItemIndex++) {
         if (isArtefactItem(this.items[firstArtefactItemIndex].name)) {
           break;
         }

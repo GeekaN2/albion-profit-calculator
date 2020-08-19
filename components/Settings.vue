@@ -107,7 +107,7 @@
         </template>
       </select>
       <template v-if="isArtefactItem">
-        <p class="setting__city-header">{{ $t('cities.artefacts') }}</p>
+        <p class="setting__city-header">{{ artefactsCategory }}</p>
         <select 
           v-model="cities.artefacts" 
           class="city" 
@@ -153,6 +153,7 @@
       "resources": "Resources",
       "artefacts": "Artifacts",
       "sigils": "Royal sigils",
+      "soloMaps": "Solo maps",
       "journals": "Journals"
     }
   },
@@ -175,6 +176,7 @@
       "resources": "Материалы",
       "artefacts": "Артефакты",
       "sigils": "Королевские знаки",
+      "soloMaps": "Соло карты",
       "journals": "Журналы"
     }
   }
@@ -182,6 +184,8 @@
 </i18n>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "Settings",
   data() {
@@ -246,7 +250,25 @@ export default {
      */
     isArtefactItem() {
       return this.$store.getters.isArtefactItem;
-    }
+    },
+
+    /**
+     * Choose one: artifacts, sigils or solo maps
+     */
+    artefactsCategory() {
+      const itemName = this.currentItemInfo.name;
+      const category = itemName.includes('ROYAL') ? 'cities.sigils' : 
+      itemName.includes('INSIGHT') ? 'cities.soloMaps' : 'cities.artefacts';
+
+      return this.$t(category);
+    },
+
+    /**
+     * Current item info
+     */
+    ...mapState({
+      currentItemInfo: (state) => state.tree.currentItemInfo,
+    }),
   },
   methods: {
     /**

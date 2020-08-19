@@ -89,6 +89,7 @@
     "Materials": "Materials",
     "Artifact": "Artifact",
     "Sigils": "Royal Sigils",
+    "Solo map": "Solo map",
     "Fee": "Fee",
     "Journals": "Journals",
     "hours": "h",
@@ -99,6 +100,7 @@
     "Materials": "Материалы",
     "Artifact": "Артефакт",
     "Sigils": "Королевские знаки",
+    "Solo map": "Соло карта",
     "Fee": "Налог",
     "Journals": "Журналы",
     "hours": "ч",
@@ -380,6 +382,10 @@ export default {
         artefact = this.artefacts[`QUESTITEM_TOKEN_ROYAL_T${tier}`];
         artefactPrice = artefact.price * numberOfSigils;
         name = 'Sigils';
+      } else if (this.currentItemInfo.name.includes('INSIGHT')) {
+        artefact = this.artefacts[`T${tier}_RANDOM_DUNGEON_SOLO_TOKEN_1`];
+        artefactPrice = artefact.price;
+        name = 'Solo map';
       } else {
         artefact = this.artefacts[
           `T${tier}_ARTEFACT${this.currentItemInfo.name.slice(2)}`
@@ -444,7 +450,7 @@ export default {
         let craftFame =
           (fame * (subtier + 1) - 7.5 * subtier) * this.amountOfMaterials;
 
-        craftFame += !this.isObjectEmpty(this.artefacts) ? 500 : 0;
+        craftFame += !this.isArtefactItem || this.currentItemInfo.name.includes('INSIGHT') ? 0 : 500;
 
         const journalFame = 1200 * 2 ** (tier - 4);
         const journalName = `T${tier}_JOURNAL${this.currentItemInfo.root.slice(4)}`;
@@ -483,11 +489,16 @@ export default {
       const fee = this.settings.craftFee;
       const artefactLevel = this.currentItemInfo.artefactLevel;
       let itemValue = this.itemAndArtefactValues[`T${tier}.${subtier}`];
+      const isBagInsight = this.currentItemInfo.name.includes('INSIGHT');
 
-      if (artefactLevel.length != 0) {
+      if (artefactLevel.length != 0 && !isBagInsight) {
         itemValue += this.itemAndArtefactValues[`T${tier}_${artefactLevel}`];
+      } else if (isBagInsight) {
+        // Value of solo maps per unit of material
+        // Solo maps is not artifact but they are very similar in purpose
+        itemValue += [210, 280, 375, 525, 727,5][tier - 4];
       }
-
+      
       const feePrice = Math.floor(
         ((itemValue * this.amountOfMaterials) / 20) * fee
       );

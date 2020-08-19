@@ -845,7 +845,15 @@
           "name": "T4_CAPE"
         },
         {
-          "name": "T4_BAG"
+          "name": "T4_BAG",
+          "children": [
+            {
+              "name": "T4_BAG"
+            },
+            {
+              "name": "T4_BAG_INSIGHT"
+            }
+          ]
         }
       ]
     }

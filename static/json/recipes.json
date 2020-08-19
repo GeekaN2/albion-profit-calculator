@@ -784,5 +784,9 @@
   "T4_BAG": {
     "LEATHER": 8,
     "CLOTH": 8
+  },
+  "T4_BAG_INSIGHT": {
+    "LEATHER": 8,
+    "CLOTH": 8
   }
 }
