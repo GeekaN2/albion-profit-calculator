@@ -450,8 +450,6 @@ export default {
         let craftFame =
           (fame * (subtier + 1) - 7.5 * subtier) * this.amountOfMaterials;
 
-        craftFame += !this.isArtefactItem || this.currentItemInfo.name.includes('INSIGHT') ? 0 : 500;
-
         const journalFame = 1200 * 2 ** (tier - 4);
         const journalName = `T${tier}_JOURNAL${this.currentItemInfo.root.slice(4)}`;
         const marketFee = this.journals[journalName].marketFee;
