@@ -8,11 +8,11 @@ export const getters: GetterTree<TreeState, {}> = {
    * 
    * @param state - vuex state
    */
-  getItems: (state: TreeState) => {
+  getItems: (state: TreeState ) => {
     const itemName = state.currentItemInfo.name;
     const city = state.settings.cities.sellItems;
-    const prices = state.prices[city][itemName] || {}
-
+    let prices = state.prices[city][itemName] || {};
+    
     return prices;
   },
 
@@ -103,7 +103,7 @@ export const getters: GetterTree<TreeState, {}> = {
     // Keywords for the category of items that the bonus is assigned to
     const bonus: { [key: string]: string[] } = {
       'Caerleon': ['TOOL'],
-      'Martlock': ['AXE', 'QUARTERSTAFF', 'FROSTSTAFF', 'SHOES_PLATE', 'OFF'],
+      'Martlock': ['AXE', 'QUARTERSTAFF', 'FROSTSTAFF', 'SHOES_PLATE', 'OFF'], 
       'Bridgewatch': ['CROSSBOW', 'DAGGER', 'CURSEDSTAFF', 'ARMOR_PLATE', 'SHOES_CLOTH'],
       'Lymhurst': ['SWORD', 'BOW', 'ARCANESTAFF', 'HEAD_LEATHER', 'SHOES_LEATHER'],
       'Fort Sterling': ['HAMMER', 'SPEAR', 'HOLYSTAFF', 'HEAD_PLATE', 'ARMOR_CLOTH'],

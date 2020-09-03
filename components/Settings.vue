@@ -41,6 +41,16 @@
       >
       <label for="checkbox-average-items">{{ $t('averageItems') }}</label>
     </div>
+    <div class="setting">
+      <input
+        id="checkbox-average-price"
+        v-model="useAveragePrice"
+        class="checkbox"
+        type="checkbox"
+        @change="changeUseAveragePrice"
+      >
+      <label for="checkbox-average-price">{{ $t('averagePrice') }}</label>
+    </div>
     <div 
       class="refresh" 
       @click="updateState('items')">
@@ -145,6 +155,7 @@
     "craftFee": "craft fee",
     "multipleCities": "Use multiple cities",
     "averageItems": "Number of items sold",
+    "averagePrice": "Use average price",
     "cities": {
       "mainCity": "Main city",
       "sellItems": "Sell items",
@@ -168,6 +179,7 @@
     "craftFee": "налог станка",
     "multipleCities": "Цены из разных городов",
     "averageItems": "Кол-во проданных предметов",
+    "averagePrice": "Использовать среднюю цену",
     "cities": {
       "mainCity": "Основной город",
       "sellItems": "Продажа предметов",
@@ -204,6 +216,11 @@ export default {
        * Show average number of sold items per day or not
        */
       showAverageItems: false,
+
+      /**
+       * Use average item price instead of order price
+       */
+      useAveragePrice: false,
 
       /**
        * Craft bench tax on item creation
@@ -343,6 +360,12 @@ export default {
      */
     changeShowAverageItems() {
       this.$store.commit("UPDATE_SHOW_AVERAGE_ITEMS", this.showAverageItems);
+
+      this.$store.dispatch("CHECK_ALL");
+    },
+
+    changeUseAveragePrice() {
+      this.$store.commit("UPDATE_USE_AVERAGE_PRICE", this.useAveragePrice);
 
       this.$store.dispatch("CHECK_ALL");
     },

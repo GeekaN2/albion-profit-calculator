@@ -61,7 +61,7 @@ export const actions: ActionTree<TreeState, {}> = {
       await dispatch('FETCH_ARTEFACT_PRICES', settingsWithItem);
     }
 
-    if (state.settings.showAverageItems && isObjectEmpty(getters.getAverageData)) {
+    if ((state.settings.showAverageItems || state.settings.useAveragePrice) && isObjectEmpty(getters.getAverageData)) {
       await dispatch('FETCH_AVERAGE_DATA', settingsWithItem);
     }
 

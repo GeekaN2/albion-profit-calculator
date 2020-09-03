@@ -21,6 +21,7 @@ export const mutations: MutationTree<TreeState> = {
       useJournals: false,
       useFocus: false,
       showAverageItems: false,
+      useAveragePrice: false,
       craftFee: 10,
       cities: {
         sellItems: "Caerleon",
@@ -163,17 +164,24 @@ export const mutations: MutationTree<TreeState> = {
     const city = settingsWithItem.settings.cities.sellItems;
     const itemName = settingsWithItem.currentItemInfo.name;
     const newData: { [key: string]: AverageDataForItem } = {};
+    const zeroDate = (new Date(0)).toISOString().slice(0,-5);
 
     data.forEach((averageData: AverageDataResponse) => {
       if (!newData[averageData.itemName]) {
         newData[averageData.itemName] = {
           averageItems: 0,
-          averagePrice: 0
+          averagePrice: 0,
+          firstCheckDate: zeroDate,
+          lastCheckDate: zeroDate 
         };
       }
 
-      newData[averageData.itemName].averageItems = averageData.averageItems;
-      newData[averageData.itemName].averagePrice = averageData.averagePrice;
+      newData[averageData.itemName] = {
+        averageItems: averageData.averageItems,
+        averagePrice: averageData.averagePrice,
+        firstCheckDate: averageData.firstCheckDate,
+        lastCheckDate: averageData.lastCheckDate
+      }
     });
 
     Vue.set(state.averageData[city], itemName, newData);
@@ -236,6 +244,16 @@ export const mutations: MutationTree<TreeState> = {
    */
   UPDATE_SHOW_AVERAGE_ITEMS(state, showAverageItems: boolean) {
     state.settings.showAverageItems = showAverageItems;
+  },
+
+  /**
+   * Update showAveragePrice setting
+   * 
+   * @param state - vuex state
+   * @param showAveragePrice - show average data about items or not
+   */
+  UPDATE_USE_AVERAGE_PRICE(state, useAveragePrice: boolean) {
+    state.settings.useAveragePrice = useAveragePrice;
   },
 
   /**

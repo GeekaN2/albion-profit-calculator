@@ -125,6 +125,7 @@ export interface Settings {
   useJournals: boolean,
   useFocus: boolean,
   showAverageItems: boolean,
+  useAveragePrice: boolean,
   craftFee: number,
   cities: {
     sellItems: string,
@@ -151,11 +152,15 @@ export interface AverageDataResponse {
   location: string;
   averageItems: number;
   averagePrice: number;
+  firstCheckDate: string;
+  lastCheckDate: string;
 }
 
 export interface AverageDataForItem {
   averageItems: number;
   averagePrice: number;
+  firstCheckDate: string;
+  lastCheckDate: string;
 }
 
 /**

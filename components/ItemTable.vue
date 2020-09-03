@@ -13,7 +13,7 @@
         :class="[{
           'row__unprofitable': item.profit < 0,
           'row__profitable': item.profit > 0,
-          'row__unknown': item.profit == 0 || outdated(item.date) || noArtefactForSale(name),
+          'row__unknown': item.profit == 0 || outdated(item.date, 'item date') || noArtefactForSale(name),
         }, `tier${name.slice(1, 2)} tier item`]"
         :key="name"
       >
@@ -34,11 +34,11 @@
             class="item__warnings__icon"
           >
           <img 
-            v-if="outdated(item.date)" 
+            v-if="outdated(item.date, 'item date')" 
             src="/images/clock.svg" 
             class="item__warnings__icon" >
           <img
-            v-if="!outdated(item.date) && !noArtefactForSale(name)"
+            v-if="!outdated(item.date, 'item date') && !noArtefactForSale(name)"
             class="item__warnings__info"
             src="/images/info.svg"
             alt="i"
@@ -321,13 +321,21 @@ export default {
           };
 
           const tier = Number(itemName.slice(1, 2));
-          const marketFee = this.items[itemName].marketFee;
+          let marketFee = this.items[itemName].marketFee;
+          let itemPrice = Math.floor(this.items[itemName].price);
+          let lastCheckDate = this.items[itemName].date;
+
+          if (this.settings.useAveragePrice) {
+            itemPrice = Math.floor(this.averageData[itemName].averagePrice);
+            lastCheckDate = this.averageData[itemName].lastCheckDate;
+            marketFee = 4.5;
+          }
 
           this.tableInfo[`T${tier}.${subtier}`].marketPrice = {
             name: "Market price",
             percentage: -marketFee,
-            price: Math.floor(this.items[itemName].price * (1 - marketFee / 100)),
-            date: this.items[itemName].date,
+            price: Math.floor(itemPrice * (1 - marketFee / 100)),
+            date:lastCheckDate,
           };
 
           let creationCost = 0;
@@ -339,10 +347,7 @@ export default {
 
           const journalProfit = this.journalProfit(tier, subtier);
 
-          if (this.items[itemName].price != 0) {
-            const itemPrice = Math.floor(
-              this.items[itemName].price * (1 - marketFee / 100)
-            );
+          if (itemPrice != 0) {
             row[itemName].profit = itemPrice - creationCost + journalProfit;
             row[itemName].date = this.items[itemName].date;
             row[itemName].percentageProfit = row[itemName].profit / creationCost * 100;
@@ -517,10 +522,17 @@ export default {
      * returns true
      *
      * @param {timestamp} date - last check date
+     * @param {string} specialCase - optionally parameter to considers outdated differently
      * @returns {boolean}
      */
-    outdated(date) {
-      return this.dateNow() - new Date(date).getTime() > 86400000;
+    outdated(date, specialCase = '') {
+      const day = 24 * 60 * 60 * 1000;
+
+      if (this.settings.useAveragePrice && specialCase == 'item date') {
+        return this.dateNow() - new Date(date).getTime() > 30 * day;
+      }
+
+      return this.dateNow() - new Date(date).getTime() > day;
     },
 
     /**
