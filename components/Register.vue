@@ -30,12 +30,17 @@
           v-model="token"
           class="modal_form__input"
           type="token"
-          placeholder="e32ab7123e9a9f9451..."
+          placeholder="ey0fqS8WRhe..."
           required
         >
         <p class="modal_form__description">
           {{ $t('getToken') }}
-          <span class="underline_text">GeekaN#8674</span>
+          <span class="discord-nickname">GeekaN#8674</span> 
+          <a 
+            class="underline_text purple-link" 
+            href="https://discord.gg/2AM2twM"
+            target="_blank"
+          >{{ $t('discordServer') }}</a>
         </p>
         <button 
           class="modal_form__button" 
@@ -53,6 +58,7 @@
     "nickname": "Nickname",
     "password": "Password",
     "getToken": "To get register token write me on Discord ",
+    "discordServer": "Discord server",
     "error": {
       "badToken": "Bad register token",
       "empty": "Fill in all the fields",
@@ -65,6 +71,7 @@
     "nickname": "Никнейм",
     "password": "Пароль",
     "getToken": "Чтобы получить токен для регистрации, напиши мне в Дискорд ",
+    "discordServer": "Сервер в дискорде",
     "error": {
       "badToken": "Такого токена не существует",
       "empty": "Заполните все поля",
@@ -140,6 +147,8 @@ export default {
           return;
         }
 
+        console.log(response);
+
         await this.$auth.loginWith("local", {
           data: {
             nickname: this.nickname,
@@ -167,5 +176,17 @@ export default {
 
 .underline_text {
   text-decoration: underline;
+}
+
+.purple-link {
+  color: #583156;
+
+  &:hover {
+    color: #7b4c79;
+  }
+}
+
+.discord-nickname {
+  user-select: all;
 }
 </style>
