@@ -4,6 +4,7 @@
     <div class="wrapper">
       <Settings />
       <div>
+        <h2 class="wrapper__header">{{ $t('chooseBranch') }}</h2>
         <Row 
           :items="tree" 
           class="wrapper__tree" 
@@ -18,6 +19,17 @@
     </div>
   </section>
 </template>
+
+<i18n>
+{
+  "en": {
+    "chooseBranch": "Choose a craft branch"
+  },
+  "ru": {
+    "chooseBranch": "Выбери ветку крафта"
+  }
+}
+</i18n>
 
 <script>
 import Header from "~/components/Header";
@@ -94,6 +106,13 @@ img {
   display: flex;
   justify-content: center;
   padding-bottom: 10px;
+
+  &__header {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 30px;
+    font-size: 1.2rem;
+  }
 
   &__tree {
     width: 750px;
