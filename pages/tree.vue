@@ -26,7 +26,7 @@
     "chooseBranch": "Choose a craft branch"
   },
   "ru": {
-    "chooseBranch": "Выбери ветку крафта"
+    "chooseBranch": "Выберите ветку крафта"
   }
 }
 </i18n>
