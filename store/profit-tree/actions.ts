@@ -2,7 +2,7 @@ import { ActionTree } from 'vuex'
 import axios from 'axios'
 import { createStringOfAllItems, createStringOfAllResources, createStringOfAllArtefacts, createStringOfAllJournals, isObjectEmpty } from '../utils'
 import { TreeState, ItemInfo, SettingsWithItem } from '../typeDefs'
-import { isArtefactItem } from '../utils'
+import { isArtifactItem } from '../utils'
 
 export const actions: ActionTree<TreeState, {}> = {
   /**
@@ -57,7 +57,7 @@ export const actions: ActionTree<TreeState, {}> = {
       await dispatch('FETCH_RESOURCE_PRICES', settingsWithItem);
     }
 
-    if (isArtefactItem(currentItemInfo.name) && isObjectEmpty(getters.getArtefacts)) {
+    if (isArtifactItem(currentItemInfo.name) && isObjectEmpty(getters.getArtefacts)) {
       await dispatch('FETCH_ARTEFACT_PRICES', settingsWithItem);
     }
 

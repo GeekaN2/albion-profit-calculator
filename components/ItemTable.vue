@@ -225,56 +225,64 @@ export default {
     amountOfMaterials() {
       let amountOfMaterials = 0;
 
-      for (let material in this.recipe) {
-        amountOfMaterials += this.recipe[material];
+      for (let material in this.getRecipe) {
+        amountOfMaterials += this.getRecipe[material];
       }
 
       return amountOfMaterials;
     },
 
-    /**
-     * Get all items(t4.0 - t8.3) for current item
-     */
-    items() {
-      return this.$store.getters.getItems;
-    },
+    ...mapGetters([
+      /**
+       * Get all items(t4.0 - t8.3) for current item
+       */
+      "getItems",
 
-    /**
-     * Get all resources for current city
-     */
-    resources() {
-      return this.$store.getters.getResources;
-    },
+      /**
+       * Get all resources for current city
+       */
+      "getResources",
 
-    /**
-     * Get artefacts. If artifacts are not needed returns {}
-     */
-    artefacts() {
-      return this.$store.getters.getArtefacts;
-    },
+      /**
+       * Get artefacts. If artifacts are not needed returns {}
+       */
+      "getArtefacts",
+      
+      /**
+       * Get recipe to calculate craft cost
+       */
+      "getRecipe",
 
-    /**
-     * Get recipe to calculate craft cost
-     */
-    recipe() {
-      return this.$store.getters.getRecipe;
-    },
+      /**
+       * Get journals
+       */
+      "getJournals",
 
-    /**
-     * Get journals
-     */
-    journals() {
-      return this.$store.getters.getJournals;
-    },
-    
-    /**
-     * Get average data
-     */
-    averageData() {
-      return this.$store.getters.getAverageData;
-    },
+      /**
+       * Get average data
+       */
+      "getAverageData",
 
-    ...mapGetters(["returnMaterialPercentage", "loadingText", "isArtefactItem"]),
+      /**
+       * Get return percentage of materials
+       */
+      "returnMaterialPercentage",
+      
+      /**
+       * Get loading text
+       */
+      "loadingText",
+      
+      /**
+       * Does this item need an artifact
+       */
+      "isArtifactItem",
+
+      /**
+       * Get artifact name
+       */
+      "getArtifactName",
+    ]),
 
     ...mapState({
       settings: (state) => state.tree.settings,
@@ -310,7 +318,7 @@ export default {
      */
     getRow(subtier) {
       let row = {};
-      for (let itemName in this.items) {
+      for (let itemName in this.getItems) {
         if (
           itemName.slice(-2) == `@${subtier}` ||
           (subtier == 0 && itemName.slice(-2, -1) != "@")
@@ -321,13 +329,13 @@ export default {
           };
 
           const tier = Number(itemName.slice(1, 2));
-          let marketFee = this.items[itemName].marketFee;
-          let itemPrice = Math.floor(this.items[itemName].price);
-          let lastCheckDate = this.items[itemName].date;
+          let marketFee = this.getItems[itemName].marketFee;
+          let itemPrice = Math.floor(this.getItems[itemName].price);
+          let lastCheckDate = this.getItems[itemName].date;
 
           if (this.settings.useAveragePrice) {
-            itemPrice = Math.floor(this.averageData[itemName].averagePrice);
-            lastCheckDate = this.averageData[itemName].lastCheckDate;
+            itemPrice = Math.floor(this.getAverageData[itemName].averagePrice);
+            lastCheckDate = this.getAverageData[itemName].lastCheckDate;
             marketFee = 4.5;
           }
 
@@ -349,12 +357,12 @@ export default {
 
           if (itemPrice != 0) {
             row[itemName].profit = itemPrice - creationCost + journalProfit;
-            row[itemName].date = this.items[itemName].date;
+            row[itemName].date = this.getItems[itemName].date;
             row[itemName].percentageProfit = row[itemName].profit / creationCost * 100;
           }
 
           if (this.settings.showAverageItems) {
-            row[itemName].averageItems = this.averageData?.[itemName]?.averageItems || 0;
+            row[itemName].averageItems = this.getAverageData?.[itemName]?.averageItems || 0;
           }
         }
       }
@@ -370,31 +378,27 @@ export default {
      * @returns {number} - artefact price
      */
     getArtefactPrice(tier, subtier) {
-      if (!this.isArtefactItem) {
+      if (!this.isArtifactItem) {
         this.$set(this.tableInfo[`T${tier}.${subtier}`], "artefact", {});
 
         return 0;
       }
 
-      let artefact = "";
       let artefactPrice = 0;
       let name = 'Artifact';
+      const artifactName = this.getArtifactName(tier);     
+      let artefact = this.getArtefacts[artifactName];
 
       if (this.currentItemInfo.name.includes('ROYAL')) {
         // number of sigils e.g. for 8 materials returns from t4 to t8: 2 4 8 8 8
         const numberOfSigils = tier >= 6 ? this.amountOfMaterials : this.amountOfMaterials * (tier - 3) / 4;
 
-        artefact = this.artefacts[`QUESTITEM_TOKEN_ROYAL_T${tier}`];
         artefactPrice = artefact.price * numberOfSigils;
         name = 'Sigils';
       } else if (this.currentItemInfo.name.includes('INSIGHT')) {
-        artefact = this.artefacts[`T${tier}_RANDOM_DUNGEON_SOLO_TOKEN_1`];
         artefactPrice = artefact.price;
         name = 'Solo map';
       } else {
-        artefact = this.artefacts[
-          `T${tier}_ARTEFACT${this.currentItemInfo.name.slice(2)}`
-        ];
         artefactPrice = artefact.price;
       }
 
@@ -417,15 +421,15 @@ export default {
     itemCreationCost(tier, subtier, itemName) {
       let cost = 0;
 
-      for (let resourceName in this.recipe) {
+      for (let resourceName in this.getRecipe) {
         const resourceFullName =
           `T${tier}_${resourceName}` +
           (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : "");
-        const resourceCost = this.resources[resourceFullName].price;
+        const resourceCost = this.getResources[resourceFullName].price;
 
         cost += Math.floor(
           resourceCost *
-            this.recipe[resourceName] *
+            this.getRecipe[resourceName] *
             (1 - this.returnMaterialPercentage / 100)
         );
 
@@ -434,7 +438,7 @@ export default {
           name: "Materials",
           percentage: -this.returnMaterialPercentage,
           price: -cost,
-          date: this.resources[resourceFullName].date,
+          date: this.getResources[resourceFullName].date,
         };
       }
 
@@ -449,36 +453,36 @@ export default {
      * @returns {number}
      */
     journalProfit(tier, subtier) {
-      if (this.settings.useJournals) {
-        // amount of fame per unit of this tier material
-        const fame = this.materialsBaseFame[`T${tier}`];
-        let craftFame =
-          (fame * (subtier + 1) - 7.5 * subtier) * this.amountOfMaterials;
-
-        const journalFame = 1200 * 2 ** (tier - 4);
-        const journalName = `T${tier}_JOURNAL${this.currentItemInfo.root.slice(4)}`;
-        const marketFee = this.journals[journalName].marketFee;
-
-        let profit =
-          (this.journals[journalName].sellPrice -
-            this.journals[journalName].buyPrice) *
-          (craftFame / journalFame);
-
-        profit = Math.floor(profit);
-
-        this.$set(this.tableInfo[`T${tier}.${subtier}`], "journals", {
-          name: "Journals",
-          percentage: -marketFee,
-          price: profit,
-          date: this.journals[journalName].date,
-        });
-
-        return profit;
-      } else {
+      if (!this.settings.useJournals) {
         this.$set(this.tableInfo[`T${tier}.${subtier}`], "journals", {});
+
+        return 0;
       }
 
-      return 0;
+      // amount of fame per unit of this tier material
+      const fame = this.materialsBaseFame[`T${tier}`];
+      let craftFame =
+        (fame * (subtier + 1) - 7.5 * subtier) * this.amountOfMaterials;
+
+      const journalFame = 1200 * 2 ** (tier - 4);
+      const journalName = `T${tier}_JOURNAL${this.currentItemInfo.root.slice(4)}`;
+      const marketFee = this.getJournals[journalName].marketFee;
+
+      let profit =
+        (this.getJournals[journalName].sellPrice -
+          this.getJournals[journalName].buyPrice) *
+        (craftFame / journalFame);
+
+      profit = Math.floor(profit);
+
+      this.$set(this.tableInfo[`T${tier}.${subtier}`], "journals", {
+        name: "Journals",
+        percentage: -marketFee,
+        price: profit,
+        date: this.getJournals[journalName].date,
+      });
+
+      return profit;
     },
 
     /**
@@ -547,11 +551,11 @@ export default {
         2
       )}_ARTEFACT${this.currentItemInfo.name.slice(2)}`;
 
-      if (!this.artefacts[artefactName]) {
+      if (!this.getArtefacts[artefactName]) {
         return false;
       }
 
-      return this.artefacts[artefactName].price == 0;
+      return this.getArtefacts[artefactName].price == 0;
     },
 
     /**

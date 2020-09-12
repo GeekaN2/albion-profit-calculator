@@ -13,6 +13,7 @@
           v-if="isTableShowed" 
           class="wrapper__table">
           <Loading class="wrapper__loading" />
+          <ItemRecipe />
           <ItemTable />
         </div>
       </div>
@@ -35,6 +36,7 @@
 import Header from "~/components/Header";
 import Row from "~/components/Row";
 import ItemTable from "~/components/ItemTable";
+import ItemRecipe from "~/components/ItemRecipe";
 import Settings from "~/components/Settings";
 import Loading from "~/components/Loading";
 import { getReturnMaterialsPercentage } from "~/store/utils";
@@ -47,6 +49,7 @@ export default {
     Header,
     Row,
     ItemTable,
+    ItemRecipe,
     Settings,
     Loading,
   },

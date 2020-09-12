@@ -138,7 +138,7 @@ export function isObjectEmpty(obj: object): boolean {
  * 
  * @param itemName - item name: T4_ARTEFACT_HEAD_CLOTH_HELL etc.
  */
-export function isArtefactItem(itemName: string): boolean {
+export function isArtifactItem(itemName: string): boolean {
   const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL', "INSIGHT"];
 
   if (!itemName) {

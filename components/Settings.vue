@@ -64,7 +64,7 @@
       <p>{{ $t('updateResources') }}</p>
     </div>
     <div
-      v-if="isArtefactItem"
+      v-if="isArtifactItem"
       class="refresh"
       @click="updateState('artifacts')">
       <img src="/images/redo-alt.svg">
@@ -116,7 +116,7 @@
           <option :key="city">{{ city }}</option>
         </template>
       </select>
-      <template v-if="isArtefactItem">
+      <template v-if="isArtifactItem">
         <p class="setting__city-header">{{ artefactsCategory }}</p>
         <select 
           v-model="cities.artefacts" 
@@ -265,8 +265,8 @@ export default {
     /**
      * Is the current item an artifact
      */
-    isArtefactItem() {
-      return this.$store.getters.isArtefactItem;
+    isArtifactItem() {
+      return this.$store.getters.isArtifactItem;
     },
 
     /**

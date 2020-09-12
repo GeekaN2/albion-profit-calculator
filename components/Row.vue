@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { isArtefactItem } from "../store/utils";
+import { isArtifactItem } from "../store/utils";
 
 export default {
   name: "Row",
@@ -140,7 +140,7 @@ export default {
      * @returns {string} - artefact name: rune, soul... or empty string
      */
     artefactLevel(name) {
-      if (!isArtefactItem(name)) {
+      if (!isArtifactItem(name)) {
         return "";
       }
 
@@ -148,7 +148,7 @@ export default {
       let firstArtefactItemIndex = 0;
 
       for (; firstArtefactItemIndex < this.items.length; firstArtefactItemIndex++) {
-        if (isArtefactItem(this.items[firstArtefactItemIndex].name)) {
+        if (isArtifactItem(this.items[firstArtefactItemIndex].name)) {
           break;
         }
       }
