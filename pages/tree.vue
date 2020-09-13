@@ -13,8 +13,10 @@
           v-if="isTableShowed" 
           class="wrapper__table">
           <Loading class="wrapper__loading" />
-          <ItemRecipe />
-          <ItemTable />
+          <div class="wrapper__table-bar">
+            <ItemRecipe v-if="loadingText == 'calculated'" />
+            <ItemTable v-if="loadingText == 'calculated'" />
+          </div>
         </div>
       </div>
     </div>
@@ -70,6 +72,7 @@ export default {
     ...mapState({
       settings: (state) => state.tree.settings,
       currentItemInfo: (state) => state.tree.currentItemInfo,
+      loadingText: (state) => state.tree.features.loadingText
     }),
   },
   created: async function () {
@@ -122,6 +125,15 @@ img {
     margin: 0 auto;
   }
 
+  &__table-bar {
+    display: inline-grid;
+    width: 100%;
+    padding: 0 10px;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 10px;
+  }
+
   &__loading {
     margin-top: -5px;
   }
@@ -132,8 +144,10 @@ img {
 }
 
 @media (max-width: 1200px) {
-  img {
-    width: 75px;
+  .wrapper {
+    img {
+      width: 75px;
+    }
   }
 }
 
@@ -141,12 +155,12 @@ img {
   .wrapper {
     &__tree {
       width: 600px;
-
-      img {
-        width: 65px;
-      }
     }
-  }
+
+    img {
+      width: 65px;
+    }
+  }  
 }
 
 @media (max-width: 840px) {
@@ -157,10 +171,10 @@ img {
 
     &__tree {
       width: 100%;
+    }
 
-      img {
-        width: 60px;
-      }
+    img {
+      width: 60px;
     }
   }
 }
@@ -180,10 +194,10 @@ img {
     &__table {
       min-height: 220px;
     }
-  }
 
-  img {
-    width: 65px;
+    img {
+      width: 45px;
+    }
   }
 }
 </style>

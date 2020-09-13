@@ -1,7 +1,5 @@
 <template>
-  <div 
-    v-if="loadingText == 'calculated'" 
-    class="item-table">
+  <div class="item-table">
     <div
       v-for="subtier in 4"
       :class="`subtier${subtier - 1}`"
@@ -613,6 +611,7 @@ export default {
   margin: 0 auto;
   display: grid;
   max-width: 650px;
+  width: 100%;
   font-size: 16px;
 
   .subtier1 {
