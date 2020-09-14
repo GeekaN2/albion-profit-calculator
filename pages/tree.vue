@@ -132,6 +132,7 @@ img {
     display: grid;
     grid-template-columns: 1fr 1.3fr 1fr;
     align-items: center;
+    margin-top: -10px;
   }
 
   &__table {
