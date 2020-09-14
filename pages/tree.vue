@@ -12,11 +12,11 @@
         <div 
           v-if="isTableShowed" 
           class="wrapper__table">
-          <Loading class="wrapper__loading" />
-          <div class="wrapper__table-bar">
-            <ItemRecipe v-if="loadingText == 'calculated'" />
-            <ItemTable v-if="loadingText == 'calculated'" />
+          <div class="wrapper__loading-bar">
+            <ItemRecipe />
+            <Loading class="wrapper__loading" />
           </div>
+          <ItemTable v-if="loadingText == 'calculated'" />
         </div>
       </div>
     </div>
@@ -125,17 +125,13 @@ img {
     margin: 0 auto;
   }
 
-  &__table-bar {
-    display: inline-grid;
+  &__loading-bar {
+    margin: 0 auto;
     width: 100%;
-    padding: 0 10px;
-    grid-template-columns: auto 1fr;
+    max-width: 650px;
+    display: grid;
+    grid-template-columns: 1fr 1.3fr 1fr;
     align-items: center;
-    column-gap: 10px;
-  }
-
-  &__loading {
-    margin-top: -5px;
   }
 
   &__table {

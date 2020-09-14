@@ -49,6 +49,7 @@ export default {
   &__loading {
     padding: 2px;
     position: relative;
+    font-size: 1rem;
 
     &:after {
       content: "";
@@ -74,6 +75,30 @@ export default {
         background-position: 0% 50%;
       }
     }
+  }
+}
+
+@media (max-width: 1200px) {
+  .container__loading {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 991px) {
+.container__loading {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 840px) {
+.container__loading {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 479px) {
+.container__loading {
+    font-size: 0.7rem;
   }
 }
 </style>

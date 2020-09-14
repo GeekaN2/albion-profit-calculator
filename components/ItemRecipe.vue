@@ -52,7 +52,6 @@ export default {
 <style lang="scss">
 .item-recipe {
   display: flex;
-  flex-direction: column;
 
   img {
     min-width: 40px;
