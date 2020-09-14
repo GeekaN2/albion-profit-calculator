@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex'
 import { normalizedPriceAndDate } from '../utils'
-import { ResponseModel, TreeState, Item, Settings, ItemInfo, JournalsItem } from '../typeDefs'
+import { ResponseModel, TreeState, Item, Settings, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem } from '../typeDefs'
 import Vue from 'vue';
 
 export const mutations: MutationTree<TreeState> = {
@@ -15,11 +15,13 @@ export const mutations: MutationTree<TreeState> = {
     state.tree = tree;
     state.recipes = recipes;
     state.features = {
-      loadingText: ''
+      loadingText: 'calculated'
     };
     state.settings = {
       useJournals: false,
       useFocus: false,
+      showAverageItems: false,
+      useAveragePrice: false,
       craftFee: 10,
       cities: {
         sellItems: "Caerleon",
@@ -42,10 +44,11 @@ export const mutations: MutationTree<TreeState> = {
    * 
    * @param state - vuex state
    * @param data - api response
+   * @param settingsWithItem - сonvenient item data and settings 
    */
-  SET_ITEM_PRICES(state, data) {
-    const itemName = state.currentItemInfo.name;
-    const location = state.settings.cities.sellItems;
+  SET_ITEM_PRICES(state, { data, settingsWithItem }) {
+    const itemName = settingsWithItem.currentItemInfo.name;
+    const location = settingsWithItem.settings.cities.sellItems;
     let newPrices: { [key: string]: Item } = {};
 
     data.forEach((item: ResponseModel) => {
@@ -73,9 +76,10 @@ export const mutations: MutationTree<TreeState> = {
    * 
    * @param state - vuex state
    * @param data - api response
+   * @param settingsWithItem - сonvenient item data and settings 
    */
-  SET_RESOURCE_PRICES(state, data) {
-    const city = state.settings.cities.resources;
+  SET_RESOURCE_PRICES(state, { data, settingsWithItem }) {
+    const city = settingsWithItem.settings.cities.resources;
     let newPrices: { [key: string]: Item } = {};
 
     data.forEach((resource: ResponseModel) => {
@@ -93,10 +97,11 @@ export const mutations: MutationTree<TreeState> = {
    * 
    * @param state - vuex state
    * @param data - api response
+   * @param settingsWithItem - сonvenient item data and settings 
    */
-  SET_ARTEFACT_PRICES(state, data) {
-    const itemName = state.currentItemInfo.name;
-    const city = state.settings.cities.artefacts;
+  SET_ARTEFACT_PRICES(state, { data, settingsWithItem }) {
+    const itemName = settingsWithItem.currentItemInfo.name;
+    const city = settingsWithItem.settings.cities.artefacts;
     let newPrices: { [key: string]: Item } = {};
 
     data.forEach((artefact: ResponseModel) => {
@@ -114,10 +119,11 @@ export const mutations: MutationTree<TreeState> = {
    * 
    * @param state - vuex state
    * @param data - api response
+   * @param settingsWithItem - сonvenient item data and settings 
    */
-  SET_JOURNAL_PRICES(state, data) {
-    const city = state.settings.cities.journals;
-    const root = state.currentItemInfo.root;
+  SET_JOURNAL_PRICES(state, { data, settingsWithItem }) {
+    const city = settingsWithItem.settings.cities.journals;
+    const root = settingsWithItem.currentItemInfo.root;
     const newPrices: { [key: string]: JournalsItem } = {};
 
     data.forEach((journal: ResponseModel) => {
@@ -148,7 +154,43 @@ export const mutations: MutationTree<TreeState> = {
   },
 
   /**
+   * Set average data for items
+   * 
+   * @param state - vuex state
+   * @param data - api response
+   * @param settingsWithItem - сonvenient item data and settings 
+   */
+  SET_AVERAGE_DATA(state, { data, settingsWithItem }: { data: AverageDataResponse[], settingsWithItem: SettingsWithItem }) {
+    const city = settingsWithItem.settings.cities.sellItems;
+    const itemName = settingsWithItem.currentItemInfo.name;
+    const newData: { [key: string]: AverageDataForItem } = {};
+    const zeroDate = (new Date(0)).toISOString().slice(0,-5);
+
+    data.forEach((averageData: AverageDataResponse) => {
+      if (!newData[averageData.itemName]) {
+        newData[averageData.itemName] = {
+          averageItems: 0,
+          averagePrice: 0,
+          firstCheckDate: zeroDate,
+          lastCheckDate: zeroDate 
+        };
+      }
+
+      newData[averageData.itemName] = {
+        averageItems: averageData.averageItems,
+        averagePrice: averageData.averagePrice,
+        firstCheckDate: averageData.firstCheckDate,
+        lastCheckDate: averageData.lastCheckDate
+      }
+    });
+
+    Vue.set(state.averageData[city], itemName, newData);
+  },
+
+  /**
    * Set cities
+   * 
+   * @param state - vuex state
    */
   SET_CITIES(state, cities: Settings["cities"]) {
     state.settings.cities = cities;
@@ -157,25 +199,69 @@ export const mutations: MutationTree<TreeState> = {
   /**
    * Set loading text
    * 
-   * @param state 
-   * @param loadingText 
+   * @param state - vuex state
+   * @param loadingText - text of loading
    */
   SET_LOADING_TEXT(state, loadingText: string) {
     state.features.loadingText = loadingText;
   },
 
+  /**
+   * Set item info
+   * 
+   * @param state - vuex state
+   * @param itemInfo 
+   */
   SET_ITEM_INFO(state, itemInfo: ItemInfo) {
     state.currentItemInfo = itemInfo;
   },
 
+  /**
+   * Update useFocus setting
+   * 
+   * @param state - vuex state
+   * @param useFocus - use focus or not
+   */
   UPDATE_USE_FOCUS(state, useFocus: boolean) {
     state.settings.useFocus = useFocus;
   },
 
+  /**
+   * Update useFocus setting
+   * 
+   * @param state - vuex state
+   * @param useJournals - use journals or not
+   */
   UPDATE_USE_JOURNALS(state, useJournals: boolean) {
     state.settings.useJournals = useJournals;
   },
 
+  /**
+   * Update showAverageItem setting
+   * 
+   * @param state - vuex state
+   * @param showAverageItems - show average data about items or not
+   */
+  UPDATE_SHOW_AVERAGE_ITEMS(state, showAverageItems: boolean) {
+    state.settings.showAverageItems = showAverageItems;
+  },
+
+  /**
+   * Update showAveragePrice setting
+   * 
+   * @param state - vuex state
+   * @param showAveragePrice - show average data about items or not
+   */
+  UPDATE_USE_AVERAGE_PRICE(state, useAveragePrice: boolean) {
+    state.settings.useAveragePrice = useAveragePrice;
+  },
+
+  /**
+   * Update craftFee value
+   * 
+   * @param state - vuex state
+   * @param craftFee - update craft fee value
+   */
   UPDATE_CRAFT_FEE(state, craftFee: number) {
     state.settings.craftFee = craftFee;
   }

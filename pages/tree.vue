@@ -4,6 +4,7 @@
     <div class="wrapper">
       <Settings />
       <div>
+        <h2 class="wrapper__header">{{ $t('chooseBranch') }}</h2>
         <Row 
           :items="tree" 
           class="wrapper__tree" 
@@ -11,18 +12,33 @@
         <div 
           v-if="isTableShowed" 
           class="wrapper__table">
-          <Loading class="wrapper__loading" />
-          <ItemTable />
+          <div class="wrapper__loading-bar">
+            <ItemRecipe />
+            <Loading class="wrapper__loading" />
+          </div>
+          <ItemTable v-if="loadingText == 'calculated'" />
         </div>
       </div>
     </div>
   </section>
 </template>
 
+<i18n>
+{
+  "en": {
+    "chooseBranch": "Choose a craft branch"
+  },
+  "ru": {
+    "chooseBranch": "Выберите ветку крафта"
+  }
+}
+</i18n>
+
 <script>
 import Header from "~/components/Header";
 import Row from "~/components/Row";
 import ItemTable from "~/components/ItemTable";
+import ItemRecipe from "~/components/ItemRecipe";
 import Settings from "~/components/Settings";
 import Loading from "~/components/Loading";
 import { getReturnMaterialsPercentage } from "~/store/utils";
@@ -35,6 +51,7 @@ export default {
     Header,
     Row,
     ItemTable,
+    ItemRecipe,
     Settings,
     Loading,
   },
@@ -55,6 +72,7 @@ export default {
     ...mapState({
       settings: (state) => state.tree.settings,
       currentItemInfo: (state) => state.tree.currentItemInfo,
+      loadingText: (state) => state.tree.features.loadingText
     }),
   },
   created: async function () {
@@ -95,13 +113,25 @@ img {
   justify-content: center;
   padding-bottom: 10px;
 
+  &__header {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 30px;
+    font-size: 1.2rem;
+  }
+
   &__tree {
     width: 750px;
     margin: 0 auto;
   }
 
-  &__loading {
-    margin-top: -5px;
+  &__loading-bar {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 650px;
+    display: grid;
+    grid-template-columns: 1fr 1.3fr 1fr;
+    align-items: center;
   }
 
   &__table {
@@ -110,8 +140,10 @@ img {
 }
 
 @media (max-width: 1200px) {
-  img {
-    width: 75px;
+  .wrapper {
+    img {
+      width: 75px;
+    }
   }
 }
 
@@ -119,12 +151,12 @@ img {
   .wrapper {
     &__tree {
       width: 600px;
-
-      img {
-        width: 65px;
-      }
     }
-  }
+
+    img {
+      width: 65px;
+    }
+  }  
 }
 
 @media (max-width: 840px) {
@@ -135,10 +167,10 @@ img {
 
     &__tree {
       width: 100%;
+    }
 
-      img {
-        width: 60px;
-      }
+    img {
+      width: 60px;
     }
   }
 }
@@ -158,10 +190,10 @@ img {
     &__table {
       min-height: 220px;
     }
-  }
 
-  img {
-    width: 65px;
+    img {
+      width: 45px;
+    }
   }
 }
 </style>

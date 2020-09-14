@@ -1,7 +1,5 @@
 <template>
-  <div 
-    v-if="loadingText == 'calculated'" 
-    class="item-table">
+  <div class="item-table">
     <div
       v-for="subtier in 4"
       :class="`subtier${subtier - 1}`"
@@ -13,7 +11,7 @@
         :class="[{
           'row__unprofitable': item.profit < 0,
           'row__profitable': item.profit > 0,
-          'row__unknown': item.profit == 0 || outdated(item.date) || noArtefactForSale(name),
+          'row__unknown': item.profit == 0 || outdated(item.date, 'item date') || noArtefactForSale(name),
         }, `tier${name.slice(1, 2)} tier item`]"
         :key="name"
       >
@@ -21,6 +19,10 @@
           <span>{{ item.profit | formatPrice }}</span>
           <div class="base-item-info__secondary-info">
             <span class="secondary-info__profit-percentage">{{ item.percentageProfit | formatPercentage }}%</span>
+            <span 
+              v-if="settings.showAverageItems"
+              class="secondary-info__average-items"
+            >{{ item.averageItems | formatFloat }}/{{ $t('days') }}</span>
           </div>
         </div>
         <div class="item__warnings">
@@ -30,11 +32,11 @@
             class="item__warnings__icon"
           >
           <img 
-            v-if="outdated(item.date)" 
+            v-if="outdated(item.date, 'item date')" 
             src="/images/clock.svg" 
             class="item__warnings__icon" >
           <img
-            v-if="!outdated(item.date) && !noArtefactForSale(name)"
+            v-if="!outdated(item.date, 'item date') && !noArtefactForSale(name)"
             class="item__warnings__info"
             src="/images/info.svg"
             alt="i"
@@ -68,7 +70,7 @@
                     'error': outdated(tooltipRow.date),
                     'success': !outdated(tooltipRow.date)
                   }"
-                >{{ tooltipRow.date | formatDate }}</div>
+                >{{ formatDate(tooltipRow.date) }}</div>
               </template>
             </div>
           </div>
@@ -85,16 +87,22 @@
     "Materials": "Materials",
     "Artifact": "Artifact",
     "Sigils": "Royal Sigils",
+    "Solo map": "Solo map",
     "Fee": "Fee",
-    "Journals": "Journals"
+    "Journals": "Journals",
+    "hours": "h",
+    "days": "d"
   },
   "ru": {
     "Market price": "Цена на рынке",
     "Materials": "Материалы",
     "Artifact": "Артефакт",
     "Sigils": "Королевские знаки",
+    "Solo map": "Соло карта",
     "Fee": "Налог",
-    "Journals": "Журналы"
+    "Journals": "Журналы",
+    "hours": "ч",
+    "days": "д"
   }
 }
 </i18n>
@@ -118,33 +126,6 @@ export default {
     },
 
     /**
-     * Add h(hours) or d(days) to date
-     *
-     * @param {string} date - timestamp
-     */
-    formatDate(date) {
-      if (date.length == 0) {
-        return "-";
-      }
-
-      date = new Date(date);
-
-      let lastCheckInHours = Math.floor(
-        (Date.now() - date.getTime() + new Date().getTimezoneOffset() * 60000) /
-          3600000
-      );
-      let lastCheckInDays = Math.floor(lastCheckInHours / 24);
-
-      if (lastCheckInDays > 100) {
-        return "∞";
-      }
-
-      return lastCheckInHours < 24
-        ? `${lastCheckInHours}h`
-        : `${Math.floor(lastCheckInHours / 24)}d`;
-    },
-
-    /**
      * Floating point format
      */
     formatPercentage(num) {
@@ -160,6 +141,13 @@ export default {
       num = num > 0 ? `+${num}` : num;
 
       return num;
+    },
+
+    /**
+     * Format float
+     */
+    formatFloat(num) {
+      return Math.floor(num) == num ? num : num.toFixed(1);
     }
   },
   data() {
@@ -235,49 +223,64 @@ export default {
     amountOfMaterials() {
       let amountOfMaterials = 0;
 
-      for (let material in this.recipe) {
-        amountOfMaterials += this.recipe[material];
+      for (let material in this.getRecipe) {
+        amountOfMaterials += this.getRecipe[material];
       }
 
       return amountOfMaterials;
     },
 
-    /**
-     * Get all items(t4.0 - t8.3) for current item
-     */
-    items() {
-      return this.$store.getters.getItems;
-    },
+    ...mapGetters([
+      /**
+       * Get all items(t4.0 - t8.3) for current item
+       */
+      "getItems",
 
-    /**
-     * Get all resources for current city
-     */
-    resources() {
-      return this.$store.getters.getResources;
-    },
+      /**
+       * Get all resources for current city
+       */
+      "getResources",
 
-    /**
-     * Get artefacts. If artifacts are not needed returns {}
-     */
-    artefacts() {
-      return this.$store.getters.getArtefacts;
-    },
+      /**
+       * Get artefacts. If artifacts are not needed returns {}
+       */
+      "getArtefacts",
+      
+      /**
+       * Get recipe to calculate craft cost
+       */
+      "getRecipe",
 
-    /**
-     * Get recipe to calculate craft cost
-     */
-    recipe() {
-      return this.$store.getters.getRecipe;
-    },
+      /**
+       * Get journals
+       */
+      "getJournals",
 
-    /**
-     * Get journals
-     */
-    journals() {
-      return this.$store.getters.getJournals;
-    },
+      /**
+       * Get average data
+       */
+      "getAverageData",
 
-    ...mapGetters(["returnMaterialPercentage", "loadingText"]),
+      /**
+       * Get return percentage of materials
+       */
+      "returnMaterialPercentage",
+      
+      /**
+       * Get loading text
+       */
+      "loadingText",
+      
+      /**
+       * Does this item need an artifact
+       */
+      "isArtifactItem",
+
+      /**
+       * Get artifact name
+       */
+      "getArtifactName",
+    ]),
 
     ...mapState({
       settings: (state) => state.tree.settings,
@@ -313,24 +316,32 @@ export default {
      */
     getRow(subtier) {
       let row = {};
-      for (let itemName in this.items) {
+      for (let itemName in this.getItems) {
         if (
           itemName.slice(-2) == `@${subtier}` ||
           (subtier == 0 && itemName.slice(-2, -1) != "@")
         ) {
           row[itemName] = {
             profit: 0,
-            date: this.dateNow(),
+            date: this.dateNow()
           };
 
           const tier = Number(itemName.slice(1, 2));
-          const marketFee = this.items[itemName].marketFee;
+          let marketFee = this.getItems[itemName].marketFee;
+          let itemPrice = Math.floor(this.getItems[itemName].price);
+          let lastCheckDate = this.getItems[itemName].date;
+
+          if (this.settings.useAveragePrice) {
+            itemPrice = Math.floor(this.getAverageData[itemName].averagePrice);
+            lastCheckDate = this.getAverageData[itemName].lastCheckDate;
+            marketFee = 4.5;
+          }
 
           this.tableInfo[`T${tier}.${subtier}`].marketPrice = {
             name: "Market price",
             percentage: -marketFee,
-            price: Math.floor(this.items[itemName].price * (1 - marketFee / 100)),
-            date: this.items[itemName].date,
+            price: Math.floor(itemPrice * (1 - marketFee / 100)),
+            date:lastCheckDate,
           };
 
           let creationCost = 0;
@@ -339,17 +350,17 @@ export default {
           creationCost += this.itemCreationCost(tier, subtier, itemName);
           creationCost += this.getArtefactPrice(tier, subtier);
           creationCost += this.craftFee(tier, subtier);
-          creationCost -= this.journalProfit(tier, subtier);
 
           const journalProfit = this.journalProfit(tier, subtier);
 
-          if (this.items[itemName].price != 0) {
-            const itemPrice = Math.floor(
-              this.items[itemName].price * (1 - marketFee / 100)
-            );
-            row[itemName].profit = itemPrice - creationCost;
-            row[itemName].date = this.items[itemName].date;
+          if (itemPrice != 0) {
+            row[itemName].profit = itemPrice - creationCost + journalProfit;
+            row[itemName].date = this.getItems[itemName].date;
             row[itemName].percentageProfit = row[itemName].profit / creationCost * 100;
+          }
+
+          if (this.settings.showAverageItems) {
+            row[itemName].averageItems = this.getAverageData?.[itemName]?.averageItems || 0;
           }
         }
       }
@@ -365,38 +376,38 @@ export default {
      * @returns {number} - artefact price
      */
     getArtefactPrice(tier, subtier) {
-      if (!this.isObjectEmpty(this.artefacts)) {
-        let artefact = "";
-        let artefactPrice = 0;
-        let name = 'Artifact';
-
-        if (this.currentItemInfo.name.includes('ROYAL')) {
-          // number of sigils e.g. for 8 materials returns from t4 to t8: 2 4 8 8 8
-          const numberOfSigils = tier >= 6 ? this.amountOfMaterials : this.amountOfMaterials * (tier - 3) / 4;
-
-          artefact = this.artefacts[`QUESTITEM_TOKEN_ROYAL_T${tier}`];
-          artefactPrice = artefact.price * numberOfSigils;
-          name = 'Sigils';
-        } else {
-          artefact = this.artefacts[
-            `T${tier}_ARTEFACT${this.currentItemInfo.name.slice(2)}`
-          ];
-          artefactPrice = artefact.price;
-        }
-
-        this.tableInfo[`T${tier}.${subtier}`].artefact = {
-          name: name,
-          percentage: 0,
-          price: -artefactPrice,
-          date: artefact.date,
-        };
-
-        return artefactPrice;
-      } else {
+      if (!this.isArtifactItem) {
         this.$set(this.tableInfo[`T${tier}.${subtier}`], "artefact", {});
+
+        return 0;
       }
 
-      return 0;
+      let artefactPrice = 0;
+      let name = 'Artifact';
+      const artifactName = this.getArtifactName(tier);     
+      let artefact = this.getArtefacts[artifactName];
+
+      if (this.currentItemInfo.name.includes('ROYAL')) {
+        // number of sigils e.g. for 8 materials returns from t4 to t8: 2 4 8 8 8
+        const numberOfSigils = tier >= 6 ? this.amountOfMaterials : this.amountOfMaterials * (tier - 3) / 4;
+
+        artefactPrice = artefact.price * numberOfSigils;
+        name = 'Sigils';
+      } else if (this.currentItemInfo.name.includes('INSIGHT')) {
+        artefactPrice = artefact.price;
+        name = 'Solo map';
+      } else {
+        artefactPrice = artefact.price;
+      }
+
+      this.tableInfo[`T${tier}.${subtier}`].artefact = {
+        name: name,
+        percentage: 0,
+        price: -artefactPrice,
+        date: artefact.date,
+      };
+
+      return artefactPrice;
     },
 
     /**
@@ -408,15 +419,15 @@ export default {
     itemCreationCost(tier, subtier, itemName) {
       let cost = 0;
 
-      for (let resourceName in this.recipe) {
+      for (let resourceName in this.getRecipe) {
         const resourceFullName =
           `T${tier}_${resourceName}` +
           (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : "");
-        const resourceCost = this.resources[resourceFullName].price;
+        const resourceCost = this.getResources[resourceFullName].price;
 
         cost += Math.floor(
           resourceCost *
-            this.recipe[resourceName] *
+            this.getRecipe[resourceName] *
             (1 - this.returnMaterialPercentage / 100)
         );
 
@@ -425,7 +436,7 @@ export default {
           name: "Materials",
           percentage: -this.returnMaterialPercentage,
           price: -cost,
-          date: this.resources[resourceFullName].date,
+          date: this.getResources[resourceFullName].date,
         };
       }
 
@@ -440,40 +451,36 @@ export default {
      * @returns {number}
      */
     journalProfit(tier, subtier) {
-      if (this.settings.useJournals) {
-        // amount of fame per unit of this tier material
-        const fame = this.materialsBaseFame[`T${tier}`];
-        let craftFame =
-          (fame * (subtier + 1) - 7.5 * subtier) * this.amountOfMaterials;
-
-        craftFame += !this.isObjectEmpty(this.artefacts) ? 500 : 0;
-
-        const journalFame = 1200 * 2 ** (tier - 4);
-        const journalName = `T${tier}_JOURNAL${this.currentItemInfo.root.slice(
-          4
-        )}`;
-        const marketFee = this.journals[journalName].marketFee;
-
-        let profit =
-          (this.journals[journalName].sellPrice -
-            this.journals[journalName].buyPrice) *
-          (craftFame / journalFame);
-
-        profit = Math.floor(profit);
-
-        this.$set(this.tableInfo[`T${tier}.${subtier}`], "journals", {
-          name: "Journals",
-          percentage: -marketFee,
-          price: profit,
-          date: this.journals[journalName].date,
-        });
-
-        return profit;
-      } else {
+      if (!this.settings.useJournals) {
         this.$set(this.tableInfo[`T${tier}.${subtier}`], "journals", {});
+
+        return 0;
       }
 
-      return 0;
+      // amount of fame per unit of this tier material
+      const fame = this.materialsBaseFame[`T${tier}`];
+      let craftFame =
+        (fame * (subtier + 1) - 7.5 * subtier) * this.amountOfMaterials;
+
+      const journalFame = 1200 * 2 ** (tier - 4);
+      const journalName = `T${tier}_JOURNAL${this.currentItemInfo.root.slice(4)}`;
+      const marketFee = this.getJournals[journalName].marketFee;
+
+      let profit =
+        (this.getJournals[journalName].sellPrice -
+          this.getJournals[journalName].buyPrice) *
+        (craftFame / journalFame);
+
+      profit = Math.floor(profit);
+
+      this.$set(this.tableInfo[`T${tier}.${subtier}`], "journals", {
+        name: "Journals",
+        percentage: -marketFee,
+        price: profit,
+        date: this.getJournals[journalName].date,
+      });
+
+      return profit;
     },
 
     /**
@@ -487,11 +494,16 @@ export default {
       const fee = this.settings.craftFee;
       const artefactLevel = this.currentItemInfo.artefactLevel;
       let itemValue = this.itemAndArtefactValues[`T${tier}.${subtier}`];
+      const isBagInsight = this.currentItemInfo.name.includes('INSIGHT');
 
-      if (artefactLevel.length != 0) {
+      if (artefactLevel.length != 0 && !isBagInsight) {
         itemValue += this.itemAndArtefactValues[`T${tier}_${artefactLevel}`];
+      } else if (isBagInsight) {
+        // Value of solo maps per unit of material
+        // Solo maps is not artifact but they are very similar in purpose
+        itemValue += [210, 280, 375, 525, 727,5][tier - 4];
       }
-
+      
       const feePrice = Math.floor(
         ((itemValue * this.amountOfMaterials) / 20) * fee
       );
@@ -512,10 +524,17 @@ export default {
      * returns true
      *
      * @param {timestamp} date - last check date
+     * @param {string} specialCase - optionally parameter to considers outdated differently
      * @returns {boolean}
      */
-    outdated(date) {
-      return this.dateNow() - new Date(date).getTime() > 86400000;
+    outdated(date, specialCase = '') {
+      const day = 24 * 60 * 60 * 1000;
+
+      if (this.settings.useAveragePrice && specialCase == 'item date') {
+        return this.dateNow() - new Date(date).getTime() > 30 * day;
+      }
+
+      return this.dateNow() - new Date(date).getTime() > day;
     },
 
     /**
@@ -530,11 +549,38 @@ export default {
         2
       )}_ARTEFACT${this.currentItemInfo.name.slice(2)}`;
 
-      if (!this.artefacts[artefactName]) {
+      if (!this.getArtefacts[artefactName]) {
         return false;
       }
 
-      return this.artefacts[artefactName].price == 0;
+      return this.getArtefacts[artefactName].price == 0;
+    },
+
+    /**
+     * Add h(hours) or d(days) to date
+     *
+     * @param {string} date - timestamp
+     */
+    formatDate(date) {
+      if (date.length == 0) {
+        return "-";
+      }
+
+      date = new Date(date);
+
+      let lastCheckInHours = Math.floor(
+        (Date.now() - date.getTime() + new Date().getTimezoneOffset() * 60000) /
+          3600000
+      );
+      let lastCheckInDays = Math.floor(lastCheckInHours / 24);
+
+      if (lastCheckInDays > 100) {
+        return "∞";
+      }
+
+      return lastCheckInHours < 24
+        ? lastCheckInHours + this.$t('hours')
+        : Math.floor(lastCheckInHours / 24) + this.$t('days');
     },
 
     /**
@@ -565,6 +611,7 @@ export default {
   margin: 0 auto;
   display: grid;
   max-width: 650px;
+  width: 100%;
   font-size: 16px;
 
   .subtier1 {
@@ -748,6 +795,7 @@ export default {
   justify-content: space-between;
   flex-direction: row-reverse;
   font-size: 10px;
+  padding-left: 3px;
   gap: 7px;
   width: 95%;
   /*color: #1c4c1b;*/

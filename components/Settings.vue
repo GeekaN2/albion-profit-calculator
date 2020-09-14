@@ -31,6 +31,26 @@
       >
       <label for="checkbox-cities">{{ $t('multipleCities') }}</label>
     </div>
+    <div class="setting">
+      <input
+        id="checkbox-average-items"
+        v-model="showAverageItems"
+        class="checkbox"
+        type="checkbox"
+        @change="changeShowAverageItems"
+      >
+      <label for="checkbox-average-items">{{ $t('averageItems') }}</label>
+    </div>
+    <div class="setting">
+      <input
+        id="checkbox-average-price"
+        v-model="useAveragePrice"
+        class="checkbox"
+        type="checkbox"
+        @change="changeUseAveragePrice"
+      >
+      <label for="checkbox-average-price">{{ $t('averagePrice') }}</label>
+    </div>
     <div 
       class="refresh" 
       @click="updateState('items')">
@@ -44,7 +64,7 @@
       <p>{{ $t('updateResources') }}</p>
     </div>
     <div
-      v-if="isArtefactItem"
+      v-if="isArtifactItem"
       class="refresh"
       @click="updateState('artifacts')">
       <img src="/images/redo-alt.svg">
@@ -96,8 +116,8 @@
           <option :key="city">{{ city }}</option>
         </template>
       </select>
-      <template v-if="isArtefactItem">
-        <p class="setting__city-header">{{ $t('cities.artefacts') }}</p>
+      <template v-if="isArtifactItem">
+        <p class="setting__city-header">{{ artefactsCategory }}</p>
         <select 
           v-model="cities.artefacts" 
           class="city" 
@@ -134,6 +154,8 @@
     "updateJournals": "Update journal prices",
     "craftFee": "craft fee",
     "multipleCities": "Use multiple cities",
+    "averageItems": "Number of items sold",
+    "averagePrice": "Use average price",
     "cities": {
       "mainCity": "Main city",
       "sellItems": "Sell items",
@@ -142,6 +164,7 @@
       "resources": "Resources",
       "artefacts": "Artifacts",
       "sigils": "Royal sigils",
+      "soloMaps": "Solo maps",
       "journals": "Journals"
     }
   },
@@ -155,6 +178,8 @@
     "updateJournals": "Обновить цены журналов",
     "craftFee": "налог станка",
     "multipleCities": "Цены из разных городов",
+    "averageItems": "Кол-во проданных предметов",
+    "averagePrice": "Использовать среднюю цену",
     "cities": {
       "mainCity": "Основной город",
       "sellItems": "Продажа предметов",
@@ -163,6 +188,7 @@
       "resources": "Материалы",
       "artefacts": "Артефакты",
       "sigils": "Королевские знаки",
+      "soloMaps": "Соло карты",
       "journals": "Журналы"
     }
   }
@@ -170,6 +196,8 @@
 </i18n>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "Settings",
   data() {
@@ -183,6 +211,16 @@ export default {
        * Use focus points or not
        */
       useFocus: false,
+
+      /**
+       * Show average number of sold items per day or not
+       */
+      showAverageItems: false,
+
+      /**
+       * Use average item price instead of order price
+       */
+      useAveragePrice: false,
 
       /**
        * Craft bench tax on item creation
@@ -227,9 +265,27 @@ export default {
     /**
      * Is the current item an artifact
      */
-    isArtefactItem() {
-      return this.$store.getters.isArtefactItem;
-    }
+    isArtifactItem() {
+      return this.$store.getters.isArtifactItem;
+    },
+
+    /**
+     * Choose one: artifacts, sigils or solo maps
+     */
+    artefactsCategory() {
+      const itemName = this.currentItemInfo.name;
+      const category = itemName.includes('ROYAL') ? 'cities.sigils' : 
+      itemName.includes('INSIGHT') ? 'cities.soloMaps' : 'cities.artefacts';
+
+      return this.$t(category);
+    },
+
+    /**
+     * Current item info
+     */
+    ...mapState({
+      currentItemInfo: (state) => state.tree.currentItemInfo,
+    }),
   },
   methods: {
     /**
@@ -295,6 +351,21 @@ export default {
      */
     changeUseFocus() {
       this.$store.commit("UPDATE_USE_FOCUS", this.useFocus);
+
+      this.$store.dispatch("CHECK_ALL");
+    },
+    
+    /**
+     * 
+     */
+    changeShowAverageItems() {
+      this.$store.commit("UPDATE_SHOW_AVERAGE_ITEMS", this.showAverageItems);
+
+      this.$store.dispatch("CHECK_ALL");
+    },
+
+    changeUseAveragePrice() {
+      this.$store.commit("UPDATE_USE_AVERAGE_PRICE", this.useAveragePrice);
 
       this.$store.dispatch("CHECK_ALL");
     },
@@ -383,6 +454,7 @@ select {
 
   img {
     width: 18px;
+    height: 18px;
   }
 
   p {

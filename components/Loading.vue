@@ -9,18 +9,20 @@
 <i18n>
 {
   "en": {
-      "items": "Loading item prices",
-      "artefacts": "Loading artifact prices",
-      "resources": "Loading resource prices",
-      "journals": "Loading journal prices",
-      "calculated": "Profit calculated"
+    "items": "Loading item prices",
+    "artefacts": "Loading artifact prices",
+    "resources": "Loading resource prices",
+    "journals": "Loading journal prices",
+    "averageData": "Loading average data",
+    "calculated": "Profit calculated"
   },
   "ru": {
-      "items": "Загружем цены предметов",
-      "artefacts": "Загружаем цены артефактов",
-      "resources": "Загружаем цены материалов",
-      "journals": "Загружаем цены журналов",
-      "calculated": "Профит посчитан"
+    "items": "Загружаем цены предметов",
+    "artefacts": "Загружаем цены артефактов",
+    "resources": "Загружаем цены материалов",
+    "journals": "Загружаем цены журналов",
+    "averageData": "Загружаем средние значения",
+    "calculated": "Профит посчитан"
   }
 }
 </i18n>
@@ -47,6 +49,7 @@ export default {
   &__loading {
     padding: 2px;
     position: relative;
+    font-size: 1rem;
 
     &:after {
       content: "";
@@ -72,6 +75,30 @@ export default {
         background-position: 0% 50%;
       }
     }
+  }
+}
+
+@media (max-width: 1200px) {
+  .container__loading {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 991px) {
+.container__loading {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 840px) {
+.container__loading {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 479px) {
+.container__loading {
+    font-size: 0.7rem;
   }
 }
 </style>

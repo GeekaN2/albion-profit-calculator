@@ -52,6 +52,14 @@ export function createStringOfAllArtefacts(itemName: string) {
     return allNames.slice(0, -1);
   }
 
+  if (itemName.includes('INSIGHT')) {
+    for (let tier = 4; tier <= 8; tier++) {
+      allNames = allNames + `T${tier}_RANDOM_DUNGEON_SOLO_TOKEN_1,`;
+    }
+
+    return allNames.slice(0, -1);
+  }
+
   for (let tier = 4; tier <= 8; tier++) {
     allNames = allNames + `T${tier}_ARTEFACT${itemName.slice(2)},`;
   }
@@ -117,40 +125,6 @@ export function normalizedPriceAndDate(item: ResponseModel): Item {
 }
 
 /**
- * Returns the percentage of materials returned 
- * for profile cities
- * 
- * @param parentItem - branch of specific items: T4_MAIN_FIRESTAFF etc.
- * @param city - current city
- * @returns percentage
- */
-export function getReturnMaterialsPercentage(parentItem: string, city: string, useFocus: boolean): number {
-  let returnMaterialsPercentage = useFocus ? 43.5 : 15.2;
-
-  // Keywords for the category of items that the bonus is assigned to
-  const bonus: { [key: string]: string[] } = {
-    'Martlock': ['AXE', 'QUARTERSTAFF', 'FROSTSTAFF', 'SHOES_PLATE', 'OFF'],
-    'Bridgewatch': ['CROSSBOW', 'DAGGER', 'CURSEDSTAFF', 'ARMOR_PLATE', 'SHOES_CLOTH'],
-    'Lymhurst': ['SWORD', 'BOW', 'ARCANESTAFF', 'HEAD_LEATHER', 'SHOES_LEATHER'],
-    'Fort Sterling': ['HAMMER', 'SPEAR', 'HOLYSTAFF', 'HEAD_PLATE', 'ARMOR_CLOTH'],
-    'Thetford': ['MACE', 'NATURESTAFF', 'FIRESTAFF', 'ARMOR_LEATHER', 'HEAD_CLOTH']
-  };
-
-  if (bonus[city]) {
-    const categories = bonus[city];
-
-    const addBonus = categories.some(keyword => {
-      return parentItem.includes(keyword);
-    });
-
-    if (addBonus) {
-      returnMaterialsPercentage = useFocus ? 47.9 : 24.8;
-    }
-  }
-  return returnMaterialsPercentage;
-}
-
-/**
  * Checking an object for emptiness
  * 
  * @param obj - any object
@@ -164,8 +138,8 @@ export function isObjectEmpty(obj: object): boolean {
  * 
  * @param itemName - item name: T4_ARTEFACT_HEAD_CLOTH_HELL etc.
  */
-export function isArtefactItem(itemName: string): boolean {
-  const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL'];
+export function isArtifactItem(itemName: string): boolean {
+  const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL', "INSIGHT"];
 
   if (!itemName) {
     return false;

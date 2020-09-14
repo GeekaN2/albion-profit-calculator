@@ -25,7 +25,8 @@ const treeModule = {
     currentItemInfo: {},
     resources: JSON.parse(JSON.stringify(cities)),
     artefacts: JSON.parse(JSON.stringify(cities)),
-    journals: JSON.parse(JSON.stringify(cities))
+    journals: JSON.parse(JSON.stringify(cities)),
+    averageData: JSON.parse(JSON.stringify(cities))
   },
   getters,
   actions,

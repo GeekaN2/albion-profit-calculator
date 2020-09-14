@@ -48,6 +48,7 @@ export interface TreeState {
   resources: Resources;
   artefacts: Artefacts;
   journals: Journals;
+  averageData: AverageData;
 }
 
 /**
@@ -99,6 +100,17 @@ export interface Journals {
   }
 }
 
+/**
+ * city -> base item name -> item name
+ */
+export interface AverageData {
+  [key: string]: {
+    [key: string]: {
+      [key: string]: AverageDataForItem
+    }
+  }
+}
+
 export interface JournalsItem {
   buyPrice: number,
   sellPrice: number,
@@ -112,6 +124,8 @@ export interface JournalsItem {
 export interface Settings {
   useJournals: boolean,
   useFocus: boolean,
+  showAverageItems: boolean,
+  useAveragePrice: boolean,
   craftFee: number,
   cities: {
     sellItems: string,
@@ -131,4 +145,29 @@ export interface ItemInfo {
   parent: string;
   root: string;
   artefactLevel: string;
+}
+
+export interface AverageDataResponse {
+  itemName: string;
+  location: string;
+  averageItems: number;
+  averagePrice: number;
+  firstCheckDate: string;
+  lastCheckDate: string;
+}
+
+export interface AverageDataForItem {
+  averageItems: number;
+  averagePrice: number;
+  firstCheckDate: string;
+  lastCheckDate: string;
+}
+
+/**
+ * Combined settings and info about item
+ * For convenience in actions and mutations
+ */
+export interface SettingsWithItem {
+  currentItemInfo: ItemInfo;
+  settings: Settings;
 }

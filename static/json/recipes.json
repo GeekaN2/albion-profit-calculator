@@ -95,6 +95,10 @@
     "METALBAR": 20,
     "LEATHER": 12
   },
+  "T4_2H_CLAYMORE_AVALON": {
+    "METALBAR": 20,
+    "LEATHER": 12
+  },
   "T4_MAIN_AXE": {
     "PLANKS": 8,
     "METALBAR": 16
@@ -116,6 +120,10 @@
     "METALBAR": 20
   },
   "T4_2H_DUALAXE_KEEPER": {
+    "PLANKS": 12,
+    "METALBAR": 20
+  },
+  "T4_2H_AXE_AVALON": {
     "PLANKS": 12,
     "METALBAR": 20
   },
@@ -143,6 +151,10 @@
     "METALBAR": 20,
     "CLOTH": 12
   },
+  "T4_2H_DUALMACE_AVALON": {
+    "METALBAR": 20,
+    "CLOTH": 12
+  },
   "T4_MAIN_HAMMER": {
     "METALBAR": 24
   },
@@ -163,6 +175,10 @@
     "CLOTH": 12
   },
   "T4_2H_RAM_KEEPER": {
+    "METALBAR": 20,
+    "CLOTH": 12
+  },
+  "T4_2H_HAMMER_AVALON": {
     "METALBAR": 20,
     "CLOTH": 12
   },
@@ -187,6 +203,10 @@
     "METALBAR": 12
   },
   "T4_2H_CROSSBOWLARGE_MORGANA": {
+    "PLANKS": 20,
+    "METALBAR": 12
+  },
+  "T4_2H_CROSSBOW_CANNON_AVALON": {
     "PLANKS": 20,
     "METALBAR": 12
   },
@@ -296,6 +316,9 @@
   "T4_2H_BOW_KEEPER": {
     "PLANKS": 32
   },
+  "T4_2H_BOW_AVALON": {
+    "PLANKS": 32
+  },
   "T4_MAIN_SPEAR": {
     "PLANKS": 16,
     "METALBAR": 8
@@ -319,6 +342,10 @@
   "T4_2H_TRIDENT_UNDEAD": {
     "PLANKS": 20,
     "METALBAR": 12
+  },
+  "T4_MAIN_SPEAR_LANCE_AVALON": {
+    "PLANKS": 16,
+    "METALBAR": 8
   },
   "T4_MAIN_NATURESTAFF": {
     "PLANKS": 16,
@@ -344,6 +371,10 @@
     "PLANKS": 20,
     "CLOTH": 12
   },
+  "T4_MAIN_NATURESTAFF_AVALON": {
+    "PLANKS": 16,
+    "CLOTH": 8
+  },
   "T4_MAIN_DAGGER": {
     "METALBAR": 12,
     "LEATHER": 12
@@ -357,7 +388,7 @@
     "LEATHER": 20
   },
   "T4_MAIN_RAPIER_MORGANA": {
-    "METALBAR": 17,
+    "METALBAR": 16,
     "LEATHER": 8
   },
   "T4_2H_IRONGAUNTLETS_HELL": {
@@ -367,6 +398,10 @@
   "T4_2H_DUALSICKLE_UNDEAD": {
     "METALBAR": 16,
     "LEATHER": 16
+  },
+  "T4_2H_DAGGER_KATAR_AVALON": {
+    "METALBAR": 12,
+    "LEATHER": 20
   },
   "T4_2H_QUARTERSTAFF": {
     "METALBAR": 12,
@@ -389,6 +424,10 @@
     "LEATHER": 20
   },
   "T4_2H_ROCKSTAFF_KEEPER": {
+    "METALBAR": 12,
+    "LEATHER": 20
+  },
+  "T4_2H_QUARTERSTAFF_AVALON": {
     "METALBAR": 12,
     "LEATHER": 20
   },
@@ -504,29 +543,37 @@
     "PLANKS": 20,
     "METALBAR": 12
   },
+  "T4_2H_FIRE_RINGPAIR_AVALON": {
+    "PLANKS": 20,
+    "METALBAR": 12
+  },
   "T4_MAIN_HOLYSTAFF": {
     "PLANKS": 16,
     "CLOTH": 8
   },
   "T4_2H_HOLYSTAFF": {
     "PLANKS": 20,
-    "METALBAR": 12
+    "CLOTH": 12
   },
   "T4_2H_DIVINESTAFF": {
     "PLANKS": 20,
-    "METALBAR": 12
+    "CLOTH": 12
   },
   "T4_MAIN_HOLYSTAFF_MORGANA": {
     "PLANKS": 16,
-    "METALBAR": 8
+    "CLOTH": 8
   },
   "T4_2H_HOLYSTAFF_HELL": {
     "PLANKS": 20,
-    "METALBAR": 12
+    "CLOTH": 12
   },
   "T4_2H_HOLYSTAFF_UNDEAD": {
     "PLANKS": 20,
-    "METALBAR": 12
+    "CLOTH": 12
+  },
+  "T4_MAIN_HOLYSTAFF_AVALON": {
+    "PLANKS": 16,
+    "CLOTH": 8
   },
   "T4_MAIN_ARCANESTAFF": {
     "PLANKS": 16,
@@ -549,6 +596,10 @@
     "METALBAR": 12
   },
   "T4_2H_ENIGMATICORB_MORGANA": {
+    "PLANKS": 20,
+    "METALBAR": 12
+  },
+  "T4_2H_ARCANE_RINGPAIR_AVALON": {
     "PLANKS": 20,
     "METALBAR": 12
   },
@@ -576,6 +627,10 @@
     "PLANKS": 20,
     "METALBAR": 12
   },
+  "T4_MAIN_FROSTSTAFF_AVALON": {
+    "PLANKS": 16,
+    "METALBAR": 8
+  },
   "T4_MAIN_CURSEDSTAFF": {
     "PLANKS": 16,
     "METALBAR": 8
@@ -599,6 +654,10 @@
   "T4_2H_CURSEDSTAFF_MORGANA": {
     "PLANKS": 20,
     "METALBAR": 12
+  },
+  "T4_MAIN_CURSEDSTAFF_AVALON": {
+    "PLANKS": 16,
+    "METALBAR": 8
   },
   "T4_OFF_BOOK": {
     "CLOTH": 4,
@@ -723,6 +782,10 @@
     "CLOTH": 4
   },
   "T4_BAG": {
+    "LEATHER": 8,
+    "CLOTH": 8
+  },
+  "T4_BAG_INSIGHT": {
     "LEATHER": 8,
     "CLOTH": 8
   }
