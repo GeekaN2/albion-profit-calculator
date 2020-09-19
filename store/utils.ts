@@ -90,36 +90,42 @@ export function createStringOfAllJournals(root: string): string {
  * @param {ResponseModel} item 
  */
 export function normalizedPriceAndDate(item: ResponseModel): Item {
-  if (item.sell_price_min != 0 && item.buy_price_max == 0) {
+  if (item.sellPrice != 0 && item.buyPrice == 0) {
     return {
-      price: item.sell_price_min,
-      date: item.sell_price_min_date,
+      price: item.sellPrice,
+      date: item.sellPriceDate,
       marketFee: 4.5
     }
   }
 
-  if (item.sell_price_min == 0 && item.buy_price_max != 0) {
+  if (item.sellPrice == 0 && item.buyPrice != 0) {
     return {
-      price: item.buy_price_max,
-      date: item.buy_price_max_date,
+      price: item.buyPrice,
+      date: item.buyPriceDate,
       marketFee: 3
     }
   }
 
-  if (item.sell_price_min == 0 && item.buy_price_max == 0) {
+  if (item.sellPrice == 0 && item.buyPrice == 0) {
     return {
       price: 0,
-      date: item.sell_price_min_date,
+      date: item.sellPriceDate,
       marketFee: 3
     }
   }
 
-  // You can still compare prices with fee,
-  // but the difference isn't so significant
+  // Compare prices with fee,
+  if (item.buyPrice * 0.97 > item.sellPrice * 0.955) {
+    return {
+      price: item.buyPrice,
+      date: item.buyPriceDate,
+      marketFee: 3
+    }
+  }
 
   return {
-    price: item.sell_price_min,
-    date: item.sell_price_min_date,
+    price: item.sellPrice,
+    date: item.sellPriceDate,
     marketFee: 4.5
   }
 }

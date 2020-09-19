@@ -52,20 +52,20 @@ export const mutations: MutationTree<TreeState> = {
     let newPrices: { [key: string]: Item } = {};
 
     data.forEach((item: ResponseModel) => {
-      if (!newPrices[item.item_id]) {
-        newPrices[item.item_id] = {
+      if (!newPrices[item.itemId]) {
+        newPrices[item.itemId] = {
           price: 0,
           date: '',
           marketFee: 3
         };
       }
 
-      const currentPrice = newPrices[item.item_id];
+      const currentPrice = newPrices[item.itemId];
 
       let newPrice: Item = normalizedPriceAndDate(item);
 
       newPrice = newPrice.price >= currentPrice.price ? newPrice : currentPrice;
-      newPrices[item.item_id] = newPrice;
+      newPrices[item.itemId] = newPrice;
     });
 
     Vue.set(state.prices[location], itemName, newPrices);
@@ -83,9 +83,9 @@ export const mutations: MutationTree<TreeState> = {
     let newPrices: { [key: string]: Item } = {};
 
     data.forEach((resource: ResponseModel) => {
-      newPrices[resource.item_id] = {
-        price: resource.sell_price_min,
-        date: resource.sell_price_min_date
+      newPrices[resource.itemId] = {
+        price: resource.sellPrice,
+        date: resource.sellPriceDate
       }
     });
 
@@ -105,9 +105,9 @@ export const mutations: MutationTree<TreeState> = {
     let newPrices: { [key: string]: Item } = {};
 
     data.forEach((artefact: ResponseModel) => {
-      newPrices[artefact.item_id] = {
-        price: artefact.sell_price_min,
-        date: artefact.sell_price_min_date
+      newPrices[artefact.itemId] = {
+        price: artefact.sellPrice,
+        date: artefact.sellPriceDate
       }
     });
 
@@ -127,7 +127,7 @@ export const mutations: MutationTree<TreeState> = {
     const newPrices: { [key: string]: JournalsItem } = {};
 
     data.forEach((journal: ResponseModel) => {
-      const journalName = journal.item_id.slice(0, journal.item_id.lastIndexOf('_'));
+      const journalName = journal.itemId.slice(0, journal.itemId.lastIndexOf('_'));
 
       if (!newPrices[journalName]) {
         newPrices[journalName] = {
@@ -138,9 +138,9 @@ export const mutations: MutationTree<TreeState> = {
         }
       }
 
-      if (journal.item_id.slice(-5) == 'EMPTY') {
-        newPrices[journalName].buyPrice = journal.sell_price_min;
-        newPrices[journalName].date = journal.sell_price_min_date;
+      if (journal.itemId.slice(-5) == 'EMPTY') {
+        newPrices[journalName].buyPrice = journal.sellPrice;
+        newPrices[journalName].date = journal.sellPriceDate;
       } else {
         const normalizedJournal = normalizedPriceAndDate(journal);
 

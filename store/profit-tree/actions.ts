@@ -4,6 +4,8 @@ import { createStringOfAllItems, createStringOfAllResources, createStringOfAllAr
 import { TreeState, ItemInfo, SettingsWithItem } from '../typeDefs'
 import { isArtifactItem } from '../utils'
 
+const baseUrl = process.env.BASE_URL;
+
 export const actions: ActionTree<TreeState, {}> = {
   /**
    * Fetch json files data. Set recipes of items and tree structure of items
@@ -135,7 +137,7 @@ export const actions: ActionTree<TreeState, {}> = {
     const location = settingsWithItem.settings.cities.sellItems;
 
     await axios
-      .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}&qualities=1,2,3`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}&qualities=1,2,3`)
       .then(response => {
         const data = response.data;
 
@@ -162,7 +164,7 @@ export const actions: ActionTree<TreeState, {}> = {
     }, '').slice(0, -1);
 
     await axios
-      .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
       .then(response => {
         const data = response.data;
 
@@ -184,7 +186,7 @@ export const actions: ActionTree<TreeState, {}> = {
     const location = settingsWithItem.settings.cities.artefacts;
 
     await axios
-      .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
       .then(response => {
         const data = response.data;
 
@@ -205,7 +207,7 @@ export const actions: ActionTree<TreeState, {}> = {
     const location = settingsWithItem.settings.cities.journals;
 
     await axios
-      .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
       .then(response => {
         const data = response.data;
 
@@ -225,7 +227,7 @@ export const actions: ActionTree<TreeState, {}> = {
     const baseURL = process.env.BASE_URL;
 
     await axios
-      .get(`${baseURL}data?items=${allNames}&locations=${location}`)
+      .get(`${baseURL}average_data?items=${allNames}&locations=${location}`)
       .then(response => {
         const data = response.data;
 

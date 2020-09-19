@@ -22,17 +22,13 @@ export interface Prices {
  * Response model for albion data api
  */
 export interface ResponseModel {
-  buy_price_max: number
-  buy_price_max_date: string
-  buy_price_min: number
-  buy_price_min_date: string
-  city: string
-  item_id: string
-  quality: number
-  sell_price_max: number
-  sell_price_max_date: string
-  sell_price_min: number
-  sell_price_min_date: string
+  itemId: string;
+  location: string;
+  quality: number;
+  buyPrice: number;
+  buyPriceDate: string;
+  sellPrice: number;
+  sellPriceDate: string;
 }
 
 /**

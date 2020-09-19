@@ -323,7 +323,7 @@ export default {
         ) {
           row[itemName] = {
             profit: 0,
-            date: this.dateNow()
+            date: new Date()
           };
 
           const tier = Number(itemName.slice(1, 2));
@@ -531,10 +531,10 @@ export default {
       const day = 24 * 60 * 60 * 1000;
 
       if (this.settings.useAveragePrice && specialCase == 'item date') {
-        return this.dateNow() - new Date(date).getTime() > 30 * day;
+        return Date.now() - new Date(date).getTime() > 30 * day;
       }
 
-      return this.dateNow() - new Date(date).getTime() > day;
+      return Date.now() - new Date(date).getTime() > day;
     },
 
     /**
@@ -544,10 +544,7 @@ export default {
      * @returns {boolean}
      */
     noArtefactForSale(name) {
-      const artefactName = `T${name.slice(
-        1,
-        2
-      )}_ARTEFACT${this.currentItemInfo.name.slice(2)}`;
+      const artefactName = this.getArtifactName(Number(name.slice(1, 2)));
 
       if (!this.getArtefacts[artefactName]) {
         return false;
@@ -569,9 +566,9 @@ export default {
       date = new Date(date);
 
       let lastCheckInHours = Math.floor(
-        (Date.now() - date.getTime() + new Date().getTimezoneOffset() * 60000) /
-          3600000
+        (Date.now() - date.getTime()) / 3600000
       );
+
       let lastCheckInDays = Math.floor(lastCheckInHours / 24);
 
       if (lastCheckInDays > 100) {
@@ -591,16 +588,7 @@ export default {
      */
     isObjectEmpty(obj) {
       return JSON.stringify(obj) === '{}' || obj === undefined;
-    },
-
-    /**
-     * Get date with timezone offset
-     *
-     * @returns {number}
-     */
-    dateNow() {
-      return Date.now() + new Date().getTimezoneOffset() * 60000;
-    },
+    }
   },
 };
 </script>
