@@ -84,8 +84,8 @@ export const mutations: MutationTree<TreeState> = {
 
     data.forEach((resource: ResponseModel) => {
       newPrices[resource.itemId] = {
-        price: resource.sellPrice,
-        date: resource.sellPriceDate
+        price: resource.sellPriceMin,
+        date: resource.sellPriceMinDate
       }
     });
 
@@ -106,8 +106,8 @@ export const mutations: MutationTree<TreeState> = {
 
     data.forEach((artefact: ResponseModel) => {
       newPrices[artefact.itemId] = {
-        price: artefact.sellPrice,
-        date: artefact.sellPriceDate
+        price: artefact.sellPriceMin,
+        date: artefact.sellPriceMinDate
       }
     });
 
@@ -139,8 +139,8 @@ export const mutations: MutationTree<TreeState> = {
       }
 
       if (journal.itemId.slice(-5) == 'EMPTY') {
-        newPrices[journalName].buyPrice = journal.sellPrice;
-        newPrices[journalName].date = journal.sellPriceDate;
+        newPrices[journalName].buyPrice = journal.sellPriceMin;
+        newPrices[journalName].date = journal.sellPriceMinDate;
       } else {
         const normalizedJournal = normalizedPriceAndDate(journal);
 

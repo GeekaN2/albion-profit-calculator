@@ -25,10 +25,10 @@ export interface ResponseModel {
   itemId: string;
   location: string;
   quality: number;
-  buyPrice: number;
-  buyPriceDate: string;
-  sellPrice: number;
-  sellPriceDate: string;
+  buyPriceMax: number;
+  buyPriceMaxDate: string;
+  sellPriceMin: number;
+  sellPriceMinDate: string;
 }
 
 /**
