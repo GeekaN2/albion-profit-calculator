@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { normalizedPriceAndDate } from '../utils'
+import { normalizedPriceAndDate, normalizeItem } from '../utils'
 import { ResponseModel, TreeState, Item, Settings, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem } from '../typeDefs'
 import Vue from 'vue';
 
@@ -64,7 +64,7 @@ export const mutations: MutationTree<TreeState> = {
 
       let newPrice: Item = normalizedPriceAndDate(item);
 
-      newPrice = newPrice.price >= currentPrice.price ? newPrice : currentPrice;
+      newPrice = normalizeItem(currentPrice, newPrice);
       newPrices[item.itemId] = newPrice;
     });
 
