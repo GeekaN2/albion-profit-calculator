@@ -55,7 +55,7 @@ export const actions: ActionTree<TreeState, {}> = {
       await dispatch('FETCH_ITEM_PRICES', settingsWithItem);
     }
 
-    if (isObjectEmpty(getters.getResources)) {
+    if (isObjectEmpty(getters.getFirstResources) || isObjectEmpty(getters.getSecondResources)) {
       await dispatch('FETCH_RESOURCE_PRICES', settingsWithItem);
     }
 
@@ -129,7 +129,7 @@ export const actions: ActionTree<TreeState, {}> = {
    * @param state - vuex state
    * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
    */
-  async FETCH_ITEM_PRICES({ commit, state }, settingsWithItem) {
+  async FETCH_ITEM_PRICES({ commit }, settingsWithItem) {
     commit('SET_LOADING_TEXT', 'items');
 
     const itemName = settingsWithItem.currentItemInfo.name;
@@ -155,7 +155,9 @@ export const actions: ActionTree<TreeState, {}> = {
     commit('SET_LOADING_TEXT', 'resources');
 
     const resources = ['CLOTH', 'LEATHER', 'PLANKS', 'METALBAR'];
-    const location = settingsWithItem.settings.cities.resources;
+    let locations = new Set();
+    locations.add(settingsWithItem.settings.cities.resourcesFirstLocation);
+    locations.add(settingsWithItem.settings.cities.resourcesSecondLocation);
 
     let allNames = resources.reduce((acc, resource) => {
       acc = acc + createStringOfAllResources(resource) + ',';
@@ -164,7 +166,7 @@ export const actions: ActionTree<TreeState, {}> = {
     }, '').slice(0, -1);
 
     await axios
-      .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${Array.from(locations).join(',')}`)
       .then(response => {
         const data = response.data;
 

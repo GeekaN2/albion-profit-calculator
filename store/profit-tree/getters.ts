@@ -36,7 +36,7 @@ export const getters: GetterTree<TreeState, {}> = {
    */
   getRecipe: (state: TreeState) => {
     const itemName = state.currentItemInfo.name;
-    const recipe = state.recipes[itemName];
+    const recipe = state.recipes[itemName] || {};
 
     return recipe;
   },
@@ -46,8 +46,20 @@ export const getters: GetterTree<TreeState, {}> = {
    * 
    * @param state - vuex state
    */
-  getResources: (state: TreeState) => {
-    const city = state.settings.cities.resources;
+  getFirstResources: (state: TreeState) => {
+    const city = state.settings.cities.resourcesFirstLocation;
+    const resources = state.resources[city] || {};
+
+    return resources;
+  },
+
+  /**
+   * Get resource prices for current city
+   * 
+   * @param state - vuex state
+   */
+  getSecondResources: (state: TreeState) => {
+    const city = state.settings.cities.resourcesSecondLocation;
     const resources = state.resources[city] || {};
 
     return resources;

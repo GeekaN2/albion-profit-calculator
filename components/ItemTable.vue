@@ -237,9 +237,14 @@ export default {
       "getItems",
 
       /**
-       * Get all resources for current city
+       * Get all resources from the first location
        */
-      "getResources",
+      "getFirstResources",
+
+      /**
+       * Get all resources from the second location
+       */
+      "getSecondResources",
 
       /**
        * Get artefacts. If artifacts are not needed returns {}
@@ -419,24 +424,24 @@ export default {
     itemCreationCost(tier, subtier, itemName) {
       let cost = 0;
 
-      for (let resourceName in this.getRecipe) {
+      // e.g. [["PLANKS": 8], ["METALBAR": 12]]
+      const recipe = Object.entries(this.getRecipe);
+
+      for (let [resourceName, amount] of recipe) {
         const resourceFullName =
           `T${tier}_${resourceName}` +
           (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : "");
-        const resourceCost = this.getResources[resourceFullName].price;
+        
+        let resource = recipe[0][0] == resourceName ? this.getFirstResources[resourceFullName] : this.getSecondResources[resourceFullName];
 
-        cost += Math.floor(
-          resourceCost *
-            this.getRecipe[resourceName] *
-            (1 - this.returnMaterialPercentage / 100)
-        );
+        cost += Math.floor(resource.price * amount * (1 - this.returnMaterialPercentage / 100));
 
         // update tableInfo
-        this.tableInfo[`T${tier}.${subtier}`].materials = {
-          name: "Materials",
+        this.tableInfo[`T${tier}.${subtier}`][resourceName] = {
+          name: `resources.${resourceName}`,
           percentage: -this.returnMaterialPercentage,
           price: -cost,
-          date: this.getResources[resourceFullName].date,
+          date: resource.date,
         };
       }
 

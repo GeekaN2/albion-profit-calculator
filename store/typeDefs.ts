@@ -2,8 +2,8 @@
  * Main item model
  */
 export interface Item {
-  price: number,
-  date: string,
+  price: number;
+  date: string;
   marketFee?: number
 }
 
@@ -53,7 +53,7 @@ export interface TreeState {
 export interface Resources {
   [key: string]: {
     [key: string]: {
-      price: number,
+      price: number;
       date: string
     }
   }
@@ -66,7 +66,7 @@ export interface Artefacts {
   [key: string]: {
     [key: string]: {
       [key: string]: {
-        price: number,
+        price: number;
         date: string
       }
     }
@@ -108,32 +108,33 @@ export interface AverageData {
 }
 
 export interface JournalsItem {
-  buyPrice: number,
-  sellPrice: number,
-  date: string,
-  marketFee?: number
+  buyPrice: number;
+  sellPrice: number;
+  date: string;
+  marketFee?: number;
 }
 
 /**
  * Tree settings
  */
 export interface Settings {
-  useJournals: boolean,
-  useFocus: boolean,
-  showAverageItems: boolean,
-  useAveragePrice: boolean,
-  craftFee: number,
+  useJournals: boolean;
+  useFocus: boolean;
+  showAverageItems: boolean;
+  useAveragePrice: boolean;
+  craftFee: number;
   cities: {
-    sellItems: string,
-    craftItems: string,
-    resources: string,
-    artefacts: string,
-    journals: string
+    sellItems: string;
+    craftItems: string;
+    resourcesFirstLocation: string;
+    resourcesSecondLocation: string;
+    artefacts: string;
+    journals: string;
   }
 }
 
 export interface Features {
-  loadingText: string
+  loadingText: string;
 }
 
 export interface ItemInfo {

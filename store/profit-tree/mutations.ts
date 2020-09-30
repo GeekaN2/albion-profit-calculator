@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex'
 import { normalizedPriceAndDate, normalizeItem } from '../utils'
-import { ResponseModel, TreeState, Item, Settings, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem } from '../typeDefs'
+import { ResponseModel, TreeState, Item, Settings, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources } from '../typeDefs'
 import Vue from 'vue';
 
 export const mutations: MutationTree<TreeState> = {
@@ -26,7 +26,8 @@ export const mutations: MutationTree<TreeState> = {
       cities: {
         sellItems: "Caerleon",
         craftItems: "Caerleon",
-        resources: "Caerleon",
+        resourcesFirstLocation: "Caerleon",
+        resourcesSecondLocation: 'Caerleon',
         artefacts: "Caerleon",
         journals: "Caerleon"
       }
@@ -79,17 +80,22 @@ export const mutations: MutationTree<TreeState> = {
    * @param settingsWithItem - сonvenient item data and settings 
    */
   SET_RESOURCE_PRICES(state, { data, settingsWithItem }) {
-    const city = settingsWithItem.settings.cities.resources;
-    let newPrices: { [key: string]: Item } = {};
+    let newPrices: Resources = {};
 
     data.forEach((resource: ResponseModel) => {
-      newPrices[resource.itemId] = {
+      if (!newPrices[resource.location]) {
+        newPrices[resource.location] = {};
+      }
+      
+      newPrices[resource.location][resource.itemId] = {
         price: resource.sellPriceMin,
         date: resource.sellPriceMinDate
       }
     });
 
-    Vue.set(state.resources, city, newPrices);
+    for (let newPricesCity in newPrices) {
+      Vue.set(state.resources, newPricesCity, newPrices[newPricesCity]);
+    }
   },
 
   /**

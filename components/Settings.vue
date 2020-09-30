@@ -107,15 +107,31 @@
           <option :key="city">{{ city }}</option>
         </template>
       </select>
-      <p class="setting__city-header">{{ $t('cities.resources') }}</p>
+      <p 
+        v-if="Object.entries(getRecipe).length == 0"
+        class="setting__city-header">{{ $t('cities.resources') }}</p>
+      <p 
+        v-else
+        class="setting__city-header">{{ $t(`resources.${Object.entries(getRecipe)[0][0]}`) }}</p>
       <select 
-        v-model="cities.resources" 
+        v-model="cities.resourcesFirstLocation" 
         class="city" 
         @change="changeCity">
         <template v-for="city in baseCities">
           <option :key="city">{{ city }}</option>
         </template>
       </select>
+      <template v-if="Object.entries(getRecipe).length == 2">
+        <p class="setting__city-header">{{ $t(`resources.${Object.entries(getRecipe)[1][0]}`) }}</p>
+        <select 
+          v-model="cities.resourcesSecondLocation" 
+          class="city" 
+          @change="changeCity">
+          <template v-for="city in baseCities">
+            <option :key="city">{{ city }}</option>
+          </template>
+        </select>
+      </template>
       <template v-if="isArtifactItem">
         <p class="setting__city-header">{{ artefactsCategory }}</p>
         <select 
@@ -196,7 +212,8 @@
 </i18n>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
+import { isObjectEmpty } from '../store/utils';
 
 export default {
   name: "Settings",
@@ -233,7 +250,8 @@ export default {
       cities: {
         sellItems: "Caerleon",
         craftItems: "Caerleon",
-        resources: "Caerleon",
+        resourcesFirstLocation: "Caerleon",
+        resourcesSecondLocation: "Caerleon",
         artefacts: "Caerleon",
         journals: "Caerleon",
       },
@@ -280,10 +298,17 @@ export default {
       return this.$t(category);
     },
 
-    /**
-     * Current item info
-     */
+    ...mapGetters([
+      /**
+       * Get item recipe
+       */
+      "getRecipe",
+    ]),
+
     ...mapState({
+      /**
+       * Current item info
+       */
       currentItemInfo: (state) => state.tree.currentItemInfo,
     }),
   },
@@ -331,7 +356,8 @@ export default {
       this.cities = {
         sellItems: this.cities.sellItems,
         craftItems: normalizedCity,
-        resources: normalizedCity,
+        resourcesFirstLocation: normalizedCity,
+        resourcesSecondLocation: normalizedCity,
         artefacts: normalizedCity,
         journals: normalizedCity,
       };
