@@ -422,7 +422,7 @@ export default {
      * @param {number} subtier - resource subtier
      */
     itemCreationCost(tier, subtier, itemName) {
-      let cost = 0;
+      let sumCost = 0;
 
       // e.g. [["PLANKS": 8], ["METALBAR": 12]]
       const recipe = Object.entries(this.getRecipe);
@@ -432,9 +432,10 @@ export default {
           `T${tier}_${resourceName}` +
           (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : "");
         
-        let resource = recipe[0][0] == resourceName ? this.getFirstResources[resourceFullName] : this.getSecondResources[resourceFullName];
-
-        cost += Math.floor(resource.price * amount * (1 - this.returnMaterialPercentage / 100));
+        const resource = recipe[0][0] == resourceName ? this.getFirstResources[resourceFullName] : this.getSecondResources[resourceFullName];
+        const cost = Math.floor(resource.price * amount * (1 - this.returnMaterialPercentage / 100));
+        
+        sumCost += cost;
 
         // update tableInfo
         this.tableInfo[`T${tier}.${subtier}`][resourceName] = {
@@ -445,7 +446,7 @@ export default {
         };
       }
 
-      return cost;
+      return sumCost;
     },
 
     /**
