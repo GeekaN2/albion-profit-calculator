@@ -41,7 +41,7 @@ export function createStringOfAllResources(resource: string): string {
  * @param itemName - artefact item name: T4_2H_NATURESTAFF_KEEPER etc.
  * @returns string with all tiers for artefacts
  */
-export function createStringOfAllArtefacts(itemName: string) {
+export function createStringOfAllArtifacts(itemName: string) {
   let allNames = '';
 
   if (itemName.includes('ROYAL')) {

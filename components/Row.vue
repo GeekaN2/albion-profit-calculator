@@ -10,7 +10,7 @@
         @click="toggle(item.name, isLeaf(item.children))"
       >
         <img 
-          :src="`/images/${item.name}.png`" 
+          :src="`/images/items/${item.name}.png`" 
           alt >
       </div>
     </div>

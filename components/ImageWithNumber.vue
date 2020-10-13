@@ -1,7 +1,7 @@
 <template>
   <div class="image-with-number">
     <img 
-      :src="`/images/${name}.png`"
+      :src="`/images/items/${name}.png`"
       :alt="name"
     >
     <span class="number-in-image">{{ number }}</span>

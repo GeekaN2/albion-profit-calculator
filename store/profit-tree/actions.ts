@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex'
 import axios from 'axios'
-import { createStringOfAllItems, createStringOfAllResources, createStringOfAllArtefacts, createStringOfAllJournals, isObjectEmpty } from '../utils'
+import { createStringOfAllItems, createStringOfAllResources, createStringOfAllArtifacts, createStringOfAllJournals, isObjectEmpty } from '../utils'
 import { TreeState, ItemInfo, SettingsWithItem } from '../typeDefs'
 import { isArtifactItem } from '../utils'
 
@@ -184,7 +184,7 @@ export const actions: ActionTree<TreeState, {}> = {
     commit('SET_LOADING_TEXT', 'artefacts');
 
     const itemName = settingsWithItem.currentItemInfo.name;
-    let allNames = createStringOfAllArtefacts(itemName);
+    let allNames = createStringOfAllArtifacts(itemName);
     const location = settingsWithItem.settings.cities.artefacts;
 
     await axios
