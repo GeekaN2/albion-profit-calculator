@@ -36,7 +36,7 @@ export const actions: ActionTree<TreeState, {}> = {
 
     // Don't send a requests if some one is already in progress
     // Send a requests if we need to load the next item since itemInfo was modified to the end of the previous request
-    if (!(state.features.loadingText == 'calculated' || state.features.loadingText == 'load next')) {
+    if (!(state.features.loadingText == 'calculated' || state.features.loadingText == 'something changed')) {
       return;
     }    
 
@@ -75,10 +75,10 @@ export const actions: ActionTree<TreeState, {}> = {
       await dispatch('FETCH_JOURNAL_PRICES', { currentItemInfo, settings });
     }
 
-    // Send a request if itemInfo is changed
-    if (state.currentItemInfo.name != currentItemInfo.name) {
-      commit('SET_LOADING_TEXT', 'load next');
-
+    // Send a request if something is changed
+    if (state.currentItemInfo != currentItemInfo || state.settings != settings) {
+      commit('SET_LOADING_TEXT', 'something changed');
+      
       dispatch('CHECK_ALL');
     } else {
       commit('SET_LOADING_TEXT', 'calculated');
