@@ -117,7 +117,7 @@ export const actions: ActionTree<TreeState, {}> = {
         break;
     }
 
-    commit('SET_LOADING_TEXT', 'load next');
+    commit('SET_LOADING_TEXT', 'something changed');
 
     await dispatch('CHECK_ALL');
   },
