@@ -1,8 +1,10 @@
 import { ActionTree } from 'vuex'
 import axios from 'axios'
-import { createStringOfAllItems, createStringOfAllResources, createStringOfAllArtefacts, createStringOfAllJournals, isObjectEmpty } from '../utils'
+import { createStringOfAllItems, createStringOfAllResources, createStringOfAllArtifacts, createStringOfAllJournals, isObjectEmpty } from '../utils'
 import { TreeState, ItemInfo, SettingsWithItem } from '../typeDefs'
 import { isArtifactItem } from '../utils'
+
+const baseUrl = process.env.BASE_URL;
 
 export const actions: ActionTree<TreeState, {}> = {
   /**
@@ -34,7 +36,7 @@ export const actions: ActionTree<TreeState, {}> = {
 
     // Don't send a requests if some one is already in progress
     // Send a requests if we need to load the next item since itemInfo was modified to the end of the previous request
-    if (!(state.features.loadingText == 'calculated' || state.features.loadingText == 'load next')) {
+    if (!(state.features.loadingText == 'calculated' || state.features.loadingText == 'something changed')) {
       return;
     }    
 
@@ -53,7 +55,7 @@ export const actions: ActionTree<TreeState, {}> = {
       await dispatch('FETCH_ITEM_PRICES', settingsWithItem);
     }
 
-    if (isObjectEmpty(getters.getResources)) {
+    if (isObjectEmpty(getters.getFirstResources) || isObjectEmpty(getters.getSecondResources)) {
       await dispatch('FETCH_RESOURCE_PRICES', settingsWithItem);
     }
 
@@ -73,10 +75,10 @@ export const actions: ActionTree<TreeState, {}> = {
       await dispatch('FETCH_JOURNAL_PRICES', { currentItemInfo, settings });
     }
 
-    // Send a request if itemInfo is changed
-    if (state.currentItemInfo.name != currentItemInfo.name) {
-      commit('SET_LOADING_TEXT', 'load next');
-
+    // Send a request if something is changed
+    if (state.currentItemInfo != currentItemInfo || state.settings != settings) {
+      commit('SET_LOADING_TEXT', 'something changed');
+      
       dispatch('CHECK_ALL');
     } else {
       commit('SET_LOADING_TEXT', 'calculated');
@@ -115,7 +117,7 @@ export const actions: ActionTree<TreeState, {}> = {
         break;
     }
 
-    commit('SET_LOADING_TEXT', 'load next');
+    commit('SET_LOADING_TEXT', 'something changed');
 
     await dispatch('CHECK_ALL');
   },
@@ -127,7 +129,7 @@ export const actions: ActionTree<TreeState, {}> = {
    * @param state - vuex state
    * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
    */
-  async FETCH_ITEM_PRICES({ commit, state }, settingsWithItem) {
+  async FETCH_ITEM_PRICES({ commit }, settingsWithItem) {
     commit('SET_LOADING_TEXT', 'items');
 
     const itemName = settingsWithItem.currentItemInfo.name;
@@ -135,7 +137,7 @@ export const actions: ActionTree<TreeState, {}> = {
     const location = settingsWithItem.settings.cities.sellItems;
 
     await axios
-      .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}&qualities=1,2,3`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}&qualities=1,2,3`)
       .then(response => {
         const data = response.data;
 
@@ -153,7 +155,9 @@ export const actions: ActionTree<TreeState, {}> = {
     commit('SET_LOADING_TEXT', 'resources');
 
     const resources = ['CLOTH', 'LEATHER', 'PLANKS', 'METALBAR'];
-    const location = settingsWithItem.settings.cities.resources;
+    let locations = new Set();
+    locations.add(settingsWithItem.settings.cities.resourcesFirstLocation);
+    locations.add(settingsWithItem.settings.cities.resourcesSecondLocation);
 
     let allNames = resources.reduce((acc, resource) => {
       acc = acc + createStringOfAllResources(resource) + ',';
@@ -162,7 +166,7 @@ export const actions: ActionTree<TreeState, {}> = {
     }, '').slice(0, -1);
 
     await axios
-      .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${Array.from(locations).join(',')}`)
       .then(response => {
         const data = response.data;
 
@@ -180,11 +184,11 @@ export const actions: ActionTree<TreeState, {}> = {
     commit('SET_LOADING_TEXT', 'artefacts');
 
     const itemName = settingsWithItem.currentItemInfo.name;
-    let allNames = createStringOfAllArtefacts(itemName);
+    let allNames = createStringOfAllArtifacts(itemName);
     const location = settingsWithItem.settings.cities.artefacts;
 
     await axios
-      .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
       .then(response => {
         const data = response.data;
 
@@ -205,7 +209,7 @@ export const actions: ActionTree<TreeState, {}> = {
     const location = settingsWithItem.settings.cities.journals;
 
     await axios
-      .get(`https://www.albion-online-data.com/api/v2/stats/prices/${allNames}?locations=${location}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
       .then(response => {
         const data = response.data;
 
@@ -225,7 +229,7 @@ export const actions: ActionTree<TreeState, {}> = {
     const baseURL = process.env.BASE_URL;
 
     await axios
-      .get(`${baseURL}data?items=${allNames}&locations=${location}`)
+      .get(`${baseURL}average_data?items=${allNames}&locations=${location}`)
       .then(response => {
         const data = response.data;
 

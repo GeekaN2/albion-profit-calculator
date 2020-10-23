@@ -41,7 +41,7 @@ export function createStringOfAllResources(resource: string): string {
  * @param itemName - artefact item name: T4_2H_NATURESTAFF_KEEPER etc.
  * @returns string with all tiers for artefacts
  */
-export function createStringOfAllArtefacts(itemName: string) {
+export function createStringOfAllArtifacts(itemName: string) {
   let allNames = '';
 
   if (itemName.includes('ROYAL')) {
@@ -53,9 +53,7 @@ export function createStringOfAllArtefacts(itemName: string) {
   }
 
   if (itemName.includes('INSIGHT')) {
-    for (let tier = 4; tier <= 8; tier++) {
-      allNames = allNames + `T${tier}_RANDOM_DUNGEON_SOLO_TOKEN_1,`;
-    }
+    allNames = allNames + `T4_SKILLBOOK_STANDARD,`;
 
     return allNames.slice(0, -1);
   }
@@ -90,38 +88,64 @@ export function createStringOfAllJournals(root: string): string {
  * @param {ResponseModel} item 
  */
 export function normalizedPriceAndDate(item: ResponseModel): Item {
-  if (item.sell_price_min != 0 && item.buy_price_max == 0) {
-    return {
-      price: item.sell_price_min,
-      date: item.sell_price_min_date,
-      marketFee: 4.5
-    }
-  }
+  const previousDay = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-  if (item.sell_price_min == 0 && item.buy_price_max != 0) {
-    return {
-      price: item.buy_price_max,
-      date: item.buy_price_max_date,
-      marketFee: 3
-    }
-  }
-
-  if (item.sell_price_min == 0 && item.buy_price_max == 0) {
-    return {
-      price: 0,
-      date: item.sell_price_min_date,
-      marketFee: 3
-    }
-  }
-
-  // You can still compare prices with fee,
-  // but the difference isn't so significant
-
-  return {
-    price: item.sell_price_min,
-    date: item.sell_price_min_date,
+  const sellPriceRespone = {
+    price: item.sellPriceMin,
+    date: item.sellPriceMinDate,
     marketFee: 4.5
   }
+
+  const buyPriceResponse = {
+    price: item.buyPriceMax,
+    date: item.buyPriceMaxDate,
+    marketFee: 3
+  }
+
+  if (item.sellPriceMin != 0 && item.buyPriceMax == 0) {
+    return sellPriceRespone
+  }
+
+  if (item.sellPriceMin == 0 && item.buyPriceMax != 0) {
+    return buyPriceResponse;
+  }
+
+  if (item.sellPriceMin == 0 && item.buyPriceMax == 0) {
+    return buyPriceResponse;
+  }
+
+  if (new Date(item.sellPriceMinDate) >= previousDay && new Date(item.buyPriceMaxDate) <= previousDay) {
+    return sellPriceRespone;
+  }
+
+  if (new Date(item.sellPriceMinDate) <= previousDay && new Date(item.buyPriceMaxDate) >= previousDay) {
+    return buyPriceResponse;
+  }
+
+  // Compare prices with fee,
+  if (item.buyPriceMax * 0.97 > item.sellPriceMin * 0.955) {
+    return buyPriceResponse;
+  }
+
+  return sellPriceRespone;
+}
+
+/**
+ * Normalize previous item and new item by date and price
+ * 
+ * @param oldItem - previous item
+ * @param newItem - new item 
+ */
+export function normalizeItem(oldItem: Item, newItem: Item) {
+  const previousDay = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+  if (new Date(oldItem.date) >= previousDay && new Date(newItem.date) <= previousDay) {
+    return oldItem;
+  } else if (new Date(oldItem.date) <= previousDay && new Date(newItem.date) >= previousDay) {
+    return newItem;
+  }
+
+  return oldItem.price > newItem.price ? oldItem: newItem;
 }
 
 /**
@@ -144,6 +168,6 @@ export function isArtifactItem(itemName: string): boolean {
   if (!itemName) {
     return false;
   }
-  
+
   return artefacts.some(artefact => itemName.includes(artefact));
 }

@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+import i18n from './locales/i18n'
+
 module.exports = {
   /*
   ** Headers of the page
@@ -62,9 +64,7 @@ module.exports = {
         locales: ['en', 'ru'],
         defaultLocale: 'en',
         vueI18nLoader: true,
-        vueI18n: {
-          fallbackLocale: 'en',
-        },
+        vueI18n: i18n,
         detectBrowserLanguage: {
           useCookie: true,
           cookieKey: 'i18n_redirected'

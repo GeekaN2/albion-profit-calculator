@@ -87,7 +87,7 @@
     "Materials": "Materials",
     "Artifact": "Artifact",
     "Sigils": "Royal Sigils",
-    "Solo map": "Solo map",
+    "Skillbook": "Tome of insight",
     "Fee": "Fee",
     "Journals": "Journals",
     "hours": "h",
@@ -98,7 +98,7 @@
     "Materials": "Материалы",
     "Artifact": "Артефакт",
     "Sigils": "Королевские знаки",
-    "Solo map": "Соло карта",
+    "Skillbook": "Книга интуиции",
     "Fee": "Налог",
     "Journals": "Журналы",
     "hours": "ч",
@@ -237,9 +237,14 @@ export default {
       "getItems",
 
       /**
-       * Get all resources for current city
+       * Get all resources from the first location
        */
-      "getResources",
+      "getFirstResources",
+
+      /**
+       * Get all resources from the second location
+       */
+      "getSecondResources",
 
       /**
        * Get artefacts. If artifacts are not needed returns {}
@@ -323,7 +328,7 @@ export default {
         ) {
           row[itemName] = {
             profit: 0,
-            date: this.dateNow()
+            date: new Date()
           };
 
           const tier = Number(itemName.slice(1, 2));
@@ -395,7 +400,7 @@ export default {
         name = 'Sigils';
       } else if (this.currentItemInfo.name.includes('INSIGHT')) {
         artefactPrice = artefact.price;
-        name = 'Solo map';
+        name = 'Skillbook';
       } else {
         artefactPrice = artefact.price;
       }
@@ -417,30 +422,31 @@ export default {
      * @param {number} subtier - resource subtier
      */
     itemCreationCost(tier, subtier, itemName) {
-      let cost = 0;
+      let sumCost = 0;
 
-      for (let resourceName in this.getRecipe) {
+      // e.g. [["PLANKS": 8], ["METALBAR": 12]]
+      const recipe = Object.entries(this.getRecipe);
+
+      for (let [resourceName, amount] of recipe) {
         const resourceFullName =
           `T${tier}_${resourceName}` +
           (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : "");
-        const resourceCost = this.getResources[resourceFullName].price;
-
-        cost += Math.floor(
-          resourceCost *
-            this.getRecipe[resourceName] *
-            (1 - this.returnMaterialPercentage / 100)
-        );
+        
+        const resource = recipe[0][0] == resourceName ? this.getFirstResources[resourceFullName] : this.getSecondResources[resourceFullName];
+        const cost = Math.floor(resource.price * amount * (1 - this.returnMaterialPercentage / 100));
+        
+        sumCost += cost;
 
         // update tableInfo
-        this.tableInfo[`T${tier}.${subtier}`].materials = {
-          name: "Materials",
+        this.tableInfo[`T${tier}.${subtier}`][resourceName] = {
+          name: `resources.${resourceName}`,
           percentage: -this.returnMaterialPercentage,
           price: -cost,
-          date: this.getResources[resourceFullName].date,
+          date: resource.date,
         };
       }
 
-      return cost;
+      return sumCost;
     },
 
     /**
@@ -531,10 +537,10 @@ export default {
       const day = 24 * 60 * 60 * 1000;
 
       if (this.settings.useAveragePrice && specialCase == 'item date') {
-        return this.dateNow() - new Date(date).getTime() > 30 * day;
+        return Date.now() - new Date(date).getTime() > 30 * day;
       }
 
-      return this.dateNow() - new Date(date).getTime() > day;
+      return Date.now() - new Date(date).getTime() > day;
     },
 
     /**
@@ -544,10 +550,7 @@ export default {
      * @returns {boolean}
      */
     noArtefactForSale(name) {
-      const artefactName = `T${name.slice(
-        1,
-        2
-      )}_ARTEFACT${this.currentItemInfo.name.slice(2)}`;
+      const artefactName = this.getArtifactName(Number(name.slice(1, 2)));
 
       if (!this.getArtefacts[artefactName]) {
         return false;
@@ -569,9 +572,9 @@ export default {
       date = new Date(date);
 
       let lastCheckInHours = Math.floor(
-        (Date.now() - date.getTime() + new Date().getTimezoneOffset() * 60000) /
-          3600000
+        (Date.now() - date.getTime()) / 3600000
       );
+
       let lastCheckInDays = Math.floor(lastCheckInHours / 24);
 
       if (lastCheckInDays > 100) {
@@ -591,16 +594,7 @@ export default {
      */
     isObjectEmpty(obj) {
       return JSON.stringify(obj) === '{}' || obj === undefined;
-    },
-
-    /**
-     * Get date with timezone offset
-     *
-     * @returns {number}
-     */
-    dateNow() {
-      return Date.now() + new Date().getTimezoneOffset() * 60000;
-    },
+    }
   },
 };
 </script>

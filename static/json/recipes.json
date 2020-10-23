@@ -226,6 +226,10 @@
     "PLANKS": 4,
     "METALBAR": 4
   },
+  "T4_OFF_SHIELD_AVALON": {
+    "PLANKS": 4,
+    "METALBAR": 4
+  },
   "T4_SHOES_LEATHER_SET1": {
     "LEATHER": 8
   },
@@ -444,6 +448,10 @@
     "CLOTH": 4
   },
   "T4_OFF_LAMP_UNDEAD": {
+    "PLANKS": 4,
+    "CLOTH": 4
+  },
+  "T4_OFF_TALISMAN_AVALON": {
     "PLANKS": 4,
     "CLOTH": 4
   },
@@ -672,6 +680,10 @@
     "LEATHER": 4
   },
   "T4_OFF_TOTEM_KEEPER": {
+    "CLOTH": 4,
+    "LEATHER": 4
+  },
+  "T4_OFF_CENSER_AVALON": {
     "CLOTH": 4,
     "LEATHER": 4
   },

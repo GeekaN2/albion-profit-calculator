@@ -233,6 +233,9 @@
           },
           {
             "name": "T4_OFF_SPIKEDSHIELD_MORGANA"
+          },
+          {
+            "name": "T4_OFF_SHIELD_AVALON"
           }
         ]
       }
@@ -472,6 +475,9 @@
           },
           {
             "name": "T4_OFF_LAMP_UNDEAD"
+          },
+          {
+            "name": "T4_OFF_TALISMAN_AVALON"
           }
         ]
       }
@@ -711,6 +717,9 @@
           },
           {
             "name": "T4_OFF_TOTEM_KEEPER"
+          },
+          {
+            "name": "T4_OFF_CENSER_AVALON"
           }
         ]
       }

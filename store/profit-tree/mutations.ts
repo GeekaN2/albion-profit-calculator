@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex'
-import { normalizedPriceAndDate } from '../utils'
-import { ResponseModel, TreeState, Item, Settings, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem } from '../typeDefs'
+import { normalizedPriceAndDate, normalizeItem } from '../utils'
+import { ResponseModel, TreeState, Item, Settings, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources } from '../typeDefs'
 import Vue from 'vue';
 
 export const mutations: MutationTree<TreeState> = {
@@ -26,7 +26,8 @@ export const mutations: MutationTree<TreeState> = {
       cities: {
         sellItems: "Caerleon",
         craftItems: "Caerleon",
-        resources: "Caerleon",
+        resourcesFirstLocation: "Caerleon",
+        resourcesSecondLocation: 'Caerleon',
         artefacts: "Caerleon",
         journals: "Caerleon"
       }
@@ -52,20 +53,20 @@ export const mutations: MutationTree<TreeState> = {
     let newPrices: { [key: string]: Item } = {};
 
     data.forEach((item: ResponseModel) => {
-      if (!newPrices[item.item_id]) {
-        newPrices[item.item_id] = {
+      if (!newPrices[item.itemId]) {
+        newPrices[item.itemId] = {
           price: 0,
           date: '',
           marketFee: 3
         };
       }
 
-      const currentPrice = newPrices[item.item_id];
+      const currentPrice = newPrices[item.itemId];
 
       let newPrice: Item = normalizedPriceAndDate(item);
 
-      newPrice = newPrice.price >= currentPrice.price ? newPrice : currentPrice;
-      newPrices[item.item_id] = newPrice;
+      newPrice = normalizeItem(currentPrice, newPrice);
+      newPrices[item.itemId] = newPrice;
     });
 
     Vue.set(state.prices[location], itemName, newPrices);
@@ -79,17 +80,22 @@ export const mutations: MutationTree<TreeState> = {
    * @param settingsWithItem - сonvenient item data and settings 
    */
   SET_RESOURCE_PRICES(state, { data, settingsWithItem }) {
-    const city = settingsWithItem.settings.cities.resources;
-    let newPrices: { [key: string]: Item } = {};
+    let newPrices: Resources = {};
 
     data.forEach((resource: ResponseModel) => {
-      newPrices[resource.item_id] = {
-        price: resource.sell_price_min,
-        date: resource.sell_price_min_date
+      if (!newPrices[resource.location]) {
+        newPrices[resource.location] = {};
+      }
+      
+      newPrices[resource.location][resource.itemId] = {
+        price: resource.sellPriceMin,
+        date: resource.sellPriceMinDate
       }
     });
 
-    Vue.set(state.resources, city, newPrices);
+    for (let newPricesCity in newPrices) {
+      Vue.set(state.resources, newPricesCity, newPrices[newPricesCity]);
+    }
   },
 
   /**
@@ -105,9 +111,9 @@ export const mutations: MutationTree<TreeState> = {
     let newPrices: { [key: string]: Item } = {};
 
     data.forEach((artefact: ResponseModel) => {
-      newPrices[artefact.item_id] = {
-        price: artefact.sell_price_min,
-        date: artefact.sell_price_min_date
+      newPrices[artefact.itemId] = {
+        price: artefact.sellPriceMin,
+        date: artefact.sellPriceMinDate
       }
     });
 
@@ -127,7 +133,7 @@ export const mutations: MutationTree<TreeState> = {
     const newPrices: { [key: string]: JournalsItem } = {};
 
     data.forEach((journal: ResponseModel) => {
-      const journalName = journal.item_id.slice(0, journal.item_id.lastIndexOf('_'));
+      const journalName = journal.itemId.slice(0, journal.itemId.lastIndexOf('_'));
 
       if (!newPrices[journalName]) {
         newPrices[journalName] = {
@@ -138,9 +144,9 @@ export const mutations: MutationTree<TreeState> = {
         }
       }
 
-      if (journal.item_id.slice(-5) == 'EMPTY') {
-        newPrices[journalName].buyPrice = journal.sell_price_min;
-        newPrices[journalName].date = journal.sell_price_min_date;
+      if (journal.itemId.slice(-5) == 'EMPTY') {
+        newPrices[journalName].buyPrice = journal.sellPriceMin;
+        newPrices[journalName].date = journal.sellPriceMinDate;
       } else {
         const normalizedJournal = normalizedPriceAndDate(journal);
 

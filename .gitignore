@@ -12,3 +12,12 @@ dist
 
 # Env file
 .env
+
+# Static images that need to load
+static/images/items/*.png
+
+# Static images that don't need to be uploaded
+!static/images/items/ROOT*
+
+
+
