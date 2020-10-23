@@ -53,9 +53,7 @@ export function createStringOfAllArtifacts(itemName: string) {
   }
 
   if (itemName.includes('INSIGHT')) {
-    for (let tier = 4; tier <= 8; tier++) {
-      allNames = allNames + `T${tier}_RANDOM_DUNGEON_SOLO_TOKEN_1,`;
-    }
+    allNames = allNames + `T4_SKILLBOOK_STANDARD,`;
 
     return allNames.slice(0, -1);
   }

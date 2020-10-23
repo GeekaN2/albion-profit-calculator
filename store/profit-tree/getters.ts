@@ -173,7 +173,7 @@ export const getters: GetterTree<TreeState, {}> = {
     if (itemName.includes('ROYAL')) {
       artifactName = `QUESTITEM_TOKEN_ROYAL_T${tier}`
     } else if (itemName.includes('INSIGHT')) {
-      artifactName = `T${tier}_RANDOM_DUNGEON_SOLO_TOKEN_1`;
+      artifactName = `T4_SKILLBOOK_STANDARD`;
     }
 
     return artifactName;

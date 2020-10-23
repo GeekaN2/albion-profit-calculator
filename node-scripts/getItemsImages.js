@@ -13,7 +13,7 @@ async function getImages() {
   // Array of T4 item names
   const baseItemNames = Object.keys(recipes);
   const resources = ['PLANKS', 'METALBAR', 'LEATHER', 'CLOTH'];
-  const itemsQuantity = 5160;
+  const itemsQuantity = 5166;
   let counter = 1;
   
   // Items where an error occurred when uploading image
@@ -28,7 +28,7 @@ async function getImages() {
         badLoadedItems.push(item);
       });
 
-      await sleep(20);
+      await sleep(40);
     }
 
     if (isArtifactItem(baseItemName)) {
@@ -41,7 +41,7 @@ async function getImages() {
         });
       }
 
-      await sleep(20);
+      await sleep(40);
     }
   }
 
@@ -54,7 +54,7 @@ async function getImages() {
         badLoadedItems.push(resource);
       });
   
-      await sleep(20);
+      await sleep(40);
     }
   }
 
@@ -68,7 +68,7 @@ async function getImages() {
       console.log(`Error while downloading ${counter}/${itemsQuantity}`, item);
     });
 
-    await sleep(20);
+    await sleep(40);
   }
 }
 
@@ -123,15 +123,13 @@ function createArrayOfAllArtifacts(itemName) {
       allNames.push(`QUESTITEM_TOKEN_ROYAL_T${tier}`);
     }
 
-    return allNames.slice(0, -1);
+    return allNames;
   }
 
   if (itemName.includes('INSIGHT')) {
-    for (let tier = 4; tier <= 8; tier++) {
-      allNames.push(`T${tier}_RANDOM_DUNGEON_SOLO_TOKEN_1`);
-    }
+    allNames.push(`T4_SKILLBOOK_STANDARD`);
 
-    return allNames.slice(0, -1);
+    return allNames;
   }
 
   for (let tier = 4; tier <= 8; tier++) {

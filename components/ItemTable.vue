@@ -87,7 +87,7 @@
     "Materials": "Materials",
     "Artifact": "Artifact",
     "Sigils": "Royal Sigils",
-    "Solo map": "Solo map",
+    "Skillbook": "Tome of insight",
     "Fee": "Fee",
     "Journals": "Journals",
     "hours": "h",
@@ -98,7 +98,7 @@
     "Materials": "Материалы",
     "Artifact": "Артефакт",
     "Sigils": "Королевские знаки",
-    "Solo map": "Соло карта",
+    "Skillbook": "Книга интуиции",
     "Fee": "Налог",
     "Journals": "Журналы",
     "hours": "ч",
@@ -400,7 +400,7 @@ export default {
         name = 'Sigils';
       } else if (this.currentItemInfo.name.includes('INSIGHT')) {
         artefactPrice = artefact.price;
-        name = 'Solo map';
+        name = 'Skillbook';
       } else {
         artefactPrice = artefact.price;
       }

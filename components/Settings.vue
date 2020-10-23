@@ -180,7 +180,7 @@
       "resources": "Resources",
       "artefacts": "Artifacts",
       "sigils": "Royal sigils",
-      "soloMaps": "Solo maps",
+      "skillbook": "Tome of insight",
       "journals": "Journals"
     }
   },
@@ -204,7 +204,7 @@
       "resources": "Материалы",
       "artefacts": "Артефакты",
       "sigils": "Королевские знаки",
-      "soloMaps": "Соло карты",
+      "skillbook": "Книга интуиции",
       "journals": "Журналы"
     }
   }
@@ -288,12 +288,12 @@ export default {
     },
 
     /**
-     * Choose one: artifacts, sigils or solo maps
+     * Choose one: artifacts, sigils or tome of insight
      */
     artefactsCategory() {
       const itemName = this.currentItemInfo.name;
       const category = itemName.includes('ROYAL') ? 'cities.sigils' : 
-      itemName.includes('INSIGHT') ? 'cities.soloMaps' : 'cities.artefacts';
+      itemName.includes('INSIGHT') ? 'cities.skillbook' : 'cities.artefacts';
 
       return this.$t(category);
     },
