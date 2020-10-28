@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { isArtifactItem } from "../store/utils";
+import { isArtifactItem } from "../../store/utils";
 
 export default {
   name: "Row",
@@ -210,7 +210,7 @@ export default {
     left: calc(50% - 10px);
     width: 20px;
     height: 20px;
-    background: url("../static/images/triangle.png") no-repeat;
+    background: url("../../static/images/triangle.png") no-repeat;
     background-size: cover;
     z-index: -1;
   }

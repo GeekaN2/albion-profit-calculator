@@ -213,7 +213,7 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
-import { isObjectEmpty } from '../store/utils';
+import { isObjectEmpty } from '../../store/utils';
 
 export default {
   name: "Settings",

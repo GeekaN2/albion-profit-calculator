@@ -36,11 +36,11 @@
 
 <script>
 import Header from "~/components/Header";
-import Row from "~/components/Row";
-import ItemTable from "~/components/ItemTable";
-import ItemRecipe from "~/components/ItemRecipe";
-import Settings from "~/components/Settings";
-import Loading from "~/components/Loading";
+import Row from "~/components/tree/Row";
+import ItemTable from "~/components/tree/ItemTable";
+import Settings from "~/components/tree/Settings";
+import ItemRecipe from "~/components/utils/ItemRecipe";
+import Loading from "~/components/utils/Loading";
 import { getReturnMaterialsPercentage } from "~/store/utils";
 import { mapState } from "vuex";
 

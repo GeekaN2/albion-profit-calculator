@@ -17,7 +17,7 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import ImageWithNumber from "~/components/ImageWithNumber";
+import ImageWithNumber from "~/components/utils/ImageWithNumber";
 
 
 export default {

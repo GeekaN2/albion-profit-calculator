@@ -137,7 +137,7 @@ export default {
         return num;
       }
 
-      num = typeof num === 'number' ? num.toFixed(1) : 0;
+      num = num.toFixed(1);
       num = num > 0 ? `+${num}` : num;
 
       return num;
