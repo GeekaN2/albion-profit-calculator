@@ -207,7 +207,7 @@ export default {
         T7_soul: 95.5,
         T7_relic: 222.5,
         T7_avalon: 480, 
-        T8_royal: 952.5,
+        T8_royal: 64,
         T8_rune: 63.5,
         T8_soul: 190.5,
         T8_relic: 444.5,
