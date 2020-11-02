@@ -504,10 +504,6 @@ export default {
 
       if (artefactLevel.length != 0 && !isBagInsight) {
         itemValue += this.itemAndArtefactValues[`T${tier}_${artefactLevel}`];
-      } else if (isBagInsight) {
-        // Value of solo maps per unit of material
-        // Solo maps is not artifact but they are very similar in purpose
-        itemValue += [210, 280, 375, 525, 727,5][tier - 4];
       }
       
       const feePrice = Math.floor(
