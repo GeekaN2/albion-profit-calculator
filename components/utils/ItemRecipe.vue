@@ -1,7 +1,7 @@
 <template>
   <div class="item-recipe">
     <template 
-      v-for="(value, material) in getRecipe"
+      v-for="(value, material) in this['tree/getRecipe']"
     >
       <ImageWithNumber
         :key="material"
@@ -9,8 +9,8 @@
         :number="`${value}`"
       />
     </template><ImageWithNumber 
-      v-if="isArtifactItem"
-      :name="getArtifactName(4)"
+      v-if="this['tree/isArtifactItem']"
+      :name="this['tree/getArtifactName'](4)"
       :number="numberOfArtifacts" />
   </div>
 </template>
@@ -29,11 +29,11 @@ export default {
     numberOfArtifacts() {
       let amountOfMaterials = 0;
 
-      for (let material in this.getRecipe) {
-        amountOfMaterials += this.getRecipe[material];
+      for (let material in this['tree/getRecipe']) {
+        amountOfMaterials += this['tree/getRecipe'][material];
       }
 
-      if (this.getArtifactName(4).includes('ROYAL')) {
+      if (this['tree/getArtifactName'](4).includes('ROYAL')) {
         return `${amountOfMaterials / 4}-${amountOfMaterials}`;
       }
 
@@ -41,9 +41,9 @@ export default {
     },
 
     ...mapGetters([
-      "getRecipe",
-      "isArtifactItem",
-      "getArtifactName"
+      "tree/getRecipe",
+      "tree/isArtifactItem",
+      "tree/getArtifactName"
     ])
   }
 };

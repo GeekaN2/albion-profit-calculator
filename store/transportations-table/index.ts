@@ -6,19 +6,10 @@ import Vue from 'vue'
 
 Vue.use(Vuex);
 
-const cities = {
-  'Caerleon': {},
-  'Bridgewatch': {},
-  'Fort Sterling': {},
-  'Lymhurst': {},
-  'Martlock': {},
-  'Thetford': {},
-}
-
-const treeModule = {
+const transportationsModule = {
+  namespaced: true,
   state: {
-    tree: [],
-    prices: JSON.parse(JSON.stringify(Object.assign(cities, {'Black Market': {}}))),
+    items: [],
     settings: {},
   },
   getters,
@@ -26,4 +17,4 @@ const treeModule = {
   mutations
 }
 
-export default treeModule;
+export default transportationsModule;

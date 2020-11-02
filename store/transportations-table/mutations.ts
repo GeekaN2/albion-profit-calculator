@@ -1,9 +1,9 @@
 import { MutationTree } from 'vuex'
 import { normalizedPriceAndDate, normalizeItem } from '../utils'
-import { ResponseModel, TreeState, Item, Settings, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources } from '../typeDefs'
+import { TransportationsState, Item } from './typeDefs'
 import Vue from 'vue';
 
-export const mutations: MutationTree<TreeState> = {
+export const mutations: MutationTree<TransportationsState> = {
   /**
    * Set json files data into state
    * 
@@ -11,32 +11,19 @@ export const mutations: MutationTree<TreeState> = {
    * @param tree - tree structure of items
    * @param recipes - recipes of all items
    */
-  SET_STATE(state, { tree, recipes }) {
-    state.tree = tree;
-    state.recipes = recipes;
-    state.features = {
-      loadingText: 'calculated'
-    };
+  SET_STATE(state) {
     state.settings = {
-      useJournals: false,
-      useFocus: false,
-      showAverageItems: false,
-      useAveragePrice: false,
-      craftFee: 10,
-      cities: {
-        sellItems: "Caerleon",
-        craftItems: "Caerleon",
-        resourcesFirstLocation: "Caerleon",
-        resourcesSecondLocation: 'Caerleon',
-        artefacts: "Caerleon",
-        journals: "Caerleon"
-      }
-    };
-    state.currentItemInfo = {
-      name: '',
-      parent: '',
-      root: '',
-      artefactLevel: ''
+      locationFrom: 'Lymhurst',
+      locationTo: 'Black Market'
     }
   },
+
+  /**
+   * Update items data
+   */
+  UPDATE_ITEMS_DATA(state, data: Item[]) {
+    data.forEach(item => {
+      state.items.push(item);
+    })
+  }
 }

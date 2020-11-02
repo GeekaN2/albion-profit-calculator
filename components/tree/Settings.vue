@@ -317,7 +317,7 @@ export default {
      * Emit function on fee change
      */
     updateFee(value) {
-      this.$store.commit("UPDATE_CRAFT_FEE", this.fee);
+      this.$store.commit("tree/UPDATE_CRAFT_FEE", this.fee);
     },
 
     /**
@@ -328,9 +328,9 @@ export default {
         this.normalizeCities();
       }
 
-      this.$store.commit("SET_CITIES", this.cities);
+      this.$store.commit("tree/SET_CITIES", this.cities);
 
-      this.$store.dispatch("CHECK_ALL");
+      this.$store.dispatch("tree/CHECK_ALL");
     },
 
     /**
@@ -341,9 +341,9 @@ export default {
         this.normalizeCities();
       }
 
-      this.$store.commit("SET_CITIES", this.cities);
+      this.$store.commit("tree/SET_CITIES", this.cities);
 
-      this.$store.dispatch("CHECK_ALL");
+      this.$store.dispatch("tree/CHECK_ALL");
     },
 
     /**
@@ -367,33 +367,33 @@ export default {
      * Change useJournals checkbox state and try to update table
      */
     changeUseJournals() {
-      this.$store.commit("UPDATE_USE_JOURNALS", this.useJournals);
+      this.$store.commit("tree/UPDATE_USE_JOURNALS", this.useJournals);
 
-      this.$store.dispatch("CHECK_ALL");
+      this.$store.dispatch("tree/CHECK_ALL");
     },
 
     /**
      * Change useFocus checkbox state and try to update table
      */
     changeUseFocus() {
-      this.$store.commit("UPDATE_USE_FOCUS", this.useFocus);
+      this.$store.commit("tree/UPDATE_USE_FOCUS", this.useFocus);
 
-      this.$store.dispatch("CHECK_ALL");
+      this.$store.dispatch("tree/CHECK_ALL");
     },
     
     /**
      * 
      */
     changeShowAverageItems() {
-      this.$store.commit("UPDATE_SHOW_AVERAGE_ITEMS", this.showAverageItems);
+      this.$store.commit("tree/UPDATE_SHOW_AVERAGE_ITEMS", this.showAverageItems);
 
-      this.$store.dispatch("CHECK_ALL");
+      this.$store.dispatch("tree/CHECK_ALL");
     },
 
     changeUseAveragePrice() {
-      this.$store.commit("UPDATE_USE_AVERAGE_PRICE", this.useAveragePrice);
+      this.$store.commit("tree/UPDATE_USE_AVERAGE_PRICE", this.useAveragePrice);
 
-      this.$store.dispatch("CHECK_ALL");
+      this.$store.dispatch("tree/CHECK_ALL");
     },
 
     /**
@@ -402,7 +402,7 @@ export default {
      * @param {string} data - what we need to update
      */
     async updateState(data) {
-      await this.$store.dispatch('UPDATE_STATE', data);
+      await this.$store.dispatch('tree/UPDATE_STATE', data);
     },
   },
 };

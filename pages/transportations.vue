@@ -10,7 +10,7 @@ import Header from "~/components/Header";
 import Table from "~/components/transportations/Table";
 
 export default {
-  name: "Tree",
+  name: "Transportations",
   middleware: ["authenticated"],
   components: {
     Header,
@@ -20,8 +20,7 @@ export default {
     return {};
   },
   created: async function () {
-    await this.$store.dispatch("FETCH_STATE");
-    this.tree = this.$store.state.tree.tree;
+    await this.$store.dispatch("transportations/FETCH_STATE");
   },
 };
 </script>

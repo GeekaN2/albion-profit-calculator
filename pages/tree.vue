@@ -76,7 +76,7 @@ export default {
     }),
   },
   created: async function () {
-    await this.$store.dispatch("FETCH_STATE");
+    await this.$store.dispatch("tree/FETCH_STATE");
     this.tree = this.$store.state.tree.tree;
   },
   methods: {

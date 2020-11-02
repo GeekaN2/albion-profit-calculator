@@ -1,4 +1,4 @@
-import { ResponseModel, Item } from './typeDefs'
+import { ResponseModel, Item } from './profit-tree/typeDefs'
 
 /**
  * Creates a string to request for items of all tiers and subtiers

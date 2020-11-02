@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex'
 import axios from 'axios'
 import { createStringOfAllItems, createStringOfAllResources, createStringOfAllArtifacts, createStringOfAllJournals, isObjectEmpty } from '../utils'
-import { TreeState, ItemInfo, SettingsWithItem } from '../typeDefs'
+import { TreeState, ItemInfo, SettingsWithItem } from './typeDefs'
 import { isArtifactItem } from '../utils'
 
 const baseUrl = process.env.BASE_URL;

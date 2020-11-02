@@ -87,7 +87,7 @@ export default {
       if (isLeaf && this.isOpen) {
         this.showTable(true);
 
-        await this.$store.dispatch("CHECK_ALL", {
+        await this.$store.dispatch("tree/CHECK_ALL", {
           name: name,
           parent: this.parentItem,
           root: this.lastRoot,

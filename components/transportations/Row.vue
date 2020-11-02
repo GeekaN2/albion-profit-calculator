@@ -1,11 +1,11 @@
 <template>
   <div class="row">
     <ImageWithoutNumber 
-      :name="item.name"
+      :name="item.itemId"
       class="row__image" 
     />
     <div class="vertical">
-      <span>{{ item.name }}</span>
+      <span>{{ item.itemId }}</span>
       <div>
         <input 
           v-model.number.lazy="priceFrom"
@@ -66,7 +66,7 @@ export default {
       type: Object,
       default: () => {
         return {
-          name: "T4_BAG@1",
+          itemId: "T4_BAG@1",
           locationFrom: "Martlock",
           locationTo: "Caerleon",
           priceFrom: 1800,

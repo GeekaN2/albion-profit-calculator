@@ -35,7 +35,7 @@ export default {
      * Text of loading
      */
     text() {
-      return this.$store.getters.loadingText;
+      return this.$store.getters['tree/loadingText'];
     },
   },
 };

@@ -1,24 +1,44 @@
 import { ActionTree } from 'vuex'
 import axios from 'axios'
 import { createStringOfAllItems, createStringOfAllResources, createStringOfAllArtifacts, createStringOfAllJournals, isObjectEmpty } from '../utils'
-import { TreeState, ItemInfo, SettingsWithItem } from '../typeDefs'
+import { TransportationsState } from './typeDefs'
 import { isArtifactItem } from '../utils'
 
 const baseUrl = process.env.BASE_URL;
 
-export const actions: ActionTree<TreeState, {}> = {
+export const actions: ActionTree<TransportationsState, {}> = {
   /**
    * Fetch json files data. Set recipes of items and tree structure of items
    * 
    * @param commit - vuex commit
    */
   async FETCH_STATE({ commit }) {
-    const tree = await axios.get('/json/tree.json');
-    const recipes = await axios.get('/json/recipes.json');
-
-    commit('SET_STATE', {
-      'tree': tree.data,
-      'recipes': recipes.data
-    });
+    commit('SET_STATE');
   },
+
+  /**
+   * Update table
+   */
+  async UPDATE_TABLE({ commit }) {
+
+  },
+
+  /**
+   * Get items data
+   * 
+   * @param param0 
+   */
+  async GET_ITEMS({ commit, state }) {
+    const settings = state.settings;
+    const count = 20;
+    const skip = 0;
+
+    await axios
+      .get(`${baseUrl}transportations/analyze?from=${settings.locationFrom}&to=${settings.locationTo}&count=${count}&skip=${skip}`)
+      .then(response => {
+        const data = response.data;
+
+        commit('UPDATE_ITEMS_DATA', data);
+      });
+  }
 }

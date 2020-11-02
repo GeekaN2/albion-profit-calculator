@@ -1,8 +1,11 @@
 <template>
   <div class="transportations-table">
-    <Row />
-    <Row />
-    <Row />
+    <template v-for="(item, index) in items">
+      <Row 
+        :item="item"
+        :key="item.itemId + index"
+      />
+    </template>
   </div>
 </template>
 
@@ -16,15 +19,11 @@ export default {
   },
   data() {
     return {
-      items: {
-        'T4_BAG': {
-          price: 1900
-        },
-        'T4_BAG@1': {
-          price: 5000
-        }
-      }
+      items: this.$store.state.transportations.items
     }
+  },
+  created() {
+    this.$store.dispatch('transportations/GET_ITEMS');
   }
 }
 </script>

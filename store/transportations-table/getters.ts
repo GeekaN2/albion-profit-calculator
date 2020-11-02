@@ -1,18 +1,25 @@
 import { GetterTree } from 'vuex'
-import { TreeState } from '../typeDefs'
+import { TransportationsState } from './typeDefs'
 import { isArtifactItem } from '../utils'
 
-export const getters: GetterTree<TreeState, {}> = {
+export const getters: GetterTree<TransportationsState, {}> = {
   /**
-   * Get t4-t8 item prices
+   * Get price for current item
    * 
    * @param state - vuex state
+   * @param itemId - full item name
+   * @param city - item location
    */
-  getItems: (state: TreeState) => {
-    const itemName = state.currentItemInfo.name;
-    const city = state.settings.cities.sellItems;
-    let prices = state.prices[city][itemName] || {};
+  getItem2: (state: TransportationsState) => ({ itemId }: { itemId: string }) => {
+    let item = state.items.find(item => item.itemId == itemId) || {};
 
-    return prices;
+    return item;
   },
+
+  /**
+   * Get all items
+   */
+  getItems2: (state: TransportationsState) => {
+    return state.items || {};
+  }
 }

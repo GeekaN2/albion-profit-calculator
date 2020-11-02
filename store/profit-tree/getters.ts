@@ -1,5 +1,5 @@
 import { GetterTree } from 'vuex'
-import { TreeState } from '../typeDefs'
+import { TreeState } from './typeDefs'
 import { isArtifactItem } from '../utils'
 
 export const getters: GetterTree<TreeState, {}> = {

@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex'
 import { normalizedPriceAndDate, normalizeItem } from '../utils'
-import { ResponseModel, TreeState, Item, Settings, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources } from '../typeDefs'
+import { ResponseModel, TreeState, Item, Settings, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources } from './typeDefs'
 import Vue from 'vue';
 
 export const mutations: MutationTree<TreeState> = {

@@ -16,6 +16,7 @@ const cities = {
 }
 
 const treeModule = {
+  namespaced: true,
   state: {
     tree: [],
     prices: JSON.parse(JSON.stringify(Object.assign(cities, {'Black Market': {}}))),
