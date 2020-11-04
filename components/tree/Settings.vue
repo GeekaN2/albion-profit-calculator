@@ -108,11 +108,11 @@
         </template>
       </select>
       <p 
-        v-if="Object.entries(getRecipe).length == 0"
+        v-if="Object.entries(this['tree/getRecipe']).length == 0"
         class="setting__city-header">{{ $t('cities.resources') }}</p>
       <p 
         v-else
-        class="setting__city-header">{{ $t(`resources.${Object.entries(getRecipe)[0][0]}`) }}</p>
+        class="setting__city-header">{{ $t(`resources.${Object.entries(this['tree/getRecipe'])[0][0]}`) }}</p>
       <select 
         v-model="cities.resourcesFirstLocation" 
         class="city" 
@@ -121,8 +121,8 @@
           <option :key="city">{{ city }}</option>
         </template>
       </select>
-      <template v-if="Object.entries(getRecipe).length == 2">
-        <p class="setting__city-header">{{ $t(`resources.${Object.entries(getRecipe)[1][0]}`) }}</p>
+      <template v-if="Object.entries(this['tree/getRecipe']).length == 2">
+        <p class="setting__city-header">{{ $t(`resources.${Object.entries(this['tree/getRecipe'])[1][0]}`) }}</p>
         <select 
           v-model="cities.resourcesSecondLocation" 
           class="city" 
@@ -302,7 +302,7 @@ export default {
       /**
        * Get item recipe
        */
-      "getRecipe",
+      "tree/getRecipe",
     ]),
 
     ...mapState({
