@@ -3,4 +3,7 @@ You need to get images of items to see them on the page. There are quite a lot o
 ```bash
 # download images
 $ yarn get-images
+
+# download translations
+$ yarn get-dictionary
 ```

@@ -338,7 +338,7 @@ export default {
           }
 
           this.tableInfo[`T${tier}.${subtier}`].marketPrice = {
-            name: "Market price",
+            name: itemName,
             percentage: -marketFee,
             price: Math.floor(itemPrice * (1 - marketFee / 100)),
             date:lastCheckDate,
@@ -401,7 +401,7 @@ export default {
       }
 
       this.tableInfo[`T${tier}.${subtier}`].artefact = {
-        name: name,
+        name: artifactName,
         percentage: 0,
         price: -artefactPrice,
         date: artefact.date,
@@ -434,7 +434,7 @@ export default {
 
         // update tableInfo
         this.tableInfo[`T${tier}.${subtier}`][resourceName] = {
-          name: `resources.${resourceName}`,
+          name: `T${tier}_${resourceName}`,
           percentage: -this['tree/returnMaterialPercentage'],
           price: -cost,
           date: resource.date,
