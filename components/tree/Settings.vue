@@ -284,7 +284,7 @@ export default {
      * Is the current item an artifact
      */
     isArtifactItem() {
-      return this.$store.getters.isArtifactItem;
+      return this.$store.getters['tree/isArtifactItem'];
     },
 
     /**
