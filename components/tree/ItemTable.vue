@@ -43,15 +43,16 @@
           >
           <div
             :class="[
-              'item__warnings__tooltip', 
+              'item__warnings__tooltip tooltip', 
               `tooltip--tier${name.slice(1, 2)}`]"
           >
-            <div class="item__warnings__tooltip__table">
+            <div class="tooltip__table table">
               <template v-for="(tooltipRow, infoName) in tableInfo[createShortName(name, subtier)]">
                 <div
                   v-if="!isObjectEmpty(tooltipRow)"
                   :key="`${infoName}:0`"
-                  class="text-algin-left"
+                  class="text-algin-left table__cell-copy"
+                  @click="copyName($t(tooltipRow.name))"
                 >
                   {{ $t(tooltipRow.name) }}
                   {{ tooltipRow.percentage ? `${tooltipRow.percentage}%` : '' }}
@@ -83,22 +84,12 @@
 <i18n>
 {
   "en": {
-    "Market price": "Market price",
-    "Materials": "Materials",
-    "Artifact": "Artifact",
-    "Sigils": "Royal Sigils",
-    "Skillbook": "Tome of insight",
     "Fee": "Fee",
     "Journals": "Journals",
     "hours": "h",
     "days": "d"
   },
   "ru": {
-    "Market price": "Цена на рынке",
-    "Materials": "Материалы",
-    "Artifact": "Артефакт",
-    "Sigils": "Королевские знаки",
-    "Skillbook": "Книга интуиции",
     "Fee": "Налог",
     "Journals": "Журналы",
     "hours": "ч",
@@ -578,6 +569,15 @@ export default {
     },
 
     /**
+     * Copy text to the clipboard
+     * 
+     * @param {string} text - text to copy
+     */
+    copyName(text) {
+      this.$copyText(text);
+    },
+
+    /**
      * Check object length
      *
      * @param {object} obj
@@ -716,44 +716,6 @@ export default {
       height: 10px;
     }
 
-    &__tooltip {
-      visibility: hidden;
-      right: 50%;
-      transform: translateX(8%);
-      bottom: 90%;
-      position: absolute;
-      background: #dfdfdf;
-      color: #5e5e5e;
-      font-weight: bold;
-      transition: 0.15s;
-      opacity: 0;
-      border-radius: 4px;
-      box-shadow: 0 0 6px 0px #6a6a6a;
-      font-size: 0.75em;
-      text-shadow: none;
-      padding: 5px;
-      white-space: nowrap;
-      transition-delay: 0.03s;
-
-      &:after {
-        content: "";
-        position: absolute;
-        right: calc(8% - 5px);
-        bottom: -5px;
-        width: 10px;
-        height: 10px;
-        background: #dfdfdf;
-        transform: rotate(45deg);
-      }
-
-      &__table {
-        display: grid;
-        grid-template-columns: 3fr 3fr 1fr;
-        text-align: right;
-        grid-gap: 5px 10px;
-      }
-    }
-
     &:hover &__tooltip {
       bottom: 100%;
       opacity: 1;
@@ -770,6 +732,52 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
+  }
+}
+
+.tooltip {
+  visibility: hidden;
+  right: 50%;
+  transform: translateX(8%);
+  bottom: 90%;
+  position: absolute;
+  background: #dfdfdf;
+  color: #5e5e5e;
+  font-weight: bold;
+  transition: 0.15s;
+  opacity: 0;
+  border-radius: 4px;
+  box-shadow: 0 0 6px 0px #6a6a6a;
+  font-size: 0.75em;
+  text-shadow: none;
+  padding: 5px;
+  white-space: nowrap;
+  transition-delay: 0.03s;
+
+  &:after {
+    content: "";
+    position: absolute;
+    right: calc(8% - 5px);
+    bottom: -5px;
+    width: 10px;
+    height: 10px;
+    background: #dfdfdf;
+    transform: rotate(45deg);
+  }
+
+  &__table {
+    display: grid;
+    grid-template-columns: 3fr 3fr 1fr;
+    text-align: right;
+    grid-gap: 5px 10px;
+  }
+}
+
+.table {
+  &__cell {
+    &-copy {
+      cursor: copy;
+    }
   }
 }
 

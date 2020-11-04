@@ -73,7 +73,8 @@ module.exports = {
     ],
     ['@nuxtjs/dotenv'],
     ['@nuxtjs/axios'],
-    ['@nuxtjs/auth-next']
+    ['@nuxtjs/auth-next'],
+    ['nuxt-clipboard2']
   ],
   plugins: [{ 
     src: "@/plugins/vClickOutside", 
