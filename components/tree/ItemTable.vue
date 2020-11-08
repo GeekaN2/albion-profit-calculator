@@ -343,7 +343,6 @@ export default {
           creationCost += this.itemCreationCost(tier, subtier, itemName);
           creationCost += this.getArtefactPrice(tier, subtier);
           creationCost += this.craftFee(tier, subtier);
-          console.log(itemName, this.itemCreationCost(tier, subtier, itemName), this.getArtefactPrice(tier, subtier), this.craftFee(tier, subtier))
 
           const journalProfit = this.journalProfit(tier, subtier);
 
