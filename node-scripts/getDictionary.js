@@ -24,7 +24,7 @@ function getAllNames() {
   const baseItemNames = Object.keys(recipes).map(item => item.slice(3))
   .concat(['PLANKS', 'METALBAR', 'LEATHER', 'CLOTH'])
   .concat(['JOURNAL_WARRIOR', 'JOURNAL_HUNTER', 'JOURNAL_TOOLMAKER', 'JOURNAL_MAGE'])
-  .concat(['SKILLBOOK_STANDARD']);
+  .concat(['SKILLBOOK_STANDARD', 'QUESTITEM_TOKEN_ROYAL']);
 
   return baseItemNames;
 }
