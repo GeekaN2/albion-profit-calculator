@@ -328,10 +328,12 @@ export default {
             marketFee = 4.5;
           }
 
+          itemPrice = Math.floor(itemPrice * (1 - marketFee / 100));
+
           this.tableInfo[`T${tier}.${subtier}`].marketPrice = {
             name: itemName,
             percentage: -marketFee,
-            price: Math.floor(itemPrice * (1 - marketFee / 100)),
+            price: itemPrice,
             date:lastCheckDate,
           };
 
@@ -341,6 +343,7 @@ export default {
           creationCost += this.itemCreationCost(tier, subtier, itemName);
           creationCost += this.getArtefactPrice(tier, subtier);
           creationCost += this.craftFee(tier, subtier);
+          console.log(itemName, this.itemCreationCost(tier, subtier, itemName), this.getArtefactPrice(tier, subtier), this.craftFee(tier, subtier))
 
           const journalProfit = this.journalProfit(tier, subtier);
 
