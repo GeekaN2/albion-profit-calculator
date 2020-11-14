@@ -93,13 +93,15 @@ export function normalizedPriceAndDate(item: ResponseModel): Item {
   const sellPriceRespone = {
     price: item.sellPriceMin,
     date: item.sellPriceMinDate,
-    marketFee: 4.5
+    marketFee: 4.5,
+    quality: item.quality
   }
 
   const buyPriceResponse = {
     price: item.buyPriceMax,
     date: item.buyPriceMaxDate,
-    marketFee: 3
+    marketFee: 3,
+    quality: item.quality
   }
 
   if (item.sellPriceMin != 0 && item.buyPriceMax == 0) {

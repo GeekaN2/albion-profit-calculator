@@ -46,6 +46,11 @@ html {
   box-sizing: border-box;
 }
 
+:root {
+  --error: #e73939;
+  --color: #1d7d18;
+}
+
 a {
   text-decoration: none;
 }

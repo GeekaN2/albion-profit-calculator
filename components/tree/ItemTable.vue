@@ -85,15 +85,11 @@
 {
   "en": {
     "Fee": "Fee",
-    "Journals": "Journals",
-    "hours": "h",
-    "days": "d"
+    "Journals": "Journals"
   },
   "ru": {
     "Fee": "Налог",
-    "Journals": "Журналы",
-    "hours": "ч",
-    "days": "д"
+    "Journals": "Журналы"
   }
 }
 </i18n>

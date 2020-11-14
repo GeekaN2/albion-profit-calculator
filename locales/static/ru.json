@@ -4,5 +4,7 @@
     "METALBAR": "Слитки",
     "CLOTH": "Ткань",
     "LEATHER": "Кожа"
-  }
+  },
+  "hours": "ч",
+  "days": "д"
 }

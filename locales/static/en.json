@@ -4,5 +4,7 @@
     "METALBAR": "Metalbar",
     "CLOTH": "Cloth",
     "LEATHER": "Leather"
-  }
+  },
+  "hours": "h",
+  "days": "d"
 }

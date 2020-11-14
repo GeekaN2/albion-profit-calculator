@@ -57,7 +57,8 @@ export const mutations: MutationTree<TreeState> = {
         newPrices[item.itemId] = {
           price: 0,
           date: '',
-          marketFee: 3
+          marketFee: 3,
+          quality: 1
         };
       }
 

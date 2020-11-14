@@ -5,18 +5,34 @@
       class="row__image" 
     />
     <div class="vertical">
-      <span>{{ item.itemId }}</span>
+      <span 
+        class="row__item-name"
+        @click="copyName($t(item.itemId))"
+      >{{ $t(item.itemId) }}</span>
       <div>
         <input 
           v-model.number.lazy="priceFrom"
           class="row__input"
           type="text" 
         >
+        <span
+          :class="[{
+            'error': outdated(item.dateFrom),
+            'success': !outdated(item.dateFrom)
+          }, 'row__date']"
+        >{{ formatDate(item.dateFrom) }}</span>
+
         <input 
           v-model.number.lazy="priceTo"
           class="row__input"
           type="text" 
         >
+        <span
+          :class="[{
+            'error': outdated(item.dateTo),
+            'success': !outdated(item.dateTo)
+          }, 'row__date']"
+        >{{ formatDate(item.dateTo) }}</span>
       </div>
       
     </div>
@@ -104,6 +120,56 @@ export default {
           break;
       }
     },
+    /**
+     * Copy text to the clipboard
+     * 
+     * @param {string} text - text to copy
+     */
+    copyName(text) {
+      this.$copyText(text);
+    },
+
+    /**
+     * Check the date
+     * if more than 1 day has passed since the last check
+     * returns true
+     *
+     * @param {timestamp} date - last check date
+     * @param {string} specialCase - optionally parameter to considers outdated differently
+     * @returns {boolean}
+     */
+     outdated(date) {
+      const day = 24 * 60 * 60 * 1000;
+
+      return Date.now() - new Date(date).getTime() > day;
+    },
+
+    /**
+     * Add h(hours) or d(days) to date
+     *
+     * @param {Date} date - timestamp
+     */
+    formatDate(date) {
+      if (typeof date != 'string') {
+        return "-";
+      }
+
+      date = new Date(date);
+
+      let lastCheckInHours = Math.floor(
+        (Date.now() - date.getTime()) / 3600000
+      );
+
+      let lastCheckInDays = Math.floor(lastCheckInHours / 24);
+
+      if (lastCheckInDays > 100) {
+        return "∞";
+      }
+
+      return lastCheckInHours < 24
+        ? lastCheckInHours + this.$t('hours')
+        : Math.floor(lastCheckInHours / 24) + this.$t('days');
+    },
   },
 };
 </script>
@@ -115,7 +181,7 @@ export default {
   align-items: center;
 
   &__input {
-    width: 10rem;
+    width: 6rem;
     background: none;
     border: none;
     border-bottom: 2px solid #000;
@@ -133,6 +199,16 @@ export default {
       background: #00f;
       border:10px solid #0ff;
     }
+  }
+
+  &__item-name {
+    cursor: copy;
+  }
+
+  &__date {
+    display: inline-block;
+    min-width: 2rem;
+    font-size: 0.8rem;
   }
 
   &__profit {
@@ -165,5 +241,13 @@ export default {
 
 .caerleon {
   background: darkgreen;
+}
+
+.success {
+  color: #1d7d18;
+}
+
+.error {
+  color: #e73939;
 }
 </style>

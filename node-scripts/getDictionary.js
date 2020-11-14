@@ -69,8 +69,8 @@ async function main(){
     }
   })
 
-  fs.writeFileSync("./locales/ru.json", JSON.stringify(dictionary['ru']));
-  fs.writeFileSync("./locales/en.json", JSON.stringify(dictionary['en']));
+  fs.writeFileSync("./locales/automaticRu.json", JSON.stringify(dictionary['ru']));
+  fs.writeFileSync("./locales/automaticEn.json", JSON.stringify(dictionary['en']));
   // console.log(dictionary);
 }
 

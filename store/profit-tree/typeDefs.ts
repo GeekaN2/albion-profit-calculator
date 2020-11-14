@@ -4,7 +4,8 @@
 export interface Item {
   price: number;
   date: string;
-  marketFee?: number
+  marketFee?: number;
+  quality?: number;
 }
 
 /**
@@ -36,7 +37,7 @@ export interface ResponseModel {
  */
 export interface TreeState {
   tree: any;
-  prices: Prices
+  prices: Prices;
   recipes: Recipes;
   settings: Settings;
   features: Features;
@@ -78,7 +79,7 @@ export interface Artefacts {
  */
 export interface Recipes {
   [key: string]: {
-    PLANKS?: number
+    PLANKS?: number;
     METALBAR?: number;
     CLOTH?: number;
     LEATHER?: number;
