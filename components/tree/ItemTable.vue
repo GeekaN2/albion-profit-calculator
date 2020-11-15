@@ -44,7 +44,8 @@
           <div
             :class="[
               'item__warnings__tooltip tooltip', 
-              `tooltip--tier${name.slice(1, 2)}`]"
+              `tooltip--tier${name.slice(1, 2)}`,
+              `tooltip--quality-${item.quality}`]"
           >
             <div class="tooltip__table table">
               <template v-for="(tooltipRow, infoName) in tableInfo[createShortName(name, subtier)]">
@@ -310,13 +311,15 @@ export default {
         ) {
           row[itemName] = {
             profit: 0,
-            date: new Date()
+            date: new Date(),
+            quality: 1
           };
 
           const tier = Number(itemName.slice(1, 2));
           let marketFee = this['tree/getItems'][itemName].marketFee;
           let itemPrice = Math.floor(this['tree/getItems'][itemName].price);
           let lastCheckDate = this['tree/getItems'][itemName].date;
+          let quality = this['tree/getItems'][itemName].quality;
 
           if (this.settings.useAveragePrice) {
             itemPrice = Math.floor(this['tree/getAverageData'][itemName].averagePrice);
@@ -330,7 +333,7 @@ export default {
             name: itemName,
             percentage: -marketFee,
             price: itemPrice,
-            date:lastCheckDate,
+            date: lastCheckDate
           };
 
           let creationCost = 0;
@@ -346,6 +349,7 @@ export default {
             row[itemName].profit = itemPrice - creationCost + journalProfit;
             row[itemName].date = this['tree/getItems'][itemName].date;
             row[itemName].percentageProfit = row[itemName].profit / creationCost * 100;
+            row[itemName].quality = quality;
           }
 
           if (this.settings.showAverageItems) {
@@ -768,6 +772,33 @@ export default {
     grid-template-columns: 3fr 3fr 1fr;
     text-align: right;
     grid-gap: 5px 10px;
+  }
+
+  &--quality {
+    &-1 {
+      border-top: 5px solid #b0afae;
+      border-left: 5px solid #b0afae;
+    }
+
+    &-2 {
+      border-top: 5px solid #5d81a7;
+      border-left: 5px solid #5d81a7;
+    }
+
+    &-3 {
+      border-top: 5px solid #db9c63;
+      border-left: 5px solid #db9c63;
+    }
+
+    &-4 {
+      border-top: 5px solid #fdfefe;
+      border-left: 5px solid #fdfefe;
+    }
+
+    &-5 {
+      border-top: 5px solid #fdb44f;
+      border-left: 5px solid #fdb44f;
+    } 
   }
 }
 
