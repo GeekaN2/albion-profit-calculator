@@ -776,28 +776,28 @@ export default {
 
   &--quality {
     &-1 {
-      border-top: 5px solid #b0afae;
-      border-left: 5px solid #b0afae;
+      border-top: 4px solid #b0afae;
+      border-left: 4px solid #b0afae;
     }
 
     &-2 {
-      border-top: 5px solid #5d81a7;
-      border-left: 5px solid #5d81a7;
+      border-top: 4px solid #5d81a7;
+      border-left: 4px solid #5d81a7;
     }
 
     &-3 {
-      border-top: 5px solid #db9c63;
-      border-left: 5px solid #db9c63;
+      border-top: 4px solid #db9c63;
+      border-left: 4px solid #db9c63;
     }
 
     &-4 {
-      border-top: 5px solid #fdfefe;
-      border-left: 5px solid #fdfefe;
+      border-top: 4px solid #fdfefe;
+      border-left: 4px solid #fdfefe;
     }
 
     &-5 {
-      border-top: 5px solid #fdb44f;
-      border-left: 5px solid #fdb44f;
+      border-top: 4px solid #fdb44f;
+      border-left: 4px solid #fdb44f;
     } 
   }
 }
