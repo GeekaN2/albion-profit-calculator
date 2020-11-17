@@ -492,6 +492,8 @@ export default {
 
       if (artefactLevel.length != 0 && !isBagInsight) {
         itemValue += this.itemAndArtefactValues[`T${tier}_${artefactLevel}`];
+      } else if (isBagInsight) {
+        itemValue += 312.5;
       }
       
       const feePrice = Math.floor(
