@@ -1,38 +1,58 @@
 <template>
   <div class="transportations-table">
-    <template v-for="(item, index) in items">
-      <Row 
+    <Settings />
+    <div class="items">
+      <Row
+        v-for="(item, index) in items"
         :item="item"
         :key="item.itemId + index"
       />
-    </template>
+    </div>
   </div>
 </template>
 
 <script>
 import Row from "~/components/transportations/Row";
+import Settings from "~/components/transportations/Settings";
+import { mapState } from "vuex";
 
 export default {
-  name: 'Table',
+  name: "Table",
   components: {
-    Row
+    Row,
+    Settings,
   },
-  data() {
-    return {
-      items: this.$store.state.transportations.items
-    }
+  computed: {
+    ...mapState({
+      items: (state) => state.transportations.items,
+    }),
   },
   created() {
-    this.$store.dispatch('transportations/GET_ITEMS');
-  }
-}
+    this.$store.dispatch("transportations/GET_ITEMS");
+  },
+};
 </script>
 
 <style>
 .transportations-table {
+  display: grid;
   margin: 0 auto;
   padding: 10px;
-  background:#dadada;
+  column-gap: 10px;
+  grid-template-areas: 
+  "Sett Filt Filt"
+  "Sett Rows Rows"
+  "Sett Rows Rows";
+}
+
+.settings {
+  grid-area: 'Sett';
+}
+
+.items {
+  grid-area: 'Rows';
+  padding: 10px;
+  background: #dadada;
   max-width: 900px;
 }
 </style>

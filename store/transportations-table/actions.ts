@@ -19,8 +19,18 @@ export const actions: ActionTree<TransportationsState, {}> = {
   /**
    * Update table
    */
-  async UPDATE_TABLE({ commit }) {
+  async UPDATE_TABLE({ commit, state }) {
+    const settings = state.settings;
+    const count = 20;
+    const skip = 0;
 
+    await axios
+      .get(`${baseUrl}transportations/analyze?from=${settings.locationFrom}&to=${settings.locationTo}&count=${count}&skip=${skip}`)
+      .then(response => {
+        const data = response.data;
+
+        commit('UPDATE_ITEMS_DATA', data);
+      });
   },
 
   /**
@@ -40,5 +50,5 @@ export const actions: ActionTree<TransportationsState, {}> = {
 
         commit('UPDATE_ITEMS_DATA', data);
       });
-  }
+  },
 }

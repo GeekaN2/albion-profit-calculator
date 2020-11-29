@@ -161,7 +161,6 @@
 <i18n>
 {
   "en": {
-    "settings": "Settings",
     "useJournals": "Use journals",
     "useFocus": "Use focus",
     "updateItems": "Update current item",
@@ -185,7 +184,6 @@
     }
   },
   "ru": {
-    "settings": "Настройки",
     "useJournals": "Использовать журналы",
     "useFocus": "Использовать фокус",
     "updateItems": "Обновить цены предметов",

@@ -22,8 +22,21 @@ export const mutations: MutationTree<TransportationsState> = {
    * Update items data
    */
   UPDATE_ITEMS_DATA(state, data: Item[]) {
+    state.items = [];
+    
     data.forEach(item => {
       state.items.push(item);
-    })
+    });
+  },
+
+  /**
+   * Update locations
+   * 
+   * @param state vuex state
+   * @param locations - 
+   */
+  UPDATE_LOCATION(state, locations: { locationFrom: string, locationTo: string }) {
+    state.settings.locationFrom = locations.locationFrom;
+    state.settings.locationTo = locations.locationTo;
   }
 }
