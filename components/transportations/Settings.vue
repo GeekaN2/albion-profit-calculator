@@ -83,7 +83,7 @@ export default {
     changeLocation() {
       this.$store.commit('transportations/UPDATE_LOCATION', this.cities);
 
-      this.$store.dispatch('transportations/UPDATE_TABLE')
+      this.$store.dispatch('transportations/GET_ITEMS')
     },
   }
 };
@@ -103,5 +103,9 @@ export default {
 
 .subtitle {
   font-size: 0.9rem;
+}
+
+.location {
+  margin-bottom: 8px;
 }
 </style>

@@ -1,5 +1,8 @@
 <template>
-  <div class="row">
+  <div 
+    :style="[backgroundStyle()]"
+    class="row"
+  >
     <ImageWithoutNumber 
       :name="item.itemId"
       class="row__image" 
@@ -87,6 +90,8 @@ export default {
           locationTo: "Caerleon",
           priceFrom: 1800,
           priceTo: 2000,
+          qualityFrom: 1,
+          qualityTo: 2
         };
       },
     },
@@ -107,19 +112,6 @@ export default {
     }
   },
   methods: {
-    createClassName(name = "") {
-      return name.replace(/[^A-Za-z0-9]/g, "-").toLowerCase();
-    },
-    getColor(location) {
-      switch (location) {
-        case "Martlock":
-          return "cyan";
-          break;
-        case "Caerleon":
-          return "darkgreen";
-          break;
-      }
-    },
     /**
      * Copy text to the clipboard
      * 
@@ -170,6 +162,36 @@ export default {
         ? lastCheckInHours + this.$t('hours')
         : Math.floor(lastCheckInHours / 24) + this.$t('days');
     },
+
+    /**
+     * Format location for styles
+     * 
+     * @param location - location to format
+     */
+    formatLocation(location) {
+      return location.toLowerCase().replace(/[\s]+/g, '-');
+    },
+
+    /**
+     * 
+     */
+    backgroundStyle() {
+      const colors = {
+        'Lymhurst': '#c1ffa9',
+        'Black Market': 'grey',
+        'Bridgewatch': '#fee98e',
+        'Thetford': '#ffa7fd',
+        'Martlock': '#bcfffe',
+        'Fort Sterling': 'lightgrey',
+        'Caerleon': '#4fa84f'
+      }
+
+      const gradient = `linear-gradient(to right, ${colors[this.item.locationFrom]} 0%, ${colors[this.item.locationFrom]} 50%, ${colors[this.item.locationTo]} 50%, ${colors[this.item.locationTo]} 100%)`
+
+      return {
+        background: gradient
+      }
+    }
   },
 };
 </script>
@@ -179,6 +201,8 @@ export default {
   display: grid;
   grid-template-columns: auto 1fr 1fr;
   align-items: center;
+  padding: 2px 10px;
+  position: relative;
 
   &__input {
     width: 6rem;
@@ -186,29 +210,18 @@ export default {
     border: none;
     border-bottom: 2px solid #000;
     text-align: right;
-    position: relative;
-
-    &:before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      color: #000;
-      width: 100%;
-      height: 100%;
-      background: #00f;
-      border:10px solid #0ff;
-    }
   }
 
   &__item-name {
     cursor: copy;
+    white-space: nowrap;
   }
 
   &__date {
     display: inline-block;
     min-width: 2rem;
     font-size: 0.8rem;
+    text-shadow: 0.5px 0.5px #dedede;
   }
 
   &__profit {
@@ -216,6 +229,16 @@ export default {
     flex-direction: column;
     align-items: flex-end;
     justify-content: center;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    z-index: 0;
   }
 }
 
@@ -233,14 +256,6 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-}
-
-.martlock {
-  background: cyan;
-}
-
-.caerleon {
-  background: darkgreen;
 }
 
 .success {

@@ -30,6 +30,21 @@ export default {
   created() {
     this.$store.dispatch("transportations/GET_ITEMS");
   },
+  mounted() {
+    this.scroll();
+  },
+  methods: {
+    scroll() {
+      window.onscroll = () => {
+        let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+        
+        if (bottomOfWindow) {
+          this.$store.dispatch("transportations/UPDATE_TABLE");
+        }
+      }
+    }
+  },
+  
 };
 </script>
 
@@ -46,13 +61,27 @@ export default {
 }
 
 .settings {
-  grid-area: 'Sett';
+  grid-area: Sett;
+  max-width: 350px;
 }
 
 .items {
-  grid-area: 'Rows';
-  padding: 10px;
-  background: #dadada;
-  max-width: 900px;
+  grid-area: Rows;
+  padding: 10px 0;
+}
+
+@media (max-width: 840px) {
+  .transportations-table {
+    font-size: 0.9rem;
+    grid-template-areas: 
+    "Filt Filt"
+    "Sett Sett"
+    "Rows Rows"
+    "Rows Rows";
+  }
+
+  .settings {
+    max-width: 100%;
+  }
 }
 </style>

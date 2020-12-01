@@ -14,16 +14,32 @@ export const mutations: MutationTree<TransportationsState> = {
   SET_STATE(state) {
     state.settings = {
       locationFrom: 'Lymhurst',
-      locationTo: 'Black Market'
+      locationTo: 'Black Market',
+      skip: 0
     }
   },
 
   /**
-   * Update items data
+   * Remove old items and add new ones
+   * 
+   * @param state - vuex state
+   * @param data - items to add
    */
   UPDATE_ITEMS_DATA(state, data: Item[]) {
     state.items = [];
     
+    data.forEach(item => {
+      state.items.push(item);
+    });
+  },
+
+  /**
+   * Add items after old items
+   * 
+   * @param state - vuex state
+   * @param data - items to add
+   */
+  ADD_ITEMS_DATA(state, data: Item[]) {
     data.forEach(item => {
       state.items.push(item);
     });
@@ -38,5 +54,15 @@ export const mutations: MutationTree<TransportationsState> = {
   UPDATE_LOCATION(state, locations: { locationFrom: string, locationTo: string }) {
     state.settings.locationFrom = locations.locationFrom;
     state.settings.locationTo = locations.locationTo;
+  },
+
+  /**
+   * Update skip param
+   * 
+   * @param state - vuex state
+   * @param newSkip - new value of skip setting
+   */
+  UPDATE_SKIP(state, newSkip: number) {
+    state.settings.skip = newSkip;
   }
 }

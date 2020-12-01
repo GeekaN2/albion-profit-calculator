@@ -41,4 +41,5 @@ export interface TransportationsState {
 export interface Settings {
   locationFrom: string;
   locationTo: string;
+  skip: number;
 }
