@@ -42,4 +42,5 @@ export interface Settings {
   locationFrom: string;
   locationTo: string;
   skip: number;
+  useHeuristicSort: boolean;
 }

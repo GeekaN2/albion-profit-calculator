@@ -15,7 +15,8 @@ export const mutations: MutationTree<TransportationsState> = {
     state.settings = {
       locationFrom: 'Lymhurst',
       locationTo: 'Black Market',
-      skip: 0
+      skip: 0,
+      useHeuristicSort: false
     }
   },
 
@@ -64,5 +65,15 @@ export const mutations: MutationTree<TransportationsState> = {
    */
   UPDATE_SKIP(state, newSkip: number) {
     state.settings.skip = newSkip;
+  },
+
+  /**
+   * Use heuristic sort
+   * 
+   * @param state - vuex state
+   * @param useHeuristicSort - use a heuristic algorithm to sort items or not
+   */
+  USE_HEURISTIC_SORT(state, useHeuristicSort: boolean) {
+    state.settings.useHeuristicSort = useHeuristicSort;
   }
 }

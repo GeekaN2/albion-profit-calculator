@@ -42,6 +42,7 @@
     <div class="row__profit profit">
       <span class="profit__base">{{ profit | formatPrice }}</span>
       <span class="profit__percentage">{{ percentageProfit | formatPercentage }}%</span>
+      <span class="profit__percentage">{{ item.averageItems | formatFloat }}/{{ $t('days') }}</span>
     </div>
   </div>
 </template>
@@ -78,6 +79,13 @@ export default {
      */
     formatPrice(price) {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
+
+    /**
+     * Formats floating-point numbers
+     */
+    formatFloat(num) {
+      return Math.floor(num) == num ? num : num.toFixed(1);
     }
   },
   props: {
@@ -183,7 +191,7 @@ export default {
         'Thetford': '#ffa7fd',
         'Martlock': '#bcfffe',
         'Fort Sterling': 'lightgrey',
-        'Caerleon': '#4fa84f'
+        'Caerleon': '#a5d1a5'
       }
 
       const gradient = `linear-gradient(to right, ${colors[this.item.locationFrom]} 0%, ${colors[this.item.locationFrom]} 50%, ${colors[this.item.locationTo]} 50%, ${colors[this.item.locationTo]} 100%)`

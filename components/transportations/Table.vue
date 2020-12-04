@@ -55,14 +55,14 @@ export default {
   padding: 10px;
   column-gap: 10px;
   grid-template-areas: 
-  "Sett Filt Filt"
-  "Sett Rows Rows"
-  "Sett Rows Rows";
+  "Sett Filt Filt Filt Filt Filt"
+  "Sett Rows Rows Rows Rows Rows"
+  "Sett Rows Rows Rows Rows Rows";
 }
 
 .settings {
   grid-area: Sett;
-  max-width: 350px;
+  
 }
 
 .items {
