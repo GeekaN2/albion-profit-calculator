@@ -1,9 +1,33 @@
 import { ResponseModel, Item } from './profit-tree/typeDefs'
 
 /**
+ * Define type of item: journal, item, artifact, resource etc.
+ * 
+ * @param itemName - item name: T4_2H_NATURESTAFF_KEEPER etc.
+ * @returns - array with all tiers and subtiers for this item
+ */
+export function createArrayOfAllIngredients(itemName: string): string[] {
+  let allItems = [];
+  let resources = ['PLANKS', 'CLOTH', 'METALBAR', 'LEATHER', 'STONE'];
+
+  if (isArtifactItem(itemName)) {
+    allItems = createStringOfAllArtifacts(itemName).split(',');
+  } else if (resources.some(res => res == itemName)) {
+    allItems = createStringOfAllResources(itemName).split(',');
+  } else if (itemName.includes('JOURNAL')) {
+    allItems = createStringOfAllJournals(itemName).split(',');
+  } else {
+    allItems = createStringOfAllItems(itemName).split(',');
+  }
+
+  return allItems;
+}
+
+/**
  * Creates a string to request for items of all tiers and subtiers
  * 
  * @param itemName - item name: T4_2H_NATURESTAFF_KEEPER etc.
+ * @returns string with all tiers and subtiers for item
  */
 export function createStringOfAllItems(itemName: string): string {
   let allNames = '';

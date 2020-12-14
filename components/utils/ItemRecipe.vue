@@ -3,29 +3,50 @@
     <template 
       v-for="(value, material) in this['tree/getRecipe']"
     >
-      <ImageWithNumber
+      <Ingredient 
         :key="material"
         :name="`T4_${material}`" 
-        :number="`${value}`"
+        :number-of-ingredients="`${value}`"
+        :show-prices="nameToShowPrices == `T4_${material}`"
+        @show="showIngredientPricesTable"
+        @hide="hideIngredientPricesTable"
       />
-    </template><ImageWithNumber 
+    </template>
+    <Ingredient 
       v-if="this['tree/isArtifactItem']"
       :name="this['tree/getArtifactName'](4)"
-      :number="numberOfArtifacts" />
+      :number-of-ingredients="numberOfArtifacts"
+      :show-prices="nameToShowPrices == this['tree/getArtifactName'](4)"
+      @show="showIngredientPricesTable"
+      @hide="hideIngredientPricesTable"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import ImageWithNumber from "~/components/utils/ImageWithNumber";
+import Ingredient from './Ingredient'
 
 
 export default {
   name: "ItemRecipe",
   components: {
-    ImageWithNumber
+    Ingredient
+  },
+  data() {
+    return {
+      /**
+       * Show ingredient prices table for this item
+       */
+      nameToShowPrices: ''
+    }
   },
   computed: {
+    /**
+     * Generate number of artifacts
+     * 
+     * @returns number of artifcats or range
+     */
     numberOfArtifacts() {
       let amountOfMaterials = 0;
 
@@ -45,6 +66,23 @@ export default {
       "tree/isArtifactItem",
       "tree/getArtifactName"
     ])
+  },
+  methods: {
+    /**
+     * Change local state to show prices table
+     * 
+     * @param name - new item name to show table
+     */
+    showIngredientPricesTable(name) {
+      this.nameToShowPrices = name;
+    },
+
+    /**
+     * Hide prices table
+     */
+    hideIngredientPricesTable() {
+      this.nameToShowPrices = '';
+    }
   }
 };
 </script>
