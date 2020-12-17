@@ -22,6 +22,9 @@ export const mutations: MutationTree<TreeState> = {
       useFocus: false,
       showAverageItems: false,
       useAveragePrice: false,
+      useExpertMode: false,
+      useOwnPercentage: false,
+      returnPercentage: 15.2,
       craftFee: 10,
       cities: {
         sellItems: "Caerleon",
@@ -271,5 +274,35 @@ export const mutations: MutationTree<TreeState> = {
    */
   UPDATE_CRAFT_FEE(state, craftFee: number) {
     state.settings.craftFee = craftFee;
+  },
+
+  /**
+   * Update setting use expert mode
+   * 
+   * @param state - vuex state
+   * @param useExpertMode - use expert mode or not
+   */
+  UPDATE_USE_EXPERT_MODE(state, useExpertMode: boolean) {
+    state.settings.useExpertMode = useExpertMode;
+  },
+
+  /**
+   * Update setting use own perentage
+   * 
+   * @param state - vuex state
+   * @param useOwnPercentage - use own return percentage or not
+   */
+  UPDATE_USE_OWN_PERCENTAGE(state, useOwnPercentage: boolean) {
+    state.settings.useOwnPercentage = useOwnPercentage;
+  },
+
+  /**
+   * Update own return percentage
+   * 
+   * @param state - vuex state
+   * @param returnPercentage - number in percents
+   */
+  UPDATE_OWN_RETURN_PECENTAGE(state, returnPercentage: number) {
+    state.settings.returnPercentage = returnPercentage;
   }
 }

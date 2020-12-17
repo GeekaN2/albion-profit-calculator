@@ -105,6 +105,10 @@ export const getters: GetterTree<TreeState, {}> = {
    * for profile cities
    */
   returnMaterialPercentage: (state: TreeState) => {
+    if (state.settings.useOwnPercentage) {
+      return state.settings.returnPercentage;
+    }
+
     const parentItem = state.currentItemInfo.parent;
     const itemName = state.currentItemInfo.name;
     const city = state.settings.cities.craftItems;

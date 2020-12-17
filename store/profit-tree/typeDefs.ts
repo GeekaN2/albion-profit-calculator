@@ -123,6 +123,9 @@ export interface Settings {
   useFocus: boolean;
   showAverageItems: boolean;
   useAveragePrice: boolean;
+  useExpertMode: boolean;
+  useOwnPercentage: boolean;
+  returnPercentage: number;
   craftFee: number;
   cities: {
     sellItems: string;
