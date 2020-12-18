@@ -596,9 +596,12 @@ export default {
 
     /**
      * Format float number
+     * 
+     * @param {number} - number to format
+     * @returns {number}
      */
     formatFloat(num) {
-      return Math.round(num) == num ? num : num.toFixed(1);
+      return Math.round(num) == num ? num : parseFloat(num.toFixed(2));
     }
   },
 };
