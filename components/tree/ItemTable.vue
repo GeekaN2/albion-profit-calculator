@@ -57,6 +57,8 @@
                 >
                   {{ $t(tooltipRow.name) }}
                   {{ tooltipRow.percentage ? `${tooltipRow.percentage}%` : '' }}
+                  {{ !tooltipRow.journalsPerItem ? '' : 
+                  `(${formatFloat(tooltipRow.journalsPerItem)}${$t('JournalsShort')})` }}
                 </div>
                 <div
                   v-if="!isObjectEmpty(tooltipRow)"
@@ -86,11 +88,13 @@
 {
   "en": {
     "Fee": "Fee",
-    "Journals": "Journals"
+    "Journals": "Journals",
+    "JournalsShort": "j"
   },
   "ru": {
     "Fee": "Налог",
-    "Journals": "Журналы"
+    "Journals": "Журналы",
+    "JournalsShort": "ж"
   }
 }
 </i18n>
@@ -472,6 +476,7 @@ export default {
         percentage: -marketFee,
         price: profit,
         date: this['tree/getJournals'][journalName].date,
+        journalsPerItem: craftFame / journalFame
       });
 
       return profit;
@@ -587,6 +592,13 @@ export default {
      */
     isObjectEmpty(obj) {
       return JSON.stringify(obj) === '{}' || obj === undefined;
+    },
+
+    /**
+     * Format float number
+     */
+    formatFloat(num) {
+      return Math.round(num) == num ? num : num.toFixed(1);
     }
   },
 };
