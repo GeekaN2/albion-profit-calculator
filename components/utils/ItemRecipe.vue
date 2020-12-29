@@ -1,13 +1,14 @@
 <template>
   <div class="item-recipe">
     <template 
-      v-for="(value, material) in this['tree/getRecipe']"
+      v-for="(value, material, index) in this['tree/getRecipe']"
     >
       <Ingredient 
         :key="material"
         :name="`T4_${material}`" 
         :number-of-ingredients="`${value}`"
         :show-prices="nameToShowPrices == `T4_${material}`"
+        :index="index"
         @show="showIngredientPricesTable"
         @hide="hideIngredientPricesTable"
       />
@@ -17,6 +18,7 @@
       :name="this['tree/getArtifactName'](4)"
       :number-of-ingredients="numberOfArtifacts"
       :show-prices="nameToShowPrices == this['tree/getArtifactName'](4)"
+      :index="2"
       @show="showIngredientPricesTable"
       @hide="hideIngredientPricesTable"
     />

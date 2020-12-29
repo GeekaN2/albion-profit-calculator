@@ -719,7 +719,7 @@ export default {
     height: 100%;
     bottom: -1px;
     right: -1px;
-    z-index: 50;
+    z-index: 10;
     width: 20px;
 
     &__icon {

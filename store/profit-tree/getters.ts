@@ -101,6 +101,15 @@ export const getters: GetterTree<TreeState, {}> = {
   },
 
   /**
+   * Is all neccessary data loaded
+   * 
+   * @param state - vuex state
+   */
+  isLoaded: (state: TreeState) => {
+    return state.features.loadingText == 'calculated'
+  },
+
+  /**
    * Returns the percentage of materials returned 
    * for profile cities
    */

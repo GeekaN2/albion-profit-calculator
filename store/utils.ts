@@ -3,19 +3,19 @@ import { ResponseModel, Item } from './profit-tree/typeDefs'
 /**
  * Define type of item: journal, item, artifact, resource etc.
  * 
- * @param itemName - item name: T4_2H_NATURESTAFF_KEEPER etc.
- * @returns - array with all tiers and subtiers for this item
+ * @param itemName resource or artifact name: T4_PLANK, T7_ARTEFACT_MAIN_SPEAR_KEEPER etc.
+ * @returns array with all tiers and subtiers for this item
  */
 export function createArrayOfAllIngredients(itemName: string): string[] {
   let allItems = [];
   let resources = ['PLANKS', 'CLOTH', 'METALBAR', 'LEATHER', 'STONE'];
 
   if (isArtifactItem(itemName)) {
-    allItems = createStringOfAllArtifacts(itemName).split(',');
-  } else if (resources.some(res => res == itemName)) {
-    allItems = createStringOfAllResources(itemName).split(',');
+    allItems = createStringOfAllArtifacts(itemName.replace(/ARTEFACT_/, '')).split(',');
+  } else if (resources.some(res => itemName.includes(res))) {
+    allItems = createStringOfAllResources(itemName.slice(3)).split(',');
   } else if (itemName.includes('JOURNAL')) {
-    allItems = createStringOfAllJournals(itemName).split(',');
+    allItems = createStringOfAllJournals(`ROOT_${itemName.slice(11)}`).split(',');
   } else {
     allItems = createStringOfAllItems(itemName).split(',');
   }
@@ -32,8 +32,8 @@ export function createArrayOfAllIngredients(itemName: string): string[] {
 export function createStringOfAllItems(itemName: string): string {
   let allNames = '';
 
-  for (let tier = 4; tier <= 8; tier++) {
-    for (let subtier = 0; subtier <= 3; subtier++) {
+  for (let subtier = 0; subtier <= 3; subtier++) {
+    for (let tier = 4; tier <= 8; tier++) {
       allNames = allNames + `T${tier}` + itemName.slice(2) + (subtier != 0 ? `@${subtier}` : '') + ',';
     }
   }
@@ -50,8 +50,8 @@ export function createStringOfAllItems(itemName: string): string {
 export function createStringOfAllResources(resource: string): string {
   let allNames = '';
 
-  for (let tier = 4; tier <= 8; tier++) {
-    for (let subtier = 0; subtier <= 3; subtier++) {
+  for (let subtier = 0; subtier <= 3; subtier++) {
+    for (let tier = 4; tier <= 8; tier++) {
       allNames = allNames + `T${tier}_` + resource + (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : '') + ',';
     }
   }
@@ -171,7 +171,7 @@ export function normalizeItem(oldItem: Item, newItem: Item) {
     return newItem;
   }
 
-  return oldItem.price > newItem.price ? oldItem: newItem;
+  return oldItem.price > newItem.price ? oldItem : newItem;
 }
 
 /**
