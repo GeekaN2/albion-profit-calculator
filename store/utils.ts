@@ -235,7 +235,7 @@ export function isArtifactItem(itemName: string): boolean {
  * @param itemName - item name: T4_ARTEFACT_HEAD_CLOTH_HELL etc.
  */
 export function isArtifact(itemName: string): boolean {
-  const artifactSubstrings = ['ARTEFACT', 'SKILLBOOK'];
+  const artifactSubstrings = ['ARTEFACT', 'SKILLBOOK', 'ROYAL'];
 
   return artifactSubstrings.some(substring => itemName.includes(substring));
 }
