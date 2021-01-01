@@ -397,6 +397,8 @@ export default {
         artefactPrice = artefact.price;
       }
 
+      artefactPrice = artefactPrice || 0;
+
       this.tableInfo[`T${tier}.${subtier}`].artefact = {
         name: artifactName,
         percentage: 0,

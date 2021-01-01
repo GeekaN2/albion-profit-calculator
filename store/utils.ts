@@ -10,8 +10,8 @@ export function createArrayOfAllIngredients(itemName: string): string[] {
   let allItems = [];
   let resources = ['PLANKS', 'CLOTH', 'METALBAR', 'LEATHER', 'STONE'];
 
-  if (isArtifactItem(itemName)) {
-    allItems = createStringOfAllArtifacts(itemName.replace(/ARTEFACT_/, '')).split(',');
+  if (isArtifact(itemName)) {
+    allItems = createArrayOfAllArtifactsFromArtifact(itemName);
   } else if (resources.some(res => itemName.includes(res))) {
     allItems = createStringOfAllResources(itemName.slice(3)).split(',');
   } else if (itemName.includes('JOURNAL')) {
@@ -87,6 +87,37 @@ export function createStringOfAllArtifacts(itemName: string) {
   }
 
   return allNames.slice(0, -1);
+}
+
+
+/**
+ * Creates an array to request for artefacts of all tiers
+ * 
+ * @param itemName - artefact item name: T4_ARTEFACT_2H_NATURESTAFF_KEEPER etc.
+ * @returns array with all tiers for artefacts
+ */
+export function createArrayOfAllArtifactsFromArtifact(artifactName: string) {
+  let allNames = [];
+
+  if (artifactName.includes('ROYAL')) {
+    for (let tier = 4; tier <= 8; tier++) {
+      allNames.push(`QUESTITEM_TOKEN_ROYAL_T${tier}`);
+    }
+
+    return allNames;
+  }
+
+  if (artifactName.includes('SKILLBOOK')) {
+    allNames.push(`T4_SKILLBOOK_STANDARD`);
+
+    return allNames;
+  }
+
+  for (let tier = 4; tier <= 8; tier++) {
+    allNames.push(`T${tier}${artifactName.slice(2)}`);
+  }
+
+  return allNames;
 }
 
 /**
@@ -186,14 +217,25 @@ export function isObjectEmpty(obj: object): boolean {
 /**
  * Looking for an artifact substring in an item name
  * 
- * @param itemName - item name: T4_ARTEFACT_HEAD_CLOTH_HELL etc.
+ * @param itemName - item name: T4_HEAD_CLOTH_HELL etc.
  */
 export function isArtifactItem(itemName: string): boolean {
-  const artefacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL', "INSIGHT"];
+  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL', "INSIGHT"];
 
   if (!itemName) {
     return false;
   }
 
-  return artefacts.some(artefact => itemName.includes(artefact));
+  return artifacts.some(artifact => itemName.includes(artifact));
+}
+
+/**
+ * Looking for an artifact substring in an item name
+ * 
+ * @param itemName - item name: T4_ARTEFACT_HEAD_CLOTH_HELL etc.
+ */
+export function isArtifact(itemName: string): boolean {
+  const artifactSubstrings = ['ARTEFACT', 'SKILLBOOK'];
+
+  return artifactSubstrings.some(substring => itemName.includes(substring));
 }

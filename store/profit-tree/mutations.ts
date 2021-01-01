@@ -302,7 +302,47 @@ export const mutations: MutationTree<TreeState> = {
    * @param state - vuex state
    * @param returnPercentage - number in percents
    */
-  UPDATE_OWN_RETURN_PECENTAGE(state, returnPercentage: number) {
+  UPDATE_OWN_RETURN_PECENTAGE(state, returnPercentage: number): void {
     state.settings.returnPercentage = returnPercentage;
-  }
+  },
+
+   /**
+   * Set user's price to state
+   * 
+   * @param state - vuex state
+   * @param itemName - name of item
+   * @param price - price to update
+   */
+  UPDATE_FIRST_RESOURCE_ITEM(state, {itemName, price}: {itemName: string, price: number}): void  {
+    const location = state.settings.cities.resourcesFirstLocation;
+
+    state.resources[location][itemName].price = price;
+  },
+
+  /**
+   * Set user's price to state
+   * 
+   * @param state - vuex state
+   * @param itemName - name of item
+   * @param price - price to update
+   */
+  UPDATE_SECOND_RESOURCE_ITEM(state, {itemName, price}: {itemName: string, price: number}): void  {
+    const location = state.settings.cities.resourcesSecondLocation;
+
+    state.resources[location][itemName].price = price;
+  },
+
+  /**
+   * Set user's price to state
+   * 
+   * @param state - vuex state
+   * @param itemName - name of item
+   * @param price - price to update
+   */
+  UPDATE_ARTIFACT(state, {itemName, price}: {itemName: string, price: number}): void  {
+    const location = state.settings.cities.artefacts;
+    const baseItemName = state.currentItemInfo.name;
+
+    state.artefacts[location][baseItemName][itemName].price = price;
+  },
 }

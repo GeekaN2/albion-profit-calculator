@@ -6,8 +6,9 @@
     <template v-for="itemName of itemNames">
       <input 
         :key="itemName" 
-        v-model.number="items[itemName].price" 
+        v-model.number="items[itemName].price"
         class="ingredient"
+        @change="updatePrice(itemName, items[itemName].price)"
       >
     </template>
   </div>
@@ -19,42 +20,66 @@ import { createArrayOfAllIngredients } from "../../store/utils";
 export default {
   name: "IngredientPrices",
   props: {
+    /**
+     * Item name to generate all names with all tiers and subtiers
+     */
     name: {
       type: String,
       default: "",
     },
-    rows: {
-      type: Number,
-      default: 4,
-    },
+    
+    /**
+     * Number of ingredient position to use correct getter
+     */
     index: {
       type: Number,
       default: 0
     }
   },
-  data() {
-    return {
-      itemNames: [],
-      items: {},
-    };
-  },
-  created() {
-    let getterName = "tree/getFirstResources";
+  computed: {
+    /**
+     * All item names
+     */
+    itemNames() {
+      return createArrayOfAllIngredients(this.name);
+    },
 
-    this.itemNames = createArrayOfAllIngredients(this.name);
-    console.log(this.itemNames);
-    switch(this.index) {
-      case 0: getterName = "tree/getFirstResources"; break;
-      case 1: getterName = "tree/getSecondResources"; break;
-      case 2: getterName = "tree/getArtefacts"; break;
+    /**
+     * Appropriate getter to get the data
+     */
+    getterName() {
+      let getterName = "tree/getFirstResources";
+
+      switch(this.index) {
+        case 0: getterName = "tree/getFirstResources"; break;
+        case 1: getterName = "tree/getSecondResources"; break;
+        case 2: getterName = "tree/getArtefacts"; break;
+      }
+
+      return getterName;
+    },
+
+    /**
+     * Items data
+     */
+    items() {
+      return this.$store.getters[this.getterName];
     }
-
-    this.items = Object.assign({}, this.items, this.$store.getters[getterName]);
-
-    console.log(getterName, this.items);
-    //this.items = this.$store.getters[getterName];
+  },
+  methods: {
+    /**
+     * @param itemName - name of item to update store
+     * @param price - price to set
+     */
+    updatePrice(itemName, price) {
+      switch(this.getterName) {
+        case 'tree/getFirstResources':this.$store.commit("tree/UPDATE_FIRST_RESOURCE_ITEM", { itemName, price }); break;
+        case 'tree/getSecondResources':this.$store.commit("tree/UPDATE_SECOND_RESOURCE_ITEM", { itemName, price }); break;
+        case 'tree/getArtefacts':this.$store.commit("tree/UPDATE_ARTIFACT", { itemName, price }); break;
+      }
+    }
   }
-};
+}
 </script>
 
 <style lang="scss">
@@ -68,13 +93,14 @@ export default {
   transition: 0.2s;
 
   .ingredient {
-    width: 6rem;
+    width: 5.5rem;
     border: none;
     outline: none;
     text-align: right;
-    padding: 2px 5px;
+    padding: 2.5px 5px;
     background: transparent;
-
+    font-size: 0.85rem;
+    
     &:nth-child(5n + 1) {
       background: #9bc8e2;
     }
@@ -97,18 +123,31 @@ export default {
 
     &:nth-child(1) {
       border-top-left-radius: inherit;
-    }
+      box-shadow: -8px 0 3px -3px #a2a2a2;
+    } 
 
     &:nth-child(5) {
       border-top-right-radius: inherit;
     }
 
-    &:nth-child(16) {
+    &:last-child {
+      border-bottom-right-radius: inherit;
+    }
+
+    &:nth-last-child(5) {
       border-bottom-left-radius: inherit;
     }
 
-    &:nth-child(20) {
-      border-bottom-right-radius: inherit;
+    &:nth-child(6) {
+      box-shadow: -8px 0 3px -3px #6afe90;
+    }
+
+    &:nth-child(11) {
+      box-shadow: -8px 0 3px -3px #4bc8d2;
+    }
+
+    &:nth-child(16) {
+      box-shadow: -8px 0 3px -3px  #b987f7;
     }
   }
 
@@ -121,8 +160,45 @@ export default {
     z-index: -1;
     position: absolute;
     left: 20px;
-    top: -5px;
+    bottom: -5px;
     transform: rotate(45deg)
+  }
+}
+
+@media (max-width: 1200px) {
+  .ingredient-prices {
+    .ingredient {
+      width: 5.5rem;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .ingredient-prices {
+    .ingredient {
+      width: 5rem;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+@media (max-width: 840px) {
+  .ingredient-prices {
+    
+
+    .ingredient {
+      font-size: 0.75rem;
+      width: 4.5rem;
+    }
+  }
+}
+
+@media (max-width: 479px) {
+  .ingredient-prices {
+    .ingredient {
+       font-size: 0.7rem;
+      width: 4rem;
+    }
   }
 }
 </style>

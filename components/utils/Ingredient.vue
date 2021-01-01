@@ -8,14 +8,16 @@
       class="ingredient__image"
       @click.native.stop="click"
     />
-    <IngredientPrices
-      v-click-outside="hide"
-      v-if="isLoaded"
-      v-show="showPrices"
-      :name="name"
-      :index="index"
-      class="prices-table"
-    />
+    <transition name="prices">
+      <IngredientPrices
+        v-click-outside="hide"
+        v-if="isLoaded"
+        v-show="showPrices"
+        :name="name"
+        :index="index"
+        class="prices-table"
+      />
+    </transition>
   </div>
 </template>
 
@@ -31,18 +33,33 @@ export default {
     IngredientPrices
   },
   props: {
+    /**
+     * Item name to show image
+     */
     name: {
       type: String,
       default: "",
     },
+
+    /**
+     * Number of ingredients required (can be a range of
+     */
     numberOfIngredients: {
       type: String,
       default: '0',
     },
+
+    /**
+     * Show ingredient prices or not
+     */
     showPrices: {
       type: Boolean,
       default: false
     },
+
+    /**
+     * Number of ingredient position to use the correct data in the table
+     */
     index: {
       type: Number,
       default: 0
@@ -54,6 +71,9 @@ export default {
     })
   },
   methods: {
+    /**
+     * Show or hide table with ingredient prices
+     */
     click() {
       if (!this.showPrices) {
         this.$emit('show', this.name);
@@ -62,6 +82,9 @@ export default {
       }
     },
 
+    /**
+     * Hide table with ingredient prices
+     */
     hide() {
       if (this.showPrices) {
         this.$emit('hide');
@@ -81,8 +104,16 @@ export default {
 }
 .prices-table {
   position: absolute;
-  top: 100%;
+  bottom: calc(100% + 5px);
   left: 0;
-  z-index: 11;
+  z-index: 8;
+}
+
+.prices-enter-active, .prices-leave-active {
+  transition: 0.15s;
+}
+.prices-enter, .prices-leave-to {
+  opacity: 0;
+  bottom: calc(100% - 5px);
 }
 </style>
