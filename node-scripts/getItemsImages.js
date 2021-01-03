@@ -12,8 +12,8 @@ async function getImages() {
 
   // Array of T4 item names
   const baseItemNames = Object.keys(recipes);
-  const resources = ['PLANKS', 'METALBAR', 'LEATHER', 'CLOTH'];
-  const itemsQuantity = 5166;
+  const resources = ['PLANKS', 'METALBAR', 'LEATHER', 'CLOTH', 'FIBER', 'ROCK', 'ORE', 'WOOD', 'HIDE'];
+  const itemsQuantity = 5266;
   let counter = 1;
   
   // Items where an error occurred when uploading image
@@ -28,7 +28,7 @@ async function getImages() {
         badLoadedItems.push(item);
       });
 
-      await sleep(40);
+      await sleep(1);
     }
 
     if (isArtifactItem(baseItemName)) {
@@ -41,12 +41,12 @@ async function getImages() {
         });
       }
 
-      await sleep(40);
+      await sleep(1);
     }
   }
 
   for (let baseResource of resources) {
-    for (let resource of createStringOfAllResources(baseResource)) {
+    for (let resource of createArrayOfAllResources(baseResource)) {
       downloadImage(resource).then(() => {
         console.log(`Downloaded ${counter++}/${itemsQuantity}`, resource);
       }).catch(() => {
@@ -54,7 +54,7 @@ async function getImages() {
         badLoadedItems.push(resource);
       });
   
-      await sleep(40);
+      await sleep(1);
     }
   }
 
@@ -68,7 +68,7 @@ async function getImages() {
       console.log(`Error while downloading ${counter}/${itemsQuantity}`, item);
     });
 
-    await sleep(40);
+    await sleep(1);
   }
 }
 
@@ -91,13 +91,17 @@ function createStringOfAllItems(itemName) {
   return allNames;
 }
 
+function createArrayOfAllItems(itemName) {
+  return;
+}
+
 /**
  * Creates an array with materials of all tiers and subtiers
  * 
  * @param resource - basic resource: PLANKS, CLOTH etc.
  * @returns string with all tiers and subtiers for materials
  */
-function createStringOfAllResources(resource) {
+function createArrayOfAllResources(resource) {
   let allNames = [];
 
   for (let tier = 4; tier <= 8; tier++) {
