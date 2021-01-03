@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex'
-import { TreeState } from './typeDefs'
-import { isArtifactItem } from '../utils'
+import { TreeState, Item } from './typeDefs'
+import { isArtifactItem, normalizeItemsByMaxPriceFromMinPrices, normalizeItemBySellPriceMin } from '../utils'
 
 export const getters: GetterTree<TreeState, {}> = {
   /**
@@ -11,9 +11,20 @@ export const getters: GetterTree<TreeState, {}> = {
   getItems: (state: TreeState) => {
     const itemName = state.currentItemInfo.name;
     const city = state.settings.cities.sellItems;
-    let prices = state.prices[city][itemName] || {};
+    const qualities = state.settings.expert.qualities;
+    let prices = state.prices[city][itemName] || [];
+    
+    prices = prices.filter(item => qualities.includes(item.quality));
 
-    return prices;
+    let normalized: {[key: string]: Item} = {};
+
+    if (state.settings.expert.useMinPricesNormalization) {
+      normalized = normalizeItemBySellPriceMin(prices);
+    } else {
+      normalized = normalizeItemsByMaxPriceFromMinPrices(prices);
+    }
+    
+    return normalized;
   },
 
   /**
@@ -114,7 +125,7 @@ export const getters: GetterTree<TreeState, {}> = {
    * for profile cities
    */
   returnMaterialPercentage: (state: TreeState) => {
-    if (state.settings.useOwnPercentage) {
+    if (state.settings.expert.useOwnPercentage) {
       return state.settings.returnPercentage;
     }
 

@@ -137,7 +137,7 @@ export const actions: ActionTree<TreeState, {}> = {
     const location = settingsWithItem.settings.cities.sellItems;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames}&locations=${location}&qualities=1,2,3`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}&qualities=1,2,3,4,5`)
       .then(response => {
         const data = response.data;
 

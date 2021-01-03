@@ -189,11 +189,12 @@ export function normalizedPriceAndDate(item: ResponseModel): Item {
 
 /**
  * Normalize previous item and new item by date and price
+ * Trying to choose the most expensive item
  * 
  * @param oldItem - previous item
  * @param newItem - new item 
  */
-export function normalizeItem(oldItem: Item, newItem: Item) {
+export function normalizeItemByDate(oldItem: Item, newItem: Item) {
   const previousDay = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
   if (new Date(oldItem.date) >= previousDay && new Date(newItem.date) <= previousDay) {
@@ -203,6 +204,86 @@ export function normalizeItem(oldItem: Item, newItem: Item) {
   }
 
   return oldItem.price > newItem.price ? oldItem : newItem;
+}
+
+/**
+ * Normalize previous item and new item by date and price 
+ * Trying to choose the most cheap item
+ * 
+ * @param oldItem - previous item
+ * @param newItem - new item 
+ */
+export function normalizeByMinPriceAndDate(oldItem: Item, newItem: Item) {
+  const previousDay = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+  if (new Date(oldItem.date) >= previousDay && new Date(newItem.date) <= previousDay) {
+    return oldItem;
+  } else if (new Date(oldItem.date) <= previousDay && new Date(newItem.date) >= previousDay) {
+    return newItem;
+  }
+
+  return oldItem.price < newItem.price && oldItem.price > 0 ? oldItem : newItem;
+}
+
+/**
+ * Normalize items by comparing sellPriceMin and buyPriceMax
+ */
+export function normalizeItemsByMaxPriceFromMinPrices(prices: ResponseModel[]) {
+  let normalized: { [key: string]: Item } = {};
+
+  prices.forEach((item: ResponseModel) => {
+    if (!normalized[item.itemId]) {
+      normalized[item.itemId] = {
+        price: 0,
+        date: '',
+        marketFee: 3,
+        quality: 1
+      };
+    }
+
+    const currentPrice = normalized[item.itemId];
+
+    let newPrice: Item = normalizedPriceAndDate(item);
+
+    newPrice = normalizeItemByDate(currentPrice, newPrice);
+    normalized[item.itemId] = newPrice;
+  });
+
+  return normalized;
+}
+
+/**
+ * Normalize prices use only sellPriceMin
+ * 
+ * @param prices - array of items
+ */
+export function normalizeItemBySellPriceMin(prices: ResponseModel[]) {
+  let normalized: { [key: string]: Item } = {};
+
+  prices.forEach((item: ResponseModel) => {
+    if (!normalized[item.itemId]) {
+      normalized[item.itemId] = {
+        price: 0,
+        date: '',
+        marketFee: 3,
+        quality: 1
+      };
+    }
+
+    const currentPrice = normalized[item.itemId];
+
+    let newPrice: Item = {
+      price: item.sellPriceMin,
+      date: item.sellPriceMinDate,
+      marketFee: 4.5,
+      quality: item.quality
+    };
+
+    newPrice = normalizeByMinPriceAndDate(currentPrice, newPrice);
+    normalized[item.itemId] = newPrice;
+  });
+
+  return normalized;
 }
 
 /**

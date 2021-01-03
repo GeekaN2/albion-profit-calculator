@@ -1,7 +1,5 @@
 import { MutationTree } from 'vuex'
-import { normalizedPriceAndDate, normalizeItem } from '../utils'
 import { TransportationsState, Item } from './typeDefs'
-import Vue from 'vue';
 
 export const mutations: MutationTree<TransportationsState> = {
   /**

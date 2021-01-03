@@ -20,9 +20,79 @@
         >
       </template>
     </div>
+    <div class="setting">
+      <input
+        id="checkbox-minprice"
+        v-model="useMinPriceNormalization"
+        class="checkbox"
+        type="checkbox"
+        @change="changeUseMinPrices"
+      >
+      <label for="checkbox-minprice">{{ $t('useMinPrices') }}</label>
+    </div>
+    <div class="setting">
+      <h3>{{ $t('ownQualities') }}</h3>
+      <input  
+        id="normal"
+        v-model.number="qualities"
+        class="quality quality--normal"
+        type="checkbox"
+        value="1"
+        @change="changeQualities">
+      <label for="normal" />
+      <input
+        id="good"
+        v-model.number="qualities"
+        class="quality quality--good"
+        type="checkbox"
+        value="2"
+        @change="changeQualities">
+      <label for="good" />
+      <input 
+        id="outstanding"
+        v-model.number="qualities"
+        class="quality quality--outstanding"
+        type="checkbox" 
+        value="3"
+        @change="changeQualities">
+      <label for="outstanding" />
+      <input
+        id="excellent"
+        v-model.number="qualities"
+        class="quality quality--excellent"
+        type="checkbox" 
+        value="4"
+        @change="changeQualities">
+      <label for="excellent" />
+      <input
+        id="masterpiece"
+        v-model.number="qualities"
+        class="quality quality--masterpiece"
+        type="checkbox"   
+        value="5"
+        @change="changeQualities">
+      <label for="masterpiece" />
+    </div>
   </div>
   
 </template>
+
+<i18n>
+{
+  "en": {
+    "expertMode": "Expert settings",
+    "ownPercentage": "Use own return %",
+    "useMinPrices": "Use min item prices",
+    "ownQualities": "Item qualities"
+  },
+  "ru": {
+    "expertMode": "Режим эксперта",
+    "ownPercentage": "Свой % возврата",
+    "useMinPrices": "Использовать мин. цены предметов",
+    "ownQualities": "Качества предметов"
+  }
+}
+</i18n>
 
 <script>
 export default {
@@ -37,7 +107,14 @@ export default {
       /**
        * Own return percentage
        */
-      ownPercentage: 15.2
+      ownPercentage: 15.2,
+
+      /**
+       * Change normalized items algorithm
+       */
+      useMinPriceNormalization: false,
+
+      qualities: [1, 2, 3]
     }
   },
   methods: {
@@ -53,23 +130,29 @@ export default {
      */
     updateOwnPercentage() {
       this.$store.commit('tree/UPDATE_OWN_RETURN_PECENTAGE', this.ownPercentage);
+    },
+
+    /**
+     * Use other normalized algorithm
+     */
+    changeUseMinPrices() {
+      this.$store.commit('tree/UPDATE_USE_MIN_PRICES_NORMALIZATION', this.useMinPriceNormalization);
+    },
+
+    /**
+     * Update needed item qualities
+     */
+    changeQualities(event) {
+      if (this.qualities.length == 0) {
+        const otherQuality = Number(event.target.attributes.value.value) % 5 + 1;
+        this.$set(this.qualities, 0, otherQuality);
+      }
+
+      this.$store.commit('tree/UPDATE_QUALITIES', this.qualities);
     }
   }
 }
 </script>
-
-<i18n>
-{
-  "en": {
-    "expertMode": "Expert settings",
-    "ownPercentage": "Use own return %"
-  },
-  "ru": {
-    "expertMode": "Режим эксперта",
-    "ownPercentage": "Свой % возврата"
-  }
-}
-</i18n>
 
 <style lang="scss">
 .expert-mode {
@@ -110,6 +193,59 @@ export default {
         background: white;
         display: block;
       }
+    }
+  }
+
+  h3 {
+    font-size: 0.85em;
+    margin-bottom: 5px;
+  }
+
+  .quality {
+    display: none;
+
+    &:checked + label:after {
+      background: #fff;
+    }
+
+    & + label {
+      position: relative;
+      cursor: pointer;
+      margin-left: 20px;
+      padding-left: 5px;
+      font-size: 1em;
+
+      &:after {
+        content: "";
+        position: absolute;
+        left: -20px;
+        top: 1px;
+        width: 18px;
+        height: 18px;
+        border: 2px solid #000;
+        background: white;
+        display: block;
+      }
+    }
+    
+    &--normal:checked + label:after {
+      background: #acacac;
+    }
+
+    &--good:checked + label:after {
+      background: #5788bd;
+    }
+
+    &--outstanding:checked + label:after {
+      background: #db9c63;
+    }
+
+    &--excellent:checked + label:after {
+      background: #d5d5d5;
+    }
+
+    &--masterpiece:checked + label:after {
+      background: #fdb44f;
     }
   }
 }

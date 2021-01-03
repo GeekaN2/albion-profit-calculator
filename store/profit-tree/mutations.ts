@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { normalizedPriceAndDate, normalizeItem } from '../utils'
+import { normalizedPriceAndDate } from '../utils'
 import { ResponseModel, TreeState, Item, Settings, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources } from './typeDefs'
 import Vue from 'vue';
 
@@ -23,7 +23,6 @@ export const mutations: MutationTree<TreeState> = {
       showAverageItems: false,
       useAveragePrice: false,
       useExpertMode: false,
-      useOwnPercentage: false,
       returnPercentage: 15.2,
       craftFee: 10,
       cities: {
@@ -33,6 +32,11 @@ export const mutations: MutationTree<TreeState> = {
         resourcesSecondLocation: 'Caerleon',
         artefacts: "Caerleon",
         journals: "Caerleon"
+      },
+      expert: {
+        useOwnPercentage: false,
+        useMinPricesNormalization: false,
+        qualities: [1, 2, 3]
       }
     };
     state.currentItemInfo = {
@@ -53,27 +57,8 @@ export const mutations: MutationTree<TreeState> = {
   SET_ITEM_PRICES(state, { data, settingsWithItem }) {
     const itemName = settingsWithItem.currentItemInfo.name;
     const location = settingsWithItem.settings.cities.sellItems;
-    let newPrices: { [key: string]: Item } = {};
 
-    data.forEach((item: ResponseModel) => {
-      if (!newPrices[item.itemId]) {
-        newPrices[item.itemId] = {
-          price: 0,
-          date: '',
-          marketFee: 3,
-          quality: 1
-        };
-      }
-
-      const currentPrice = newPrices[item.itemId];
-
-      let newPrice: Item = normalizedPriceAndDate(item);
-
-      newPrice = normalizeItem(currentPrice, newPrice);
-      newPrices[item.itemId] = newPrice;
-    });
-
-    Vue.set(state.prices[location], itemName, newPrices);
+    Vue.set(state.prices[location], itemName, data);
   },
 
   /**
@@ -293,7 +278,7 @@ export const mutations: MutationTree<TreeState> = {
    * @param useOwnPercentage - use own return percentage or not
    */
   UPDATE_USE_OWN_PERCENTAGE(state, useOwnPercentage: boolean) {
-    state.settings.useOwnPercentage = useOwnPercentage;
+    state.settings.expert.useOwnPercentage = useOwnPercentage;
   },
 
   /**
@@ -345,4 +330,24 @@ export const mutations: MutationTree<TreeState> = {
 
     state.artefacts[location][baseItemName][itemName].price = price;
   },
+
+  /**
+   * Change setting to use other normalization or not
+   * 
+   * @param state - vuex state
+   * @param useMinPricesNormalization - use or not
+   */
+  UPDATE_USE_MIN_PRICES_NORMALIZATION(state, useMinPricesNormalization: boolean) {
+    state.settings.expert.useMinPricesNormalization = useMinPricesNormalization;
+  },
+
+  /**
+   * Update needed item qualities
+   * 
+   * @param state - vuex state
+   * @param qualities - array of qualities
+   */
+  UPDATE_QUALITIES(state, qualities: Number[]) {
+    state.settings.expert.qualities = qualities;
+  }
 }

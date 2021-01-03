@@ -9,13 +9,11 @@ export interface Item {
 }
 
 /**
- * city -> all_item_prices
+ * city -> base_item_name -> array of prices
  */
 export interface Prices {
   [key: string]: {
-    [key: string]: {
-      [key: string]: Item
-    }
+    [key: string]: ResponseModel[]
   }
 }
 
@@ -124,7 +122,6 @@ export interface Settings {
   showAverageItems: boolean;
   useAveragePrice: boolean;
   useExpertMode: boolean;
-  useOwnPercentage: boolean;
   returnPercentage: number;
   craftFee: number;
   cities: {
@@ -134,6 +131,11 @@ export interface Settings {
     resourcesSecondLocation: string;
     artefacts: string;
     journals: string;
+  },
+  expert: {
+    useOwnPercentage: boolean;
+    useMinPricesNormalization: boolean;
+    qualities: Number[];
   }
 }
 
