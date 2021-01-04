@@ -14,7 +14,10 @@
           class="wrapper__table">
           <div class="wrapper__loading-bar">
             <ItemRecipe />
-            <Loading class="wrapper__loading" />
+            <Loading
+              :text="text"
+              class="wrapper__loading"
+            />
           </div>
           <ItemTable v-if="loadingText == 'calculated'" />
         </div>
@@ -42,7 +45,7 @@ import Settings from "~/components/tree/Settings";
 import ItemRecipe from "~/components/utils/ItemRecipe";
 import Loading from "~/components/utils/Loading";
 import { getReturnMaterialsPercentage } from "~/store/utils";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "Tree",
@@ -74,6 +77,13 @@ export default {
       currentItemInfo: (state) => state.tree.currentItemInfo,
       loadingText: (state) => state.tree.features.loadingText
     }),
+
+    ...mapGetters({
+      /**
+       * Text of loading
+       */
+      text: 'tree/loadingText'
+    })
   },
   created: async function () {
     await this.$store.dispatch("tree/FETCH_STATE");

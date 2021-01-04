@@ -1,19 +1,28 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
 import axios from 'axios';
-import { RootState } from './typeDefs';
 import treeModule from './profit-tree';
 import transportationsModule from './transportations-table';
-import { TreeState } from './profit-tree/typeDefs';
+import transmutationsModule from './transmutations';
 
-const store: StoreOptions<TreeState> ={
+const store: StoreOptions<{}> ={
+  state: {},
   modules: {
     /**
      * Profit tree module
      */
     tree: treeModule,
-    transportations: transportationsModule
+
+    /**
+     * Transportations table module
+     */
+    transportations: transportationsModule,
+    
+    /**
+     * Transmutation tables module
+     */
+    transmutations: transmutationsModule,
   }
 };
 
-export default () => new Vuex.Store<TreeState>(store);
+export default () => new Vuex.Store<{}>(store);

@@ -9,9 +9,7 @@
         :key="index"
         @click="toggle(item.name, isLeaf(item.children))"
       >
-        <img 
-          :src="`/images/items/${item.name}.png`" 
-          alt >
+        <img :src="`/images/items/${item.name}.png`">
       </div>
     </div>
     <div 
