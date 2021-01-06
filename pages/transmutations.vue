@@ -11,7 +11,7 @@
           :text="text" 
         />
         <Table
-          v-if="text == 'calculated'"
+          v-if="text == 'calculated' && itemName != ''"
         />
       </div>
     </div>
@@ -75,12 +75,13 @@ export default {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    align-items: center;
+    width: 100%;
 
     &__header {
       font-weight: bold;
       font-size: 1.1em;
       margin-bottom: 20px;
+      text-align: center;
     }
   }
 }

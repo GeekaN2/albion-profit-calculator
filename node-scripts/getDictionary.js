@@ -22,7 +22,7 @@ function getAllNames() {
   recipes = JSON.parse(recipes);
 
   const baseItemNames = Object.keys(recipes).map(item => item.slice(3))
-  .concat(['PLANKS', 'METALBAR', 'LEATHER', 'CLOTH'])
+  .concat(['PLANKS', 'METALBAR', 'LEATHER', 'CLOTH', 'FIBER', 'ROCK', 'ORE', 'WOOD', 'HIDE'])
   .concat(['JOURNAL_WARRIOR', 'JOURNAL_HUNTER', 'JOURNAL_TOOLMAKER', 'JOURNAL_MAGE'])
   .concat(['SKILLBOOK_STANDARD', 'QUESTITEM_TOKEN_ROYAL']);
 

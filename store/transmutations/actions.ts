@@ -35,8 +35,12 @@ export const actions: ActionTree<TransmutationsState, {}> = {
       return;
     }
 
-    if (getters.getItems.length == 0) {
-      await dispatch('FETCH_ITEM_PRICES', settingsWithItem);
+    if (isObjectEmpty(getters.sellItemPrices)) {
+      await dispatch('FETCH_SELL_ITEM_PRICES', settingsWithItem);
+    }
+
+    if (isObjectEmpty(getters.buyItemPrices)) {
+      await dispatch('FETCH_BUY_ITEM_PRICES', settingsWithItem);
     }
 
     // Send a request if something is changed
@@ -67,8 +71,11 @@ export const actions: ActionTree<TransmutationsState, {}> = {
     }
 
     switch (partOfState) {
-      case 'items':
-        await dispatch('FETCH_ITEM_PRICES', settingsWithItem);
+      case 'sell-items':
+        await dispatch('FETCH_SELL_ITEM_PRICES', settingsWithItem);
+        break;
+      case 'buy-items':
+        await dispatch('FETCH_BUY_ITEM_PRICES', settingsWithItem);
         break;
     }
 
@@ -84,19 +91,42 @@ export const actions: ActionTree<TransmutationsState, {}> = {
    * @param state - vuex state
    * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
    */
-  async FETCH_ITEM_PRICES({ commit }, settingsWithItem: SettingsWithItem) {
+  async FETCH_SELL_ITEM_PRICES({ commit }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_TEXT', 'items');
 
     const itemName = settingsWithItem.currentItemInfo.name;
     const allNames = createStringOfAllResources(itemName);
-    const location = settingsWithItem.settings.city;
+    const location = settingsWithItem.settings.cities.sellResourcesLocation;
 
     await axios
       .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
       .then(response => {
         const data = response.data;
 
-        commit('SET_ITEM_PRICES', { data, settingsWithItem });
+        commit('SET_SELL_ITEM_PRICES', { data, settingsWithItem });
+      });
+  },
+  
+  /**
+   * Fetch item prices
+   * 
+   * @param commit - vuex commit
+   * @param state - vuex state
+   * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
+   */
+  async FETCH_BUY_ITEM_PRICES({ commit }, settingsWithItem: SettingsWithItem) {
+    commit('SET_LOADING_TEXT', 'items');
+
+    const itemName = settingsWithItem.currentItemInfo.name;
+    const allNames = createStringOfAllResources(itemName);
+    const location = settingsWithItem.settings.cities.buyResourcesLocation;
+
+    await axios
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
+      .then(response => {
+        const data = response.data;
+
+        commit('SET_BUY_ITEM_PRICES', { data, settingsWithItem });
       });
   },
 }

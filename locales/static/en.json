@@ -7,5 +7,7 @@
   },
   "hours": "h",
   "days": "d",
+  "fee": "Fee",
+  "craftFee": "Craft fee",
   "settings": "Settings"
 }

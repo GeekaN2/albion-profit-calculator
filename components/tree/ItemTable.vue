@@ -87,12 +87,10 @@
 <i18n>
 {
   "en": {
-    "Fee": "Fee",
     "Journals": "Journals",
     "JournalsShort": "j"
   },
   "ru": {
-    "Fee": "Налог",
     "Journals": "Журналы",
     "JournalsShort": "ж"
   }
@@ -506,7 +504,7 @@ export default {
       );
 
       this.$set(this.tableInfo[`T${tier}.${subtier}`], "fee", {
-        name: "Fee",
+        name: "fee",
         percentage: fee,
         price: -feePrice,
         date: "",

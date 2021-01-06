@@ -46,7 +46,10 @@ export interface TransmutationsState {
 export interface Settings {
   fee: number;
   gold: number;
-  city: string;
+  cities: {
+    sellResourcesLocation: string;
+    buyResourcesLocation: string;
+  }
 }
 
 export interface ItemInfo {

@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { TransmutationsState, ItemInfo } from './typeDefs'
+import { TransmutationsState, ItemInfo, Settings, ResponseModel, SettingsWithItem } from './typeDefs'
 import Vue from 'vue';
 
 export const mutations: MutationTree<TransmutationsState> = {
@@ -12,7 +12,10 @@ export const mutations: MutationTree<TransmutationsState> = {
     state.settings = {
       fee: 10,
       gold: 2980,
-      city: 'Caerleon'
+      cities: {
+        buyResourcesLocation: 'Caerleon',
+        sellResourcesLocation: 'Caerleon'
+      }
     };
     state.currentItemInfo = {
       name: '',
@@ -29,9 +32,23 @@ export const mutations: MutationTree<TransmutationsState> = {
    * @param data - api response
    * @param settingsWithItem - сonvenient item data and settings 
    */
-  SET_ITEM_PRICES(state, { data, settingsWithItem }) {
+  SET_SELL_ITEM_PRICES(state, { data, settingsWithItem }: { data: ResponseModel[], settingsWithItem: SettingsWithItem}) {
     const itemName = settingsWithItem.currentItemInfo.name;
-    const location = settingsWithItem.settings.city;
+    const location = settingsWithItem.settings.cities.sellResourcesLocation;
+
+    Vue.set(state.prices[location], itemName, data);
+  },
+
+  /**
+   * Set item prices to state
+   * 
+   * @param state - vuex state
+   * @param data - api response
+   * @param settingsWithItem - сonvenient item data and settings 
+   */
+  SET_BUY_ITEM_PRICES(state, { data, settingsWithItem }: { data: ResponseModel[], settingsWithItem: SettingsWithItem}) {
+    const itemName = settingsWithItem.currentItemInfo.name;
+    const location = settingsWithItem.settings.cities.buyResourcesLocation;
 
     Vue.set(state.prices[location], itemName, data);
   },
@@ -55,4 +72,34 @@ export const mutations: MutationTree<TransmutationsState> = {
   SET_LOADING_TEXT(state, loadingText: string) {
     state.features.loadingText = loadingText;
   },
+
+  /**
+   * Update gold
+   * 
+   * @param state - vuex state
+   * @param gold - market gold price
+   */
+  UPDATE_GOLD(state, gold: number) {
+    state.settings.gold = gold;
+  },
+
+  /**
+   * Update fee
+   * 
+   * @param state - vuex state
+   * @param fee - fee
+   */
+  UPDATE_FEE(state, fee: number) {
+    state.settings.fee = fee;
+  },
+
+  /**
+   * Update resource prices locations
+   * 
+   * @param state - vuex state
+   * @param fee - fee
+   */
+  UPDATE_CITIES(state, cities: Settings['cities']) {
+    state.settings.cities = cities;
+  }
 }

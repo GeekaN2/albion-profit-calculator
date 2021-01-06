@@ -1,5 +1,5 @@
 import { GetterTree } from 'vuex'
-import { TransmutationsState, Item } from './typeDefs'
+import { TransmutationsState, ResponseModel } from './typeDefs'
 import { normalizeItemBySellPriceMin } from '../utils'
 
 export const getters: GetterTree<TransmutationsState, {}> = {
@@ -8,12 +8,31 @@ export const getters: GetterTree<TransmutationsState, {}> = {
    * 
    * @param state - vuex state
    */
-  getItems: (state: TransmutationsState) => {
+  sellItemPrices: (state: TransmutationsState) => {
     const itemName = state.currentItemInfo.name;
-    const city = state.settings.city;
+    const city = state.settings.cities.sellResourcesLocation;
     let prices = state.prices[city][itemName] || [];
+    let normalized: {[key: string]: ResponseModel} = {};
+
+    prices.forEach(item => normalized[item.itemId] = item);
     
-    return prices;
+    return normalized;
+  },
+
+  /**
+   * Get t4-t8 item prices
+   * 
+   * @param state - vuex state
+   */
+  buyItemPrices: (state: TransmutationsState) => {
+    const itemName = state.currentItemInfo.name;
+    const city = state.settings.cities.buyResourcesLocation;
+    let prices = state.prices[city][itemName] || [];
+    let normalized: {[key: string]: ResponseModel} = {};
+
+    prices.forEach(item => normalized[item.itemId] = item);
+    
+    return normalized;
   },
 
   /**
