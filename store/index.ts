@@ -6,7 +6,7 @@ import transportationsModule from './transportations-table';
 import transmutationsModule from './transmutations';
 
 const store: StoreOptions<{}> ={
-  state: {},
+  state: () => ({}),
   modules: {
     /**
      * Profit tree module

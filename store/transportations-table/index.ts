@@ -8,10 +8,10 @@ Vue.use(Vuex);
 
 const transportationsModule = {
   namespaced: true,
-  state: {
+  state: () => ({
     items: [],
     settings: {},
-  },
+  }),
   getters,
   actions,
   mutations

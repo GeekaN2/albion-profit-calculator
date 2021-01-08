@@ -17,12 +17,12 @@ const cities = {
 
 const treeModule = {
   namespaced: true,
-  state: {
+  state: () => ({
     prices: JSON.parse(JSON.stringify(Object.assign(cities, {'Black Market': {}}))),
     settings: {},
     currentItemInfo: {},
     features: {}
-  },
+  }),
   getters,
   actions,
   mutations

@@ -17,7 +17,7 @@ const cities = {
 
 const treeModule = {
   namespaced: true,
-  state: {
+  state: () => ({
     tree: [],
     prices: JSON.parse(JSON.stringify(Object.assign(cities, {'Black Market': {}}))),
     recipes: {},
@@ -28,7 +28,7 @@ const treeModule = {
     artefacts: JSON.parse(JSON.stringify(cities)),
     journals: JSON.parse(JSON.stringify(cities)),
     averageData: JSON.parse(JSON.stringify(cities))
-  },
+  }),
   getters,
   actions,
   mutations
