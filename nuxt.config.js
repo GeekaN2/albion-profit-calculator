@@ -93,7 +93,6 @@ module.exports = {
   },
 
   auth: {
-    localStorage: false,
     strategies: {
       local: {
         scheme: 'refresh',
