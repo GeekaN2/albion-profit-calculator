@@ -6,6 +6,7 @@
 
 <script>
 import Vue from 'vue';
+import LogRocket from 'logrocket';
 
 if (process.client && process.env.HAWK_CATCHER_TOKEN) {
   const HawkCatcher = require('@hawk.so/javascript');
@@ -14,6 +15,10 @@ if (process.client && process.env.HAWK_CATCHER_TOKEN) {
     token: process.env.HAWK_CATCHER_TOKEN,
     vue: Vue,
   });
+}
+
+if (process.env.ENABLE_LOG_ROCKET == 'true' && process.env.LOG_ROCKET_PROJECT) {
+  LogRocket.init(process.env.LOG_ROCKET_PROJECT);
 }
 
 // Yandex.Metrica
