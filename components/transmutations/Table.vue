@@ -2,7 +2,7 @@
   <div>
     <div class="item-table">
       <div
-        v-for="subtier in 4"
+        v-for="subtier in (baseItemName != 'ROCK' ? 4 : 1)"
         :key="subtier"
       >
         <ItemRow 
@@ -11,7 +11,10 @@
         />
       </div>
     </div>
-    <div class="item-table">
+    <div 
+      v-if="baseItemName != 'ROCK'"
+      class="item-table"
+    >
       <div
         v-for="subtier in 4"
         :key="subtier"
@@ -44,11 +47,15 @@ export default {
         [48, 42, 64, 102, 204]
       ],
       transCostPrevTierFormula: [
-        [0, 375, 1200, 3600, 12500],
+        [0, 375, 600, 1200, 5000],
         [0, 750, 1200, 2500, 10200],
         [0, 2100, 3200, 5100, 20400],
         [0, 8400, 12800, 20400, 40800]
-      ]
+      ],
+      /**
+       * It's a bit weird but rocks only have pr  ev tier formula
+       */
+      rockTransCost: [0, 375, 1200, 3600, 12500]
     };
   },
   computed: {
@@ -69,6 +76,10 @@ export default {
     },
 
     getItemTransCostPrevTierFormula(tier, subtier) {
+      if (this.baseItemName == 'ROCK') {
+        return this.rockTransCost[tier - 4];
+      }
+
       return this.transCostPrevTierFormula[subtier][tier - 4]
     },
 
@@ -94,6 +105,7 @@ export default {
      */
     getRowFirst(subtier) {
       let row = [];
+      console.log(subtier);
 
       for (let tier = 4; tier <= 8; tier++) {
         const itemName = `T${tier}_${this.baseItemName}` + 
@@ -179,6 +191,7 @@ export default {
           name: itemName,
           price,
           fee,
+          marketFee: 4.5, 
           profit,
           percentageProfit,
           date: item.sellPriceMinDate,

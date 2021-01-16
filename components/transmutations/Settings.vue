@@ -7,7 +7,7 @@
         v-model.number="gold"
         class="input input--number"
         placeholder="3000" 
-        maxlength="5"
+        maxlength="6"
         @change="updateGold"
       >
     </div>
