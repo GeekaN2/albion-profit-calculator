@@ -138,13 +138,13 @@ export default {
         row.push({
           name: itemName,
           price,
-          fee,
+          fee: -fee,
           marketFee: 4.5,
           profit,
           percentageProfit,
           date: item.sellPriceMinDate,
           materialName,
-          materialPrice: material.sellPriceMin,
+          materialPrice: -material.sellPriceMin,
           materialDate: material.sellPriceMinDate,
           key: 0
         });
@@ -190,13 +190,13 @@ export default {
         row.push({
           name: itemName,
           price,
-          fee,
+          fee: -fee,
           marketFee: 4.5, 
           profit,
           percentageProfit,
           date: item.sellPriceMinDate,
           materialName,
-          materialPrice: material.sellPriceMin,
+          materialPrice: -material.sellPriceMin,
           materialDate: material.sellPriceMinDate,
           key: 1
         });
