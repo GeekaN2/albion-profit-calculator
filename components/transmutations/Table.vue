@@ -208,13 +208,13 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .item-table {
-  padding: 0 15px;
+  padding: 0 10px;
   margin: 20px auto;
   display: grid;
   max-width: 650px;
   width: 100%;
-  font-size: 16px;
+  font-size: 1em;
 }
 </style>

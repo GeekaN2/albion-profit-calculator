@@ -103,7 +103,7 @@ export default {
 };
 </script>
 
-<style lang='scss'>
+<style scoped lang='scss'>
 $base-brown: #583131;
 $base-purple: #583156;
 

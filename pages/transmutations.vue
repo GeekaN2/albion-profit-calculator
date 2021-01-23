@@ -65,7 +65,7 @@ export default {
 };
 </script>
 
-<style lang='scss'>
+<style scoped lang='scss'>
 .wrapper {
   display: flex;
   justify-content: space-between;
@@ -83,6 +83,31 @@ export default {
       margin-bottom: 20px;
       text-align: center;
     }
+  }
+}
+
+@media (max-width: 991px) {
+  .wrapper {
+    flex-direction: column;
+    font-size: 0.9rem;
+  } 
+
+  .table {
+    width: 100%;
+  } 
+}
+
+@media (max-width: 840px) {
+  .wrapper {
+    width: 100%;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 479px) {
+  .wrapper {
+    flex-direction: column;
+    font-size: 0.75rem;
   }
 }
 </style>

@@ -190,6 +190,7 @@ export default {
 
 .images img {
   cursor: pointer;
+  width: 72px;
 }
 
 .row-wrapper {
@@ -211,6 +212,19 @@ export default {
     background: url("../../static/images/triangle.png") no-repeat;
     background-size: cover;
     z-index: -1;
+  }
+}
+
+@media (max-width: 991px) {
+  img {
+    width: 65px;
+  } 
+}
+
+
+@media (max-width: 479px) {
+  img {
+    width: 45px;
   }
 }
 </style>

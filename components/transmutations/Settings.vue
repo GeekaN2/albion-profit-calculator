@@ -135,7 +135,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .settings {
   display: flex;
   flex-direction: column;
@@ -156,6 +156,8 @@ export default {
 }
 
 .setting {
+  display: flex;
+  flex-direction: column;
   font-size: 1em;
   margin-bottom: 10px;
   width: 200px;

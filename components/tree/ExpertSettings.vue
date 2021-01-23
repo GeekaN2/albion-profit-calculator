@@ -154,7 +154,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .expert-mode {
   h2 {
     font-size: 1.1em;

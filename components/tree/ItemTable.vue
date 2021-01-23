@@ -871,6 +871,7 @@ export default {
     gap: 3px;
   }
 }
+
 @media (max-width: 479px) {
   .item-table {
     width: 100%;

@@ -161,54 +161,57 @@ $base-purple: #583156;
 }
 
 .main_page {
+  font-size: 16px;
+
   &__title {
     display: block;
     font-weight: 300;
-    font-size: 80px;
+    font-size: 5em;
     color: $base-brown;
     letter-spacing: 1px;
   }
 
   &__subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-  
-  &__button--purple, &__button--brown {
-    display: inline-block;
-    border-radius: 4px;
-    border: 1px solid $base-brown;
-    color: $base-brown;
-    text-decoration: none;
-    padding: 10px 30px;
-    margin-left: 15px;
+    font-weight: 300;
+    font-size: 2.6em;
+    color: #526488;
+    word-spacing: 5px;
+    padding-bottom: 15px;
   }
 
-  &__button--purple {
-    border-color: $base-purple;
-    color: $base-purple;
-  }
+  .links {
+    padding-top: 15px;
+    
+    &__button--purple, &__button--brown {
+      display: inline-block;
+      border-radius: 4px;
+      border: 1px solid $base-brown;
+      color: $base-brown;
+      text-decoration: none;
+      padding: 10px 30px;
+      margin-left: 15px;
+    }
 
-  &__button--purple:hover {
-    color: #fff;
-    background-color: $base-purple;
-  }
+    &__button--purple {
+      border-color: $base-purple;
+      color: $base-purple;
+    }
 
-  &__button--brown:hover {
-    color: #fff;
-    background: $base-brown;
+    &__button--purple:hover {
+      color: #fff;
+      background-color: $base-purple;
+    }
+
+    &__button--brown:hover {
+      color: #fff;
+      background: $base-brown;
+    }
   }
-}
 }
 
 footer {
   position: absolute;
+  z-index: -2;
   bottom: 0;
   width: 100%;
   padding: 15px;
@@ -228,6 +231,24 @@ footer {
 
   &__underline {
     text-decoration: underline;
+  }
+}
+
+@media (max-width: 991px) {
+  .main_page {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 840px) {
+  .main_page {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 479px) {
+  .main_page {
+    font-size: 11px;
   }
 }
 </style>

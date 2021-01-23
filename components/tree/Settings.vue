@@ -26,10 +26,11 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .settings {
   display: flex;
   justify-content: left;
+  flex-direction: row;
 
   &__basic {
     width: 100%;
