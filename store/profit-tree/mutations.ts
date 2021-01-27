@@ -371,7 +371,8 @@ export const mutations: MutationTree<TreeState> = {
    * @param settings - saved user settings
    */
   SET_USER_SETTINGS(state, settings) {
-    state.settings = clonedeep(settings);
+    Object.assign(state.settings, settings);
+    
     state.settingsBackup = clonedeep(state.settings);
   },
 
