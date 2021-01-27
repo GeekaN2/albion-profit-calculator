@@ -6,13 +6,27 @@
         v-model="useExpertMode"
         class="expert-mode"
         type="checkbox"
-        @change="changeUseExpertMode"
       >
-      <label for="checkbox-expert-mode"><img 
-        class="svg svg--flask" 
-        src="/images/flask.svg"
-      ></label>
+      <label for="checkbox-expert-mode">
+        <img
+          :title="$t('title.openExpertSettings')"
+          class="svg svg--flask" 
+          src="/images/flask.svg"
+        >
+      </label>
       <h2>{{ $t('settings') }}</h2>
+      <img
+        :title="$t('title.saveSettings')"
+        class="svg svg--save" 
+        src="/images/save.svg"
+        @click="saveSettings"
+      >
+      <img
+        :title="$t('title.resetSettings')"
+        class="svg svg--sync" 
+        src="/images/sync-alt.svg"
+        @click="resetSettings"
+      >
     </div>
     <div class="setting">
       <input
@@ -20,7 +34,6 @@
         v-model="useJournals"
         class="checkbox"
         type="checkbox"
-        @change="changeUseJournals"
       >
       <label for="checkbox-journals">{{ $t('useJournals') }}</label>
     </div>
@@ -30,17 +43,15 @@
         v-model="useFocus"
         class="checkbox"
         type="checkbox"
-        @change="changeUseFocus"
       >
       <label for="checkbox-focus">{{ $t('useFocus') }}</label>
     </div>
     <div class="setting">
       <input
         id="checkbox-cities"
-        v-model="multipleCities"
+        v-model="useMultipleCities"
         class="checkbox"
         type="checkbox"
-        @change="toggleMultipleCities"
       >
       <label for="checkbox-cities">{{ $t('multipleCities') }}</label>
     </div>
@@ -50,7 +61,6 @@
         v-model="showAverageItems"
         class="checkbox"
         type="checkbox"
-        @change="changeShowAverageItems"
       >
       <label for="checkbox-average-items">{{ $t('averageItems') }}</label>
     </div>
@@ -60,7 +70,6 @@
         v-model="useAveragePrice"
         class="checkbox"
         type="checkbox"
-        @change="changeUseAveragePrice"
       >
       <label for="checkbox-average-price">{{ $t('averagePrice') }}</label>
     </div>
@@ -92,30 +101,30 @@
     </div>
     <div class="input">
       <input 
-        v-model.number.lazy="fee"
+        v-model.number="craftFee"
         placeholder="0" 
         maxlength="4" 
-        @change="updateFee" >
+      >
       <span>% {{ $t('craftFee') }}</span>
     </div>
-    <p class="setting__city-header">{{ multipleCities ? $t('cities.sellItems') : $t('cities.mainCity') }}</p>
+    <p class="setting__city-header">{{ useMultipleCities ? $t('cities.sellItems') : $t('cities.mainCity') }}</p>
     <select 
       v-model="cities.sellItems" 
       class="city" 
-      @change="changeCity">
+    >
       <option>Black Market</option>
       <template v-for="city in baseCities">
         <option :key="city">{{ city }}</option>
       </template>
     </select>
     <div 
-      v-if="multipleCities" 
+      v-if="useMultipleCities" 
       class="setting__multiple-cities">
       <p class="setting__city-header">{{ $t('cities.craftItems') }}</p>
       <select 
         v-model="cities.craftItems" 
         class="city" 
-        @change="changeCity">
+      >
         <template v-for="city in baseCities">
           <option :key="city">{{ city }}</option>
         </template>
@@ -129,7 +138,7 @@
       <select 
         v-model="cities.resourcesFirstLocation" 
         class="city" 
-        @change="changeCity">
+      >
         <template v-for="city in baseCities">
           <option :key="city">{{ city }}</option>
         </template>
@@ -139,7 +148,7 @@
         <select 
           v-model="cities.resourcesSecondLocation" 
           class="city" 
-          @change="changeCity">
+        >
           <template v-for="city in baseCities">
             <option :key="city">{{ city }}</option>
           </template>
@@ -150,7 +159,7 @@
         <select 
           v-model="cities.artefacts" 
           class="city" 
-          @change="changeCity">
+        >
           <template v-for="city in baseCities">
             <option :key="city">{{ city }}</option>
           </template>
@@ -161,7 +170,7 @@
         <select 
           v-model="cities.journals" 
           class="city" 
-          @change="changeCity">
+        >
           <template v-for="city in baseCities">
             <option :key="city">{{ city }}</option>
           </template>
@@ -231,58 +240,6 @@ export default {
   data() {
     return {
       /**
-       * Show advanced settings or not
-       */
-      useExpertMode: false,
-
-      /**
-       * Use journals to craft items or not
-       */
-      useJournals: false,
-
-      /**
-       * Use focus points or not
-       */
-      useFocus: false,
-
-      /**
-       * Show average number of sold items per day or not
-       */
-      showAverageItems: false,
-
-      /**
-       * Use average item price instead of order price
-       */
-      useAveragePrice: false,
-
-      /**
-       * Craft bench tax on item creation
-       */
-      fee: 10,
-
-      /**
-       * Current city or Black Market
-       */
-      cities: {
-        sellItems: "Caerleon",
-        craftItems: "Caerleon",
-        resourcesFirstLocation: "Caerleon",
-        resourcesSecondLocation: "Caerleon",
-        artefacts: "Caerleon",
-        journals: "Caerleon",
-      },
-
-      /**
-       * Showed fee
-       */
-      showedFee: 10,
-
-      /**
-       * Use prices from diffrent cities
-       */
-      multipleCities: false,
-
-      /**
        * Royal cities of the continent
        */
       baseCities: [
@@ -296,6 +253,130 @@ export default {
     };
   },
   computed: {
+    /**
+     * Use journals to craft items or not
+     */
+    useJournals: {
+      set(useJournals) {
+        this.$store.commit("tree/UPDATE_USE_JOURNALS", useJournals);
+
+        this.$store.dispatch("tree/CHECK_ALL");
+      },
+      get() {
+        return this.settings.useJournals;
+      }
+    },
+
+    /**
+     * Use focus points or not
+     */
+    useFocus: {
+      set(useFocus) {
+        this.$store.commit("tree/UPDATE_USE_FOCUS", useFocus);
+
+        this.$store.dispatch("tree/CHECK_ALL");
+      },
+      get() {
+        return this.settings.useFocus;
+      }
+    },
+
+    /**
+     * Show advanced settings or not
+     */
+    useExpertMode: {
+      set(useExpertMode) {
+        this.$store.commit("tree/UPDATE_USE_EXPERT_MODE", useExpertMode);
+
+        this.$store.dispatch("tree/CHECK_ALL");
+      },
+      get() {
+        return this.settings.useExpertMode;
+      }
+    },
+
+    /**
+     * Use prices from different cities or not
+     */
+    useMultipleCities: {
+      set(useMultipleCities) {
+        if (!useMultipleCities) {
+          this.$store.commit("tree/SET_CITIES", this.normalizedCities(this.cities.sellItems));
+        }
+
+        this.$store.commit("tree/UPDATE_USE_MULTIPLE_CITIES", useMultipleCities);
+        
+
+        this.$store.dispatch("tree/CHECK_ALL");
+      },
+      get() {
+        return this.settings.useMultipleCities;
+      }
+    },
+
+    /**
+     * Craft bench tax on item creation
+     */
+    craftFee: {
+      set(fee) {
+        this.$store.commit("tree/UPDATE_CRAFT_FEE", fee);
+
+        this.$store.dispatch("tree/CHECK_ALL");
+      },
+      get() {
+        return this.settings.craftFee;
+      }
+    },
+
+    /**
+     * Prices from different cities
+     */
+    cities() {
+      return new Proxy(this.$store.state.tree.settings.cities, {
+        set: (target, prop, value) => {
+          let normalizedCities = { [prop]: value };
+
+          if (!this.useMultipleCities && prop == 'sellItems') {
+            normalizedCities = this.normalizedCities(value);
+          }
+
+          this.$store.commit('tree/SET_CITIES', normalizedCities);
+          
+          this.$store.dispatch("tree/CHECK_ALL");
+
+          return true;
+        },
+      });
+    },
+
+    /**
+     * Show average number of sold items per day or not
+     */
+    showAverageItems: {
+      set(value) {
+        this.$store.commit("tree/UPDATE_SHOW_AVERAGE_ITEMS", value);
+
+        this.$store.dispatch("tree/CHECK_ALL");
+      },
+      get() {
+        return this.settings.showAverageItems;
+      }
+    },
+
+    /**
+     * Use average item price instead of order price
+     */
+    useAveragePrice: {
+      set(value) {
+        this.$store.commit("tree/UPDATE_USE_AVERAGE_PRICE", value);
+
+        this.$store.dispatch("tree/CHECK_ALL");
+      },
+      get() {
+        return this.settings.useAveragePrice;
+      }
+    },
+
     /**
      * Is the current item an artifact
      */
@@ -326,102 +407,28 @@ export default {
        * Current item info
        */
       currentItemInfo: (state) => state.tree.currentItemInfo,
+
+      /**
+       * Settings
+       */
+      settings: (state) => state.tree.settings,
     }),
   },
   methods: {
     /**
-     * Emit function on fee change
-     */
-    updateFee(value) {
-      this.$store.commit("tree/UPDATE_CRAFT_FEE", this.fee);
-    },
-
-    /**
-     * Emit function on city change
-     */
-    changeCity() {
-      if (!this.multipleCities) {
-        this.normalizeCities();
-      }
-
-      this.$store.commit("tree/SET_CITIES", this.cities);
-
-      this.$store.dispatch("tree/CHECK_ALL");
-    },
-
-    /**
-     * Set the selection of multiple cities
-     */
-    toggleMultipleCities() {
-      if (!this.multipleCities) {
-        this.normalizeCities();
-      }
-
-      this.$store.commit("tree/SET_CITIES", this.cities);
-
-      this.$store.dispatch("tree/CHECK_ALL");
-    },
-
-    /**
      * Normalize Black Market to set correct cities in settings
      */
-    normalizeCities() {
-      const normalizedCity =
-        this.cities.sellItems == "Black Market" ? "Caerleon" : this.cities.sellItems;
+    normalizedCities(sellItemsCity) {
+      const normalizedCity = sellItemsCity == "Black Market" ? "Caerleon" : sellItemsCity;
 
-      this.cities = {
-        sellItems: this.cities.sellItems,
+      return {
+        sellItems: sellItemsCity,
         craftItems: normalizedCity,
         resourcesFirstLocation: normalizedCity,
         resourcesSecondLocation: normalizedCity,
         artefacts: normalizedCity,
         journals: normalizedCity,
       };
-    },
-
-    /**
-     * Change useJournals checkbox state and try to update table
-     */
-    changeUseJournals() {
-      this.$store.commit("tree/UPDATE_USE_JOURNALS", this.useJournals);
-
-      this.$store.dispatch("tree/CHECK_ALL");
-    },
-
-    /**
-     * Change useFocus checkbox state and try to update table
-     */
-    changeUseFocus() {
-      this.$store.commit("tree/UPDATE_USE_FOCUS", this.useFocus);
-
-      this.$store.dispatch("tree/CHECK_ALL");
-    },
-    
-    /**
-     * Switch setting to show or hide average number of items sold per day
-     */
-    changeShowAverageItems() {
-      this.$store.commit("tree/UPDATE_SHOW_AVERAGE_ITEMS", this.showAverageItems);
-
-      this.$store.dispatch("tree/CHECK_ALL");
-    },
-
-    /**
-     * Switch setting to show average prices for items or hide
-     */
-    changeUseAveragePrice() {
-      this.$store.commit("tree/UPDATE_USE_AVERAGE_PRICE", this.useAveragePrice);
-
-      this.$store.dispatch("tree/CHECK_ALL");
-    },
-
-    /**
-     * Switch setting to show or hide advanced settings
-     */
-    changeUseExpertMode() {
-      this.$store.commit("tree/UPDATE_USE_EXPERT_MODE", this.useExpertMode);
-
-      this.$store.dispatch("tree/CHECK_ALL");
     },
 
     /**
@@ -432,6 +439,27 @@ export default {
     async updateState(data) {
       await this.$store.dispatch('tree/UPDATE_STATE', data);
     },
+
+    /**
+     * Save user settings in the db
+     */
+    async saveSettings() {
+      try {
+        await this.$store.dispatch('tree/SAVE_USER_SETTINGS', this.$auth.strategy.token.get());
+
+        this.$toast.success(this.$t('toast.settingsSavedSuccessfully'));
+      } catch {
+        this.$toast.error(this.$t('toast.somethingWentWrong'));
+      }
+    },
+
+    /**
+     * Reset settings to user default settings
+     */
+    resetSettings() {
+      this.$store.commit('tree/RESET_SETTINGS');
+      this.$store.dispatch('tree/CHECK_ALL');
+    }
   },
 }
 </script>
@@ -447,12 +475,13 @@ export default {
   &__header {
     display: flex;
     justify-content: left;
+    
+    margin-bottom: 5px;
   }
 
   h2 {
     text-align: center;
     font-size: 1.1em;
-    margin-bottom: 10px;
     margin-left: 7px;
     font-weight: 700;
   }
@@ -461,12 +490,33 @@ export default {
 .svg {
   width: 18px;
   height: 18px;
+  cursor: pointer;
 
   &--flask {
-    width: 20px;
-    height: 20px;
+    width: 21px;
+    height: 21px;
     margin-left: -2px;
-    cursor: pointer;
+  }
+
+  &--save {
+    margin-left: 7px;
+    width: 16px;
+    height: 21px;
+
+    &:active {
+      width: 14px;
+      margin-right: 2px;
+    }
+  }
+
+  &--sync {
+    margin-left: 7px;
+    width: 16px;
+    height: 21px;
+
+    &:active {
+      width: 14px;
+    }
   }
 }
 

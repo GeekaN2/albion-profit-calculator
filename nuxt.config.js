@@ -81,7 +81,8 @@ module.exports = {
     ['@nuxtjs/dotenv'],
     ['@nuxtjs/axios'],
     ['@nuxtjs/auth-next'],
-    ['nuxt-clipboard2']
+    ['nuxt-clipboard2'],
+    ['@nuxtjs/toast']
   ],
   plugins: [{ 
     src: "@/plugins/vClickOutside", 
@@ -98,7 +99,7 @@ module.exports = {
         scheme: 'refresh',
         token: {
           property: 'token',
-          maxAge: 60 * 15,
+          maxAge: 60 * 30,
           // type: 'Bearer'
         },
         refreshToken: {
@@ -119,6 +120,11 @@ module.exports = {
         autoLogout: false
       }
     }
+  },
+
+  toast: {
+    position: 'bottom-right',
+    duration: 3000,
   }
 }
 

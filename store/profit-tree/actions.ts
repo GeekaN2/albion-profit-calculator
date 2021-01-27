@@ -235,5 +235,33 @@ export const actions: ActionTree<TreeState, {}> = {
 
         commit('SET_AVERAGE_DATA', { data, settingsWithItem });
       });
+  },
+
+  /**
+   * Update profit tree settings for the user in the db
+   * 
+   * @param token - authorization token with Bearer
+   */
+  async SAVE_USER_SETTINGS({ commit, state }, token) {
+    await axios.put(`${baseUrl}user/tree-settings`, state.settings, {
+      headers: {
+        Authorization: token
+      }
+    });
+
+    commit('SET_USER_SETTINGS', state.settings);
+  },
+
+  /**
+   * 
+   */
+  async FETCH_USER_SETTINGS({ commit, state }, token) {
+    const response = await axios.get(`${baseUrl}user/tree-settings`, {
+      headers: {
+        Authorization: token
+      }
+    });
+    
+    commit('SET_USER_SETTINGS', response.data);
   }
 }

@@ -7,26 +7,23 @@
         v-model="useOwnPercentage"
         class="checkbox"
         type="checkbox"
-        @change="changeUseOwnPercentage"
       >
       <label for="checkbox-percentage">{{ $t('ownPercentage') }}</label>
       <template v-if="useOwnPercentage">
         <input 
-          v-model.number.lazy="ownPercentage"
+          v-model.number="ownPercentage"
           class="input--number input--own-percentage"
           placeholder="15.2" 
           maxlength="5"
-          @change="updateOwnPercentage"
         >
       </template>
     </div>
     <div class="setting">
       <input
         id="checkbox-minprice"
-        v-model="useMinPriceNormalization"
+        v-model="useMinPricesNormalization"
         class="checkbox"
         type="checkbox"
-        @change="changeUseMinPrices"
       >
       <label for="checkbox-minprice">{{ $t('useMinPrices') }}</label>
     </div>
@@ -37,40 +34,35 @@
         v-model.number="qualities"
         class="quality quality--normal"
         type="checkbox"
-        value="1"
-        @change="changeQualities">
+        value="1">
       <label for="normal" />
       <input
         id="good"
         v-model.number="qualities"
         class="quality quality--good"
         type="checkbox"
-        value="2"
-        @change="changeQualities">
+        value="2">
       <label for="good" />
       <input 
         id="outstanding"
         v-model.number="qualities"
         class="quality quality--outstanding"
         type="checkbox" 
-        value="3"
-        @change="changeQualities">
+        value="3">
       <label for="outstanding" />
       <input
         id="excellent"
         v-model.number="qualities"
         class="quality quality--excellent"
         type="checkbox" 
-        value="4"
-        @change="changeQualities">
+        value="4">
       <label for="excellent" />
       <input
         id="masterpiece"
         v-model.number="qualities"
         class="quality quality--masterpiece"
         type="checkbox"   
-        value="5"
-        @change="changeQualities">
+        value="5">
       <label for="masterpiece" />
     </div>
   </div>
@@ -95,62 +87,75 @@
 </i18n>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'ExpertSettings',
   data() {
     return {
       /**
-       * Use own return percentage or not
+       * Prevents the lack of qualities
        */
-      useOwnPercentage: false,
-
-      /**
-       * Own return percentage
-       */
-      ownPercentage: 15.2,
-
-      /**
-       * Change normalized items algorithm
-       */
-      useMinPriceNormalization: false,
-
-      qualities: [1, 2, 3]
+      lastQualities: [1, 2, 3]
     }
   },
-  methods: {
+  computed: {
     /**
-     * Switch setting to use own percentage or not
+     * Use own return percentage or not
      */
-    changeUseOwnPercentage() {
-      this.$store.commit('tree/UPDATE_USE_OWN_PERCENTAGE', this.useOwnPercentage);
-    },
-
-    /**
-     * Update return percentage
-     */
-    updateOwnPercentage() {
-      this.$store.commit('tree/UPDATE_OWN_RETURN_PECENTAGE', this.ownPercentage);
-    },
-
-    /**
-     * Use other normalized algorithm
-     */
-    changeUseMinPrices() {
-      this.$store.commit('tree/UPDATE_USE_MIN_PRICES_NORMALIZATION', this.useMinPriceNormalization);
-    },
-
-    /**
-     * Update needed item qualities
-     */
-    changeQualities(event) {
-      if (this.qualities.length == 0) {
-        const otherQuality = Number(event.target.attributes.value.value) % 5 + 1;
-        this.$set(this.qualities, 0, otherQuality);
+    useOwnPercentage: {
+      set(useOwnPercentage) {
+        this.$store.commit('tree/UPDATE_USE_OWN_PERCENTAGE', useOwnPercentage);
+      },
+      get() {
+        return this.settings.expert.useOwnPercentage;
       }
+    },
 
-      this.$store.commit('tree/UPDATE_QUALITIES', this.qualities);
-    }
-  }
+    /**
+     * Change normalized items algorithm
+     */
+    useMinPricesNormalization: {
+      set(useMinPricesNormalization) {
+        this.$store.commit('tree/UPDATE_USE_MIN_PRICES_NORMALIZATION', useMinPricesNormalization);
+      },
+      get() {
+        return this.settings.expert.useMinPricesNormalization;
+      }
+    },
+
+    /**
+     * Own return percentage
+     */
+    ownPercentage: {
+      set(ownPercentage) {
+        
+        this.$store.commit('tree/UPDATE_OWN_RETURN_PECENTAGE', ownPercentage);
+      },
+      get() {
+        return this.settings.returnPercentage;
+      }
+    },
+
+    qualities: {
+      set(qualities, event) {
+        if (qualities.length == 0) {
+          qualities = [this.lastQualities[0] % 5 + 1];
+        }
+
+        this.$store.commit('tree/UPDATE_QUALITIES', qualities);
+
+        this.lastQualities = qualities;
+      },
+      get() {
+        return this.settings.expert.qualities;
+      }
+    },
+
+    ...mapState({
+      settings: (state) => state.tree.settings
+    })
+  },
 }
 </script>
 

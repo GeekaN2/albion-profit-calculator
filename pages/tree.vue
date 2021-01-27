@@ -87,6 +87,17 @@ export default {
   },
   created: async function () {
     await this.$store.dispatch("tree/FETCH_STATE");
+
+    this.$toast.show(this.$t('toast.loadingUserSettings')); 
+
+    try {
+      await this.$store.dispatch("tree/FETCH_USER_SETTINGS", this.$auth.strategy.token.get());
+
+      this.$toast.success(this.$t('toast.settingsLoadedSuccessfully'));
+    } catch {
+      this.$toast.error(this.$t('toast.somethingWentWrong'));
+    }
+    
     this.tree = this.$store.state.tree.tree;
   },
   methods: {

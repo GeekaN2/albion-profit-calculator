@@ -38,6 +38,7 @@ export interface TreeState {
   prices: Prices;
   recipes: Recipes;
   settings: Settings;
+  settingsBackup: Settings;
   features: Features;
   currentItemInfo: ItemInfo;
   resources: Resources;
@@ -119,24 +120,36 @@ export interface JournalsItem {
 export interface Settings {
   useJournals: boolean;
   useFocus: boolean;
+  useMultipleCities: boolean;
   showAverageItems: boolean;
   useAveragePrice: boolean;
   useExpertMode: boolean;
   returnPercentage: number;
   craftFee: number;
-  cities: {
-    sellItems: string;
-    craftItems: string;
-    resourcesFirstLocation: string;
-    resourcesSecondLocation: string;
-    artefacts: string;
-    journals: string;
-  },
+  cities: Cities,
   expert: {
     useOwnPercentage: boolean;
     useMinPricesNormalization: boolean;
     qualities: Number[];
   }
+}
+
+export interface Cities {
+  sellItems: string;
+  craftItems: string;
+  resourcesFirstLocation: string;
+  resourcesSecondLocation: string;
+  artefacts: string;
+  journals: string;
+}
+
+export interface OneOfCitiesProp {
+  sellItems?: string;
+  craftItems?: string;
+  resourcesFirstLocation?: string;
+  resourcesSecondLocation?: string;
+  artefacts?: string;
+  journals?: string;
 }
 
 export interface Features {

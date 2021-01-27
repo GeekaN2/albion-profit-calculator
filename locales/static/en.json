@@ -5,6 +5,17 @@
     "CLOTH": "Cloth",
     "LEATHER": "Leather"
   },
+  "toast": {
+    "loadingUserSettings": "Loading user settings...",
+    "settingsLoadedSuccessfully": "Settings loaded successfully",
+    "settingsSavedSuccessfully": "Settings saved successfully",
+    "somethingWentWrong": "Something went wrong"
+  },
+  "title": {
+    "openExpertSettings": "Open expert settings",
+    "saveSettings": "Save settings",
+    "resetSettings": "Reset settings to default"
+  },
   "hours": "h",
   "days": "d",
   "fee": "Fee",

@@ -1,7 +1,8 @@
 import { MutationTree } from 'vuex'
 import { normalizedPriceAndDate } from '../utils'
-import { ResponseModel, TreeState, Item, Settings, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources } from './typeDefs'
+import { ResponseModel, TreeState, Item, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources, OneOfCitiesProp } from './typeDefs'
 import Vue from 'vue';
+import clonedeep from 'lodash.clonedeep';
 
 export const mutations: MutationTree<TreeState> = {
   /**
@@ -20,6 +21,7 @@ export const mutations: MutationTree<TreeState> = {
     state.settings = {
       useJournals: false,
       useFocus: false,
+      useMultipleCities: false,
       showAverageItems: false,
       useAveragePrice: false,
       useExpertMode: false,
@@ -39,6 +41,7 @@ export const mutations: MutationTree<TreeState> = {
         qualities: [1, 2, 3]
       }
     };
+    state.settingsBackup = clonedeep(state.settings);
     state.currentItemInfo = {
       name: '',
       parent: '',
@@ -187,8 +190,8 @@ export const mutations: MutationTree<TreeState> = {
    * 
    * @param state - vuex state
    */
-  SET_CITIES(state, cities: Settings["cities"]) {
-    state.settings.cities = cities;
+  SET_CITIES(state, prop: OneOfCitiesProp) {
+    Object.assign(state.settings.cities, prop);
   },
 
   /**
@@ -215,6 +218,16 @@ export const mutations: MutationTree<TreeState> = {
    * Update useFocus setting
    * 
    * @param state - vuex state
+   * @param useJournals - use journals or not
+   */
+  UPDATE_USE_JOURNALS(state, useJournals: boolean) {
+    state.settings.useJournals = useJournals;
+  },
+
+  /**
+   * Update useFocus setting
+   * 
+   * @param state - vuex state
    * @param useFocus - use focus or not
    */
   UPDATE_USE_FOCUS(state, useFocus: boolean) {
@@ -222,13 +235,13 @@ export const mutations: MutationTree<TreeState> = {
   },
 
   /**
-   * Update useFocus setting
+   * Update useMultipleCities settings
    * 
    * @param state - vuex state
-   * @param useJournals - use journals or not
+   * @param useMultipleCities - use multiple cities or not
    */
-  UPDATE_USE_JOURNALS(state, useJournals: boolean) {
-    state.settings.useJournals = useJournals;
+  UPDATE_USE_MULTIPLE_CITIES(state, useMultipleCities: boolean) {
+    state.settings.useMultipleCities = useMultipleCities;
   },
 
   /**
@@ -349,5 +362,25 @@ export const mutations: MutationTree<TreeState> = {
    */
   UPDATE_QUALITIES(state, qualities: Number[]) {
     state.settings.expert.qualities = qualities;
+  },
+
+  /**
+   * Set user settings from the db
+   * 
+   * @param state - vuex state
+   * @param settings - saved user settings
+   */
+  SET_USER_SETTINGS(state, settings) {
+    state.settings = clonedeep(settings);
+    state.settingsBackup = clonedeep(state.settings);
+  },
+
+  /**
+   * Reset settings to user default settings
+   * 
+   * @param state - vuex state
+   */
+  RESET_SETTINGS(state) {
+    state.settings = clonedeep(state.settingsBackup);
   }
 }
