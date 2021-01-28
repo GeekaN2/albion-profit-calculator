@@ -211,7 +211,7 @@ $base-purple: #583156;
 
 footer {
   position: absolute;
-  z-index: -2;
+  z-index: 0;
   bottom: 0;
   width: 100%;
   padding: 15px;
