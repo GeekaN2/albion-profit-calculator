@@ -61,7 +61,14 @@ module.exports = {
     [ 
       'nuxt-i18n',
       {
-        locales: ['en', 'ru'],
+        locales: [{
+          code: 'en',
+          file: 'en.js'
+        }, {
+          code: 'ru',
+          file: 'ru.js'
+        }],
+        lazy: true,
         defaultLocale: 'en',
         vueI18nLoader: true,
         vueI18n: i18n,
@@ -73,7 +80,9 @@ module.exports = {
     ],
     ['@nuxtjs/dotenv'],
     ['@nuxtjs/axios'],
-    ['@nuxtjs/auth-next']
+    ['@nuxtjs/auth-next'],
+    ['nuxt-clipboard2'],
+    ['@nuxtjs/toast']
   ],
   plugins: [{ 
     src: "@/plugins/vClickOutside", 
@@ -85,13 +94,12 @@ module.exports = {
   },
 
   auth: {
-    localStorage: false,
     strategies: {
       local: {
         scheme: 'refresh',
         token: {
           property: 'token',
-          maxAge: 60 * 15,
+          maxAge: 60 * 30,
           // type: 'Bearer'
         },
         refreshToken: {
@@ -112,6 +120,11 @@ module.exports = {
         autoLogout: false
       }
     }
+  },
+
+  toast: {
+    position: 'bottom-right',
+    duration: 3000,
   }
 }
 

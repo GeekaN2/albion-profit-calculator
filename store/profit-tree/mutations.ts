@@ -1,7 +1,8 @@
 import { MutationTree } from 'vuex'
-import { normalizedPriceAndDate, normalizeItem } from '../utils'
-import { ResponseModel, TreeState, Item, Settings, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources } from '../typeDefs'
+import { normalizedPriceAndDate } from '../utils'
+import { ResponseModel, TreeState, Item, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources, OneOfCitiesProp } from './typeDefs'
 import Vue from 'vue';
+import clonedeep from 'lodash.clonedeep';
 
 export const mutations: MutationTree<TreeState> = {
   /**
@@ -20,8 +21,11 @@ export const mutations: MutationTree<TreeState> = {
     state.settings = {
       useJournals: false,
       useFocus: false,
+      useMultipleCities: false,
       showAverageItems: false,
       useAveragePrice: false,
+      useExpertMode: false,
+      returnPercentage: 15.2,
       craftFee: 10,
       cities: {
         sellItems: "Caerleon",
@@ -30,8 +34,14 @@ export const mutations: MutationTree<TreeState> = {
         resourcesSecondLocation: 'Caerleon',
         artefacts: "Caerleon",
         journals: "Caerleon"
+      },
+      expert: {
+        useOwnPercentage: false,
+        useMinPricesNormalization: false,
+        qualities: [1, 2, 3]
       }
     };
+    state.settingsBackup = clonedeep(state.settings);
     state.currentItemInfo = {
       name: '',
       parent: '',
@@ -50,26 +60,8 @@ export const mutations: MutationTree<TreeState> = {
   SET_ITEM_PRICES(state, { data, settingsWithItem }) {
     const itemName = settingsWithItem.currentItemInfo.name;
     const location = settingsWithItem.settings.cities.sellItems;
-    let newPrices: { [key: string]: Item } = {};
 
-    data.forEach((item: ResponseModel) => {
-      if (!newPrices[item.itemId]) {
-        newPrices[item.itemId] = {
-          price: 0,
-          date: '',
-          marketFee: 3
-        };
-      }
-
-      const currentPrice = newPrices[item.itemId];
-
-      let newPrice: Item = normalizedPriceAndDate(item);
-
-      newPrice = normalizeItem(currentPrice, newPrice);
-      newPrices[item.itemId] = newPrice;
-    });
-
-    Vue.set(state.prices[location], itemName, newPrices);
+    Vue.set(state.prices[location], itemName, data);
   },
 
   /**
@@ -198,8 +190,8 @@ export const mutations: MutationTree<TreeState> = {
    * 
    * @param state - vuex state
    */
-  SET_CITIES(state, cities: Settings["cities"]) {
-    state.settings.cities = cities;
+  SET_CITIES(state, prop: OneOfCitiesProp) {
+    Object.assign(state.settings.cities, prop);
   },
 
   /**
@@ -226,6 +218,16 @@ export const mutations: MutationTree<TreeState> = {
    * Update useFocus setting
    * 
    * @param state - vuex state
+   * @param useJournals - use journals or not
+   */
+  UPDATE_USE_JOURNALS(state, useJournals: boolean) {
+    state.settings.useJournals = useJournals;
+  },
+
+  /**
+   * Update useFocus setting
+   * 
+   * @param state - vuex state
    * @param useFocus - use focus or not
    */
   UPDATE_USE_FOCUS(state, useFocus: boolean) {
@@ -233,13 +235,13 @@ export const mutations: MutationTree<TreeState> = {
   },
 
   /**
-   * Update useFocus setting
+   * Update useMultipleCities settings
    * 
    * @param state - vuex state
-   * @param useJournals - use journals or not
+   * @param useMultipleCities - use multiple cities or not
    */
-  UPDATE_USE_JOURNALS(state, useJournals: boolean) {
-    state.settings.useJournals = useJournals;
+  UPDATE_USE_MULTIPLE_CITIES(state, useMultipleCities: boolean) {
+    state.settings.useMultipleCities = useMultipleCities;
   },
 
   /**
@@ -270,5 +272,116 @@ export const mutations: MutationTree<TreeState> = {
    */
   UPDATE_CRAFT_FEE(state, craftFee: number) {
     state.settings.craftFee = craftFee;
+  },
+
+  /**
+   * Update setting use expert mode
+   * 
+   * @param state - vuex state
+   * @param useExpertMode - use expert mode or not
+   */
+  UPDATE_USE_EXPERT_MODE(state, useExpertMode: boolean) {
+    state.settings.useExpertMode = useExpertMode;
+  },
+
+  /**
+   * Update setting use own perentage
+   * 
+   * @param state - vuex state
+   * @param useOwnPercentage - use own return percentage or not
+   */
+  UPDATE_USE_OWN_PERCENTAGE(state, useOwnPercentage: boolean) {
+    state.settings.expert.useOwnPercentage = useOwnPercentage;
+  },
+
+  /**
+   * Update own return percentage
+   * 
+   * @param state - vuex state
+   * @param returnPercentage - number in percents
+   */
+  UPDATE_OWN_RETURN_PECENTAGE(state, returnPercentage: number): void {
+    state.settings.returnPercentage = returnPercentage;
+  },
+
+   /**
+   * Set user's price to state
+   * 
+   * @param state - vuex state
+   * @param itemName - name of item
+   * @param price - price to update
+   */
+  UPDATE_FIRST_RESOURCE_ITEM(state, {itemName, price}: {itemName: string, price: number}): void  {
+    const location = state.settings.cities.resourcesFirstLocation;
+
+    state.resources[location][itemName].price = price;
+  },
+
+  /**
+   * Set user's price to state
+   * 
+   * @param state - vuex state
+   * @param itemName - name of item
+   * @param price - price to update
+   */
+  UPDATE_SECOND_RESOURCE_ITEM(state, {itemName, price}: {itemName: string, price: number}): void  {
+    const location = state.settings.cities.resourcesSecondLocation;
+
+    state.resources[location][itemName].price = price;
+  },
+
+  /**
+   * Set user's price to state
+   * 
+   * @param state - vuex state
+   * @param itemName - name of item
+   * @param price - price to update
+   */
+  UPDATE_ARTIFACT(state, {itemName, price}: {itemName: string, price: number}): void  {
+    const location = state.settings.cities.artefacts;
+    const baseItemName = state.currentItemInfo.name;
+
+    state.artefacts[location][baseItemName][itemName].price = price;
+  },
+
+  /**
+   * Change setting to use other normalization or not
+   * 
+   * @param state - vuex state
+   * @param useMinPricesNormalization - use or not
+   */
+  UPDATE_USE_MIN_PRICES_NORMALIZATION(state, useMinPricesNormalization: boolean) {
+    state.settings.expert.useMinPricesNormalization = useMinPricesNormalization;
+  },
+
+  /**
+   * Update needed item qualities
+   * 
+   * @param state - vuex state
+   * @param qualities - array of qualities
+   */
+  UPDATE_QUALITIES(state, qualities: Number[]) {
+    state.settings.expert.qualities = qualities;
+  },
+
+  /**
+   * Set user settings from the db
+   * 
+   * @param state - vuex state
+   * @param settings - saved user settings
+   */
+  SET_USER_SETTINGS(state, settings) {
+    Object.assign(state.settings, settings);
+    
+    state.settingsBackup = clonedeep(state.settings);
+  },
+
+  /**
+   * Reset settings to user default settings
+   * 
+   * @param state - vuex state
+   */
+  RESET_SETTINGS(state) {
+    state.settings = clonedeep(state.settingsBackup);
   }
 }

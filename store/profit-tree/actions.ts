@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex'
 import axios from 'axios'
 import { createStringOfAllItems, createStringOfAllResources, createStringOfAllArtifacts, createStringOfAllJournals, isObjectEmpty } from '../utils'
-import { TreeState, ItemInfo, SettingsWithItem } from '../typeDefs'
+import { TreeState, ItemInfo, SettingsWithItem } from './typeDefs'
 import { isArtifactItem } from '../utils'
 
 const baseUrl = process.env.BASE_URL;
@@ -137,7 +137,7 @@ export const actions: ActionTree<TreeState, {}> = {
     const location = settingsWithItem.settings.cities.sellItems;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames}&locations=${location}&qualities=1,2,3`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}&qualities=1,2,3,4,5`)
       .then(response => {
         const data = response.data;
 
@@ -235,5 +235,33 @@ export const actions: ActionTree<TreeState, {}> = {
 
         commit('SET_AVERAGE_DATA', { data, settingsWithItem });
       });
+  },
+
+  /**
+   * Update profit tree settings for the user in the db
+   * 
+   * @param token - authorization token with Bearer
+   */
+  async SAVE_USER_SETTINGS({ commit, state }, token) {
+    await axios.put(`${baseUrl}user/tree-settings`, state.settings, {
+      headers: {
+        Authorization: token
+      }
+    });
+
+    commit('SET_USER_SETTINGS', state.settings);
+  },
+
+  /**
+   * 
+   */
+  async FETCH_USER_SETTINGS({ commit, state }, token) {
+    const response = await axios.get(`${baseUrl}user/tree-settings`, {
+      headers: {
+        Authorization: token
+      }
+    });
+    
+    commit('SET_USER_SETTINGS', response.data);
   }
 }

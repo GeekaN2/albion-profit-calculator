@@ -8,10 +8,10 @@ module.exports = {
     parser: 'babel-eslint'
   },
   extends: [
-    'plugin:vue/recommended'
+    'plugin:vue/recommended',
   ],
   plugins: [
-    'vue'
+    'vue',
   ],
   // add your custom rules here
   rules: {}

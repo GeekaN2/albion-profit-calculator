@@ -3,7 +3,7 @@
     <Header />
     <div class="wrapper">
       <Settings />
-      <div>
+      <div class="centered">
         <h2 class="wrapper__header">{{ $t('chooseBranch') }}</h2>
         <Row 
           :items="tree" 
@@ -14,7 +14,10 @@
           class="wrapper__table">
           <div class="wrapper__loading-bar">
             <ItemRecipe />
-            <Loading class="wrapper__loading" />
+            <Loading
+              :text="text"
+              class="wrapper__loading"
+            />
           </div>
           <ItemTable v-if="loadingText == 'calculated'" />
         </div>
@@ -36,13 +39,13 @@
 
 <script>
 import Header from "~/components/Header";
-import Row from "~/components/Row";
-import ItemTable from "~/components/ItemTable";
-import ItemRecipe from "~/components/ItemRecipe";
-import Settings from "~/components/Settings";
-import Loading from "~/components/Loading";
+import Row from "~/components/tree/Row";
+import ItemTable from "~/components/tree/ItemTable";
+import Settings from "~/components/tree/Settings";
+import ItemRecipe from "~/components/utils/ItemRecipe";
+import Loading from "~/components/utils/Loading";
 import { getReturnMaterialsPercentage } from "~/store/utils";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "Tree",
@@ -74,9 +77,27 @@ export default {
       currentItemInfo: (state) => state.tree.currentItemInfo,
       loadingText: (state) => state.tree.features.loadingText
     }),
+
+    ...mapGetters({
+      /**
+       * Text of loading
+       */
+      text: 'tree/loadingText'
+    })
   },
   created: async function () {
-    await this.$store.dispatch("FETCH_STATE");
+    await this.$store.dispatch("tree/FETCH_STATE");
+
+    this.$toast.show(this.$t('toast.loadingUserSettings')); 
+
+    try {
+      await this.$store.dispatch("tree/FETCH_USER_SETTINGS", this.$auth.strategy.token.get());
+
+      this.$toast.success(this.$t('toast.settingsLoadedSuccessfully'));
+    } catch {
+      this.$toast.error(this.$t('toast.somethingWentWrong'));
+    }
+    
     this.tree = this.$store.state.tree.tree;
   },
   methods: {
@@ -93,7 +114,7 @@ export default {
 };
 </script>
 
-<style lang='scss'>
+<style scoped lang='scss'>
 $base-brown: #583131;
 $base-purple: #583156;
 
@@ -101,17 +122,20 @@ $base-purple: #583156;
   font-size: 16px;
   position: relative;
   margin: 0 auto 20px auto;
-  max-width: 1200px;
 }
 
 img {
   width: 80px;
 }
 
+.centered {
+  margin: 0 auto;
+}
+
 .wrapper {
   display: flex;
-  justify-content: center;
-  padding-bottom: 10px;
+  justify-content: space-between;
+  padding: 0 15px 10px 15px;
 
   &__header {
     text-align: center;
@@ -143,13 +167,24 @@ img {
 @media (max-width: 1200px) {
   .wrapper {
     img {
-      width: 75px;
+      width: 72px;
     }
+
+    &__tree {
+      width: 650px;
+    }
+  }
+}
+
+@media (max-width: 1080px) {
+  .wrapper {
+    flex-direction: column;
   }
 }
 
 @media (max-width: 991px) {
   .wrapper {
+    flex-direction: column;
     &__tree {
       width: 600px;
     }
@@ -168,10 +203,6 @@ img {
 
     &__tree {
       width: 100%;
-    }
-
-    img {
-      width: 60px;
     }
   }
 }

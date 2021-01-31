@@ -1,0 +1,24 @@
+{
+  "resources": {
+    "PLANKS": "Брусья",
+    "METALBAR": "Слитки",
+    "CLOTH": "Ткань",
+    "LEATHER": "Кожа"
+  },
+  "toast": {
+    "loadingUserSettings": "Загружаем настройки пользователя...",
+    "settingsLoadedSuccessfully": "Настройки загружены успешно",
+    "settingsSavedSuccessfully": "Настройки успешно сохранены",
+    "somethingWentWrong": "Что-то пошло не так"
+  },
+  "title": {
+    "openExpertSettings": "Открыть режим эксперта",
+    "saveSettings": "Сохранить настройки",
+    "resetSettings": "Сбросить настройки до начальных"
+  },
+  "hours": "ч",
+  "days": "д",
+  "fee": "Налог",
+  "craftFee": "Налог станка",
+  "settings": "Настройки"
+}

@@ -43,18 +43,22 @@
           >
           <div
             :class="[
-              'item__warnings__tooltip', 
-              `tooltip--tier${name.slice(1, 2)}`]"
+              'item__warnings__tooltip tooltip', 
+              `tooltip--tier${name.slice(1, 2)}`,
+              `tooltip--quality-${item.quality}`]"
           >
-            <div class="item__warnings__tooltip__table">
+            <div class="tooltip__table table">
               <template v-for="(tooltipRow, infoName) in tableInfo[createShortName(name, subtier)]">
                 <div
                   v-if="!isObjectEmpty(tooltipRow)"
                   :key="`${infoName}:0`"
-                  class="text-algin-left"
+                  class="text-algin-left table__cell-copy"
+                  @click="copyName($t(tooltipRow.name))"
                 >
                   {{ $t(tooltipRow.name) }}
                   {{ tooltipRow.percentage ? `${tooltipRow.percentage}%` : '' }}
+                  {{ !tooltipRow.journalsPerItem ? '' : 
+                  `(${formatFloat(tooltipRow.journalsPerItem)}${$t('JournalsShort')})` }}
                 </div>
                 <div
                   v-if="!isObjectEmpty(tooltipRow)"
@@ -83,26 +87,12 @@
 <i18n>
 {
   "en": {
-    "Market price": "Market price",
-    "Materials": "Materials",
-    "Artifact": "Artifact",
-    "Sigils": "Royal Sigils",
-    "Skillbook": "Tome of insight",
-    "Fee": "Fee",
     "Journals": "Journals",
-    "hours": "h",
-    "days": "d"
+    "JournalsShort": "j"
   },
   "ru": {
-    "Market price": "Цена на рынке",
-    "Materials": "Материалы",
-    "Artifact": "Артефакт",
-    "Sigils": "Королевские знаки",
-    "Skillbook": "Книга интуиции",
-    "Fee": "Налог",
     "Journals": "Журналы",
-    "hours": "ч",
-    "days": "д"
+    "JournalsShort": "ж"
   }
 }
 </i18n>
@@ -137,7 +127,7 @@ export default {
         return num;
       }
 
-      num = typeof num === 'number' ? num.toFixed(1) : 0;
+      num = num.toFixed(1);
       num = num > 0 ? `+${num}` : num;
 
       return num;
@@ -207,7 +197,7 @@ export default {
         T7_soul: 95.5,
         T7_relic: 222.5,
         T7_avalon: 480, 
-        T8_royal: 952.5,
+        T8_royal: 64,
         T8_rune: 63.5,
         T8_soul: 190.5,
         T8_relic: 444.5,
@@ -223,8 +213,8 @@ export default {
     amountOfMaterials() {
       let amountOfMaterials = 0;
 
-      for (let material in this.getRecipe) {
-        amountOfMaterials += this.getRecipe[material];
+      for (let material in this['tree/getRecipe']) {
+        amountOfMaterials += this['tree/getRecipe'][material];
       }
 
       return amountOfMaterials;
@@ -234,57 +224,52 @@ export default {
       /**
        * Get all items(t4.0 - t8.3) for current item
        */
-      "getItems",
+      "tree/getItems",
 
       /**
        * Get all resources from the first location
        */
-      "getFirstResources",
+      "tree/getFirstResources",
 
       /**
        * Get all resources from the second location
        */
-      "getSecondResources",
+      "tree/getSecondResources",
 
       /**
        * Get artefacts. If artifacts are not needed returns {}
        */
-      "getArtefacts",
+      "tree/getArtefacts",
       
       /**
        * Get recipe to calculate craft cost
        */
-      "getRecipe",
+      "tree/getRecipe",
 
       /**
        * Get journals
        */
-      "getJournals",
+      "tree/getJournals",
 
       /**
        * Get average data
        */
-      "getAverageData",
+      "tree/getAverageData",
 
       /**
        * Get return percentage of materials
        */
-      "returnMaterialPercentage",
-      
-      /**
-       * Get loading text
-       */
-      "loadingText",
+      "tree/returnMaterialPercentage",
       
       /**
        * Does this item need an artifact
        */
-      "isArtifactItem",
+      "tree/isArtifactItem",
 
       /**
        * Get artifact name
        */
-      "getArtifactName",
+      "tree/getArtifactName",
     ]),
 
     ...mapState({
@@ -321,32 +306,36 @@ export default {
      */
     getRow(subtier) {
       let row = {};
-      for (let itemName in this.getItems) {
+      for (let itemName in this['tree/getItems']) {
         if (
           itemName.slice(-2) == `@${subtier}` ||
           (subtier == 0 && itemName.slice(-2, -1) != "@")
         ) {
           row[itemName] = {
             profit: 0,
-            date: new Date()
+            date: new Date(),
+            quality: 1
           };
 
           const tier = Number(itemName.slice(1, 2));
-          let marketFee = this.getItems[itemName].marketFee;
-          let itemPrice = Math.floor(this.getItems[itemName].price);
-          let lastCheckDate = this.getItems[itemName].date;
+          let marketFee = this['tree/getItems'][itemName].marketFee;
+          let itemPrice = Math.floor(this['tree/getItems'][itemName].price);
+          let lastCheckDate = this['tree/getItems'][itemName].date;
+          let quality = this['tree/getItems'][itemName].quality;
 
           if (this.settings.useAveragePrice) {
-            itemPrice = Math.floor(this.getAverageData[itemName].averagePrice);
-            lastCheckDate = this.getAverageData[itemName].lastCheckDate;
+            itemPrice = Math.floor(this['tree/getAverageData'][itemName].averagePrice);
+            lastCheckDate = this['tree/getAverageData'][itemName].lastCheckDate;
             marketFee = 4.5;
           }
 
+          itemPrice = Math.floor(itemPrice * (1 - marketFee / 100));
+
           this.tableInfo[`T${tier}.${subtier}`].marketPrice = {
-            name: "Market price",
+            name: itemName,
             percentage: -marketFee,
-            price: Math.floor(itemPrice * (1 - marketFee / 100)),
-            date:lastCheckDate,
+            price: itemPrice,
+            date: lastCheckDate
           };
 
           let creationCost = 0;
@@ -360,12 +349,13 @@ export default {
 
           if (itemPrice != 0) {
             row[itemName].profit = itemPrice - creationCost + journalProfit;
-            row[itemName].date = this.getItems[itemName].date;
+            row[itemName].date = this['tree/getItems'][itemName].date;
             row[itemName].percentageProfit = row[itemName].profit / creationCost * 100;
+            row[itemName].quality = quality;
           }
 
           if (this.settings.showAverageItems) {
-            row[itemName].averageItems = this.getAverageData?.[itemName]?.averageItems || 0;
+            row[itemName].averageItems = this['tree/getAverageData']?.[itemName]?.averageItems || 0;
           }
         }
       }
@@ -381,7 +371,7 @@ export default {
      * @returns {number} - artefact price
      */
     getArtefactPrice(tier, subtier) {
-      if (!this.isArtifactItem) {
+      if (!this['tree/isArtifactItem']) {
         this.$set(this.tableInfo[`T${tier}.${subtier}`], "artefact", {});
 
         return 0;
@@ -389,8 +379,8 @@ export default {
 
       let artefactPrice = 0;
       let name = 'Artifact';
-      const artifactName = this.getArtifactName(tier);     
-      let artefact = this.getArtefacts[artifactName];
+      const artifactName = this['tree/getArtifactName'](tier);     
+      let artefact = this['tree/getArtefacts'][artifactName];
 
       if (this.currentItemInfo.name.includes('ROYAL')) {
         // number of sigils e.g. for 8 materials returns from t4 to t8: 2 4 8 8 8
@@ -405,8 +395,10 @@ export default {
         artefactPrice = artefact.price;
       }
 
+      artefactPrice = artefactPrice || 0;
+
       this.tableInfo[`T${tier}.${subtier}`].artefact = {
-        name: name,
+        name: artifactName,
         percentage: 0,
         price: -artefactPrice,
         date: artefact.date,
@@ -425,22 +417,22 @@ export default {
       let sumCost = 0;
 
       // e.g. [["PLANKS": 8], ["METALBAR": 12]]
-      const recipe = Object.entries(this.getRecipe);
+      const recipe = Object.entries(this['tree/getRecipe']);
 
       for (let [resourceName, amount] of recipe) {
         const resourceFullName =
           `T${tier}_${resourceName}` +
           (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : "");
         
-        const resource = recipe[0][0] == resourceName ? this.getFirstResources[resourceFullName] : this.getSecondResources[resourceFullName];
-        const cost = Math.floor(resource.price * amount * (1 - this.returnMaterialPercentage / 100));
+        const resource = recipe[0][0] == resourceName ? this['tree/getFirstResources'][resourceFullName] : this['tree/getSecondResources'][resourceFullName];
+        const cost = Math.floor(resource.price * amount * (1 - this['tree/returnMaterialPercentage'] / 100));
         
         sumCost += cost;
 
         // update tableInfo
         this.tableInfo[`T${tier}.${subtier}`][resourceName] = {
-          name: `resources.${resourceName}`,
-          percentage: -this.returnMaterialPercentage,
+          name: `T${tier}_${resourceName}`,
+          percentage: -this['tree/returnMaterialPercentage'],
           price: -cost,
           date: resource.date,
         };
@@ -470,11 +462,11 @@ export default {
 
       const journalFame = 1200 * 2 ** (tier - 4);
       const journalName = `T${tier}_JOURNAL${this.currentItemInfo.root.slice(4)}`;
-      const marketFee = this.getJournals[journalName].marketFee;
+      const marketFee = this['tree/getJournals'][journalName].marketFee;
 
       let profit =
-        (this.getJournals[journalName].sellPrice -
-          this.getJournals[journalName].buyPrice) *
+        (this['tree/getJournals'][journalName].sellPrice -
+          this['tree/getJournals'][journalName].buyPrice) *
         (craftFame / journalFame);
 
       profit = Math.floor(profit);
@@ -483,7 +475,8 @@ export default {
         name: "Journals",
         percentage: -marketFee,
         price: profit,
-        date: this.getJournals[journalName].date,
+        date: this['tree/getJournals'][journalName].date,
+        journalsPerItem: craftFame / journalFame
       });
 
       return profit;
@@ -504,10 +497,6 @@ export default {
 
       if (artefactLevel.length != 0 && !isBagInsight) {
         itemValue += this.itemAndArtefactValues[`T${tier}_${artefactLevel}`];
-      } else if (isBagInsight) {
-        // Value of solo maps per unit of material
-        // Solo maps is not artifact but they are very similar in purpose
-        itemValue += [210, 280, 375, 525, 727,5][tier - 4];
       }
       
       const feePrice = Math.floor(
@@ -515,7 +504,7 @@ export default {
       );
 
       this.$set(this.tableInfo[`T${tier}.${subtier}`], "fee", {
-        name: "Fee",
+        name: "fee",
         percentage: fee,
         price: -feePrice,
         date: "",
@@ -550,13 +539,13 @@ export default {
      * @returns {boolean}
      */
     noArtefactForSale(name) {
-      const artefactName = this.getArtifactName(Number(name.slice(1, 2)));
+      const artefactName = this['tree/getArtifactName'](Number(name.slice(1, 2)));
 
-      if (!this.getArtefacts[artefactName]) {
+      if (!this['tree/getArtefacts'][artefactName]) {
         return false;
       }
 
-      return this.getArtefacts[artefactName].price == 0;
+      return this['tree/getArtefacts'][artefactName].price == 0;
     },
 
     /**
@@ -587,6 +576,15 @@ export default {
     },
 
     /**
+     * Copy text to the clipboard
+     * 
+     * @param {string} text - text to copy
+     */
+    copyName(text) {
+      this.$copyText(text);
+    },
+
+    /**
      * Check object length
      *
      * @param {object} obj
@@ -594,6 +592,16 @@ export default {
      */
     isObjectEmpty(obj) {
       return JSON.stringify(obj) === '{}' || obj === undefined;
+    },
+
+    /**
+     * Format float number
+     * 
+     * @param {number} - number to format
+     * @returns {number}
+     */
+    formatFloat(num) {
+      return Math.round(num) == num ? num : parseFloat(num.toFixed(2));
     }
   },
 };
@@ -711,7 +719,7 @@ export default {
     height: 100%;
     bottom: -1px;
     right: -1px;
-    z-index: 50;
+    z-index: 10;
     width: 20px;
 
     &__icon {
@@ -723,44 +731,6 @@ export default {
     &__info {
       width: 10px;
       height: 10px;
-    }
-
-    &__tooltip {
-      visibility: hidden;
-      right: 50%;
-      transform: translateX(8%);
-      bottom: 90%;
-      position: absolute;
-      background: #dfdfdf;
-      color: #5e5e5e;
-      font-weight: bold;
-      transition: 0.15s;
-      opacity: 0;
-      border-radius: 4px;
-      box-shadow: 0 0 6px 0px #6a6a6a;
-      font-size: 0.75em;
-      text-shadow: none;
-      padding: 5px;
-      white-space: nowrap;
-      transition-delay: 0.03s;
-
-      &:after {
-        content: "";
-        position: absolute;
-        right: calc(8% - 5px);
-        bottom: -5px;
-        width: 10px;
-        height: 10px;
-        background: #dfdfdf;
-        transform: rotate(45deg);
-      }
-
-      &__table {
-        display: grid;
-        grid-template-columns: 3fr 3fr 1fr;
-        text-align: right;
-        grid-gap: 5px 10px;
-      }
     }
 
     &:hover &__tooltip {
@@ -779,6 +749,79 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
+  }
+}
+
+.tooltip {
+  visibility: hidden;
+  right: 50%;
+  transform: translateX(8%);
+  bottom: 90%;
+  position: absolute;
+  background: #dfdfdf;
+  color: #5e5e5e;
+  font-weight: bold;
+  transition: 0.15s;
+  opacity: 0;
+  border-radius: 4px;
+  box-shadow: 0 0 6px 0px #6a6a6a;
+  font-size: 0.75em;
+  text-shadow: none;
+  padding: 5px;
+  white-space: nowrap;
+  transition-delay: 0.03s;
+
+  &:after {
+    content: "";
+    position: absolute;
+    right: calc(8% - 5px);
+    bottom: -5px;
+    width: 10px;
+    height: 10px;
+    background: #dfdfdf;
+    transform: rotate(45deg);
+  }
+
+  &__table {
+    display: grid;
+    grid-template-columns: 3fr 3fr 1fr;
+    text-align: right;
+    grid-gap: 5px 10px;
+  }
+
+  &--quality {
+    &-1 {
+      border-top: 4px solid #b0afae;
+      border-left: 4px solid #b0afae;
+    }
+
+    &-2 {
+      border-top: 4px solid #5d81a7;
+      border-left: 4px solid #5d81a7;
+    }
+
+    &-3 {
+      border-top: 4px solid #db9c63;
+      border-left: 4px solid #db9c63;
+    }
+
+    &-4 {
+      border-top: 4px solid #fdfefe;
+      border-left: 4px solid #fdfefe;
+    }
+
+    &-5 {
+      border-top: 4px solid #fdb44f;
+      border-left: 4px solid #fdb44f;
+    } 
+  }
+}
+
+.table {
+  &__cell {
+    &-copy {
+      cursor: copy;
+    }
   }
 }
 
@@ -828,6 +871,7 @@ export default {
     gap: 3px;
   }
 }
+
 @media (max-width: 479px) {
   .item-table {
     width: 100%;

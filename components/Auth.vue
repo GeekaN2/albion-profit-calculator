@@ -138,6 +138,7 @@ export default {
   position: absolute;
   background: rgba(0, 0, 0, 0.2);
   font-size: 1.2rem;
+  z-index: 2;
 }
 
 .modal_form {

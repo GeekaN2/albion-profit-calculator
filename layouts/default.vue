@@ -6,6 +6,7 @@
 
 <script>
 import Vue from 'vue';
+import LogRocket from 'logrocket';
 
 if (process.client && process.env.HAWK_CATCHER_TOKEN) {
   const HawkCatcher = require('@hawk.so/javascript');
@@ -14,20 +15,25 @@ if (process.client && process.env.HAWK_CATCHER_TOKEN) {
     token: process.env.HAWK_CATCHER_TOKEN,
     vue: Vue,
   });
-
-  // Yandex.Metrica
-  if (process.env.ENABLE_METRIKA == 'true'){
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-      ym(65443882, "init", {
-          clickmap:true,
-          trackLinks:true,
-          accurateTrackBounce:true
-      });
-    }
 }
+
+if (process.env.ENABLE_LOG_ROCKET == 'true' && process.env.LOG_ROCKET_PROJECT) {
+  LogRocket.init(process.env.LOG_ROCKET_PROJECT);
+}
+
+// Yandex.Metrica
+if (process.client && process.env.ENABLE_METRIKA == 'true') {
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+    ym(65443882, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+    });
+}
+
 
 export default {};
 </script>
@@ -44,6 +50,11 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+}
+
+:root {
+  --error: #e73939;
+  --color: #1d7d18;
 }
 
 a {

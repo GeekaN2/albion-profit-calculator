@@ -30,13 +30,11 @@
 <script>
 export default {
   name: "Loading",
-  computed: {
-    /**
-     * Text of loading
-     */
-    text() {
-      return this.$store.getters.loadingText;
-    },
+  props: {
+    text: {
+      type: String,
+      default: '',
+    }
   },
 };
 </script>
