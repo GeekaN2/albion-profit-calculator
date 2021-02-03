@@ -4,14 +4,18 @@
     <div class="wrapper">
       <Settings />
       <div class="centered">
-        <h2 class="wrapper__header">{{ $t('chooseBranch') }}</h2>
+        <h2 class="wrapper__header">
+          {{ $t('chooseBranch') }}
+        </h2>
         <Row 
           :items="tree" 
           class="wrapper__tree" 
-          @showTable="showTable" />
+          @showTable="showTable" 
+        />
         <div 
           v-if="isTableShowed" 
-          class="wrapper__table">
+          class="wrapper__table"
+        >
           <div class="wrapper__loading-bar">
             <ItemRecipe />
             <Loading
@@ -49,7 +53,6 @@ import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "Tree",
-  middleware: ["authenticated"],
   components: {
     Header,
     Row,
@@ -58,6 +61,7 @@ export default {
     Settings,
     Loading,
   },
+  middleware: ["authenticated"],
   data() {
     return {
       /**

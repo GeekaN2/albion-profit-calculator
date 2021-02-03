@@ -3,10 +3,10 @@
     <div class="row-wrapper__images images">
       <div
         v-for="(item, index) in items"
+        :key="index"
         :class="{
           'selected': isOpen && item.name == nextSection
         }"
-        :key="index"
         @click="toggle(item.name, isLeaf(item.children))"
       >
         <img :src="`/images/items/${item.name}.png`">
@@ -15,7 +15,8 @@
     <div 
       v-for="(item, index) in items" 
       v-show="isOpen" 
-      :key="index">
+      :key="index"
+    >
       <Row
         v-if="nextSection == item.name && item.children"
         :items="item.children"

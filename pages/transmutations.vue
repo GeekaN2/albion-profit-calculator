@@ -4,7 +4,9 @@
     <div class="wrapper">
       <Settings />
       <div class="table">
-        <h2 class="table__header">{{ $t('chooseBranch') }}</h2>
+        <h2 class="table__header">
+          {{ $t('chooseBranch') }}
+        </h2>
         <Row />
         <Loading 
           v-if="itemName"
@@ -39,7 +41,6 @@ import { mapGetters, mapState } from 'vuex';
 
 export default {
   name: "Transmutations",
-  middleware: ["authenticated"],
   components: {
     Header,
     Settings,
@@ -47,6 +48,7 @@ export default {
     Row,
     Loading,
   },
+  middleware: ["authenticated"],
   data() {
     return {};
   },

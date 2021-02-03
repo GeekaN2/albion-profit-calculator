@@ -1,7 +1,8 @@
 <template>
   <div 
     v-if="text.length > 0" 
-    class="container">
+    class="container"
+  >
     <span class="container__loading">{{ $t(text) }}</span>
   </div>
 </template>

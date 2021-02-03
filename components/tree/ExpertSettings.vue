@@ -34,39 +34,43 @@
         v-model.number="qualities"
         class="quality quality--normal"
         type="checkbox"
-        value="1">
+        value="1"
+      >
       <label for="normal" />
       <input
         id="good"
         v-model.number="qualities"
         class="quality quality--good"
         type="checkbox"
-        value="2">
+        value="2"
+      >
       <label for="good" />
       <input 
         id="outstanding"
         v-model.number="qualities"
         class="quality quality--outstanding"
         type="checkbox" 
-        value="3">
+        value="3"
+      >
       <label for="outstanding" />
       <input
         id="excellent"
         v-model.number="qualities"
         class="quality quality--excellent"
         type="checkbox" 
-        value="4">
+        value="4"
+      >
       <label for="excellent" />
       <input
         id="masterpiece"
         v-model.number="qualities"
         class="quality quality--masterpiece"
         type="checkbox"   
-        value="5">
+        value="5"
+      >
       <label for="masterpiece" />
     </div>
   </div>
-  
 </template>
 
 <i18n>

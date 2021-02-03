@@ -3,7 +3,8 @@
     <div class="header__left">
       <nuxt-link 
         :to="localePath('/')"
-        class="header__logo">
+        class="header__logo"
+      >
         Albion profit calculator
       </nuxt-link>
       <a 
@@ -13,7 +14,8 @@
       >
         <img 
           class="header__patreon" 
-          src="/images/patreon.svg">
+          src="/images/patreon.svg"
+        >
       </a>
     </div>
     <div class="header__wrapper">
@@ -22,19 +24,27 @@
           'header__link--underline': $i18n.locale === 'ru'
         }"
         :to="switchLocalePath('ru')"
-        class="header__link header__link--purple">RU</nuxt-link>
+        class="header__link header__link--purple"
+      >
+        RU
+      </nuxt-link>
       <nuxt-link
         :class="{
           'header__link--underline': $i18n.locale === 'en'
         }"
         :to="switchLocalePath('en')"
-        class="header__link header__link--purple">EN</nuxt-link>
+        class="header__link header__link--purple"
+      >
+        EN
+      </nuxt-link>
       <span 
-        class="header__user_nickname">{{ $auth.user.nickname }}</span>
+        class="header__user_nickname"
+      >{{ $auth.user.nickname }}</span>
       <img
         class="logout_button"
         src="/images/exit.svg" 
-        @click="logout">
+        @click="logout"
+      >
     </div>
   </div>
 </template>

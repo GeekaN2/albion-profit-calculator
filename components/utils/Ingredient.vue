@@ -10,9 +10,9 @@
     />
     <transition name="prices">
       <IngredientPrices
-        v-click-outside="hide"
         v-if="isLoaded"
         v-show="showPrices"
+        v-click-outside="hide"
         :name="name"
         :index="index"
         class="prices-table"

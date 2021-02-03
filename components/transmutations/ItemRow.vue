@@ -41,14 +41,18 @@
                 :class="{
                   'error': tooltipRow.price == 0
                 }"
-              >{{ tooltipRow.price | formatPrice }}</div>
+              >
+                {{ tooltipRow.price | formatPrice }}
+              </div>
               <div
                 :key="`${JSON.stringify(tooltipRow)}:2`"
                 :class="{
                   'error': outdated(tooltipRow.date),
                   'success': !outdated(tooltipRow.date)
                 }"
-              >{{ formatDate(tooltipRow.date) }}</div>
+              >
+                {{ formatDate(tooltipRow.date) }}
+              </div>
             </template>
           </div>
         </div>

@@ -2,9 +2,10 @@
   <div class="row">
     <div 
       v-for="item of resources"
-      :class="['row__item', currentItem == item ? 'selected' : '']"
       :key="item"
-      @click="itemClick(item)">
+      :class="['row__item', currentItem == item ? 'selected' : '']"
+      @click="itemClick(item)"
+    >
       <img :src="`/images/items/T4_${item}.png`">
     </div>
   </div>
