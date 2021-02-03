@@ -12,63 +12,45 @@ async function getImages() {
 
   // Array of T4 item names
   const baseItemNames = Object.keys(recipes);
-  const resources = ['PLANKS', 'METALBAR', 'LEATHER', 'CLOTH', 'FIBER', 'ROCK', 'ORE', 'WOOD', 'HIDE'];
-  const itemsQuantity = 5266;
+  const resources = ['PLANKS', 'METALBAR', 'LEATHER', 'CLOTH', 'STONEBLOCK', 'FIBER', 'ROCK', 'ORE', 'WOOD', 'HIDE'];
+  
   let counter = 1;
   
   // Items where an error occurred when uploading image
   let badLoadedItems = [];
+  let allItems = [];
 
-  for (let baseItemName of baseItemNames) {
-    for (let item of createStringOfAllItems(baseItemName)) {
-      downloadImage(item).then(() => {
-        console.log(`Downloaded ${counter++}/${itemsQuantity}`, item);
-      }).catch(() => {
-        console.log(`Error while downloading ${counter}/${itemsQuantity}`, item);
-        badLoadedItems.push(item);
-      });
-
-      await sleep(1);
-    }
+  baseItemNames.forEach(baseItemName => {
+    createArrayOfAllItems(baseItemName).forEach(item => allItems.push(item));
 
     if (isArtifactItem(baseItemName)) {
-      for (let artifact of createArrayOfAllArtifacts(baseItemName)) {
-        downloadImage(artifact).then(() => {
-          console.log(`Downloaded ${counter++}/${itemsQuantity}`, artifact);
-        }).catch(() => {
-          console.log(`Error while downloading ${counter}/${itemsQuantity}`, artifact);
-          badLoadedItems.push(artifact);
-        });
-      }
-
-      await sleep(1);
+      createArrayOfAllArtifacts(baseItemName).forEach(artifact => allItems.push(artifact));
     }
+  })
+
+  resources.forEach(baseResource => createArrayOfAllResources(baseResource).forEach(resource => allItems.push(resource)));
+
+  for (let item of allItems) {
+    await downloadImage(item).then(() => {
+      console.log(`Downloaded ${counter++}/${allItems.length}`, item);
+    }).catch(() => {
+      console.log(`Error while downloading ${counter}/${allItems.length}`, item);
+
+      badLoadedItems.push(item);
+    });
   }
 
-  for (let baseResource of resources) {
-    for (let resource of createArrayOfAllResources(baseResource)) {
-      downloadImage(resource).then(() => {
-        console.log(`Downloaded ${counter++}/${itemsQuantity}`, resource);
-      }).catch(() => {
-        console.log(`Error while downloading ${counter}/${itemsQuantity}`, resource);
-        badLoadedItems.push(resource);
-      });
+  console.log(badLoadedItems);
   
-      await sleep(1);
-    }
-  }
-
   while (badLoadedItems.length > 1) {
     const item = badLoadedItems[badLoadedItems.length - 1];
 
-    downloadImage(item).then(() => {
+    await downloadImage(item).then(() => {
       console.log(`Downloaded ${counter++}/${itemsQuantity}`, item);
       badLoadedItems.pop();
     }).catch(() => {
       console.log(`Error while downloading ${counter}/${itemsQuantity}`, item);
     });
-
-    await sleep(1);
   }
 }
 
@@ -79,7 +61,7 @@ getImages();
  * 
  * @param itemName - item name: T4_2H_NATURESTAFF_KEEPER etc.
  */
-function createStringOfAllItems(itemName) {
+function createArrayOfAllItems(itemName) {
   let allNames = [];
 
   for (let tier = 4; tier <= 8; tier++) {
@@ -91,10 +73,6 @@ function createStringOfAllItems(itemName) {
   return allNames;
 }
 
-function createArrayOfAllItems(itemName) {
-  return;
-}
-
 /**
  * Creates an array with materials of all tiers and subtiers
  * 
@@ -104,7 +82,13 @@ function createArrayOfAllItems(itemName) {
 function createArrayOfAllResources(resource) {
   let allNames = [];
 
-  for (let tier = 4; tier <= 8; tier++) {
+  for (let tier = 3; tier <= 8; tier++) {
+    if (tier == 3) {
+      allNames.push(`T${tier}_` + resource);
+
+      continue;
+    }
+
     for (let subtier = 0; subtier <= 3; subtier++) {
       allNames.push(`T${tier}_` + resource + (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : ''));
     }
@@ -163,7 +147,7 @@ function isArtifactItem(itemName) {
  * 
  * @param {number} ms 
  */
-function sleep(ms) {
+async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 /**
@@ -180,7 +164,7 @@ async function downloadImage(imageName) {
     url,
     method: 'GET',
     responseType: 'stream'
-  })
+  });
 
   response.data.pipe(sharp().resize(128, 128)).pipe(writer);
   

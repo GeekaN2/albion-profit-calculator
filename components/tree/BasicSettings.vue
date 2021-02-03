@@ -14,7 +14,7 @@
           src="/images/flask.svg"
         >
       </label>
-      <h2>{{ $t('settings') }}</h2>
+      <h2>{{ $t('settings.settings') }}</h2>
       <img
         :title="$t('title.saveSettings')"
         class="svg svg--save" 
@@ -53,7 +53,7 @@
         class="checkbox"
         type="checkbox"
       >
-      <label for="checkbox-cities">{{ $t('multipleCities') }}</label>
+      <label for="checkbox-cities">{{ $t('settings.useMultipleCities') }}</label>
     </div>
     <div class="setting">
       <input
@@ -223,7 +223,6 @@
     "updateArtifacts": "Update artifact prices",
     "updateJournals": "Update journal prices",
     "craftFee": "craft fee",
-    "multipleCities": "Use multiple cities",
     "averageItems": "Number of items sold",
     "averagePrice": "Use average price",
     "cities": {
@@ -246,7 +245,6 @@
     "updateArtifacts": "Обновить цены артефактов",
     "updateJournals": "Обновить цены журналов",
     "craftFee": "налог станка",
-    "multipleCities": "Цены из разных городов",
     "averageItems": "Кол-во проданных предметов",
     "averagePrice": "Использовать среднюю цену",
     "cities": {

@@ -8,7 +8,7 @@ import { ResponseModel, Item } from './profit-tree/typeDefs'
  */
 export function createArrayOfAllIngredients(itemName: string): string[] {
   let allItems = [];
-  let resources = ['PLANKS', 'CLOTH', 'METALBAR', 'LEATHER', 'STONE'];
+  let resources = ['PLANKS', 'CLOTH', 'METALBAR', 'LEATHER', 'STONEBLOCK'];
 
   if (isArtifact(itemName)) {
     allItems = createArrayOfAllArtifactsFromArtifact(itemName);
@@ -47,11 +47,15 @@ export function createStringOfAllItems(itemName: string): string {
  * @param resource - basic resource: PLANKS, CLOTH etc.
  * @returns string with all tiers and subtiers for materials
  */
-export function createStringOfAllResources(resource: string): string {
+export function createStringOfAllResources(resource: string, startTier = 4): string {
   let allNames = '';
 
   for (let subtier = 0; subtier <= 3; subtier++) {
-    for (let tier = 4; tier <= 8; tier++) {
+    for (let tier = startTier; tier <= 8; tier++) {
+      if (tier < 4 && subtier > 0) {
+        continue;
+      }
+      
       allNames = allNames + `T${tier}_` + resource + (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : '') + ',';
     }
   }
@@ -319,4 +323,21 @@ export function isArtifact(itemName: string): boolean {
   const artifactSubstrings = ['ARTEFACT', 'SKILLBOOK', 'ROYAL'];
 
   return artifactSubstrings.some(substring => itemName.includes(substring));
+}
+
+/**
+ * Determine the raw material for creating the material
+ * 
+ * @param material - material name
+ */
+export function getRawResourceNameByMaterial(material: string): string {
+  const rawResourcesDictionary: {[key: string]: string} = {
+    METALBAR: 'ORE',
+    LEATHER: 'HIDE',
+    CLOTH: 'FIBER',
+    PLANKS: 'WOOD',
+    STONEBLOCK: 'ROCK'
+  }
+
+  return rawResourcesDictionary[material] || '';
 }

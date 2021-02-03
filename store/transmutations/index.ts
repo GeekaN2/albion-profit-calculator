@@ -15,11 +15,13 @@ const cities = {
   'Thetford': {},
 }
 
-const treeModule = {
+const transmutationModule = {
   namespaced: true,
   state: () => ({
     prices: JSON.parse(JSON.stringify(Object.assign(cities, {'Black Market': {}}))),
-    settings: {},
+    settings: {
+      cities: {}
+    },
     currentItemInfo: {},
     features: {}
   }),
@@ -28,4 +30,4 @@ const treeModule = {
   mutations
 }
 
-export default treeModule;
+export default transmutationModule;

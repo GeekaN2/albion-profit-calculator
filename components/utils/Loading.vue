@@ -13,6 +13,7 @@
     "items": "Loading item prices",
     "artefacts": "Loading artifact prices",
     "resources": "Loading resource prices",
+    "materials": "Loading mateiral prices",
     "journals": "Loading journal prices",
     "averageData": "Loading average data",
     "calculated": "Profit calculated"
@@ -20,7 +21,8 @@
   "ru": {
     "items": "Загружаем цены предметов",
     "artefacts": "Загружаем цены артефактов",
-    "resources": "Загружаем цены материалов",
+    "resources": "Загружаем цены ресурсов",
+    "materials": "Загружаем цены материалов",
     "journals": "Загружаем цены журналов",
     "averageData": "Загружаем средние значения",
     "calculated": "Профит посчитан"

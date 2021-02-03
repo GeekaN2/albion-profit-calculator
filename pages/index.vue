@@ -20,6 +20,13 @@
         >
           {{ $t('transmutations') }}
         </nuxt-link>
+        <nuxt-link 
+          v-if="$auth.loggedIn"
+          :to="localePath('/refining')"
+          class="links__button--brown button"
+        >
+          {{ $t('refining') }}
+        </nuxt-link>
         <span
           v-if="$auth.loggedIn"
           class="links__button--brown button"
@@ -76,6 +83,7 @@
   "en": {
     "tree": "Profit tree",
     "transmutations": "Transmuting",
+    "refining": "Refining",
     "login": "Login",
     "register": "Register",
     "logout": "Logout"
@@ -83,6 +91,7 @@
   "ru": {
     "tree": "Дерево профита",
     "transmutations": "Трансмутация",
+    "refining": "Переработка",
     "login": "Войти",
     "register": "Зарегистрироваться",
     "logout": "Выйти"

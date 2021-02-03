@@ -18,7 +18,10 @@
   },
   "hours": "ч",
   "days": "д",
-  "fee": "Налог",
-  "craftFee": "Налог станка",
-  "settings": "Настройки"
+  "settings": {
+    "settings": "Настройки",
+    "useMultipleCities": "Цены из разных городов",
+    "fee": "Налог",
+    "craftFee": "Налог станка"
+  }
 }

@@ -1,4 +1,21 @@
 /**
+ * Vuex root state
+ */
+export interface TreeState {
+  tree: any;
+  prices: Prices;
+  recipes: Recipes;
+  settings: Settings;
+  settingsBackup: Settings;
+  features: Features;
+  currentItemInfo: ItemInfo;
+  resources: Resources;
+  artefacts: Artefacts;
+  journals: Journals;
+  averageData: AverageData;
+}
+
+/**
  * Main item model
  */
 export interface Item {
@@ -28,23 +45,6 @@ export interface ResponseModel {
   buyPriceMaxDate: string;
   sellPriceMin: number;
   sellPriceMinDate: string;
-}
-
-/**
- * Vuex root state
- */
-export interface TreeState {
-  tree: any;
-  prices: Prices;
-  recipes: Recipes;
-  settings: Settings;
-  settingsBackup: Settings;
-  features: Features;
-  currentItemInfo: ItemInfo;
-  resources: Resources;
-  artefacts: Artefacts;
-  journals: Journals;
-  averageData: AverageData;
 }
 
 /**

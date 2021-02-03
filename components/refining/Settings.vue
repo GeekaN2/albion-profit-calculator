@@ -2,17 +2,16 @@
   <div class="settings">
     <h2>{{ $t('settings.settings') }}</h2>
     <div class="setting">
-      <h3>{{ $t('goldPrice') }}</h3>
-      <input 
-        v-model.number="gold"
-        class="input input--number"
-        placeholder="3000" 
-        maxlength="6"
-        @change="updateGold"
+      <input
+        id="checkbox-journals"
+        v-model="useMultipleCities"
+        class="checkbox"
+        type="checkbox"
       >
+      <label for="checkbox-journals">{{ $t('settings.useMultipleCities') }}</label>
     </div>
     <div class="setting">
-      <h3>{{ $t('settings.fee') }}</h3>
+      <h3>{{ $t('settings.craftFee') }}</h3>
       <input 
         v-model.number="fee"
         class="input input--number"
@@ -44,7 +43,7 @@
         {{ $t('sellLocation') }}
       </h3>
       <select 
-        v-model="cities.sellResourcesLocation" 
+        v-model="cities.sellMaterials" 
         class="city" 
         @change="changeCity"
       >
@@ -60,7 +59,7 @@
         {{ $t('buyLocation') }}
       </h3>
       <select 
-        v-model="cities.buyResourcesLocation" 
+        v-model="cities.refiningResources" 
         class="city" 
         @change="changeCity"
       >
@@ -98,11 +97,13 @@ export default {
   name: 'Settings',
   data() {
     return {
-      gold: 3000,
       fee: 10,
+      useMultipleCities: false,
       cities: {
-        sellResourcesLocation: 'Caerleon',
-        buyResourcesLocation: 'Caerleon'
+        sellMaterials: 'Caerleon',
+        refiningResources: 'Caerleon',
+        buyMaterials: 'Caerleon',
+        buyRawResources: 'Caerleon'
       },
 
       /**
@@ -174,6 +175,36 @@ export default {
   h3 {
     font-size: 0.85em;
     margin-bottom: 0px;
+  }
+
+  .checkbox {
+    display: none;
+
+    &:checked + label:after {
+      
+      background: #e08c4c;
+    }
+
+    & + label {
+      white-space: nowrap;
+      position: relative;
+      cursor: pointer;
+      margin-left: 20px;
+      padding-left: 5px;
+      font-size: 1em;
+
+      &:after {
+        content: "";
+        position: absolute;
+        left: -20px;
+        top: 1px;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #000;
+        background: white;
+        display: block;
+      }
+    }
   }
 }
 

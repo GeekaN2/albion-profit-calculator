@@ -1,12 +1,14 @@
 /**
  * Vuex root state
  */
-export interface TransmutationsState {
-  prices: Prices;
+export interface RefiningState {
+  rawResources: Prices;
+  materials: Prices;
   settings: Settings;
   currentItemInfo: ItemInfo;
   features: Features;
 }
+
 
 /**
  * Main item model
@@ -45,10 +47,12 @@ export interface ResponseModel {
  */
 export interface Settings {
   fee: number;
-  gold: number;
+  useMiltipleCities: boolean;
   cities: {
-    sellResourcesLocation: string;
-    buyResourcesLocation: string;
+    sellMaterials: string;
+    refiningResources: string;
+    buyRawResources: string;
+    buyMaterials: string;
   }
 }
 

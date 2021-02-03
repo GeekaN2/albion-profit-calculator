@@ -18,7 +18,10 @@
   },
   "hours": "h",
   "days": "d",
-  "fee": "Fee",
-  "craftFee": "Craft fee",
-  "settings": "Settings"
+  "settings": {
+    "settings": "Settings",
+    "useMultipleCities": "Use multiple cities",
+    "fee": "Fee",
+    "craftFee": "Craft fee"
+  }
 }
