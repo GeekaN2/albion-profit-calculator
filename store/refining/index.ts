@@ -23,8 +23,11 @@ const refiningModule :Module<RefiningState, {}>  = {
     rawResources: clonedeep(cities),
     materials: clonedeep(cities),
     settings: {
+      useFocus: false,
       fee: 10,
-      useMiltipleCities: false,
+      useOwnPercentage: false,
+      returnPercentage: 15.2,
+      useMultipleCities: false,
       cities: {
         sellMaterials: 'Caerleon',
         refiningResources: 'Caerleon',

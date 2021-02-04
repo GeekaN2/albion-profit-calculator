@@ -20,8 +20,19 @@
   "days": "d",
   "settings": {
     "settings": "Settings",
+    "useFocus": "Use focus",
     "useMultipleCities": "Use multiple cities",
+    "ownReturnPercentage": "Use own return %",
     "fee": "Fee",
     "craftFee": "Craft fee"
+  },
+  "cities": {
+    "mainCity": "Main city",
+    "sellItems": "Sell items",
+    "sellResources": "Sell resources",
+    "sellMaterials": "Sell materials",
+    "refining": "Refining",
+    "buyResources": "Buy resources",
+    "buyMaterials": "Buy materials"
   }
 }

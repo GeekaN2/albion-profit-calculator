@@ -61,11 +61,43 @@ export const getters: GetterTree<RefiningState, {}> = {
   },
 
   /**
-   * Return percentage
+   * Returns the percentage of materials returned 
+   * for profile cities
    * 
    * @param state - vuex state
    */
-  returnPercentage: (state: RefiningState): number => {
-    return 15.2;
-  }
+  returnPercentage: (state: RefiningState) => {
+    if (state.settings.useOwnPercentage) {
+      return state.settings.returnPercentage;
+    }
+
+    const itemName = state.currentItemInfo.name;
+    const city = state.settings.cities.refiningResources;
+    const useFocus = state.settings.useFocus;
+
+    let returnMaterialsPercentage = useFocus ? 43.5 : 15.2;
+
+    // Keywords for the category of items that the bonus is assigned to
+    const bonus: { [key: string]: string[] } = {
+      'Martlock': ['LEATHER'],
+      'Bridgewatch': ['STONEBLOCK'],
+      'Lymhurst': ['CLOTH'],
+      'Fort Sterling': ['PLANKS'],
+      'Thetford': ['METALBAR']
+    };
+
+    if (!bonus[city]) {
+      return returnMaterialsPercentage;
+    }
+
+    const categories = bonus[city];
+
+    let addBonus = categories.some(keyword => itemName.includes(keyword));
+
+    if (addBonus) {
+      returnMaterialsPercentage = useFocus ? 53.9 : 36.7;
+    }
+
+    return returnMaterialsPercentage;
+  },
 }

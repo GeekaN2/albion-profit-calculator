@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex'
 import { RefiningState } from './typeDefs'
-import { ResponseModel, SettingsWithItem, ItemInfo } from './typeDefs'
+import { ResponseModel, SettingsWithItem, ItemInfo, OneOfCitiesProp } from './typeDefs'
 import { getRawResourceNameByMaterial } from '../utils';
 import Vue from 'vue';
 
@@ -12,8 +12,11 @@ export const mutations: MutationTree<RefiningState> = {
    */
   SET_STATE(state) {
     state.settings = {
+      useFocus: false,
       fee: 10,
-      useMiltipleCities: false,
+      useOwnPercentage: false,
+      returnPercentage: 15.2,
+      useMultipleCities: false,
       cities: {
         sellMaterials: 'Caerleon',
         refiningResources: 'Caerleon',
@@ -80,6 +83,55 @@ export const mutations: MutationTree<RefiningState> = {
 
     Vue.set(state.materials[location], itemName, data);
   },
+
+  UPDATE_USE_MULTIPLE_CITIES(state, useMultipleCities: boolean) {
+    state.settings.useMultipleCities = useMultipleCities;
+  },
+
+  /**
+   * Update use focus param
+   * 
+   * @param state - vuex state
+   * @param useFocus - use focus points or not
+   */
+  UPDATE_USE_FOCUS(state, useFocus: boolean) {
+    state.settings.useFocus = useFocus;
+  },
+
+  /**
+   * Update craft fee
+   * 
+   * @param state - vuex state
+   * @param fee - craft fee
+   */
+  UPDATE_FEE(state, fee: number) {
+    state.settings.fee = fee;
+  },
+
+  SET_CITIES(state, cities: OneOfCitiesProp) {
+    Object.assign(state.settings.cities, cities);
+  },
+
+  /**
+   * Update use own return percentage param
+   * 
+   * @param state - vuex state
+   * @param useOwnPercentage - use own return percentage or not
+   */
+  UPDATE_USE_OWN_PERCENTAGE(state, useOwnPercentage: boolean) {
+    state.settings.useOwnPercentage = useOwnPercentage;
+  },
+
+  /**
+   * Update own return percentage
+   * 
+   * @param state - vuex state
+   * @param returnPercentage - own return percentage
+   */
+  UPDATE_RETURN_PERCENTAGE(state, returnPercentage: number) {
+    state.settings.returnPercentage = returnPercentage;
+  },
+
   /**
    * Set loading text
    * 

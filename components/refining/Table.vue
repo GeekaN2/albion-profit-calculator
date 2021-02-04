@@ -68,8 +68,8 @@ export default {
           * recipe.material.quantity
           * (1 - this.returnPercentage / 100));
         
-        const profit = itemPrice - (rawResourcesPrice + materialPrice);
-        const percentageProfit = profit / (rawResourcesPrice + materialPrice) * 100
+        const profit = itemPrice - (rawResourcesPrice + materialPrice + fee);
+        const percentageProfit = profit / (rawResourcesPrice + materialPrice + fee) * 100
 
         row.push({
           name: itemName,
@@ -84,12 +84,12 @@ export default {
             }, {
               name: recipe.material.name,
               percent: -this.returnPercentage,
-              price: materialPrice,
+              price: -materialPrice,
               date: this.buyMaterials[recipe.material.name].sellPriceMinDate
             }, {
               name: recipe.rawResource.name,
               percent: -this.returnPercentage,
-              price: rawResourcesPrice,
+              price: -rawResourcesPrice,
               date: this.buyRawResources[recipe.rawResource.name].sellPriceMinDate
             }, {
               name: 'settings.fee',

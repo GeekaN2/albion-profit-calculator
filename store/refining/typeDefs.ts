@@ -46,14 +46,24 @@ export interface ResponseModel {
  * Transmutation settings
  */
 export interface Settings {
+  useFocus: boolean;
   fee: number;
-  useMiltipleCities: boolean;
+  useOwnPercentage: boolean;
+  returnPercentage: number;
+  useMultipleCities: boolean;
   cities: {
     sellMaterials: string;
     refiningResources: string;
     buyRawResources: string;
     buyMaterials: string;
   }
+}
+
+export interface OneOfCitiesProp {
+  sellMaterials?: string;
+  refiningResources?: string;
+  buyRawResources?: string;
+  buyMaterials?: string;
 }
 
 export interface ItemInfo {

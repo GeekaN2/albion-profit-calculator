@@ -37,8 +37,9 @@
       >
         EN
       </nuxt-link>
+      <span class="header__user-role">{{ $auth.user.role }}</span>
       <span 
-        class="header__user_nickname"
+        class="header__user-nickname"
       >{{ $auth.user.nickname }}</span>
       <img
         class="logout_button"
@@ -100,9 +101,18 @@ $base-purple: #583156;
     align-items: center;
   }
 
-  &__user_nickname {
+  &__user-role {
+    font-size: 0.7em;
+    color: #745858;
+    margin-left: 10px;
+    border: 1px solid;
+    padding: 0px 5px 1px 5px;
+    border-radius: 8px;
+  }
+
+  &__user-nickname {
     display: inline-block;
-    margin-left: 20px;
+    margin-left: 10px;
     margin-right: 5px;
     color: $base-brown;
   }

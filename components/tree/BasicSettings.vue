@@ -336,7 +336,6 @@ export default {
         }
 
         this.$store.commit("tree/UPDATE_USE_MULTIPLE_CITIES", useMultipleCities);
-        
 
         this.$store.dispatch("tree/CHECK_ALL");
       },

@@ -21,7 +21,7 @@
           {{ $t('transmutations') }}
         </nuxt-link>
         <nuxt-link 
-          v-if="$auth.loggedIn"
+          v-if="$auth.loggedIn && isSupporter"
           :to="localePath('/refining')"
           class="links__button--brown button"
         >
@@ -120,6 +120,13 @@ export default {
        * Is modal form shown or not
        */
       isModalRegisterShowed: false,
+    }
+  },
+  computed: {
+    isSupporter() {
+      const supporter = ['user', 'supporter', 'admin'];
+
+      return supporter.includes(this.$auth.user.role);
     }
   },
   methods: {

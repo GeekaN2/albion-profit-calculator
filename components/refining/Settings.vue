@@ -3,21 +3,49 @@
     <h2>{{ $t('settings.settings') }}</h2>
     <div class="setting">
       <input
-        id="checkbox-journals"
+        id="checkbox-focus"
+        v-model="useFocus"
+        class="checkbox"
+        type="checkbox"
+      >
+      <label for="checkbox-focus">{{ $t('settings.useFocus') }}</label>
+    </div>
+    <div class="setting">
+      <input
+        id="checkbox-multiple-cities"
         v-model="useMultipleCities"
         class="checkbox"
         type="checkbox"
       >
-      <label for="checkbox-journals">{{ $t('settings.useMultipleCities') }}</label>
+      <label for="checkbox-multiple-cities">{{ $t('settings.useMultipleCities') }}</label>
+    </div>
+    <div class="setting setting--low-margin">
+      <input
+        id="checkbox-own-percentage"
+        v-model="useOwnPercentage"
+        class="checkbox"
+        type="checkbox"
+      >
+      <label for="checkbox-own-percentage">{{ $t('settings.ownReturnPercentage') }}</label>
+    </div>
+    <div 
+      v-if="useOwnPercentage"
+      class="setting"
+    >
+      <input 
+        v-model.number="returnPercentage"
+        class="input input--number"
+        placeholder="10" 
+        maxlength="5"
+      >
     </div>
     <div class="setting">
-      <h3>{{ $t('settings.craftFee') }}</h3>
+      <h3>{{ $t('settings.craftFee') }} %</h3>
       <input 
         v-model.number="fee"
         class="input input--number"
         placeholder="10" 
         maxlength="5"
-        @change="updateFee"
       >
     </div>
     <div class="setting">
@@ -40,7 +68,7 @@
     </div>
     <div class="setting">
       <h3 class="setting__city-header">
-        {{ $t('sellLocation') }}
+        {{ useMultipleCities ? $t('cities.sellMaterials') : $t('cities.mainCity') }}
       </h3>
       <select 
         v-model="cities.sellMaterials" 
@@ -54,12 +82,53 @@
         </template>
       </select>
     </div>
-    <div class="setting">
+    <div 
+      v-show="useMultipleCities"
+      class="setting"
+    >
       <h3 class="setting__city-header">
-        {{ $t('buyLocation') }}
+        {{ $t('cities.refining') }}
       </h3>
       <select 
         v-model="cities.refiningResources" 
+        class="city" 
+        @change="changeCity"
+      >
+        <template v-for="baseCity in baseCities">
+          <option :key="baseCity">
+            {{ baseCity }}
+          </option>
+        </template>
+      </select>
+    </div>
+    <div 
+      v-show="useMultipleCities"
+      class="setting"
+    >
+      <h3 class="setting__city-header">
+        {{ $t('cities.buyMaterials') }}
+      </h3>
+      <select 
+        v-model="cities.buyMaterials" 
+        class="city" 
+        @change="changeCity"
+      >
+        <template v-for="baseCity in baseCities">
+          <option :key="baseCity">
+            {{ baseCity }}
+          </option>
+        </template>
+      </select>
+    </div>
+    <div 
+      v-show="useMultipleCities"
+      class="setting"
+    >
+      <h3 class="setting__city-header">
+        {{ $t('cities.buyResources') }}
+      </h3>
+      <select 
+        v-model="cities.buyRawResources" 
         class="city" 
         @change="changeCity"
       >
@@ -93,19 +162,12 @@
 </i18n>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'Settings',
   data() {
     return {
-      fee: 10,
-      useMultipleCities: false,
-      cities: {
-        sellMaterials: 'Caerleon',
-        refiningResources: 'Caerleon',
-        buyMaterials: 'Caerleon',
-        buyRawResources: 'Caerleon'
-      },
-
       /**
        * Royal cities of the continent
        */
@@ -119,20 +181,108 @@ export default {
       ],
     }
   },
+  computed: {
+    /**
+     * Use focus points or not
+     */
+    useFocus: {
+      set(useFocus) {
+        this.$store.commit("refining/UPDATE_USE_FOCUS", useFocus);
+      },
+      get() {
+        return this.settings.useFocus;
+      }
+    },
+
+    /**
+     * Use prices from different cities or not
+     */
+    useMultipleCities: {
+      set(useMultipleCities) {
+        if (!useMultipleCities) {
+          this.$store.commit("refining/SET_CITIES", this.normalizedCities(this.cities.sellMaterials));
+        }
+
+        this.$store.commit('refining/UPDATE_USE_MULTIPLE_CITIES', useMultipleCities);
+        
+
+        this.$store.dispatch("refining/CHECK_ALL");
+      },
+      get() {
+        return this.settings.useMultipleCities;
+      }
+    },
+
+    /**
+     * Use own return percentage or not
+     */
+    useOwnPercentage: {
+      set(useOwnPercentage) {
+        this.$store.commit('refining/UPDATE_USE_OWN_PERCENTAGE', useOwnPercentage);
+      },
+      get() {
+        return this.settings.useOwnPercentage;
+      }
+    },
+
+    /**
+     * Own return percentage
+     */
+    returnPercentage: {
+      set(returnPercentage) {
+        this.$store.commit('refining/UPDATE_RETURN_PERCENTAGE', returnPercentage);
+      },
+      get() {
+        return this.settings.returnPercentage;
+      }
+    },
+
+    /**
+     * Craft fee
+     */
+    fee: {
+      set(fee) {
+        this.$store.commit('refining/UPDATE_FEE', fee);
+      },
+      get() {
+        return this.settings.fee
+      }
+    },
+
+    /**
+     * Prices from different cities
+     */
+    cities() {
+      return new Proxy(this.$store.state.refining.settings.cities, {
+        set: (target, prop, value) => {
+          let normalizedCities = { [prop]: value };
+
+          if (!this.useMultipleCities && prop == 'sellMaterials') {
+            normalizedCities = this.normalizedCities(value);
+          }
+
+          this.$store.commit('refining/SET_CITIES', normalizedCities);
+          
+          this.$store.dispatch("refining/CHECK_ALL");
+
+          return true;
+        },
+      });
+    },
+
+    ...mapState({
+      /**
+       * Current item info
+       */
+      currentItemInfo: (state) => state.refining.currentItemInfo,
+
+      /**
+       * Settings
+       */
+      settings: (state) => state.refining.settings,
+    }),
+  },
   methods: {
-    updateGold() {
-      this.$store.commit('transmutations/UPDATE_GOLD', this.gold);
-    },
-
-    updateFee() {
-      this.$store.commit('transmutations/UPDATE_FEE', this.fee);
-    },
-
-    changeCity() {
-      this.$store.commit('transmutations/UPDATE_CITIES', this.cities);
-      this.$store.dispatch('transmutations/CHECK_ALL');
-    },
-
     /**
      * Update some part of the state and try to get new data
      *
@@ -140,6 +290,18 @@ export default {
      */
     updateState(data) {
       this.$store.dispatch('transmutations/UPDATE_STATE', data);
+    },
+
+    /**
+     * Normalize Black Market to set correct cities in settings
+     */
+    normalizedCities(normalizedCity) {
+      return {
+        sellMaterials: normalizedCity,
+        refiningResources: normalizedCity,
+        buyMaterials: normalizedCity,
+        buyRawResources: normalizedCity
+      };
     },
   }
 }
@@ -149,7 +311,7 @@ export default {
 .settings {
   display: flex;
   flex-direction: column;
-  min-width: 230px;
+  min-width: 240px;
   padding: 0px 10px 10px 10px;
   font-size: 1em;
 
@@ -170,7 +332,7 @@ export default {
   flex-direction: column;
   font-size: 1em;
   margin-bottom: 10px;
-  width: 200px;
+  width: 210px;
 
   h3 {
     font-size: 0.85em;
@@ -181,7 +343,6 @@ export default {
     display: none;
 
     &:checked + label:after {
-      
       background: #e08c4c;
     }
 
@@ -191,7 +352,7 @@ export default {
       cursor: pointer;
       margin-left: 20px;
       padding-left: 5px;
-      font-size: 1em;
+      font-size: 0.95em;
 
       &:after {
         content: "";
@@ -206,10 +367,15 @@ export default {
       }
     }
   }
+
+  &--low-margin {
+    margin-bottom: 5px;
+  }
 }
 
 .input {
-  width: 185px;
+  width: 100%;
+
   &--number {
     outline: none;
     border: none;
@@ -236,7 +402,7 @@ export default {
 }
 
 .city {
-  width: 185px;
+  width: 210px;
 }
 
 </style>

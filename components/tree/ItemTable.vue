@@ -509,7 +509,7 @@ export default {
       );
 
       this.$set(this.tableInfo[`T${tier}.${subtier}`], "fee", {
-        name: "fee",
+        name: "settings.fee",
         percentage: fee,
         price: -feePrice,
         date: "",

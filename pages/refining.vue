@@ -48,7 +48,7 @@ export default {
     Table,
     Loading,
   },
-  middleware: ["authenticated"],
+  middleware: ["authenticated", "supporter"],
   data() {
     return {};
   },
