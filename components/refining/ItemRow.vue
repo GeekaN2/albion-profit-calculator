@@ -139,34 +139,6 @@ export default {
     copyName(text) {
       this.$copyText(text);
     },
-
-    tooltipData(item) {
-      let tooltipRows = [];
-
-      tooltipRows.push({
-        name: item.name,
-        price: item.price,
-        percentage: -item.marketFee,
-        date: item.date
-      });
-
-      if (item.materialName) {
-        tooltipRows.push({
-          name: item.materialName,
-          price: item.materialPrice,
-          date: item.materialDate
-        })
-      }
-
-      tooltipRows.push({
-        name: 'fee',
-        price: item.fee,
-        percentage: this.settings.fee,
-        date: ''
-      });
-
-      return tooltipRows;
-    }
   }
 }
 </script>

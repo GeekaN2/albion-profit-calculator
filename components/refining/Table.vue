@@ -24,12 +24,26 @@ export default {
   components: {
     ItemRow
   },
+  data() {
+    return {
+      /**
+       * Values of materials from t4.0 to t8.3 
+       */
+      materialValues: [
+        [14, 30, 62, 126, 254],
+        [30, 61, 125, 253, 509],
+        [54, 118, 246, 502, 1014],
+        [102, 229, 485, 997, 2021]
+      ]
+    }
+  },
   computed: {
     ...mapGetters({
       buyRawResources: 'refining/buyRawResources',
       sellMaterials: 'refining/sellMaterials',
       buyMaterials: 'refining/buyMaterials',
-      loadingText: 'refining/loadingText'
+      loadingText: 'refining/loadingText',
+      returnPercentage: 'refining/returnPercentage'
     }),
 
     ...mapState({
@@ -44,23 +58,55 @@ export default {
       for (let tier = 4; tier <= 8; tier++) {
         const itemName = this.getItemName(tier, subtier);
         const recipe = this.getItemRecipe(tier, subtier);
+        const fee = this.craftFee(tier, subtier);
+
+        const itemPrice = Math.floor(this.sellMaterials[itemName].sellPriceMin * (1 - 4.5 / 100));
+        const rawResourcesPrice = Math.floor(this.buyRawResources[recipe.rawResource.name].sellPriceMin
+          * recipe.rawResource.quantity
+          * (1 - this.returnPercentage / 100));
+        const materialPrice =Math.floor(this.buyMaterials[recipe.material.name].sellPriceMin
+          * recipe.material.quantity
+          * (1 - this.returnPercentage / 100));
+        
+        const profit = itemPrice - (rawResourcesPrice + materialPrice);
+        const percentageProfit = profit / (rawResourcesPrice + materialPrice) * 100
 
         row.push({
           name: itemName,
-          profit: 1000,
-          percentageProfit: 78,
+          profit,
+          percentageProfit,
           tooltipData: [
             {
               name: itemName,
               percent: -4.5,
-              price: 88000,
-              date: new Date(Date.now())
+              price: itemPrice,
+              date: this.sellMaterials[itemName].sellPriceMinDate
+            }, {
+              name: recipe.material.name,
+              percent: -this.returnPercentage,
+              price: materialPrice,
+              date: this.buyMaterials[recipe.material.name].sellPriceMinDate
+            }, {
+              name: recipe.rawResource.name,
+              percent: -this.returnPercentage,
+              price: rawResourcesPrice,
+              date: this.buyRawResources[recipe.rawResource.name].sellPriceMinDate
+            }, {
+              name: 'settings.fee',
+              percent: this.settings.fee,
+              price: -fee,
             }
           ]
         });
       }
 
       return row;
+    },
+
+    craftFee(tier, subtier) {
+      return Math.floor(
+        this.materialValues[subtier][tier - 4] / 20 * this.settings.fee
+      );
     },
 
     getItemName(tier, subtier) {
@@ -72,14 +118,21 @@ export default {
         (subtier == 0 ? '' : `_LEVEL${subtier}@${subtier}`);
       let material = `T${tier - 1}_${this.baseItemName}`;
 
-      if (tier != 4) {
+      if (tier != 4 && subtier > 0) {
         material = material + `_LEVEL${subtier}@${subtier}`;
       }
 
       let recipe = {};
 
-      recipe[rawResource] = Math.min(tier - 2, 5);
-      recipe[material] = 1;
+      recipe.rawResource = {
+        name: rawResource,
+        quantity: Math.min(tier - 2, 5)
+      };
+
+      recipe.material = {
+        name: material,
+        quantity: 1
+      }
 
       return recipe;
     },

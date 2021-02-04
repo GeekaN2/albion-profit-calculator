@@ -7,7 +7,7 @@
         @click="copyName($t(row.name))"
       >
         {{ $t(row.name) }}
-        {{ row.percentage ? `${row.percentage}%` : '' }}
+        {{ row.percent ? `${row.percent}%` : '' }}
       </div>
       <div
         :key="`${JSON.stringify(row)}:1`"
@@ -78,7 +78,7 @@ export default {
      * @param {string} date - timestamp
      */
     formatDate(date) {
-      if (date.length == 0) {
+      if (!date || date.length == 0) {
         return '-';
       }
 
