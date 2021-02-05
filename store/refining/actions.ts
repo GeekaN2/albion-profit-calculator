@@ -75,11 +75,16 @@ export const actions: ActionTree<RefiningState, {}> = {
     }
 
     switch (partOfState) {
-      case 'sell-items':
-        await dispatch('FETCH_SELL_ITEM_PRICES', settingsWithItem);
+      case 'material-prices':
+        await dispatch('FETCH_SELL_MATERIALS', settingsWithItem);
+
+        if (state.settings.cities.sellMaterials != state.settings.cities.buyMaterials) {
+          await dispatch('FETCH_BUY_MATERIALS', settingsWithItem);
+        }
+        
         break;
-      case 'buy-items':
-        await dispatch('FETCH_BUY_ITEM_PRICES', settingsWithItem);
+      case 'resource-prices':
+        await dispatch('FETCH_BUY_RAW_RESOURCES', settingsWithItem);
         break;
     }
 

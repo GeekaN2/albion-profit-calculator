@@ -7,6 +7,7 @@
         @click="copyName($t(row.name))"
       >
         {{ $t(row.name) }}
+        {{ row.additionalData ? `(${row.additionalData})` : '' }}
         {{ row.percent ? `${row.percent}%` : '' }}
       </div>
       <div

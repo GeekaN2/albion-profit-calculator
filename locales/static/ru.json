@@ -33,6 +33,8 @@
     "sellMaterials": "Продажа материалов",
     "refining": "Переработка",
     "buyResources": "Покупка ресурсов",
-    "buyMaterials": "Покупка материалов"
+    "buyMaterials": "Покупка материалов",
+    "updateMaterialPrices": "Обновить цены материалов",
+    "updateResourcePrices": "Обновить цены ресурсов"
   }
 }

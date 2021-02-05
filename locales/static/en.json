@@ -33,6 +33,8 @@
     "sellMaterials": "Sell materials",
     "refining": "Refining",
     "buyResources": "Buy resources",
-    "buyMaterials": "Buy materials"
+    "buyMaterials": "Buy materials",
+    "updateMaterialPrices": "Update material prices",
+    "updateResourcePrices": "Update resource prices"
   }
 }

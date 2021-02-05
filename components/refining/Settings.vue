@@ -51,19 +51,19 @@
     <div class="setting">
       <div
         class="refresh" 
-        @click="updateState('sell-items')"
+        @click="updateState('material-prices')"
       >
         <img src="/images/redo-alt.svg">
-        <p>{{ $t('updateSellPrice') }}</p>
+        <p>{{ $t('cities.updateMaterialPrices') }}</p>
       </div>
     </div>
     <div class="setting">
       <div
         class="refresh" 
-        @click="updateState('buy-items')"
+        @click="updateState('resource-prices')"
       >
         <img src="/images/redo-alt.svg">
-        <p>{{ $t('updateBuyPrices') }}</p>
+        <p>{{ $t('cities.updateResourcePrices') }}</p>
       </div>
     </div>
     <div class="setting">
@@ -73,7 +73,6 @@
       <select 
         v-model="cities.sellMaterials" 
         class="city" 
-        @change="changeCity"
       >
         <template v-for="baseCity in baseCities">
           <option :key="baseCity">
@@ -92,7 +91,6 @@
       <select 
         v-model="cities.refiningResources" 
         class="city" 
-        @change="changeCity"
       >
         <template v-for="baseCity in baseCities">
           <option :key="baseCity">
@@ -111,7 +109,6 @@
       <select 
         v-model="cities.buyMaterials" 
         class="city" 
-        @change="changeCity"
       >
         <template v-for="baseCity in baseCities">
           <option :key="baseCity">
@@ -130,7 +127,6 @@
       <select 
         v-model="cities.buyRawResources" 
         class="city" 
-        @change="changeCity"
       >
         <template v-for="baseCity in baseCities">
           <option :key="baseCity">
@@ -289,7 +285,7 @@ export default {
      * @param {string} data - what we need to update
      */
     updateState(data) {
-      this.$store.dispatch('transmutations/UPDATE_STATE', data);
+      this.$store.dispatch('refining/UPDATE_STATE', data);
     },
 
     /**
