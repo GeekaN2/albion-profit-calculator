@@ -186,6 +186,7 @@ export default {
     width: 100%;
     padding: 12px 5px;
     border-radius: 5px;
+    margin-top: 10px;
     background: #875f5f;
     border: none;
     color: #fff;
