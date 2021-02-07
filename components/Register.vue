@@ -2,26 +2,32 @@
   <div class="modal_form_wrapper">
     <div 
       v-click-outside="hideModal" 
-      class="modal_form">
+      class="modal_form"
+    >
       <div class="modal_form__header">
-        <h2 class="modal_form__title">{{ $t('register') }}</h2>
+        <h2 class="modal_form__title">
+          {{ $t('register') }}
+        </h2>
         <img 
           class="close_button" 
           src="images/close.svg" 
-          @click="hideModal" >
+          @click="hideModal"
+        >
       </div>
       <form @submit.prevent="register">
-        <p class="modal_form__error">{{ $t(error) }}</p>
+        <p class="modal_form__error">
+          {{ $t(error) }}
+        </p>
         <input
-          :placeholder="$t('nickname')"
           v-model="nickname"
+          :placeholder="$t('nickname')"
           class="modal_form__input"
           type="text"
           required
         >
         <input
-          :placeholder="$t('password')"
           v-model="password"
+          :placeholder="$t('password')"
           class="modal_form__input"
           type="password"
           required
@@ -44,7 +50,10 @@
         </p>
         <button 
           class="modal_form__button" 
-          @click.prevent="register">{{ $t('registerButton') }}</button>
+          @click.prevent="register"
+        >
+          {{ $t('registerButton') }}
+        </button>
       </form>
     </div>
   </div>

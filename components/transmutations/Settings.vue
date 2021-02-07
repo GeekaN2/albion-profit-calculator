@@ -1,6 +1,6 @@
 <template>
   <div class="settings">
-    <h2>{{ $t('settings') }}</h2>
+    <h2>{{ $t('settings.settings') }}</h2>
     <div class="setting">
       <h3>{{ $t('goldPrice') }}</h3>
       <input 
@@ -12,7 +12,7 @@
       >
     </div>
     <div class="setting">
-      <h3>{{ $t('craftFee') }}</h3>
+      <h3>{{ $t('settings.fee') }}</h3>
       <input 
         v-model.number="fee"
         class="input input--number"
@@ -40,29 +40,38 @@
       </div>
     </div>
     <div class="setting">
-      <h3 class="setting__city-header">{{ $t('sellLocation') }}</h3>
+      <h3 class="setting__city-header">
+        {{ $t('sellLocation') }}
+      </h3>
       <select 
         v-model="cities.sellResourcesLocation" 
         class="city" 
-        @change="changeCity">
+        @change="changeCity"
+      >
         <template v-for="baseCity in baseCities">
-          <option :key="baseCity">{{ baseCity }}</option>
+          <option :key="baseCity">
+            {{ baseCity }}
+          </option>
         </template>
       </select>
     </div>
     <div class="setting">
-      <h3 class="setting__city-header">{{ $t('buyLocation') }}</h3>
+      <h3 class="setting__city-header">
+        {{ $t('buyLocation') }}
+      </h3>
       <select 
         v-model="cities.buyResourcesLocation" 
         class="city" 
-        @change="changeCity">
+        @change="changeCity"
+      >
         <template v-for="baseCity in baseCities">
-          <option :key="baseCity">{{ baseCity }}</option>
+          <option :key="baseCity">
+            {{ baseCity }}
+          </option>
         </template>
       </select>
     </div>
   </div>
-  
 </template>
 
 <i18n>

@@ -105,7 +105,6 @@ export default {
      */
     getRowFirst(subtier) {
       let row = [];
-      console.log(subtier);
 
       for (let tier = 4; tier <= 8; tier++) {
         const itemName = `T${tier}_${this.baseItemName}` + 

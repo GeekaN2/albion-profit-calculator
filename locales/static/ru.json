@@ -18,7 +18,23 @@
   },
   "hours": "ч",
   "days": "д",
-  "fee": "Налог",
-  "craftFee": "Налог станка",
-  "settings": "Настройки"
+  "settings": {
+    "settings": "Настройки",
+    "useFocus": "Использовать фокус",
+    "useMultipleCities": "Цены из разных городов",
+    "ownReturnPercentage": "Собственный % возврата",
+    "fee": "Налог",
+    "craftFee": "Налог станка"
+  },
+  "cities": {
+    "mainCity": "Основной город",
+    "sellItems": "Продажа предметов",
+    "sellResources": "Продажа ресурсов",
+    "sellMaterials": "Продажа материалов",
+    "refining": "Переработка",
+    "buyResources": "Покупка ресурсов",
+    "buyMaterials": "Покупка материалов",
+    "updateMaterialPrices": "Обновить цены материалов",
+    "updateResourcePrices": "Обновить цены ресурсов"
+  }
 }

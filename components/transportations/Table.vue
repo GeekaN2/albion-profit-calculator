@@ -4,8 +4,8 @@
     <div class="items">
       <Row
         v-for="(item, index) in items"
-        :item="item"
         :key="item.itemId + index"
+        :item="item"
       />
     </div>
   </div>

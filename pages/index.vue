@@ -4,17 +4,28 @@
       <h1 class="main_page__title">
         Albion Profit Calculator
       </h1>
-      <h2 class="main_page__subtitle"/>
+      <h2 class="main_page__subtitle" />
       <div class="main_page__links">
         <nuxt-link 
           v-if="$auth.loggedIn"
           :to="localePath('/tree')"
-          class="links__button--brown button">{{ $t('tree') }}
+          class="links__button--brown button"
+        >
+          {{ $t('tree') }}
         </nuxt-link>
         <nuxt-link 
           v-if="$auth.loggedIn"
           :to="localePath('/transmutations')"
-          class="links__button--brown button">{{ $t('transmutations') }}
+          class="links__button--brown button"
+        >
+          {{ $t('transmutations') }}
+        </nuxt-link>
+        <nuxt-link 
+          v-if="$auth.loggedIn && isSupporter"
+          :to="localePath('/refining')"
+          class="links__button--brown button"
+        >
+          {{ $t('refining') }}
         </nuxt-link>
         <span
           v-if="$auth.loggedIn"
@@ -53,13 +64,15 @@
             'button__underline': $i18n.locale === 'ru'
           }"
           :to="switchLocalePath('ru')"
-          class="button">RU</nuxt-link>
+          class="button"
+        >RU</nuxt-link>
         <nuxt-link
           :class="{
             'button__underline': $i18n.locale === 'en'
           }"
           :to="switchLocalePath('en')"
-          class="button">EN</nuxt-link>
+          class="button"
+        >EN</nuxt-link>
       </span>
     </footer>
   </section>
@@ -70,6 +83,7 @@
   "en": {
     "tree": "Profit tree",
     "transmutations": "Transmuting",
+    "refining": "Refining",
     "login": "Login",
     "register": "Register",
     "logout": "Logout"
@@ -77,6 +91,7 @@
   "ru": {
     "tree": "Дерево профита",
     "transmutations": "Трансмутация",
+    "refining": "Переработка",
     "login": "Войти",
     "register": "Зарегистрироваться",
     "logout": "Выйти"
@@ -105,6 +120,13 @@ export default {
        * Is modal form shown or not
        */
       isModalRegisterShowed: false,
+    }
+  },
+  computed: {
+    isSupporter() {
+      const supporter = ['user', 'supporter', 'admin'];
+
+      return supporter.includes(this.$auth.user.role);
     }
   },
   methods: {

@@ -37,7 +37,6 @@
           }, 'row__date']"
         >{{ formatDate(item.dateTo) }}</span>
       </div>
-      
     </div>
     <div class="row__profit profit">
       <span class="profit__base">{{ profit | formatPrice }}</span>

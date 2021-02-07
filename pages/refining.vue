@@ -10,10 +10,10 @@
         <Row />
         <Loading 
           v-if="itemName"
-          :text="text" 
+          :text="loadingText" 
         />
         <Table
-          v-if="text == 'calculated' && itemName != ''"
+          v-if="loadingText == 'calculated' && itemName != ''"
         />
       </div>
     </div>
@@ -23,46 +23,43 @@
 <i18n>
 {
   "en": {
-    "chooseBranch": "Choose a resource for transmutation"
+    "chooseBranch": "Choose a resource to refining"
   },
   "ru": {
-    "chooseBranch": "Выберите ресурс для трансмутации"
+    "chooseBranch": "Выберите ресурс для переработки"
   }
 }
 </i18n>
 
 <script>
 import Header from "~/components/Header";
-import Settings from "~/components/transmutations/Settings"
-import Table from "~/components/transmutations/Table";
-import Row from "~/components/transmutations/Row";
+import Settings from "~/components/refining/Settings"
+import Row from "~/components/refining/Row";
+import Table from '~/components/refining/Table';
 import Loading from '~/components/utils/Loading.vue';
 import { mapGetters, mapState } from 'vuex'; 
 
 export default {
-  name: "Transmutations",
+  name: "Refining",
   components: {
     Header,
     Settings,
-    Table,
     Row,
+    Table,
     Loading,
   },
-  middleware: ["authenticated"],
-  data() {
-    return {};
-  },
+  middleware: ["authenticated", "supporter"],
   computed: {
     ...mapGetters({
-      text: 'transmutations/loadingText'
+      loadingText: 'refining/loadingText'
     }),
 
     ...mapState({
-      itemName: (state) => state.transmutations.currentItemInfo.name
+      itemName: (state) => state.refining.currentItemInfo.name
     })
   },
   created() {
-    this.$store.commit('transmutations/SET_STATE');
+    this.$store.commit('refining/SET_STATE');
   }
 };
 </script>

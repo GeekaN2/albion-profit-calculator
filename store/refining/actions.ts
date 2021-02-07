@@ -1,13 +1,13 @@
 import { ActionTree } from 'vuex'
 import axios from 'axios'
-import { createStringOfAllResources, isObjectEmpty } from '../utils'
-import { TransmutationsState, ItemInfo, SettingsWithItem } from './typeDefs'
+import { createStringOfAllResources, isObjectEmpty, getRawResourceNameByMaterial } from '../utils'
+import { RefiningState, ItemInfo, SettingsWithItem } from './typeDefs'
 
 const baseUrl = process.env.BASE_URL;
 
-export const actions: ActionTree<TransmutationsState, {}> = {
+export const actions: ActionTree<RefiningState, {}> = {
   /**
-   * Check prices of items
+   * Check all prices of materials and raw resources
    * If there are no prices, then download them
    * 
    * @param data - selected item info
@@ -22,7 +22,7 @@ export const actions: ActionTree<TransmutationsState, {}> = {
     // Send a requests if we need to load the next item since itemInfo was modified to the end of the previous request
     if (!(state.features.loadingText == 'calculated' || state.features.loadingText == 'something changed')) {
       return;
-    }    
+    }
 
     const currentItemInfo = state.currentItemInfo;
     const settings = state.settings;
@@ -35,12 +35,16 @@ export const actions: ActionTree<TransmutationsState, {}> = {
       return;
     }
 
-    if (isObjectEmpty(getters.sellItemPrices)) {
-      await dispatch('FETCH_SELL_ITEM_PRICES', settingsWithItem);
+    if (isObjectEmpty(getters.buyRawResources)) {
+      await dispatch('FETCH_BUY_RAW_RESOURCES', settingsWithItem);
     }
 
-    if (isObjectEmpty(getters.buyItemPrices)) {
-      await dispatch('FETCH_BUY_ITEM_PRICES', settingsWithItem);
+    if (isObjectEmpty(getters.sellMaterials)) {
+      await dispatch('FETCH_SELL_MATERIALS', settingsWithItem);
+    }
+
+    if (isObjectEmpty(getters.buyMaterials)) {
+      await dispatch('FETCH_BUY_MATERIALS', settingsWithItem);
     }
 
     // Send a request if something is changed
@@ -71,11 +75,16 @@ export const actions: ActionTree<TransmutationsState, {}> = {
     }
 
     switch (partOfState) {
-      case 'sell-items':
-        await dispatch('FETCH_SELL_ITEM_PRICES', settingsWithItem);
+      case 'material-prices':
+        await dispatch('FETCH_SELL_MATERIALS', settingsWithItem);
+
+        if (state.settings.cities.sellMaterials != state.settings.cities.buyMaterials) {
+          await dispatch('FETCH_BUY_MATERIALS', settingsWithItem);
+        }
+        
         break;
-      case 'buy-items':
-        await dispatch('FETCH_BUY_ITEM_PRICES', settingsWithItem);
+      case 'resource-prices':
+        await dispatch('FETCH_BUY_RAW_RESOURCES', settingsWithItem);
         break;
     }
 
@@ -85,48 +94,72 @@ export const actions: ActionTree<TransmutationsState, {}> = {
   },
 
   /**
-   * Fetch item prices
+   * Fetch raw resources prices
    * 
    * @param commit - vuex commit
    * @param state - vuex state
    * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
    */
-  async FETCH_SELL_ITEM_PRICES({ commit }, settingsWithItem: SettingsWithItem) {
-    commit('SET_LOADING_TEXT', 'items');
+  async FETCH_BUY_RAW_RESOURCES({ commit }, settingsWithItem: SettingsWithItem) {
+    commit('SET_LOADING_TEXT', 'resources');
 
     const itemName = settingsWithItem.currentItemInfo.name;
-    const allNames = createStringOfAllResources(itemName);
-    const location = settingsWithItem.settings.cities.sellResourcesLocation;
+    const rawResourceName = getRawResourceNameByMaterial(itemName);
+    const allNames = createStringOfAllResources(rawResourceName);
+    const location = settingsWithItem.settings.cities.buyRawResources;
 
     await axios
       .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
       .then(response => {
         const data = response.data;
 
-        commit('SET_SELL_ITEM_PRICES', { data, settingsWithItem });
+        commit('SET_RAW_RESOURCES', { data, settingsWithItem });
       });
   },
-  
+
   /**
-   * Fetch item prices
+   * Fetch materials prices
    * 
    * @param commit - vuex commit
    * @param state - vuex state
    * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
    */
-  async FETCH_BUY_ITEM_PRICES({ commit }, settingsWithItem: SettingsWithItem) {
-    commit('SET_LOADING_TEXT', 'items');
+  async FETCH_SELL_MATERIALS({ commit }, settingsWithItem: SettingsWithItem) {
+    commit('SET_LOADING_TEXT', 'materials');
 
     const itemName = settingsWithItem.currentItemInfo.name;
-    const allNames = createStringOfAllResources(itemName);
-    const location = settingsWithItem.settings.cities.buyResourcesLocation;
+    const allNames = createStringOfAllResources(itemName, 3);
+    const location = settingsWithItem.settings.cities.sellMaterials;
 
     await axios
       .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
       .then(response => {
         const data = response.data;
 
-        commit('SET_BUY_ITEM_PRICES', { data, settingsWithItem });
+        commit('SET_SELL_MATERIALS', { data, settingsWithItem });
+      });
+  },
+
+  /**
+   * Fetch materials prices
+   * 
+   * @param commit - vuex commit
+   * @param state - vuex state
+   * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
+   */
+  async FETCH_BUY_MATERIALS({ commit }, settingsWithItem: SettingsWithItem) {
+    commit('SET_LOADING_TEXT', 'materials');
+
+    const itemName = settingsWithItem.currentItemInfo.name;
+    const allNames = createStringOfAllResources(itemName, 3);
+    const location = settingsWithItem.settings.cities.buyMaterials;
+
+    await axios
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
+      .then(response => {
+        const data = response.data;
+
+        commit('SET_BUY_MATERIALS', { data, settingsWithItem });
       });
   },
 }

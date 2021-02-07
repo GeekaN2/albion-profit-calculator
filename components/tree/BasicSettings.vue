@@ -14,7 +14,7 @@
           src="/images/flask.svg"
         >
       </label>
-      <h2>{{ $t('settings') }}</h2>
+      <h2>{{ $t('settings.settings') }}</h2>
       <img
         :title="$t('title.saveSettings')"
         class="svg svg--save" 
@@ -53,7 +53,7 @@
         class="checkbox"
         type="checkbox"
       >
-      <label for="checkbox-cities">{{ $t('multipleCities') }}</label>
+      <label for="checkbox-cities">{{ $t('settings.useMultipleCities') }}</label>
     </div>
     <div class="setting">
       <input
@@ -75,27 +75,31 @@
     </div>
     <div 
       class="refresh" 
-      @click="updateState('items')">
+      @click="updateState('items')"
+    >
       <img src="/images/redo-alt.svg">
       <p>{{ $t('updateItems') }}</p>
     </div>
     <div 
       class="refresh" 
-      @click="updateState('resources')">
+      @click="updateState('resources')"
+    >
       <img src="/images/redo-alt.svg">
       <p>{{ $t('updateResources') }}</p>
     </div>
     <div
       v-if="isArtifactItem"
       class="refresh"
-      @click="updateState('artifacts')">
+      @click="updateState('artifacts')"
+    >
       <img src="/images/redo-alt.svg">
       <p>{{ $t('updateArtifacts') }}</p>
     </div>
     <div
       v-if="useJournals"
       class="refresh" 
-      @click="updateState('journals')">
+      @click="updateState('journals')"
+    >
       <img src="/images/redo-alt.svg">
       <p>{{ $t('updateJournals') }}</p>
     </div>
@@ -107,72 +111,101 @@
       >
       <span>% {{ $t('craftFee') }}</span>
     </div>
-    <p class="setting__city-header">{{ useMultipleCities ? $t('cities.sellItems') : $t('cities.mainCity') }}</p>
+    <p class="setting__city-header">
+      {{ useMultipleCities ? $t('cities.sellItems') : $t('cities.mainCity') }}
+    </p>
     <select 
       v-model="cities.sellItems" 
       class="city" 
     >
       <option>Black Market</option>
       <template v-for="city in baseCities">
-        <option :key="city">{{ city }}</option>
+        <option :key="city">
+          {{ city }}
+        </option>
       </template>
     </select>
     <div 
       v-if="useMultipleCities" 
-      class="setting__multiple-cities">
-      <p class="setting__city-header">{{ $t('cities.craftItems') }}</p>
+      class="setting__multiple-cities"
+    >
+      <p class="setting__city-header">
+        {{ $t('cities.craftItems') }}
+      </p>
       <select 
         v-model="cities.craftItems" 
         class="city" 
       >
         <template v-for="city in baseCities">
-          <option :key="city">{{ city }}</option>
+          <option :key="city">
+            {{ city }}
+          </option>
         </template>
       </select>
       <p 
         v-if="Object.entries(this['tree/getRecipe']).length == 0"
-        class="setting__city-header">{{ $t('cities.resources') }}</p>
+        class="setting__city-header"
+      >
+        {{ $t('cities.resources') }}
+      </p>
       <p 
         v-else
-        class="setting__city-header">{{ $t(`resources.${Object.entries(this['tree/getRecipe'])[0][0]}`) }}</p>
+        class="setting__city-header"
+      >
+        {{ $t(`resources.${Object.entries(this['tree/getRecipe'])[0][0]}`) }}
+      </p>
       <select 
         v-model="cities.resourcesFirstLocation" 
         class="city" 
       >
         <template v-for="city in baseCities">
-          <option :key="city">{{ city }}</option>
+          <option :key="city">
+            {{ city }}
+          </option>
         </template>
       </select>
       <template v-if="Object.entries(this['tree/getRecipe']).length == 2">
-        <p class="setting__city-header">{{ $t(`resources.${Object.entries(this['tree/getRecipe'])[1][0]}`) }}</p>
+        <p class="setting__city-header">
+          {{ $t(`resources.${Object.entries(this['tree/getRecipe'])[1][0]}`) }}
+        </p>
         <select 
           v-model="cities.resourcesSecondLocation" 
           class="city" 
         >
           <template v-for="city in baseCities">
-            <option :key="city">{{ city }}</option>
+            <option :key="city">
+              {{ city }}
+            </option>
           </template>
         </select>
       </template>
       <template v-if="isArtifactItem">
-        <p class="setting__city-header">{{ artefactsCategory }}</p>
+        <p class="setting__city-header">
+          {{ artefactsCategory }}
+        </p>
         <select 
           v-model="cities.artefacts" 
           class="city" 
         >
           <template v-for="city in baseCities">
-            <option :key="city">{{ city }}</option>
+            <option :key="city">
+              {{ city }}
+            </option>
           </template>
         </select>
       </template>
       <template v-if="useJournals">
-        <p class="setting__city-header">{{ $t('cities.journals') }}</p>
+        <p class="setting__city-header">
+          {{ $t('cities.journals') }}
+        </p>
         <select 
           v-model="cities.journals" 
           class="city" 
         >
           <template v-for="city in baseCities">
-            <option :key="city">{{ city }}</option>
+            <option :key="city">
+              {{ city }}
+            </option>
           </template>
         </select>
       </template>
@@ -190,7 +223,6 @@
     "updateArtifacts": "Update artifact prices",
     "updateJournals": "Update journal prices",
     "craftFee": "craft fee",
-    "multipleCities": "Use multiple cities",
     "averageItems": "Number of items sold",
     "averagePrice": "Use average price",
     "cities": {
@@ -213,7 +245,6 @@
     "updateArtifacts": "Обновить цены артефактов",
     "updateJournals": "Обновить цены журналов",
     "craftFee": "налог станка",
-    "multipleCities": "Цены из разных городов",
     "averageItems": "Кол-во проданных предметов",
     "averagePrice": "Использовать среднюю цену",
     "cities": {
@@ -305,7 +336,6 @@ export default {
         }
 
         this.$store.commit("tree/UPDATE_USE_MULTIPLE_CITIES", useMultipleCities);
-        
 
         this.$store.dispatch("tree/CHECK_ALL");
       },

@@ -26,35 +26,9 @@
             'item__warnings__tooltip tooltip', 
             `tooltip--tier${item.name.slice(1, 2)}`]"
         >
-          <div class="tooltip__table">
-            <template v-for="tooltipRow of tooltipData(item)">
-              <div
-                :key="`${JSON.stringify(tooltipRow)}:0`"
-                class="text-algin-left copy-cell"
-                @click="copyName($t(tooltipRow.name))"
-              >
-                {{ $t(tooltipRow.name) }}
-                {{ tooltipRow.percentage ? `${tooltipRow.percentage}%` : '' }}
-              </div>
-              <div
-                :key="`${JSON.stringify(tooltipRow)}:1`"
-                :class="{
-                  'error': tooltipRow.price == 0
-                }"
-              >
-                {{ tooltipRow.price | formatPrice }}
-              </div>
-              <div
-                :key="`${JSON.stringify(tooltipRow)}:2`"
-                :class="{
-                  'error': outdated(tooltipRow.date),
-                  'success': !outdated(tooltipRow.date)
-                }"
-              >
-                {{ formatDate(tooltipRow.date) }}
-              </div>
-            </template>
-          </div>
+          <Tooltip 
+            :data="item.tooltipData"
+          />
         </div>
       </div>
     </div>
@@ -63,9 +37,13 @@
 
 <script>
 import { mapState } from 'vuex';
+import Tooltip from '../utils/Tooltip';
 
 export default {
   name: 'ItemRow',
+  components: {
+    Tooltip
+  },
   filters: {
     /**
      * Format the price for the convenience
@@ -91,16 +69,12 @@ export default {
       num = num > 0 ? `+${num}` : num;
 
       return num;
-    },
-
-    /**
-     * Format float
-     */
-    formatFloat(num) {
-      return Math.floor(num) == num ? num : num.toFixed(1);
     }
   },
   props: {
+    /**
+     * Row of items of one subtier
+     */
     row: {
       type: Array,
       default: () => []
@@ -161,34 +135,6 @@ export default {
     copyName(text) {
       this.$copyText(text);
     },
-
-    tooltipData(item) {
-      let tooltipRows = [];
-
-      tooltipRows.push({
-        name: item.name,
-        price: item.price,
-        percentage: -item.marketFee,
-        date: item.date
-      });
-
-      if (item.materialName) {
-        tooltipRows.push({
-          name: item.materialName,
-          price: item.materialPrice,
-          date: item.materialDate
-        })
-      }
-
-      tooltipRows.push({
-        name: 'settings.fee',
-        price: item.fee,
-        percentage: this.settings.fee,
-        date: ''
-      });
-
-      return tooltipRows;
-    }
   }
 }
 </script>

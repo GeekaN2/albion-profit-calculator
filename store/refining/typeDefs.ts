@@ -1,21 +1,12 @@
 /**
  * Vuex root state
  */
-export interface TransmutationsState {
-  prices: Prices;
+export interface RefiningState {
+  rawResources: Prices;
+  materials: Prices;
   settings: Settings;
   currentItemInfo: ItemInfo;
   features: Features;
-}
-
-/**
- * Main item model
- */
-export interface Item {
-  price: number;
-  date: string;
-  marketFee?: number;
-  quality?: number;
 }
 
 /**
@@ -44,14 +35,32 @@ export interface ResponseModel {
  * Transmutation settings
  */
 export interface Settings {
+  useFocus: boolean;
   fee: number;
-  gold: number;
+  useOwnPercentage: boolean;
+  returnPercentage: number;
+  useMultipleCities: boolean;
   cities: {
-    sellResourcesLocation: string;
-    buyResourcesLocation: string;
+    sellMaterials: string;
+    refiningResources: string;
+    buyRawResources: string;
+    buyMaterials: string;
   }
 }
 
+/**
+ * Possible cities to update them in settings
+ */
+export interface OneOfCitiesProp {
+  sellMaterials?: string;
+  refiningResources?: string;
+  buyRawResources?: string;
+  buyMaterials?: string;
+}
+
+/**
+ * Information about the selected item
+ */
 export interface ItemInfo {
   name: string;
 }
@@ -65,6 +74,9 @@ export interface SettingsWithItem {
   settings: Settings;
 }
 
+/**
+ * Various features
+ */
 export interface Features {
   loadingText: string;
 }

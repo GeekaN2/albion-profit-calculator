@@ -1,4 +1,12 @@
 /**
+ * Vuex root state
+ */
+export interface TransportationsState {
+  items: Item[];
+  settings: Settings;
+}
+
+/**
  * Main item model
  */
 export interface Item {
@@ -25,14 +33,6 @@ export interface ResponseModel {
   buyPriceMaxDate: string;
   sellPriceMin: number;
   sellPriceMinDate: string;
-}
-
-/**
- * Vuex root state
- */
-export interface TransportationsState {
-  items: Item[];
-  settings: Settings;
 }
 
 /**

@@ -11,11 +11,11 @@ import Table from "~/components/transportations/Table";
 
 export default {
   name: "Transportations",
-  middleware: ["authenticated"],
   components: {
     Header,
     Table
   },
+  middleware: ["authenticated", "supporter"],
   data() {
     return {};
   },

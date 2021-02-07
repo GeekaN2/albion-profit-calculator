@@ -3,7 +3,8 @@
     <div class="header__left">
       <nuxt-link 
         :to="localePath('/')"
-        class="header__logo">
+        class="header__logo"
+      >
         Albion profit calculator
       </nuxt-link>
       <a 
@@ -13,7 +14,8 @@
       >
         <img 
           class="header__patreon" 
-          src="/images/patreon.svg">
+          src="/images/patreon.svg"
+        >
       </a>
     </div>
     <div class="header__wrapper">
@@ -22,19 +24,28 @@
           'header__link--underline': $i18n.locale === 'ru'
         }"
         :to="switchLocalePath('ru')"
-        class="header__link header__link--purple">RU</nuxt-link>
+        class="header__link header__link--purple"
+      >
+        RU
+      </nuxt-link>
       <nuxt-link
         :class="{
           'header__link--underline': $i18n.locale === 'en'
         }"
         :to="switchLocalePath('en')"
-        class="header__link header__link--purple">EN</nuxt-link>
+        class="header__link header__link--purple"
+      >
+        EN
+      </nuxt-link>
+      <span class="header__user-role">{{ $auth.user.role }}</span>
       <span 
-        class="header__user_nickname">{{ $auth.user.nickname }}</span>
+        class="header__user-nickname"
+      >{{ $auth.user.nickname }}</span>
       <img
         class="logout_button"
         src="/images/exit.svg" 
-        @click="logout">
+        @click="logout"
+      >
     </div>
   </div>
 </template>
@@ -90,9 +101,18 @@ $base-purple: #583156;
     align-items: center;
   }
 
-  &__user_nickname {
+  &__user-role {
+    font-size: 0.7em;
+    color: #745858;
+    margin-left: 10px;
+    border: 1px solid;
+    padding: 0px 5px 1px 5px;
+    border-radius: 8px;
+  }
+
+  &__user-nickname {
     display: inline-block;
-    margin-left: 20px;
+    margin-left: 10px;
     margin-right: 5px;
     color: $base-brown;
   }

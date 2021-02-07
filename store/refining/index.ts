@@ -3,8 +3,8 @@ import { mutations } from './mutations';
 import { getters } from './getters'
 import Vuex, { Module } from 'vuex';
 import Vue from 'vue'
-import { TransmutationsState } from './typeDefs';
 import clonedeep from 'lodash.clonedeep';
+import { RefiningState } from './typeDefs';
 
 Vue.use(Vuex);
 
@@ -17,16 +17,22 @@ const cities = {
   'Thetford': {},
 }
 
-const transmutationModule: Module<TransmutationsState, {}> = {
+const refiningModule: Module<RefiningState, {}>  = {
   namespaced: true,
   state: () => ({
-    prices: clonedeep(Object.assign(cities, {'Black Market': {}})),
+    rawResources: clonedeep(cities),
+    materials: clonedeep(cities),
     settings: {
+      useFocus: false,
       fee: 10,
-      gold: 3000,
+      useOwnPercentage: false,
+      returnPercentage: 15.2,
+      useMultipleCities: false,
       cities: {
-        buyResourcesLocation: 'Caerleon',
-        sellResourcesLocation: 'Caerleon'
+        sellMaterials: 'Caerleon',
+        refiningResources: 'Caerleon',
+        buyMaterials: 'Caerleon',
+        buyRawResources: 'Caerleon'
       }
     },
     currentItemInfo: {
@@ -41,4 +47,4 @@ const transmutationModule: Module<TransmutationsState, {}> = {
   mutations
 }
 
-export default transmutationModule;
+export default refiningModule;

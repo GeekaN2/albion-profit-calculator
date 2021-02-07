@@ -2,18 +2,18 @@
   <div class="item-table">
     <div
       v-for="subtier in 4"
-      :class="`subtier${subtier - 1}`"
       :key="subtier"
+      :class="`subtier${subtier - 1}`"
       class="item-table__row row"
     >
       <div
         v-for="(item, name) of getRow(subtier - 1)"
+        :key="name"
         :class="[{
           'row__unprofitable': item.profit < 0,
           'row__profitable': item.profit > 0,
           'row__unknown': item.profit == 0 || outdated(item.date, 'item date') || noArtefactForSale(name),
         }, `tier${name.slice(1, 2)} tier item`]"
-        :key="name"
       >
         <div class="item__base-item-info base-item-info">
           <span>{{ item.profit | formatPrice }}</span>
@@ -34,7 +34,8 @@
           <img 
             v-if="outdated(item.date, 'item date')" 
             src="/images/clock.svg" 
-            class="item__warnings__icon" >
+            class="item__warnings__icon"
+          >
           <img
             v-if="!outdated(item.date, 'item date') && !noArtefactForSale(name)"
             class="item__warnings__info"
@@ -58,7 +59,7 @@
                   {{ $t(tooltipRow.name) }}
                   {{ tooltipRow.percentage ? `${tooltipRow.percentage}%` : '' }}
                   {{ !tooltipRow.journalsPerItem ? '' : 
-                  `(${formatFloat(tooltipRow.journalsPerItem)}${$t('JournalsShort')})` }}
+                    `(${formatFloat(tooltipRow.journalsPerItem)}${$t('JournalsShort')})` }}
                 </div>
                 <div
                   v-if="!isObjectEmpty(tooltipRow)"
@@ -66,7 +67,9 @@
                   :class="{
                     'error': tooltipRow.price == 0
                   }"
-                >{{ tooltipRow.price | formatPrice(infoName) }}</div>
+                >
+                  {{ tooltipRow.price | formatPrice(infoName) }}
+                </div>
                 <div
                   v-if="!isObjectEmpty(tooltipRow)"
                   :key="`${infoName}:2`"
@@ -74,7 +77,9 @@
                     'error': outdated(tooltipRow.date),
                     'success': !outdated(tooltipRow.date)
                   }"
-                >{{ formatDate(tooltipRow.date) }}</div>
+                >
+                  {{ formatDate(tooltipRow.date) }}
+                </div>
               </template>
             </div>
           </div>
@@ -504,7 +509,7 @@ export default {
       );
 
       this.$set(this.tableInfo[`T${tier}.${subtier}`], "fee", {
-        name: "fee",
+        name: "settings.fee",
         percentage: fee,
         price: -feePrice,
         date: "",

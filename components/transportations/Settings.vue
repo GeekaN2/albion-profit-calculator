@@ -1,6 +1,8 @@
 <template>
   <div class="settings">
-    <h2 class="title title--center">{{ $t("settings") }}</h2>
+    <h2 class="title title--center">
+      {{ $t("settings") }}
+    </h2>
     <p class="subtitle">
       {{ $t("cities.locationFrom") }}
     </p>
@@ -10,7 +12,9 @@
       @change="changeLocation"
     >
       <template v-for="location in locations">
-        <option :key="location">{{ location }}</option>
+        <option :key="location">
+          {{ location }}
+        </option>
       </template>
     </select>
     <p class="subtitle">
@@ -23,7 +27,9 @@
     >
       <option>Black Market</option>
       <template v-for="location in locations">
-        <option :key="location">{{ location }}</option>
+        <option :key="location">
+          {{ location }}
+        </option>
       </template>
     </select>
     <input

@@ -152,7 +152,7 @@ export const actions: ActionTree<TreeState, {}> = {
    * @param state - vuex state
    */
   async FETCH_RESOURCE_PRICES({ commit, state }, settingsWithItem) {
-    commit('SET_LOADING_TEXT', 'resources');
+    commit('SET_LOADING_TEXT', 'materials');
 
     const resources = ['CLOTH', 'LEATHER', 'PLANKS', 'METALBAR'];
     let locations = new Set();

@@ -5,7 +5,9 @@
       class="modal_form"
     > 
       <div class="modal_form__header">
-        <h2 class="modal_form__title">{{ $t('login') }}</h2>
+        <h2 class="modal_form__title">
+          {{ $t('login') }}
+        </h2>
         <img 
           class="close_button" 
           src="images/close.svg"
@@ -17,15 +19,15 @@
           {{ $t(error) }}
         </p>
         <input 
-          :placeholder="$t('nickname')"
           v-model="nickname"
+          :placeholder="$t('nickname')"
           class="modal_form__input"   
           type="text"
           required
         >
         <input 
-          :placeholder="$t('password')"
           v-model="password"
+          :placeholder="$t('password')"
           class="modal_form__input"   
           type="password"
           required
@@ -184,6 +186,7 @@ export default {
     width: 100%;
     padding: 12px 5px;
     border-radius: 5px;
+    margin-top: 10px;
     background: #875f5f;
     border: none;
     color: #fff;

@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div 
-      v-for="item of resources"
+      v-for="item of materials"
       :key="item"
       :class="['row__item', currentItem == item ? 'selected' : '']"
       @click="itemClick(item)"
@@ -16,12 +16,21 @@ export default {
   name: "Row",
   data() {
     return {
-      resources: ["ORE", "HIDE", "FIBER", "WOOD", "ROCK"],
+      /**
+       * Materials into which materials can be processed 
+       */
+      materials: ["METALBAR", "LEATHER", "CLOTH", "PLANKS", "STONEBLOCK"],
 
+      /**
+       * Name of the selected item
+       */
       currentItem: "",
     };
   },
   methods: {
+    /**
+     * Select or deselect an item
+     */
     itemClick(itemName) {
       if (this.currentItem == itemName) {
         this.currentItem = "";
@@ -29,7 +38,7 @@ export default {
         this.currentItem = itemName;
       }
 
-      this.$store.dispatch('transmutations/CHECK_ALL', {
+      this.$store.dispatch('refining/CHECK_ALL', {
         name: this.currentItem
       });
     }
