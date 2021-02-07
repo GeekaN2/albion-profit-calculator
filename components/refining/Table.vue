@@ -52,6 +52,9 @@ export default {
     })
   },
   methods: {
+    /**
+     * Calculate item profit and generate data for the tooltip
+     */
     getRow(subtier) {
       let row = [];
 
@@ -104,16 +107,25 @@ export default {
       return row;
     },
 
+    /**
+     * Calculates fee for refining 1 item
+     */
     craftFee(tier, subtier) {
       return Math.ceil(
         this.materialValues[subtier][tier - 4] / 20 * this.settings.fee
       );
     },
 
+    /**
+     * Generate item name of current tier and subtier
+     */
     getItemName(tier, subtier) {
       return `T${tier}_${this.baseItemName}` + (subtier == 0 ? '' : `_LEVEL${subtier}@${subtier}`);
     },
 
+    /**
+     * Generate item recipe
+     */
     getItemRecipe(tier, subtier) {
       let rawResource = `T${tier}_${getRawResourceNameByMaterial(this.baseItemName)}` + 
         (subtier == 0 ? '' : `_LEVEL${subtier}@${subtier}`);
@@ -137,10 +149,6 @@ export default {
 
       return recipe;
     },
-
-    getItem(tier, subtier) {
-      return 'a';
-    }
   }
 };
 </script>

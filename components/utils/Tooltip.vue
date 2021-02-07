@@ -44,6 +44,9 @@ export default {
     },
   },
   props: {
+    /**
+     * Array of objects in each store data for a specific line 
+     */
     data: {
       type: Array,
       default: () => []

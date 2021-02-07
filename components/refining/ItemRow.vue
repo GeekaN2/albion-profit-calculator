@@ -69,16 +69,12 @@ export default {
       num = num > 0 ? `+${num}` : num;
 
       return num;
-    },
-
-    /**
-     * Format float
-     */
-    formatFloat(num) {
-      return Math.floor(num) == num ? num : num.toFixed(1);
     }
   },
   props: {
+    /**
+     * Row of items of one subtier
+     */
     row: {
       type: Array,
       default: () => []

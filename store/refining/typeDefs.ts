@@ -9,17 +9,6 @@ export interface RefiningState {
   features: Features;
 }
 
-
-/**
- * Main item model
- */
-export interface Item {
-  price: number;
-  date: string;
-  marketFee?: number;
-  quality?: number;
-}
-
 /**
  * city -> base_item_name -> array of prices
  */
@@ -59,6 +48,9 @@ export interface Settings {
   }
 }
 
+/**
+ * Possible cities to update them in settings
+ */
 export interface OneOfCitiesProp {
   sellMaterials?: string;
   refiningResources?: string;
@@ -66,6 +58,9 @@ export interface OneOfCitiesProp {
   buyMaterials?: string;
 }
 
+/**
+ * Information about the selected item
+ */
 export interface ItemInfo {
   name: string;
 }
@@ -79,6 +74,9 @@ export interface SettingsWithItem {
   settings: Settings;
 }
 
+/**
+ * Various features
+ */
 export interface Features {
   loadingText: string;
 }

@@ -1,8 +1,10 @@
 import { actions } from './actions';
 import { mutations } from './mutations';
 import { getters } from './getters'
-import Vuex from 'vuex';
+import Vuex, { Module } from 'vuex';
 import Vue from 'vue'
+import { TransmutationsState } from './typeDefs';
+import clonedeep from 'lodash.clonedeep';
 
 Vue.use(Vuex);
 
@@ -15,15 +17,24 @@ const cities = {
   'Thetford': {},
 }
 
-const transmutationModule = {
+const transmutationModule: Module<TransmutationsState, {}> = {
   namespaced: true,
   state: () => ({
-    prices: JSON.parse(JSON.stringify(Object.assign(cities, {'Black Market': {}}))),
+    prices: clonedeep(Object.assign(cities, {'Black Market': {}})),
     settings: {
-      cities: {}
+      fee: 10,
+      gold: 3000,
+      cities: {
+        buyResourcesLocation: 'Caerleon',
+        sellResourcesLocation: 'Caerleon'
+      }
     },
-    currentItemInfo: {},
-    features: {}
+    currentItemInfo: {
+      name: ''
+    },
+    features: {
+      loadingText: 'calculated'
+    }
   }),
   getters,
   actions,

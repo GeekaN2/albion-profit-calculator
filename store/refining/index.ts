@@ -17,7 +17,7 @@ const cities = {
   'Thetford': {},
 }
 
-const refiningModule :Module<RefiningState, {}>  = {
+const refiningModule: Module<RefiningState, {}>  = {
   namespaced: true,
   state: () => ({
     rawResources: clonedeep(cities),

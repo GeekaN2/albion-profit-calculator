@@ -90,9 +90,7 @@ export const getters: GetterTree<RefiningState, {}> = {
       return returnMaterialsPercentage;
     }
 
-    const categories = bonus[city];
-
-    let addBonus = categories.some(keyword => itemName.includes(keyword));
+    let addBonus = bonus[city].some(keyword => itemName.includes(keyword));
 
     if (addBonus) {
       returnMaterialsPercentage = useFocus ? 53.9 : 36.7;

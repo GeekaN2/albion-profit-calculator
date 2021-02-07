@@ -134,6 +134,9 @@ export interface Settings {
   }
 }
 
+/**
+ * Cities in settings
+ */
 export interface Cities {
   sellItems: string;
   craftItems: string;
@@ -143,6 +146,9 @@ export interface Cities {
   journals: string;
 }
 
+/**
+ * Payload to update cities
+ */
 export interface OneOfCitiesProp {
   sellItems?: string;
   craftItems?: string;
@@ -152,10 +158,16 @@ export interface OneOfCitiesProp {
   journals?: string;
 }
 
+/**
+ * Various features
+ */
 export interface Features {
   loadingText: string;
 }
 
+/**
+ * Information about an item
+ */
 export interface ItemInfo {
   name: string;
   parent: string;
@@ -163,6 +175,9 @@ export interface ItemInfo {
   artefactLevel: string;
 }
 
+/**
+ * Average data api response model
+ */
 export interface AverageDataResponse {
   itemName: string;
   location: string;
@@ -172,6 +187,9 @@ export interface AverageDataResponse {
   lastCheckDate: string;
 }
 
+/**
+ * Item average data
+ */
 export interface AverageDataForItem {
   averageItems: number;
   averagePrice: number;

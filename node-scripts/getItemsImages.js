@@ -39,8 +39,6 @@ async function getImages() {
       badLoadedItems.push(item);
     });
   }
-
-  console.log(badLoadedItems);
   
   while (badLoadedItems.length > 1) {
     const item = badLoadedItems[badLoadedItems.length - 1];
@@ -142,14 +140,6 @@ function isArtifactItem(itemName) {
   return artifacts.some(artifact => itemName.includes(artifact));
 }
 
-/**
- * Sleep for a few ms
- * 
- * @param {number} ms 
- */
-async function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 /**
  * Download image
  * 
