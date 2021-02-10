@@ -33,8 +33,7 @@
           required
         >
         <p class="modal_form__description">
-          {{ $t('getToken') }}
-          <span class="discord-nickname">GeekaN#8674</span> 
+          {{ $t('visitUs') }}
           <a 
             class="underline_text purple-link" 
             href="https://discord.gg/2AM2twM"
@@ -59,7 +58,7 @@
     "registerButton": "Register",
     "nickname": "Nickname",
     "password": "Password",
-    "getToken": "To get register token write me on Discord ",
+    "visitUs": "Visit our discord, there is a lot of useful information",
     "discordServer": "Discord server",
     "error": {
       "badToken": "Bad register token",
@@ -72,7 +71,7 @@
     "registerButton": "Зарегистрироваться",
     "nickname": "Никнейм",
     "password": "Пароль",
-    "getToken": "Чтобы получить токен для регистрации, напиши мне в Дискорд ",
+    "visitUs": "Посети наш дискорд, там много полезной инфы",
     "discordServer": "Сервер в дискорде",
     "error": {
       "badToken": "Такого токена не существует",
