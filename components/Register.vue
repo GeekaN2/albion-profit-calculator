@@ -32,13 +32,6 @@
           type="password"
           required
         >
-        <input
-          v-model="token"
-          class="modal_form__input"
-          type="token"
-          placeholder="ey0fqS8WRhe..."
-          required
-        >
         <p class="modal_form__description">
           {{ $t('getToken') }}
           <span class="discord-nickname">GeekaN#8674</span> 
@@ -115,11 +108,6 @@ export default {
       password: "",
 
       /**
-       * Token to register
-       */
-      token: "",
-
-      /**
        * Error message if something goes wrong
        */
       error: "",
@@ -138,7 +126,7 @@ export default {
      */
     async register() {
       try {
-        if (!this.nickname || !this.password || !this.token) {
+        if (!this.nickname || !this.password) {
           this.error = "error.empty";
 
           return;
@@ -146,18 +134,9 @@ export default {
 
         const response = await this.$axios.$post("register", {
           nickname: this.nickname,
-          password: this.password,
-          registerToken: this.token,
+          password: this.password
         });
-
-        if (response == "Bad register token") {
-          this.error = "error.badToken";
-
-          return;
-        }
-
-        console.log(response);
-
+        
         await this.$auth.loginWith("local", {
           data: {
             nickname: this.nickname,
@@ -165,7 +144,7 @@ export default {
           },
         });
 
-        this.$router.push(this.localePath("/tree"));
+        this.hideModal();
       } catch {
         this.error = "error.wrong";
       }

@@ -124,7 +124,7 @@ export default {
   },
   computed: {
     isSupporter() {
-      const supporter = ['user', 'supporter', 'admin'];
+      const supporter = ['supporter', 'admin'];
 
       return supporter.includes(this.$auth.user.role);
     }

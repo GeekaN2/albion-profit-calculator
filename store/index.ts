@@ -3,6 +3,7 @@ import treeModule from './profit-tree';
 import transportationsModule from './transportations-table';
 import transmutationsModule from './transmutations';
 import refiningModule from './refining';
+import adminPanelModule from './admin-panel';
 
 const store: StoreOptions<{}> ={
   state: () => ({}),
@@ -26,6 +27,11 @@ const store: StoreOptions<{}> ={
      * Transmutation tables module
      */
     transmutations: transmutationsModule,
+
+    /**
+     * Admin panel module
+     */
+    adminPanel: adminPanelModule
   }
 };
 

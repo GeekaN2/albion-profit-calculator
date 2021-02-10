@@ -8,14 +8,35 @@
         Albion profit calculator
       </nuxt-link>
       <a 
-        :title="$t('support')"
+        class="header__social"
         href="https://patreon.com/geekan"
         target="_blank"
       >
         <img 
+          :title="$t('support')"
           class="header__patreon" 
           src="/images/patreon.svg"
         >
+      </a><a
+        class="header__social"
+        href="https://ko-fi.com/geekan"
+        target="_blank"
+      >
+        <img 
+          title="Support me on ko-fi"
+          class="header__ko-fi"
+          src="/images/ko-fi-logo.png"
+        >  
+      </a><a
+        class="header__social"
+        href="https://discord.gg/2AM2twM"
+        target="_blank"
+      >
+        <img 
+          title="Our discord server"
+          class="header__discord"
+          src="/images/discord-logo-color.svg"
+        > 
       </a>
     </div>
     <div class="header__wrapper">
@@ -53,10 +74,10 @@
 <i18n>
 {
   "en": {
-    "support": "Support me on patreon :)"
+    "support": "Become a patron"
   },
   "ru": {
-    "support": "Поддержи меня на патреоне :)"
+    "support": "Поддержать на патреоне"
   }
 }
 </i18n>
@@ -87,13 +108,25 @@ $base-purple: #583156;
   display: flex;
   justify-content: space-between;
 
-  &__logo {
-    color: $base-brown;
+  &__left {
+    display: flex;
+    align-items: center;
   }
 
-  &__patreon {
-    width: 14px;
-    margin-left: 10px;
+  &__logo {
+    color: $base-brown;
+    margin-right: 8px;
+  }
+
+  &__social {
+    display: inline-block;
+    margin-left: 5px;
+    width: 15px;
+    min-width: 13px;
+
+    &:first-child {
+      margin: 10px;
+    }
   }
 
   &__wrapper {
