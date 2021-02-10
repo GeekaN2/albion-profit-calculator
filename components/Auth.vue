@@ -121,7 +121,7 @@ export default {
           }
         });
 
-        this.$router.push(this.localePath('/tree'));
+        this.hideModal();
       } catch {
         this.error = 'error.wrong';
       }
