@@ -11,7 +11,8 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Albion profit calculator' }
+      { hid: 'description', name: 'description', content: 'Albion profit calculator' },
+      { name: 'google', content: 'notranslate' }
     ],
     link: [
       { 
@@ -85,7 +86,7 @@ module.exports = {
     ['@nuxtjs/toast']
   ],
   plugins: [{ 
-    src: "@/plugins/vClickOutside", 
+    src: '@/plugins/vClickOutside', 
     ssr: false 
   }],
 
