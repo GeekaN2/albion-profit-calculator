@@ -2,9 +2,11 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
+const PromisePool = require('es6-promise-pool');
 
 // e.g. https://render.albiononline.com/v1/item/T6_2H_INFERNOSTAFF_MORGANA.png
 const imagesApiUrl = "https://render.albiononline.com/v1/item/";
+const MAX_PARALLEL_REQUESTS = 16
 
 async function getImages() {
   let recipes = fs.readFileSync('./static/json/recipes.json');
@@ -30,25 +32,25 @@ async function getImages() {
 
   resources.forEach(baseResource => createArrayOfAllResources(baseResource).forEach(resource => allItems.push(resource)));
 
-  for (let item of allItems) {
-    await downloadImage(item).then(() => {
-      console.log(`Downloaded ${counter++}/${allItems.length}`, item);
-    }).catch(() => {
-      console.log(`Error while downloading ${counter}/${allItems.length}`, item);
+  const itemsQuantity = allItems.length;
 
-      badLoadedItems.push(item);
-    });
+  while (allItems.length > 0) {
+    const pool = new PromisePool(getPromises, MAX_PARALLEL_REQUESTS);
+    await pool.start();
+    allItems = badLoadedItems;
+    badLoadedItems = [];
   }
-  
-  while (badLoadedItems.length > 1) {
-    const item = badLoadedItems[badLoadedItems.length - 1];
 
-    await downloadImage(item).then(() => {
-      console.log(`Downloaded ${counter++}/${itemsQuantity}`, item);
-      badLoadedItems.pop();
-    }).catch(() => {
-      console.log(`Error while downloading ${counter}/${itemsQuantity}`, item);
-    });
+  function* getPromises() {
+    for (let item of allItems) {
+      yield downloadImage(item).then(() => {
+        console.log(`Downloaded ${counter++}/${itemsQuantity}`, item);
+      }).catch(() => {
+        console.log(`Error while downloading ${counter}/${itemsQuantity}`, item);
+
+        badLoadedItems.push(item);
+      });
+    }
   }
 }
 
@@ -81,7 +83,7 @@ function createArrayOfAllResources(resource) {
   let allNames = [];
 
   for (let tier = 3; tier <= 8; tier++) {
-    if (tier == 3) {
+    if (tier === 3 || resource === 'STONEBLOCK') {
       allNames.push(`T${tier}_` + resource);
 
       continue;
@@ -148,7 +150,7 @@ function isArtifactItem(itemName) {
 async function downloadImage(imageName) {
   const url = `${imagesApiUrl}${imageName}.png`;
   const imagePath = path.resolve(__dirname, '../static/images/items', `${imageName}.png`);
-  const writer = fs.createWriteStream(imagePath);
+  if (fs.existsSync(imagePath)) return Promise.resolve();
 
   const response = await axios({
     url,
@@ -156,6 +158,7 @@ async function downloadImage(imageName) {
     responseType: 'stream'
   });
 
+  const writer = fs.createWriteStream(imagePath);
   response.data.pipe(sharp().resize(128, 128)).pipe(writer);
   
   return new Promise((resolve, reject) => {
