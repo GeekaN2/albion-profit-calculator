@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "@hawk.so/javascript": "^2.4.0",
-    "@nuxtjs/auth-next": "^5.0.0-1593636531.bdce83a",
-    "@nuxtjs/axios": "^5.12.0",
+    "@nuxtjs/auth-next": "^5.0.0-1612791489.a5d8c28",
+    "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/toast": "^3.3.1",
     "@types/lodash.clonedeep": "^4.5.6",
     "axios": "^0.21.1",
@@ -28,7 +28,7 @@
     "nuxt": "^2.0.0",
     "nuxt-clipboard2": "^0.2.1",
     "nuxt-i18n": "^6.11.1",
-    "sass-loader": "^10.1.1",
+    "sass-loader": "10.1.1",
     "style-loader": "^2.0.0",
     "v-click-outside": "^3.0.1"
   },

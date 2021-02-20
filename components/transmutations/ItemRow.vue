@@ -249,7 +249,7 @@ export default {
   }
 
   &--unknown {
-    text-shadow: .5px 0px .5px #131313;
+    text-shadow: .5px .5px .5px #242424;
     color: #585858;
 
     .base-item-info__secondary-info {

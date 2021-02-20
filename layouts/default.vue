@@ -52,6 +52,10 @@ html {
   box-sizing: border-box;
 }
 
+body {
+  margin-bottom: -30px;
+}
+
 :root {
   --error: #e73939;
   --color: #1d7d18;
