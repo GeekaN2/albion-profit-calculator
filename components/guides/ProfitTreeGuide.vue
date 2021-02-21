@@ -48,7 +48,7 @@
       The number indicates the profit received from crafting one item. If it is
       <span class="guide__span--green">green</span>, then the profit is
       positive, if it is <span class="guide__span--red">red</span>, then you
-      will lose silver. Small number below profit in silver shows profit as a
+      will lose silver. Small number below shows profit as a
       percentage.
     </p>
     <p class="guide__paragraph">
@@ -122,8 +122,8 @@
       whose prices you want to change. The table has the same format as the
       profit table. Columns are tiers, rows are enchantments.
       <br>
-      It is also sometimes useful to look in here. This is the minimum selling
-      price per unit of the resource.
+      It is also sometimes useful to look in here. This is where the minimum selling 
+      prices per resource unit are found. 
       <img
         src="/images/guides/profit-tree/set-own-prices.png"
         class="guide__image"
@@ -224,7 +224,7 @@
         src="/images/guides/profit-tree/use-average-price.png"
         class="guide__image guide__image--inline"
       >
-      Changes the price of the item, instead of the price from the market, the
+      Changes the price of the item, instead of the price from the market,
       average price will be shown. The tooltip will also show the average price
       of the item and the date it was last updated in days.
       <img
@@ -245,8 +245,71 @@
         src="/images/guides/profit-tree/update-item.png"
         class="guide__image guide__image--inline"
       >
-      When you click update button. The corresponding new data will be requested
-      from the database.
+      When you click update button the corresponding new data will be requested
+      from the database. Use after you have updated the data through the client.
+      You can separately update prices for items of a specific branch, for all
+      materials, artifacts of a specific branch, and journals for a global
+      branch.
+    </p>
+    <p class="guide__paragraph">
+      <img
+        src="/images/guides/profit-tree/craft-fee.png"
+        class="guide__image guide__image--inline"
+      >
+      Craft bench fee where you craft, as a percentage
+    </p>
+    <p class="guide__paragraph">
+      <img
+        src="/images/guides/profit-tree/main-city.png"
+        class="guide__image guide__image--inline"
+      >
+      Main city where you buy materials, artifacts, sell items etc. If it's
+      Black market, then all prices will be taken from Carleon, excluding the
+      sale prices of items. You can check from which cities everything is taken
+      by enabling the "Use multiple cities" setting
+    </p>
+    <p class="guide__paragraph">
+      <span class="guide__subtitle"> Expert settings </span>
+      <img
+        src="/images/guides/profit-tree/use-own-percentage.png"
+        class="guide__image guide__image--inline"
+      >
+      Allows you to set your own return percentage for materials. Must be used
+      when crafting in hideouts in black zones and on islands.
+    </p>
+    <p class="guide__paragraph">
+      <img
+        src="/images/guides/profit-tree/min-item-prices.png"
+        class="guide__image guide__image--inline"
+      >
+      This setting changes the algorithm to select item prices from several
+      qualities: shows only the minimum price of the sell orders, regardless of
+      the buy orders and relevance.
+      <br>
+      By default, algorithm selects the highest of the sell order prices or the
+      buy order price if they are more profitable. Also, if the prices from the
+      sell orders are irrelevant (more than one day has passed since the last
+      check), the best option is selected from the current order prices.
+    </p>
+    <p class="guide__paragraph">
+      Let me explain with an example with T6.1 warbow: Market sell order prices:
+      <br>
+      normal quality: 70k <br>
+      good quality: 75k <br>
+      outstanding: 72k <br>
+      Default algorithm will show you the good quality price - 75k. But if you
+      wanna see the minimum profit, you can use this setting and modified
+      algorithm will show you normal quality with 70k price.
+    </p>
+    <p class="guide__paragraph">
+      <img
+        src="/images/guides/profit-tree/qualities.png"
+        class="guide__image guide__image--inline"
+      >
+      Item qualities. The algorithms described above will choose just from these
+      qualities, and the selected qualities will be shown in the tooltip. The
+      qualities are sorted in ascending order from normal to masterpiece. I
+      advise you to use the first 2 or 3 qualities.
     </p>
   </div>
 </template>

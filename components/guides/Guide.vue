@@ -1,12 +1,12 @@
 <template>
   <div class="guides">
     <img
-      class="guides__icon"
+      class="guides__icon guides__icon--baseline"
       src="/images/book-spells.svg"
       @click="showModal"
     >
     <div
-      v-if="isGuideShown"
+      v-if="isModalShown"
       class="guide"
     >
       <ProfitTreeGuide
@@ -19,7 +19,8 @@
 </template>
 
 <script>
-import ProfitTreeGuide from "./ProfitTreeGuide";
+import ProfitTreeGuide from "./ProfitTreeGuide"; 
+import { mapState } from 'vuex';
 
 export default {
   name: "Guide",
@@ -32,21 +33,28 @@ export default {
       default: "",
     },
   },
-  data() {
+  computed: {
+    ...mapState({
+      isModalShown: state => state.features.isModalShown
+    })
+  },
+  head () {
     return {
-      isGuideShown: true,
-    };
+      bodyAttrs: {
+        class: this.isModalShown ? 'body--modal-shown' : ''
+      }
+    }
   },
   methods: {
     showModal() {
-      if (!this.isGuideShown) {
-        this.isGuideShown = true;
+      if (!this.isModalShown) {
+        this.$store.commit('features/SHOW_MODAL');
       }
     },
 
     hideModal() {
-      if (this.isGuideShown) {
-        this.isGuideShown = false;
+      if (this.isModalShown) {
+        this.$store.commit('features/HIDE_MODAL');
       }
     },
   },
@@ -56,15 +64,20 @@ export default {
 <style lang="scss">
 .guides {
   display: inline-block;
+  font-size: 1.2rem;
 
   &__icon {
     width: 15px;
     cursor: pointer;
+
+    &--baseline {
+      margin-bottom: -0.1em;
+    }
   }
 }
 
 .guide {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
@@ -159,6 +172,12 @@ export default {
 
   &::-webkit-scrollbar {
     width: 0;
+  }
+}
+
+@media (max-width: 840px) {
+  .guides {
+    font-size: 1.1rem;
   }
 }
 </style>

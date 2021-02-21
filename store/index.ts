@@ -4,6 +4,7 @@ import transportationsModule from './transportations-table';
 import transmutationsModule from './transmutations';
 import refiningModule from './refining';
 import adminPanelModule from './admin-panel';
+import featuresModule from './features';
 import { RootState } from './typeDefs';
 
 const store: StoreOptions<RootState> ={
@@ -32,7 +33,12 @@ const store: StoreOptions<RootState> ={
     /**
      * Admin panel module
      */
-    adminPanel: adminPanelModule
+    adminPanel: adminPanelModule,
+
+    /**
+     * Some global features
+     */
+    features: featuresModule
   }
 };
 

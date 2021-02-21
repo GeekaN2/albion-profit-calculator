@@ -56,6 +56,12 @@ body {
   margin-bottom: -30px;
 }
 
+.body {
+  &--modal-shown {
+    overflow: hidden;
+  }
+}
+
 :root {
   --error: #e73939;
   --color: #1d7d18;
