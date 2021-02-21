@@ -1,7 +1,7 @@
 <template>
   <div class="settings">
     <h2 class="title title--center">
-      {{ $t("settings") }}
+      {{ $t("settings.settings") }}
     </h2>
     <p class="subtitle">
       {{ $t("cities.locationFrom") }}

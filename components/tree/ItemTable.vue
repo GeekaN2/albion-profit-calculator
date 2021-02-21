@@ -467,18 +467,18 @@ export default {
 
       const journalFame = 1200 * 2 ** (tier - 4);
       const journalName = `T${tier}_JOURNAL${this.currentItemInfo.root.slice(4)}`;
-      const marketFee = this['tree/getJournals'][journalName].marketFee;
+      const journal = this['tree/getJournals'][journalName];
 
       let profit =
-        (this['tree/getJournals'][journalName].sellPrice -
-          this['tree/getJournals'][journalName].buyPrice) *
-        (craftFame / journalFame);
+        (journal.sellPrice - journal.buyPrice) *
+        (craftFame / journalFame) * 
+        (1 - journal.marketFee / 100);
 
       profit = Math.floor(profit);
 
       this.$set(this.tableInfo[`T${tier}.${subtier}`], "journals", {
         name: "Journals",
-        percentage: -marketFee,
+        percentage: -journal.marketFee,
         price: profit,
         date: this['tree/getJournals'][journalName].date,
         journalsPerItem: craftFame / journalFame
@@ -676,7 +676,7 @@ export default {
   }
 
   &__unknown {
-    text-shadow: .5px 0px .5px #131313;
+    text-shadow: .5px .5px .5px #242424;
     color: #585858;
 
     .base-item-info__secondary-info {

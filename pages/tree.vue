@@ -6,6 +6,9 @@
       <div class="centered">
         <h2 class="wrapper__header">
           {{ $t('chooseBranch') }}
+          <Guide
+            guide="profit-tree"
+          />
         </h2>
         <Row 
           :items="tree" 
@@ -48,7 +51,7 @@ import ItemTable from "~/components/tree/ItemTable";
 import Settings from "~/components/tree/Settings";
 import ItemRecipe from "~/components/utils/ItemRecipe";
 import Loading from "~/components/utils/Loading";
-import { getReturnMaterialsPercentage } from "~/store/utils";
+import Guide from "~/components/guides/Guide";
 import { mapState, mapGetters } from "vuex";
 
 export default {
@@ -60,6 +63,7 @@ export default {
     ItemRecipe,
     Settings,
     Loading,
+    Guide
   },
   middleware: ["authenticated"],
   data() {
@@ -141,6 +145,12 @@ img {
   justify-content: space-between;
   padding: 0 15px 10px 15px;
 
+  &__guide {
+    font-weight: normal;
+    text-decoration: underline;
+    font-size: 0.8em;
+  }
+
   &__header {
     text-align: center;
     font-weight: bold;
@@ -218,6 +228,10 @@ img {
 
   .wrapper {
     flex-direction: column;
+
+    &__guide {
+      font-weight: 500;
+    }
 
     &__tree {
       width: 100%;
