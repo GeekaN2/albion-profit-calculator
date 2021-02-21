@@ -4,6 +4,7 @@ import { getters } from './getters'
 import Vuex, { Module } from 'vuex';
 import Vue from 'vue'
 import { TransmutationsState } from './typeDefs';
+import { RootState } from '../typeDefs';
 import clonedeep from 'lodash.clonedeep';
 
 Vue.use(Vuex);
@@ -17,7 +18,7 @@ const cities = {
   'Thetford': {},
 }
 
-const transmutationModule: Module<TransmutationsState, {}> = {
+const transmutationModule: Module<TransmutationsState, RootState> = {
   namespaced: true,
   state: () => ({
     prices: clonedeep(Object.assign(cities, {'Black Market': {}})),

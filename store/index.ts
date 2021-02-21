@@ -4,8 +4,9 @@ import transportationsModule from './transportations-table';
 import transmutationsModule from './transmutations';
 import refiningModule from './refining';
 import adminPanelModule from './admin-panel';
+import { RootState } from './typeDefs';
 
-const store: StoreOptions<{}> ={
+const store: StoreOptions<RootState> ={
   state: () => ({}),
   modules: {
     /**

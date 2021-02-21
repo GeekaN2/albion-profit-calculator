@@ -5,6 +5,7 @@ import Vuex, { Module } from 'vuex';
 import Vue from 'vue'
 import clonedeep from 'lodash.clonedeep';
 import { RefiningState } from './typeDefs';
+import { RootState } from '../typeDefs';
 
 Vue.use(Vuex);
 
@@ -17,7 +18,7 @@ const cities = {
   'Thetford': {},
 }
 
-const refiningModule: Module<RefiningState, {}>  = {
+const refiningModule: Module<RefiningState, RootState>  = {
   namespaced: true,
   state: () => ({
     rawResources: clonedeep(cities),
