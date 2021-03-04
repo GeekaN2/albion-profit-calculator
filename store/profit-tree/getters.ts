@@ -77,16 +77,37 @@ export const getters: GetterTree<TreeState, {}> = {
   },
 
   /**
-   * Get journl prices for current city and root
+   * Get empty journal prices for current city and root
    * 
    * @param state - vuex state
    */
-  getJournals: (state: TreeState) => {
+  getEmptyJournals: (state: TreeState) => {
     const city = state.settings.cities.journals;
     const root = state.currentItemInfo.root;
-    const journals = state.journals[city][root] || {}
+    let journals = state.journals[city][root] || [];
 
-    return journals;
+    journals = journals.filter(journal => journal.itemId.includes('EMPTY'));
+    
+    const normalized = normalizeItemsByMaxPriceFromMinPrices(journals);
+    
+    return normalized;
+  },
+
+  /**
+   * Get full journal prices for current city and root
+   * 
+   * @param state - vuex state
+   */
+  getFullJournals: (state: TreeState) => {
+    const city = state.settings.cities.journals;
+    const root = state.currentItemInfo.root;
+    let journals = state.journals[city][root] || [];
+
+    journals = journals.filter(journal => journal.itemId.includes('FULL'));
+
+    const normalized = normalizeItemsByMaxPriceFromMinPrices(journals);
+    
+    return normalized;
   },
 
   /**
@@ -201,5 +222,13 @@ export const getters: GetterTree<TreeState, {}> = {
     }
 
     return artifactName;
+  },
+
+  /**
+   * Get journal name of current item neede tier
+   * @param state 
+   */
+  getJournalName: (state: TreeState) => (tier: number): string => {
+    return `T${tier}_JOURNAL${state.currentItemInfo.root.slice(4)}`
   }
 }

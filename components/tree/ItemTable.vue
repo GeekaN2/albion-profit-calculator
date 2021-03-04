@@ -250,11 +250,16 @@ export default {
        * Get recipe to calculate craft cost
        */
       "tree/getRecipe",
+      
+      /**
+       * Get empty journals
+       */
+      "tree/getEmptyJournals",
 
       /**
-       * Get journals
+       * Get fyll journals
        */
-      "tree/getJournals",
+      "tree/getFullJournals",
 
       /**
        * Get average data
@@ -467,20 +472,22 @@ export default {
 
       const journalFame = 1200 * 2 ** (tier - 4);
       const journalName = `T${tier}_JOURNAL${this.currentItemInfo.root.slice(4)}`;
-      const journal = this['tree/getJournals'][journalName];
+      const emptyJournal = this['tree/getEmptyJournals'][journalName + '_EMPTY'];
+      const fullJournal = this['tree/getFullJournals'][journalName + '_FULL'];
+
 
       let profit =
-        (journal.sellPrice - journal.buyPrice) *
+        (fullJournal.price - emptyJournal.price) *
         (craftFame / journalFame) * 
-        (1 - journal.marketFee / 100);
+        (1 - fullJournal.marketFee / 100);
 
       profit = Math.floor(profit);
 
       this.$set(this.tableInfo[`T${tier}.${subtier}`], "journals", {
         name: "Journals",
-        percentage: -journal.marketFee,
+        percentage: -fullJournal.marketFee,
         price: profit,
-        date: this['tree/getJournals'][journalName].date,
+        date: fullJournal.date,
         journalsPerItem: craftFame / journalFame
       });
 

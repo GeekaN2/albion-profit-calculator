@@ -41,7 +41,17 @@ export default {
      * All item names
      */
     itemNames() {
-      return createArrayOfAllIngredients(this.name);
+      return createArrayOfAllIngredients(this.name).filter(name => {
+        if (this.index == 3) {
+          return name.includes('EMPTY');
+        }
+
+        if (this.index == 4) {
+          return name.includes('FULL');
+        }
+
+        return true;
+      });
     },
 
     /**
@@ -54,6 +64,8 @@ export default {
         case 0: getterName = "tree/getFirstResources"; break;
         case 1: getterName = "tree/getSecondResources"; break;
         case 2: getterName = "tree/getArtefacts"; break;
+        case 3: getterName = "tree/getEmptyJournals"; break;
+        case 4: getterName = "tree/getFullJournals"; break;
       }
 
       return getterName;
@@ -76,6 +88,8 @@ export default {
         case 'tree/getFirstResources':this.$store.commit("tree/UPDATE_FIRST_RESOURCE_ITEM", { itemName, price }); break;
         case 'tree/getSecondResources':this.$store.commit("tree/UPDATE_SECOND_RESOURCE_ITEM", { itemName, price }); break;
         case 'tree/getArtefacts':this.$store.commit("tree/UPDATE_ARTIFACT", { itemName, price }); break;
+        case 'tree/getEmptyJournals': this.$store.commit("tree/UPDATE_JOURNAL", { itemName, price }); break;
+        case 'tree/getFullJournals': this.$store.commit("tree/UPDATE_JOURNAL", { itemName, price }); break;
       }
     }
   }

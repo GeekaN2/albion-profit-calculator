@@ -11,7 +11,7 @@ export interface TreeState {
   currentItemInfo: ItemInfo;
   resources: Resources;
   artefacts: Artefacts;
-  journals: Journals;
+  journals: Prices;
   averageData: AverageData;
 }
 
@@ -41,10 +41,10 @@ export interface ResponseModel {
   itemId: string;
   location: string;
   quality: number;
-  buyPriceMax: number;
-  buyPriceMaxDate: string;
   sellPriceMin: number;
   sellPriceMinDate: string;
+  buyPriceMax: number;
+  buyPriceMaxDate: string;
 }
 
 /**

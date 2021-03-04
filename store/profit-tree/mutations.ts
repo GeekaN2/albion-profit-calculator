@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex'
 import { normalizedPriceAndDate } from '../utils'
-import { ResponseModel, TreeState, Item, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources, OneOfCitiesProp } from './typeDefs'
+import { ResponseModel, TreeState, Item, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources, OneOfCitiesProp, Prices } from './typeDefs'
 import Vue from 'vue';
 import clonedeep from 'lodash.clonedeep';
 
@@ -57,7 +57,7 @@ export const mutations: MutationTree<TreeState> = {
    * @param data - api response
    * @param settingsWithItem - сonvenient item data and settings 
    */
-  SET_ITEM_PRICES(state, { data, settingsWithItem }) {
+  SET_ITEM_PRICES(state, { data, settingsWithItem }:  { data: ResponseModel[]; settingsWithItem: SettingsWithItem }) {
     const itemName = settingsWithItem.currentItemInfo.name;
     const location = settingsWithItem.settings.cities.sellItems;
 
@@ -71,7 +71,7 @@ export const mutations: MutationTree<TreeState> = {
    * @param data - api response
    * @param settingsWithItem - сonvenient item data and settings 
    */
-  SET_RESOURCE_PRICES(state, { data, settingsWithItem }) {
+  SET_RESOURCE_PRICES(state, { data, settingsWithItem }:  { data: ResponseModel[]; settingsWithItem: SettingsWithItem }) {
     let newPrices: Resources = {};
 
     data.forEach((resource: ResponseModel) => {
@@ -97,7 +97,7 @@ export const mutations: MutationTree<TreeState> = {
    * @param data - api response
    * @param settingsWithItem - сonvenient item data and settings 
    */
-  SET_ARTEFACT_PRICES(state, { data, settingsWithItem }) {
+  SET_ARTEFACT_PRICES(state, { data, settingsWithItem }: { data: ResponseModel[]; settingsWithItem: SettingsWithItem }) {
     const itemName = settingsWithItem.currentItemInfo.name;
     const city = settingsWithItem.settings.cities.artefacts;
     let newPrices: { [key: string]: Item } = {};
@@ -119,36 +119,11 @@ export const mutations: MutationTree<TreeState> = {
    * @param data - api response
    * @param settingsWithItem - сonvenient item data and settings 
    */
-  SET_JOURNAL_PRICES(state, { data, settingsWithItem }) {
+  SET_JOURNAL_PRICES(state, { data, settingsWithItem }: { data: ResponseModel[]; settingsWithItem: SettingsWithItem }) {
     const city = settingsWithItem.settings.cities.journals;
     const root = settingsWithItem.currentItemInfo.root;
-    const newPrices: { [key: string]: JournalsItem } = {};
 
-    data.forEach((journal: ResponseModel) => {
-      const journalName = journal.itemId.slice(0, journal.itemId.lastIndexOf('_'));
-
-      if (!newPrices[journalName]) {
-        newPrices[journalName] = {
-          buyPrice: 0,
-          sellPrice: 0,
-          date: '',
-          marketFee: 4.5
-        }
-      }
-
-      if (journal.itemId.slice(-5) == 'EMPTY') {
-        newPrices[journalName].buyPrice = journal.sellPriceMin;
-        newPrices[journalName].date = journal.sellPriceMinDate;
-      } else {
-        const normalizedJournal = normalizedPriceAndDate(journal);
-
-        newPrices[journalName].sellPrice = normalizedJournal.price;
-        newPrices[journalName].date = normalizedJournal.date;
-        newPrices[journalName].marketFee = normalizedJournal.marketFee;
-      }
-    });
-
-    Vue.set(state.journals[city], root, newPrices);
+    Vue.set(state.journals[city], root, data);
   },
 
   /**
@@ -342,6 +317,17 @@ export const mutations: MutationTree<TreeState> = {
     const baseItemName = state.currentItemInfo.name;
 
     state.artefacts[location][baseItemName][itemName].price = price;
+  },
+
+  /**
+   * Set users' price to state
+   * 
+   * @param state - vuex state
+   * @param itemName - name of item
+   * @param price - price to update
+   */
+  UPDATE_JOURNAL(state, {itemName, price}: {itemName: string, price: number}): void {
+    return;
   },
 
   /**

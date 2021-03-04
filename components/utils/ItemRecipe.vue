@@ -1,27 +1,45 @@
 <template>
   <div class="item-recipe">
-    <template 
-      v-for="(value, material, index) in this['tree/getRecipe']"
-    >
+    <template v-if="!onlyJournals">
+      <template 
+        v-for="(value, material, index) in this['tree/getRecipe']"
+      >
+        <Ingredient 
+          :key="material"
+          :name="`T4_${material}`" 
+          :number-of-ingredients="`${value}`"
+          :show-prices="nameToShowPrices == `T4_${material}`"
+          :index="index"
+          @show="showIngredientPricesTable"
+          @hide="hideIngredientPricesTable"
+        />
+      </template>
       <Ingredient 
-        :key="material"
-        :name="`T4_${material}`" 
-        :number-of-ingredients="`${value}`"
-        :show-prices="nameToShowPrices == `T4_${material}`"
-        :index="index"
+        v-if="this['tree/isArtifactItem']"
+        :name="this['tree/getArtifactName'](4)"
+        :number-of-ingredients="numberOfArtifacts"
+        :show-prices="nameToShowPrices == this['tree/getArtifactName'](4)"
+        :index="2"
         @show="showIngredientPricesTable"
         @hide="hideIngredientPricesTable"
       />
     </template>
-    <Ingredient 
-      v-if="this['tree/isArtifactItem']"
-      :name="this['tree/getArtifactName'](4)"
-      :number-of-ingredients="numberOfArtifacts"
-      :show-prices="nameToShowPrices == this['tree/getArtifactName'](4)"
-      :index="2"
-      @show="showIngredientPricesTable"
-      @hide="hideIngredientPricesTable"
-    />
+    <template v-if="onlyJournals">
+      <Ingredient 
+        :name="this['tree/getJournalName'](4) + '_EMPTY'"
+        :show-prices="nameToShowPrices == this['tree/getJournalName'](4) + '_EMPTY'"
+        :index="3"
+        @show="showIngredientPricesTable"
+        @hide="hideIngredientPricesTable"
+      />
+      <Ingredient 
+        :name="this['tree/getJournalName'](4) + '_FULL'"
+        :show-prices="nameToShowPrices == this['tree/getJournalName'](4) + '_FULL'"
+        :index="4"
+        @show="showIngredientPricesTable"
+        @hide="hideIngredientPricesTable"
+      />
+    </template>
   </div>
 </template>
 
@@ -34,6 +52,12 @@ export default {
   name: "ItemRecipe",
   components: {
     Ingredient
+  },
+  props: {
+    onlyJournals: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -66,7 +90,8 @@ export default {
     ...mapGetters([
       "tree/getRecipe",
       "tree/isArtifactItem",
-      "tree/getArtifactName"
+      "tree/getArtifactName",
+      "tree/getJournalName"
     ])
   },
   methods: {
