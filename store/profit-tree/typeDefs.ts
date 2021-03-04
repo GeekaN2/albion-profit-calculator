@@ -11,7 +11,7 @@ export interface TreeState {
   currentItemInfo: ItemInfo;
   resources: Resources;
   artefacts: Artefacts;
-  journals: Prices;
+  journals: Journals;
   averageData: AverageData;
 }
 
@@ -91,7 +91,7 @@ export interface Recipes {
 export interface Journals {
   [key: string]: {
     [key: string]: {
-      [key: string]: JournalsItem
+      [key: string]: Item;
     }
   }
 }
@@ -162,6 +162,9 @@ export interface OneOfCitiesProp {
  * Various features
  */
 export interface Features {
+  /**
+   * Loading text in loading bar
+   */
   loadingText: string;
 }
 

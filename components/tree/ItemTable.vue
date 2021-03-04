@@ -621,7 +621,7 @@ export default {
 
 <style scoped lang="scss">
 .item-table {
-  padding: 0 15px;
+  padding: 0 5px;
   margin: 0 auto;
   display: grid;
   max-width: 650px;

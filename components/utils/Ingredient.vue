@@ -15,6 +15,9 @@
         v-click-outside="hide"
         :name="name"
         :index="index"
+        :class="{
+          'prices-table--left': index == 3 || index == 4  
+        }"
         class="prices-table"
       />
     </transition>
@@ -107,6 +110,11 @@ export default {
   bottom: calc(100% + 5px);
   left: 0;
   z-index: 8;
+
+  &--left {
+    left: auto;
+    right: 0;
+  }
 }
 
 .prices-enter-active, .prices-leave-active {

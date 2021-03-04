@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { normalizedPriceAndDate } from '../utils'
+import { normalizeItemsByMaxPriceFromMinPrices } from '../utils'
 import { ResponseModel, TreeState, Item, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources, OneOfCitiesProp, Prices } from './typeDefs'
 import Vue from 'vue';
 import clonedeep from 'lodash.clonedeep';
@@ -123,7 +123,9 @@ export const mutations: MutationTree<TreeState> = {
     const city = settingsWithItem.settings.cities.journals;
     const root = settingsWithItem.currentItemInfo.root;
 
-    Vue.set(state.journals[city], root, data);
+    const journals = normalizeItemsByMaxPriceFromMinPrices(data);
+
+    Vue.set(state.journals[city], root, journals);
   },
 
   /**
@@ -323,11 +325,14 @@ export const mutations: MutationTree<TreeState> = {
    * Set users' price to state
    * 
    * @param state - vuex state
-   * @param itemName - name of item
+   * @param itemName - full name of journal
    * @param price - price to update
    */
   UPDATE_JOURNAL(state, {itemName, price}: {itemName: string, price: number}): void {
-    return;
+    const city = state.settings.cities.journals;
+    const root = state.currentItemInfo.root;
+    
+    state.journals[city][root][itemName].price = price;
   },
 
   /**
@@ -336,7 +341,7 @@ export const mutations: MutationTree<TreeState> = {
    * @param state - vuex state
    * @param useMinPricesNormalization - use or not
    */
-  UPDATE_USE_MIN_PRICES_NORMALIZATION(state, useMinPricesNormalization: boolean) {
+  UPDATE_USE_MIN_PRICES_NORMALIZATION(state, useMinPricesNormalization: boolean): void {
     state.settings.expert.useMinPricesNormalization = useMinPricesNormalization;
   },
 
@@ -346,7 +351,7 @@ export const mutations: MutationTree<TreeState> = {
    * @param state - vuex state
    * @param qualities - array of qualities
    */
-  UPDATE_QUALITIES(state, qualities: Number[]) {
+  UPDATE_QUALITIES(state, qualities: Number[]): void {
     state.settings.expert.qualities = qualities;
   },
 
@@ -356,7 +361,7 @@ export const mutations: MutationTree<TreeState> = {
    * @param state - vuex state
    * @param settings - saved user settings
    */
-  SET_USER_SETTINGS(state, settings) {
+  SET_USER_SETTINGS(state, settings): void {
     Object.assign(state.settings, settings);
     
     state.settingsBackup = clonedeep(state.settings);
@@ -367,7 +372,7 @@ export const mutations: MutationTree<TreeState> = {
    * 
    * @param state - vuex state
    */
-  RESET_SETTINGS(state) {
+  RESET_SETTINGS(state): void {
     state.settings = clonedeep(state.settingsBackup);
   }
 }

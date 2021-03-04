@@ -15,6 +15,7 @@ async function getImages() {
   // Array of T4 item names
   const baseItemNames = Object.keys(recipes);
   const resources = ['PLANKS', 'METALBAR', 'LEATHER', 'CLOTH', 'STONEBLOCK', 'FIBER', 'ROCK', 'ORE', 'WOOD', 'HIDE'];
+  const roots = ['WARRIOR', 'MAGE', 'HUNTER', 'TOOLMAKER'];
   
   let counter = 1;
   
@@ -28,7 +29,9 @@ async function getImages() {
     if (isArtifactItem(baseItemName)) {
       createArrayOfAllArtifacts(baseItemName).forEach(artifact => allItems.push(artifact));
     }
-  })
+  });
+
+  roots.forEach(root => allItems.push(...createArrayOfAllJournals(root)));
 
   resources.forEach(baseResource => createArrayOfAllResources(baseResource).forEach(resource => allItems.push(resource)));
 
@@ -36,7 +39,9 @@ async function getImages() {
 
   while (allItems.length > 0) {
     const pool = new PromisePool(getPromises, MAX_PARALLEL_REQUESTS);
+    
     await pool.start();
+
     allItems = badLoadedItems;
     badLoadedItems = [];
   }
@@ -128,6 +133,23 @@ function createArrayOfAllArtifacts(itemName) {
 }
 
 /**
+ * Creates an array with all names of full journals of all tiers and subtiers
+ * 
+ * @param {string} root - journals branch: WARRIOR, MAGE etc.
+ * @returns {string[]} - array with all tiers and subtiers for empty and full journals
+ */
+function createArrayOfAllJournals(root) {
+  let allNames = [];
+
+  for (let tier = 4; tier <= 8; tier++) {
+    allNames.push(`T${tier}_JOURNAL_${root}_EMPTY`);
+    allNames.push( `T${tier}_JOURNAL_${root}_FULL`);
+  }
+
+  return allNames.slice(0, -1);
+}
+
+/**
  * Looking for an artifact substring in an item name
  * 
  * @param itemName - item name: T4_ARTEFACT_HEAD_CLOTH_HELL etc.
@@ -150,15 +172,18 @@ function isArtifactItem(itemName) {
 async function downloadImage(imageName) {
   const url = `${imagesApiUrl}${imageName}.png`;
   const imagePath = path.resolve(__dirname, '../static/images/items', `${imageName}.png`);
-  if (fs.existsSync(imagePath)) return Promise.resolve();
+
+  if (fs.existsSync(imagePath)) {
+    return Promise.resolve();
+  }
 
   const response = await axios({
     url,
     method: 'GET',
     responseType: 'stream'
   });
-
   const writer = fs.createWriteStream(imagePath);
+
   response.data.pipe(sharp().resize(128, 128)).pipe(writer);
   
   return new Promise((resolve, reject) => {

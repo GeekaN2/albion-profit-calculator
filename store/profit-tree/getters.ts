@@ -84,13 +84,11 @@ export const getters: GetterTree<TreeState, {}> = {
   getEmptyJournals: (state: TreeState) => {
     const city = state.settings.cities.journals;
     const root = state.currentItemInfo.root;
-    let journals = state.journals[city][root] || [];
+    let journals = state.journals[city][root] || {};
 
-    journals = journals.filter(journal => journal.itemId.includes('EMPTY'));
+    journals = Object.fromEntries(Object.entries(journals).filter(([name, value]) => name.includes('EMPTY')));
     
-    const normalized = normalizeItemsByMaxPriceFromMinPrices(journals);
-    
-    return normalized;
+    return journals;
   },
 
   /**
@@ -101,13 +99,11 @@ export const getters: GetterTree<TreeState, {}> = {
   getFullJournals: (state: TreeState) => {
     const city = state.settings.cities.journals;
     const root = state.currentItemInfo.root;
-    let journals = state.journals[city][root] || [];
+    let journals = state.journals[city][root] || {};
 
-    journals = journals.filter(journal => journal.itemId.includes('FULL'));
+    journals = Object.fromEntries(Object.entries(journals).filter(([name, value]) => name.includes('FULL')));
 
-    const normalized = normalizeItemsByMaxPriceFromMinPrices(journals);
-    
-    return normalized;
+    return journals;
   },
 
   /**

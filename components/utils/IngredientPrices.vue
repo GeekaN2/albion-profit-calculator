@@ -1,6 +1,9 @@
 <template>
   <div
     v-if="items != {}"
+    :class="{
+      'ingredient-prices--left': index == 3 || index == 4
+    }"
     class="ingredient-prices"
   >
     <template v-for="itemName of itemNames">
@@ -176,6 +179,12 @@ export default {
     left: 20px;
     bottom: -5px;
     transform: rotate(45deg)
+  }
+
+  &--left:after {
+    left: auto;
+    right: 20px;
+    background: #f5f5f5;
   }
 }
 
