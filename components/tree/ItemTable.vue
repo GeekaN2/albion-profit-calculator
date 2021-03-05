@@ -257,7 +257,7 @@ export default {
       "tree/getEmptyJournals",
 
       /**
-       * Get fyll journals
+       * Get full journals
        */
       "tree/getFullJournals",
 
