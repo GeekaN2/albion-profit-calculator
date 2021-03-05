@@ -69,7 +69,7 @@ export const actions: ActionTree<TreeState, {}> = {
 
     if (
       state.settings.useJournals &&
-      isObjectEmpty(getters.getJournals) &&
+      (isObjectEmpty(getters.getEmptyJournals) || isObjectEmpty(getters.getEmptyJournals)) &&
       state.currentItemInfo.root.slice(0, 5) == 'ROOT_'
     ) {
       await dispatch('FETCH_JOURNAL_PRICES', { currentItemInfo, settings });

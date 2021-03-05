@@ -41,10 +41,10 @@ export interface ResponseModel {
   itemId: string;
   location: string;
   quality: number;
-  buyPriceMax: number;
-  buyPriceMaxDate: string;
   sellPriceMin: number;
   sellPriceMinDate: string;
+  buyPriceMax: number;
+  buyPriceMaxDate: string;
 }
 
 /**
@@ -91,7 +91,7 @@ export interface Recipes {
 export interface Journals {
   [key: string]: {
     [key: string]: {
-      [key: string]: JournalsItem
+      [key: string]: Item;
     }
   }
 }
@@ -162,6 +162,9 @@ export interface OneOfCitiesProp {
  * Various features
  */
 export interface Features {
+  /**
+   * Loading text in loading bar
+   */
   loadingText: string;
 }
 

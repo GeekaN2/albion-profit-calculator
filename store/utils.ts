@@ -15,7 +15,9 @@ export function createArrayOfAllIngredients(itemName: string): string[] {
   } else if (resources.some(res => itemName.includes(res))) {
     allItems = createStringOfAllResources(itemName.slice(3)).split(',');
   } else if (itemName.includes('JOURNAL')) {
-    allItems = createStringOfAllJournals(`ROOT_${itemName.slice(11)}`).split(',');
+    const match = itemName.match(/HUNTER|MAGE|WARRIOR|TOOLMAKER/) || [''];
+
+    allItems = createStringOfAllJournals(`ROOT_${match[0]}`).split(',');
   } else {
     allItems = createStringOfAllItems(itemName).split(',');
   }

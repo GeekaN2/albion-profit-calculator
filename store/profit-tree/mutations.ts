@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex'
-import { normalizedPriceAndDate } from '../utils'
-import { ResponseModel, TreeState, Item, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources, OneOfCitiesProp } from './typeDefs'
+import { normalizeItemsByMaxPriceFromMinPrices } from '../utils'
+import { ResponseModel, TreeState, Item, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources, OneOfCitiesProp, Prices } from './typeDefs'
 import Vue from 'vue';
 import clonedeep from 'lodash.clonedeep';
 
@@ -57,7 +57,7 @@ export const mutations: MutationTree<TreeState> = {
    * @param data - api response
    * @param settingsWithItem - сonvenient item data and settings 
    */
-  SET_ITEM_PRICES(state, { data, settingsWithItem }) {
+  SET_ITEM_PRICES(state, { data, settingsWithItem }:  { data: ResponseModel[]; settingsWithItem: SettingsWithItem }) {
     const itemName = settingsWithItem.currentItemInfo.name;
     const location = settingsWithItem.settings.cities.sellItems;
 
@@ -71,7 +71,7 @@ export const mutations: MutationTree<TreeState> = {
    * @param data - api response
    * @param settingsWithItem - сonvenient item data and settings 
    */
-  SET_RESOURCE_PRICES(state, { data, settingsWithItem }) {
+  SET_RESOURCE_PRICES(state, { data, settingsWithItem }:  { data: ResponseModel[]; settingsWithItem: SettingsWithItem }) {
     let newPrices: Resources = {};
 
     data.forEach((resource: ResponseModel) => {
@@ -97,7 +97,7 @@ export const mutations: MutationTree<TreeState> = {
    * @param data - api response
    * @param settingsWithItem - сonvenient item data and settings 
    */
-  SET_ARTEFACT_PRICES(state, { data, settingsWithItem }) {
+  SET_ARTEFACT_PRICES(state, { data, settingsWithItem }: { data: ResponseModel[]; settingsWithItem: SettingsWithItem }) {
     const itemName = settingsWithItem.currentItemInfo.name;
     const city = settingsWithItem.settings.cities.artefacts;
     let newPrices: { [key: string]: Item } = {};
@@ -119,36 +119,13 @@ export const mutations: MutationTree<TreeState> = {
    * @param data - api response
    * @param settingsWithItem - сonvenient item data and settings 
    */
-  SET_JOURNAL_PRICES(state, { data, settingsWithItem }) {
+  SET_JOURNAL_PRICES(state, { data, settingsWithItem }: { data: ResponseModel[]; settingsWithItem: SettingsWithItem }) {
     const city = settingsWithItem.settings.cities.journals;
     const root = settingsWithItem.currentItemInfo.root;
-    const newPrices: { [key: string]: JournalsItem } = {};
 
-    data.forEach((journal: ResponseModel) => {
-      const journalName = journal.itemId.slice(0, journal.itemId.lastIndexOf('_'));
+    const journals = normalizeItemsByMaxPriceFromMinPrices(data);
 
-      if (!newPrices[journalName]) {
-        newPrices[journalName] = {
-          buyPrice: 0,
-          sellPrice: 0,
-          date: '',
-          marketFee: 4.5
-        }
-      }
-
-      if (journal.itemId.slice(-5) == 'EMPTY') {
-        newPrices[journalName].buyPrice = journal.sellPriceMin;
-        newPrices[journalName].date = journal.sellPriceMinDate;
-      } else {
-        const normalizedJournal = normalizedPriceAndDate(journal);
-
-        newPrices[journalName].sellPrice = normalizedJournal.price;
-        newPrices[journalName].date = normalizedJournal.date;
-        newPrices[journalName].marketFee = normalizedJournal.marketFee;
-      }
-    });
-
-    Vue.set(state.journals[city], root, newPrices);
+    Vue.set(state.journals[city], root, journals);
   },
 
   /**
@@ -345,12 +322,26 @@ export const mutations: MutationTree<TreeState> = {
   },
 
   /**
+   * Set users' price to state
+   * 
+   * @param state - vuex state
+   * @param itemName - full name of journal
+   * @param price - price to update
+   */
+  UPDATE_JOURNAL(state, {itemName, price}: {itemName: string, price: number}): void {
+    const city = state.settings.cities.journals;
+    const root = state.currentItemInfo.root;
+    
+    state.journals[city][root][itemName].price = price;
+  },
+
+  /**
    * Change setting to use other normalization or not
    * 
    * @param state - vuex state
    * @param useMinPricesNormalization - use or not
    */
-  UPDATE_USE_MIN_PRICES_NORMALIZATION(state, useMinPricesNormalization: boolean) {
+  UPDATE_USE_MIN_PRICES_NORMALIZATION(state, useMinPricesNormalization: boolean): void {
     state.settings.expert.useMinPricesNormalization = useMinPricesNormalization;
   },
 
@@ -360,7 +351,7 @@ export const mutations: MutationTree<TreeState> = {
    * @param state - vuex state
    * @param qualities - array of qualities
    */
-  UPDATE_QUALITIES(state, qualities: Number[]) {
+  UPDATE_QUALITIES(state, qualities: Number[]): void {
     state.settings.expert.qualities = qualities;
   },
 
@@ -370,7 +361,7 @@ export const mutations: MutationTree<TreeState> = {
    * @param state - vuex state
    * @param settings - saved user settings
    */
-  SET_USER_SETTINGS(state, settings) {
+  SET_USER_SETTINGS(state, settings): void {
     Object.assign(state.settings, settings);
     
     state.settingsBackup = clonedeep(state.settings);
@@ -381,7 +372,7 @@ export const mutations: MutationTree<TreeState> = {
    * 
    * @param state - vuex state
    */
-  RESET_SETTINGS(state) {
+  RESET_SETTINGS(state): void {
     state.settings = clonedeep(state.settingsBackup);
   }
 }

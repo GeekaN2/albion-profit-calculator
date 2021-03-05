@@ -33,11 +33,6 @@ export default {
       default: "",
     },
   },
-  computed: {
-    ...mapState({
-      isModalShown: state => state.features.isModalShown
-    })
-  },
   head () {
     return {
       bodyAttrs: {
@@ -45,6 +40,12 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState({
+      isModalShown: state => state.features.isModalShown
+    })
+  },
+ 
   methods: {
     showModal() {
       if (!this.isModalShown) {
