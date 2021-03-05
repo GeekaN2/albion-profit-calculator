@@ -128,6 +128,11 @@
         src="/images/guides/profit-tree/set-own-prices.png"
         class="guide__image"
       >
+      If you have enabled the "Use journals" setting, then on the right side you can change their prices
+      <img
+        src="/images/guides/profit-tree/loading-bar-with-journals.png"
+        class="guide__image"
+      >
     </p>
     <p class="guide__paragraph">
       <span class="guide__subtitle">Settings</span>
