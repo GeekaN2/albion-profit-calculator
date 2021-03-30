@@ -212,6 +212,7 @@ $base-purple: #583156;
       text-decoration: none;
       padding: 10px 30px;
       margin-left: 15px;
+      margin-bottom: 5px;
     }
 
     &__button--purple {
