@@ -25,6 +25,7 @@ $ yarn lint
 # download images
 $ yarn get-images
 ```
+Albion profit calculator API https://github.com/GeekaN2/albion-profit-calculator-api
 
 For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
 
