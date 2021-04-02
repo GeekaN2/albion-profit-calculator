@@ -14,18 +14,25 @@
         v-click-outside="hideModal"
         class="guide__modal"
       />
+      <TransmutationsGuide 
+        v-if="guide == 'transmutations-guide'"
+        v-click-outside="hideModal"
+        class="guide__modal"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import ProfitTreeGuide from "./ProfitTreeGuide"; 
+import TransmutationsGuide from "./TransmutationsGuide";
 import { mapState } from 'vuex';
 
 export default {
   name: "Guide",
   components: {
     ProfitTreeGuide,
+    TransmutationsGuide
   },
   props: {
     guide: {
@@ -135,6 +142,11 @@ export default {
     padding: 1px 5px;
     border-radius: 5px;
     font-family: Consolas, sans-serif;
+  }
+
+  &__link {
+    text-decoration: underline;
+    color: #583131;
   }
 
   &__image {

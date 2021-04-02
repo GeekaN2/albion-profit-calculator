@@ -85,8 +85,12 @@
       the item itself bring income.
     </p>
     <p class="guide__paragraph">
-      Third column shows last date of price update. Data is updated via
-      albiondata-client by players' hands.
+      Third column shows last date of price update. Data is updating via client of
+      <a
+        class="guide__link"
+        target="_blank"
+        href="https://www.albion-online-data.com/"
+      >the albion online data project</a> by players' hands.
     </p>
     <p class="guide__paragraph">
       The top left border shows the quality of the item. Matches color quality
