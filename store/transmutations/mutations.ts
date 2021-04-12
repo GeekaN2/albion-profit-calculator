@@ -12,6 +12,7 @@ export const mutations: MutationTree<TransmutationsState> = {
     state.settings = {
       fee: 10,
       gold: 2980,
+      showTransmutationWays: false,
       cities: {
         buyResourcesLocation: 'Caerleon',
         sellResourcesLocation: 'Caerleon'
@@ -101,5 +102,9 @@ export const mutations: MutationTree<TransmutationsState> = {
    */
   UPDATE_CITIES(state, cities: Settings['cities']) {
     state.settings.cities = cities;
+  },
+
+  UPDATE_SHOW_TRANSMUTATION_WAYS(state, showTransmutationWays: boolean) {
+    state.settings.showTransmutationWays = showTransmutationWays;
   }
 }
