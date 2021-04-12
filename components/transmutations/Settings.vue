@@ -22,6 +22,15 @@
       >
     </div>
     <div class="setting">
+      <input
+        id="checkbox-ways"
+        v-model="showTransmutationWays"
+        class="checkbox"
+        type="checkbox"
+      >
+      <label for="checkbox-ways">{{ $t('showTransmutationWays') }}</label>
+    </div>
+    <div class="setting">
       <div
         class="refresh" 
         @click="updateState('sell-items')"
@@ -79,6 +88,7 @@
   "en": {
     "goldPrice": "Gold price",
     "sellLocation": "Sell resources",
+    "showTransmutationWays": "Transmutation ways",
     "buyLocation": "Buy resources",
     "updateSellPrice": "Update sell prices",
     "updateBuyPrices": "Update buy prices"
@@ -86,6 +96,7 @@
   "ru": {
     "goldPrice": "Цена золота",
     "sellLocation": "Продажа ресурсов",
+    "showTransmutationWays": "Пути трансмутации",
     "buyLocation": "Покупка ресурсов",
     "updateSellPrice": "Обновить цены продажи",
     "updateBuyPrices": "Обновить цены покупки"
@@ -94,6 +105,8 @@
 </i18n>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'Settings',
   data() {
@@ -118,15 +131,41 @@ export default {
       ],
     }
   },
+  computed: {
+    /**
+     * Show transmutation ways insted of profit tables
+     */
+    showTransmutationWays: {
+      set(showTransmutationWays) {
+        this.$store.commit('transmutations/UPDATE_SHOW_TRANSMUTATION_WAYS', showTransmutationWays);
+      },
+      get() {
+        return this.settings.showTransmutationWays;
+      }
+    },
+
+    ...mapState({
+      settings: state => state.transmutations.settings
+    })
+  },
   methods: {
+    /**
+     * Update gold price at the state
+     */
     updateGold() {
       this.$store.commit('transmutations/UPDATE_GOLD', this.gold);
     },
 
+    /**
+     * Update craft bench fee
+     */
     updateFee() {
       this.$store.commit('transmutations/UPDATE_FEE', this.fee);
     },
 
+    /**
+     * Change cities at the state
+     */
     changeCity() {
       this.$store.commit('transmutations/UPDATE_CITIES', this.cities);
       this.$store.dispatch('transmutations/CHECK_ALL');
@@ -170,6 +209,35 @@ export default {
   font-size: 1em;
   margin-bottom: 10px;
   width: 200px;
+
+  .checkbox {
+    display: none;
+
+    &:checked + label:after {
+      background: #e08c4c;
+    }
+
+    & + label {
+      white-space: nowrap;
+      position: relative;
+      cursor: pointer;
+      margin-left: 20px;
+      padding-left: 0px;
+      font-size: 0.95em;
+
+      &:after {
+        content: "";
+        position: absolute;
+        left: -20px;
+        top: 2px;
+        width: 15px;
+        height: 15px;
+        border: 2px solid #000;
+        background: white;
+        display: block;
+      }
+    }
+  }
 
   h3 {
     font-size: 0.85em;

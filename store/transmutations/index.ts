@@ -25,6 +25,7 @@ const transmutationModule: Module<TransmutationsState, RootState> = {
     settings: {
       fee: 10,
       gold: 3000,
+      showTransmutationWays: false,
       cities: {
         buyResourcesLocation: 'Caerleon',
         sellResourcesLocation: 'Caerleon'

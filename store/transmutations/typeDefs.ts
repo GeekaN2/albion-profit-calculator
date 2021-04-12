@@ -46,6 +46,7 @@ export interface ResponseModel {
 export interface Settings {
   fee: number;
   gold: number;
+  showTransmutationWays: boolean;
   cities: {
     sellResourcesLocation: string;
     buyResourcesLocation: string;
