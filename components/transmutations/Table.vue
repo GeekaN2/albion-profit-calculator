@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="!settings.showTransmutationWays">
+    <template v-if="!settings.showTransmutationWays || baseItemName == 'ROCK'">
       <div class="item-table">
         <div
           v-for="subtier in (baseItemName != 'ROCK' ? 4 : 1)"
@@ -387,7 +387,7 @@ export default {
 }
 
 .ways-table {
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: 720px;
+  margin: 20px auto;
 }
 </style>

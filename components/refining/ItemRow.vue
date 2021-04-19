@@ -139,7 +139,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .subtier1 {
   background: #6afe90;
   box-shadow: 0 0 4px 5px #6afe90;

@@ -84,6 +84,19 @@
       >the albion online data project</a>
     </p>
     <p class="guide__paragraph">
+      <span class="guide__subtitle">Transmutation ways</span>
+      The second way to watch the profit.
+      Shows the way of transmutation from the left resource (which you buy) to the right one, 
+      which you receive after several transmutations and sell on the market. <br>
+      Hovering over <b>i</b> you can see the additional information.
+      The tooltip is the same as above, the only difference is that the fee for transmutation
+      is shown for the entire way.
+      <img
+        src="/images/guides/transmutations/ways.png"
+        class="guide__image"
+      >
+    </p>
+    <p class="guide__paragraph">
       <span class="guide__subtitle">Settings</span>
       Settings contatin parameters that need to be adjusted to suit your
       conditions.
@@ -105,6 +118,13 @@
         class="guide__image guide__image--inline"
       >
       Craft bench fee in percents.
+    </p>
+    <p class="guide__paragraph">
+      <img
+        src="/images/guides/transmutations/transmutation-ways.png"
+        class="guide__image guide__image--inline"
+      >
+      Shows the best transmutation ways instead of tables.
     </p>
     <p class="guide__paragraph">
       <img
