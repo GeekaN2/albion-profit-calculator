@@ -9,12 +9,13 @@ import Vue from 'vue';
 import LogRocket from 'logrocket';
 
 if (process.client && process.env.HAWK_CATCHER_TOKEN) {
-  const HawkCatcher = require('@hawk.so/javascript');
-
-  const hawk = new HawkCatcher({
-    token: process.env.HAWK_CATCHER_TOKEN,
-    vue: Vue,
-  });
+  import('@hawk.so/javascript')
+    .then(HawkCatcher =>  {
+      const hawk = new HawkCatcher.default({
+        token: process.env.HAWK_CATCHER_TOKEN,
+        vue: Vue,
+      });
+    })
 }
 
 if (process.env.ENABLE_LOG_ROCKET == 'true' && process.env.LOG_ROCKET_PROJECT) {

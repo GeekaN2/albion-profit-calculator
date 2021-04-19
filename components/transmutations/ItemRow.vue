@@ -326,6 +326,7 @@ export default {
   padding: 5px;
   white-space: nowrap;
   transition-delay: 0.03s;
+  z-index: 2;
 
   &:after {
     content: "";
@@ -365,6 +366,14 @@ export default {
 
     &:after {
       right: calc(50% - 5px);
+    }
+  }
+
+  &--right {
+    transform: translateX(70%);
+
+    &:after {
+      right: calc(70% - 5px);
     }
   }
 

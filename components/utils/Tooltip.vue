@@ -39,7 +39,7 @@ export default {
      * Format the price for the convenience
      * @param {number} price - number for formatting
      */
-    formatPrice(price) {
+    formatPrice(price = 0) {
       return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
   },
