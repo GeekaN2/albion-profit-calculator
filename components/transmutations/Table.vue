@@ -56,10 +56,10 @@ export default {
     return {
       resources: ["ORE", "HIDE", "FIBER", "WOOD", "ROCK"],
       values: [
-        [4, 5, 8, 12, 25],
-        [12, 10, 16, 25, 51],
-        [24, 21, 32, 51, 102],
-        [48, 42, 64, 102, 204]
+        [4, 5.4, 8, 12.8, 25.6],
+        [12, 10.62, 16, 25.6, 51.2],
+        [24, 21.36, 32, 51.2, 102],
+        [48, 42.66, 64, 102.4, 204]
       ],
       transCostPrevTierFormula: [
         [0, 375, 600, 1200, 5000],
@@ -68,7 +68,7 @@ export default {
         [0, 8400, 12800, 20400, 40800]
       ],
       /**
-       * It's a bit weird but rocks only have pr  ev tier formula
+       * It's a bit weird but rocks only have prev tier formula
        */
       rockTransCost: [0, 375, 1200, 3600, 12500]
     };
@@ -128,7 +128,7 @@ export default {
         return this.rockTransCost[tier - 4];
       }
 
-      return this.transCostPrevTierFormula[subtier][tier - 4]
+      return this.getValue(tier, subtier) * 200;
     },
 
     /**
@@ -139,7 +139,8 @@ export default {
      * @param {number} subtier - item subtier
      */
     getItemTransCostPrevSubtierFormula(tier, subtier) {
-      return this.getValue(tier, subtier) * (subtier * 50 - !(subtier % 2) * 25);
+      const subtierMultilier = [0, 3, 2, 1];
+      return this.getValue(tier, subtier) * (subtier * 50 - !(subtier % 2) * 25) * subtierMultilier[subtier];
     },
 
     /**
