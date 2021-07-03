@@ -18,6 +18,8 @@ export function createArrayOfAllIngredients(itemName: string): string[] {
     const match = itemName.match(/HUNTER|MAGE|WARRIOR|TOOLMAKER/) || [''];
 
     allItems = createStringOfAllJournals(`ROOT_${match[0]}`).split(',');
+  } else if (itemName.includes('T1_FACTION_')) {
+    allItems = [itemName];
   } else {
     allItems = createStringOfAllItems(itemName).split(',');
   }
@@ -88,6 +90,14 @@ export function createStringOfAllArtifacts(itemName: string) {
     return allNames.slice(0, -1);
   }
 
+  if (itemName.includes('CAPEITEM')) {
+    for (let tier = 4; tier <= 8; tier++) {
+      allNames = allNames + `T${tier}_${itemName.slice(3)}_BP,`;
+    }
+
+    return allNames;
+  }
+
   for (let tier = 4; tier <= 8; tier++) {
     allNames = allNames + `T${tier}_ARTEFACT${itemName.slice(2)},`;
   }
@@ -119,6 +129,14 @@ export function createArrayOfAllArtifactsFromArtifact(artifactName: string) {
     return allNames;
   }
 
+  if (artifactName.includes('_BP')) {
+    for (let tier = 4; tier <= 8; tier++) {
+      allNames.push(`T${tier}_${artifactName.slice(3)}`);
+    }
+
+    return allNames;
+  }
+
   for (let tier = 4; tier <= 8; tier++) {
     allNames.push(`T${tier}${artifactName.slice(2)}`);
   }
@@ -141,6 +159,51 @@ export function createStringOfAllJournals(root: string): string {
   }
 
   return allNames.slice(0, -1);
+}
+
+/**
+ * Creates array with hearts name of needed city
+ * 
+ * @param city - location name: Caerleon, Lyumhurst etc.
+ */
+export function createArrayOfAllHearts(city: string): string[] {
+  const allCities = ['Caerleon', 'Martlock', 'Fort Sterling', 'Bridgewatch', 'Lymhurst', 'Thetford'];
+
+  return allCities.map(city => getHeartNameByCity(city));
+}
+
+export function getHeartNameByCity(city: string): string {
+  const hearts: {[key: string]: string} = {
+    'Caerleon': 'T1_FACTION_CAERLEON_TOKEN_1',
+    'Martlock': 'T1_FACTION_HIGHLAND_TOKEN_1',
+    'Fort Sterling': 'T1_FACTION_MOUNTAIN_TOKEN_1',
+    'Bridgewatch': 'T1_FACTION_STEPPE_TOKEN_1',
+    'Lymhurst': 'T1_FACTION_FOREST_TOKEN_1',
+    'Thetford': 'T1_FACTION_SWAMP_TOKEN_1',
+  }
+
+  return hearts[city];
+}
+
+export function getHeartNameByItemName(itemName: string): string {
+  let heartName = '';
+
+  const itemSubstrings: {[key: string]: string[]} = {
+    'Caerleon': ['CAPEITEM_FW_CAERLEON'],
+    'Martlock': ['CAPEITEM_FW_MARTLOCK', 'CAPEITEM_KEEPER'],
+    'Fort Sterling': ['CAPEITEM_FW_FORTSTERLING', 'CAPEITEM_UNDEAD'],
+    'Bridgewatch': ['CAPEITEM_FW_BRIDGEWATCH', 'CAPEITEM_DEMON'],
+    'Lymhurst': ['CAPEITEM_FW_LYMHURST', 'CAPEITEM_HERETIC'],
+    'Thetford': ['CAPEITEM_FW_THETFORD', 'CAPEITEM_MORGANA'],
+  };
+
+  for (let heartCity in itemSubstrings) {
+    if (itemSubstrings[heartCity].some(substring => itemName.includes(substring))) {
+      heartName = getHeartNameByCity(heartCity);
+    }
+  }
+
+  return heartName;
 }
 
 /**
@@ -307,7 +370,7 @@ export function isObjectEmpty(obj: object): boolean {
  * @param itemName - item name: T4_HEAD_CLOTH_HELL etc.
  */
 export function isArtifactItem(itemName: string): boolean {
-  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL', "INSIGHT"];
+  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL', "INSIGHT", "CAPEITEM" ];
 
   if (!itemName) {
     return false;
@@ -322,7 +385,7 @@ export function isArtifactItem(itemName: string): boolean {
  * @param itemName - item name: T4_ARTEFACT_HEAD_CLOTH_HELL etc.
  */
 export function isArtifact(itemName: string): boolean {
-  const artifactSubstrings = ['ARTEFACT', 'SKILLBOOK', 'ROYAL'];
+  const artifactSubstrings = ['ARTEFACT', 'SKILLBOOK', 'ROYAL', '_BP'];
 
   return artifactSubstrings.some(substring => itemName.includes(substring));
 }

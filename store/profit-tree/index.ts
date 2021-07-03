@@ -33,7 +33,8 @@ const settings: Settings = {
     resourcesFirstLocation: "Caerleon",
     resourcesSecondLocation: 'Caerleon',
     artefacts: "Caerleon",
-    journals: "Caerleon"
+    journals: "Caerleon",
+    hearts: "Caerleon",
   },
   expert: {
     useOwnPercentage: false,
@@ -62,6 +63,7 @@ const treeModule: Module<TreeState, RootState> = {
     resources: clonedeep(cities),
     artefacts: clonedeep(cities),
     journals: clonedeep(cities),
+    hearts: clonedeep(cities),
     averageData: clonedeep(cities)
   }),
   getters,

@@ -28,7 +28,7 @@
             <ItemRecipe
               v-if="settings.useJournals"
               style="justify-content: flex-end"
-              :only-journals="true"
+              :right-side="true"
             />
           </div>
           <ItemTable v-if="loadingText == 'calculated'" />

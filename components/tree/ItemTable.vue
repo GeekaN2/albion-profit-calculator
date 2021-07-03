@@ -58,8 +58,7 @@
                 >
                   {{ $t(tooltipRow.name) }}
                   {{ tooltipRow.percentage ? `${tooltipRow.percentage}%` : '' }}
-                  {{ !tooltipRow.journalsPerItem ? '' : 
-                    `(${formatFloat(tooltipRow.journalsPerItem)}${$t('JournalsShort')})` }}
+                  {{ tooltipRow.addon ? `(${tooltipRow.addon})` : '' }}
                 </div>
                 <div
                   v-if="!isObjectEmpty(tooltipRow)"
@@ -104,6 +103,7 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
+import { getHeartNameByItemName } from '../../store/utils';
 
 export default {
   name: "ItemTable",
@@ -159,29 +159,16 @@ export default {
       },
 
       /**
-       * Craft bench fee per unit of material and artefact
+       * Craft bench fee per unit of material
        */
+      itemValues: [
+        [14, 30, 62, 126, 254],
+        [30, 61, 125, 253, 509],
+        [54, 118, 246, 502, 1014],
+        [102, 229, 485, 997, 2021],
+      ],
+
       itemAndArtefactValues: {
-        "T4.0": 14,
-        "T4.1": 30,
-        "T4.2": 54,
-        "T4.3": 102,
-        "T5.0": 30,
-        "T5.1": 61,
-        "T5.2": 118,
-        "T5.3": 229,
-        "T6.0": 62,
-        "T6.1": 125,
-        "T6.2": 246,
-        "T6.3": 485,
-        "T7.0": 126,
-        "T7.1": 253,
-        "T7.2": 502,
-        "T7.3": 997,
-        "T8.0": 254,
-        "T8.1": 509,
-        "T8.2": 1014,
-        "T8.3": 2021,
         T4_royal: 4,
         T4_rune: 4,
         T4_soul: 12,
@@ -275,6 +262,21 @@ export default {
        * Does this item need an artifact
        */
       "tree/isArtifactItem",
+
+      /**
+       * Do we need hearts for the current item or not 
+       */
+      "tree/areHeartsNeeded",
+
+      /**
+       * Get a heart prices for the cape
+       */
+      "tree/getHearts",
+      
+      /**
+       * Is cape non-factions
+       */
+      "tree/isNonFactionalCape",
 
       /**
        * Get artifact name
@@ -448,6 +450,21 @@ export default {
         };
       }
 
+      if (this['tree/areHeartsNeeded']) {
+        const heartName = getHeartNameByItemName(itemName);
+        const heart = this['tree/getHearts'][heartName];
+        const numberOfHearts = [1, 1, 3, 5, 10][tier - 4];
+
+        this.tableInfo[`T${tier}.${subtier}`].hearts = {
+          name: heartName,
+          price: -heart.price * numberOfHearts,
+          date: heart.date,
+          addon: numberOfHearts,
+        };
+
+        sumCost += heart.price * numberOfHearts;
+      }
+
       return sumCost;
     },
 
@@ -475,7 +492,6 @@ export default {
       const emptyJournal = this['tree/getEmptyJournals'][journalName + '_EMPTY'];
       const fullJournal = this['tree/getFullJournals'][journalName + '_FULL'];
 
-
       let profit =
         (fullJournal.price - emptyJournal.price) *
         (craftFame / journalFame) * 
@@ -488,7 +504,7 @@ export default {
         percentage: -fullJournal.marketFee,
         price: profit,
         date: fullJournal.date,
-        journalsPerItem: craftFame / journalFame
+        addon: `${this.formatFloat(craftFame / journalFame)}${this.$t('JournalsShort')}`
       });
 
       return profit;
@@ -504,11 +520,13 @@ export default {
     craftFee(tier, subtier) {
       const fee = this.settings.craftFee;
       const artefactLevel = this.currentItemInfo.artefactLevel;
-      let itemValue = this.itemAndArtefactValues[`T${tier}.${subtier}`];
+      let itemValue = this.itemValues[subtier][tier - 4];
       const isBagInsight = this.currentItemInfo.name.includes('INSIGHT');
 
-      if (artefactLevel.length != 0 && !isBagInsight) {
-        itemValue += this.itemAndArtefactValues[`T${tier}_${artefactLevel}`];
+      if (artefactLevel.length != 0 && !isBagInsight && !this['tree/isNonFactionalCape']) {
+        itemValue += this.itemAndArtefactValues[`T${tier}_${artefactLevel}`] || 0;
+      } else if (this['tree/isNonFactionalCape']) {
+        itemValue += 1000;
       }
       
       const feePrice = Math.floor(

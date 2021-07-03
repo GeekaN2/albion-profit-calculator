@@ -793,6 +793,50 @@
     "LEATHER": 4,
     "CLOTH": 4
   },
+  "T4_CAPEITEM_FW_CAERLEON": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_FW_MARTLOCK": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_FW_FORTSTERLING": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_FW_BRIDGEWATCH": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_FW_LYMHURST": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_FW_THETFORD": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_HERETIC": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_UNDEAD": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_KEEPER": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_MORGANA": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_DEMON": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
   "T4_BAG": {
     "LEATHER": 8,
     "CLOTH": 8

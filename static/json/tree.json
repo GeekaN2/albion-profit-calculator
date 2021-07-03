@@ -849,7 +849,55 @@
         ]
       },
       {
-        "name": "T4_CAPE"
+        "name": "T4_CAPE",
+        "children": [
+          {
+            "name": "T4_CAPE"
+          },
+          {
+            "name": "T4_CAPEITEM_FW_CAERLEON",
+            "children": [
+              {
+                "name": "T4_CAPEITEM_FW_CAERLEON"
+              },
+              {
+                "name": "T4_CAPEITEM_FW_MARTLOCK"
+              },
+              {
+                "name": "T4_CAPEITEM_FW_FORTSTERLING"
+              },
+              {
+                "name": "T4_CAPEITEM_FW_BRIDGEWATCH"
+              },
+              {
+                "name": "T4_CAPEITEM_FW_LYMHURST"
+              },
+              {
+                "name": "T4_CAPEITEM_FW_THETFORD"
+              }
+            ]
+          },
+          {
+            "name": "T4_CAPEITEM_HERETIC",
+            "children": [
+              {
+                "name": "T4_CAPEITEM_HERETIC"
+              },
+              {
+                "name": "T4_CAPEITEM_UNDEAD"
+              },
+              {
+                "name": "T4_CAPEITEM_KEEPER"
+              },
+              {
+                "name": "T4_CAPEITEM_MORGANA"
+              },
+              {
+                "name": "T4_CAPEITEM_DEMON"
+              }
+            ]
+          }
+        ]
       },
       {
         "name": "T4_BAG",
