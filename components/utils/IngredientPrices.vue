@@ -2,7 +2,7 @@
   <div
     v-if="items != {}"
     :class="{
-      'ingredient-prices--left': index == 3 || index == 4
+      'ingredient-prices--left': isJournal
     }"
     class="ingredient-prices"
   >
@@ -30,48 +30,42 @@ export default {
       type: String,
       default: "",
     },
-    
+
     /**
-     * Number of ingredient position to use correct getter
+     * Prices getter name
      */
-    index: {
-      type: Number,
-      default: 0
+    getterName: {
+      type: String,
+      default: '',
+    },
+
+    /**
+     * Setter to update prices
+     */
+    setterName: {
+      type: String,
+      default: '',
     }
   },
   computed: {
+    isJournal() {
+      return this.name.includes('JOURNAL');
+    },
     /**
      * All item names
      */
     itemNames() {
-      return createArrayOfAllIngredients(this.name).filter(name => {
-        if (this.index == 3) {
-          return name.includes('EMPTY');
+      return createArrayOfAllIngredients(this.name).filter(ingredientName => {
+        if (this.name.includes('_EMPTY')) {
+          return ingredientName.includes('EMPTY');
         }
 
-        if (this.index == 4) {
-          return name.includes('FULL');
+        if (this.name.includes('_FULL')) {
+          return ingredientName.includes('FULL');
         }
 
         return true;
       });
-    },
-
-    /**
-     * Appropriate getter to get the data
-     */
-    getterName() {
-      let getterName = "tree/getFirstResources";
-
-      switch(this.index) {
-        case 0: getterName = "tree/getFirstResources"; break;
-        case 1: getterName = "tree/getSecondResources"; break;
-        case 2: getterName = "tree/getArtefacts"; break;
-        case 3: getterName = "tree/getEmptyJournals"; break;
-        case 4: getterName = "tree/getFullJournals"; break;
-      }
-
-      return getterName;
     },
 
     /**
@@ -87,13 +81,7 @@ export default {
      * @param price - price to set
      */
     updatePrice(itemName, price) {
-      switch(this.getterName) {
-        case 'tree/getFirstResources':this.$store.commit("tree/UPDATE_FIRST_RESOURCE_ITEM", { itemName, price }); break;
-        case 'tree/getSecondResources':this.$store.commit("tree/UPDATE_SECOND_RESOURCE_ITEM", { itemName, price }); break;
-        case 'tree/getArtefacts':this.$store.commit("tree/UPDATE_ARTIFACT", { itemName, price }); break;
-        case 'tree/getEmptyJournals': this.$store.commit("tree/UPDATE_JOURNAL", { itemName, price }); break;
-        case 'tree/getFullJournals': this.$store.commit("tree/UPDATE_JOURNAL", { itemName, price }); break;
-      }
+      this.$store.commit(this.setterName, { itemName, price });
     }
   }
 }

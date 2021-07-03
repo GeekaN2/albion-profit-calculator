@@ -96,6 +96,14 @@
       <p>{{ $t('updateArtifacts') }}</p>
     </div>
     <div
+      v-if="this['tree/areHeartsNeeded']"
+      class="refresh"
+      @click="updateState('hearts')"
+    >
+      <img src="/images/redo-alt.svg">
+      <p>{{ $t('updateHearts') }}</p>
+    </div>
+    <div
       v-if="useJournals"
       class="refresh" 
       @click="updateState('journals')"
@@ -194,6 +202,21 @@
           </template>
         </select>
       </template>
+      <template v-if="this['tree/areHeartsNeeded']">
+        <p class="setting__city-header">
+          {{ $t('cities.hearts') }}
+        </p>
+        <select 
+          v-model="cities.hearts" 
+          class="city" 
+        >
+          <template v-for="city in baseCities">
+            <option :key="city">
+              {{ city }}
+            </option>
+          </template>
+        </select>
+      </template>
       <template v-if="useJournals">
         <p class="setting__city-header">
           {{ $t('cities.journals') }}
@@ -221,6 +244,7 @@
     "updateItems": "Update current item",
     "updateResources": "Update resource prices",
     "updateArtifacts": "Update artifact prices",
+    "updateHearts": "Update heart prices",
     "updateJournals": "Update journal prices",
     "craftFee": "craft fee",
     "averageItems": "Number of items sold",
@@ -232,6 +256,7 @@
       "items": "Items",
       "resources": "Resources",
       "artefacts": "Artifacts",
+      "hearts": "Hearts",
       "sigils": "Royal sigils",
       "skillbook": "Tome of insight",
       "journals": "Journals"
@@ -243,6 +268,7 @@
     "updateItems": "Обновить цены предметов",
     "updateResources": "Обновить цены материалов",
     "updateArtifacts": "Обновить цены артефактов",
+    "updateHearts": "Обновить цены сердец",
     "updateJournals": "Обновить цены журналов",
     "craftFee": "налог станка",
     "averageItems": "Кол-во проданных предметов",
@@ -254,6 +280,7 @@
       "items": "Предметы",
       "resources": "Материалы",
       "artefacts": "Артефакты",
+      "hearts": "Сердца",
       "sigils": "Королевские знаки",
       "skillbook": "Книга интуиции",
       "journals": "Журналы"
@@ -264,7 +291,6 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
-import { isObjectEmpty } from '../../store/utils';
 
 export default {
   name: "BasicSettings",
@@ -430,6 +456,11 @@ export default {
        * Get item recipe
        */
       "tree/getRecipe",
+
+      /**
+       * Do we need to display hearts
+       */
+      "tree/areHeartsNeeded",
     ]),
 
     ...mapState({
@@ -458,6 +489,7 @@ export default {
         resourcesSecondLocation: normalizedCity,
         artefacts: normalizedCity,
         journals: normalizedCity,
+        hearts: normalizedCity,
       };
     },
 

@@ -1,6 +1,16 @@
 import { MutationTree } from 'vuex'
-import { normalizeItemsByMaxPriceFromMinPrices } from '../utils'
-import { ResponseModel, TreeState, Item, ItemInfo, JournalsItem, AverageDataResponse, AverageDataForItem, SettingsWithItem, Resources, OneOfCitiesProp, Prices } from './typeDefs'
+import { normalizeItemsByMaxPriceFromMinPrices, getHeartNameByCity } from '../utils'
+import { 
+  ResponseModel, 
+  TreeState, 
+  Item, 
+  ItemInfo, 
+  AverageDataResponse, 
+  AverageDataForItem, 
+  SettingsWithItem, 
+  Resources, 
+  OneOfCitiesProp 
+} from './typeDefs'
 import Vue from 'vue';
 import clonedeep from 'lodash.clonedeep';
 
@@ -33,7 +43,8 @@ export const mutations: MutationTree<TreeState> = {
         resourcesFirstLocation: "Caerleon",
         resourcesSecondLocation: 'Caerleon',
         artefacts: "Caerleon",
-        journals: "Caerleon"
+        journals: "Caerleon",
+        hearts: "Caerleon",
       },
       expert: {
         useOwnPercentage: false,
@@ -126,6 +137,20 @@ export const mutations: MutationTree<TreeState> = {
     const journals = normalizeItemsByMaxPriceFromMinPrices(data);
 
     Vue.set(state.journals[city], root, journals);
+  },
+
+  SET_HEARTS_PRICES(state, { data, settingsWithItem }: { data: ResponseModel[]; settingsWithItem: SettingsWithItem }) {
+    const city = settingsWithItem.settings.cities.hearts;
+    let newPrices: { [key: string]: Item } = {};
+
+    data.forEach((artefact: ResponseModel) => {
+      newPrices[artefact.itemId] = {
+        price: artefact.sellPriceMin,
+        date: artefact.sellPriceMinDate
+      }
+    });
+
+    Vue.set(state.hearts, city, newPrices);
   },
 
   /**
@@ -336,6 +361,19 @@ export const mutations: MutationTree<TreeState> = {
   },
 
   /**
+   * Update heart price
+   * 
+   * @param state - vuex state
+   * @param itemName - name of heart
+   * @param price - price to update
+   */
+  UPDATE_HEARTS(state, {itemName, price}: {itemName: string, price: number}): void {
+    const city = state.settings.cities.hearts;
+    
+    state.hearts[city][itemName].price = price;
+  },
+
+  /**
    * Change setting to use other normalization or not
    * 
    * @param state - vuex state
@@ -362,7 +400,13 @@ export const mutations: MutationTree<TreeState> = {
    * @param settings - saved user settings
    */
   SET_USER_SETTINGS(state, settings): void {
+    const oldSettings = clonedeep(state.settings);
+
     Object.assign(state.settings, settings);
+
+    // the simplest deep merge
+    state.settings.cities = oldSettings.cities;
+    Object.assign(state.settings.cities, settings.cities);
     
     state.settingsBackup = clonedeep(state.settings);
   },

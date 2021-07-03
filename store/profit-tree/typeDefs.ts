@@ -12,6 +12,7 @@ export interface TreeState {
   resources: Resources;
   artefacts: Artefacts;
   journals: Journals;
+  hearts: Hearts;
   averageData: AverageData;
 }
 
@@ -54,11 +55,23 @@ export interface Resources {
   [key: string]: {
     [key: string]: {
       price: number;
-      date: string
+      date: string;
     }
   }
 }
 
+/**
+ * city -> heart name
+ */
+export interface Hearts {
+  [key: string]: {
+    [key: string]: {
+      price: number;
+      date: string;
+    }
+  }
+}
+ 
 /**
  * city -> item -> artefacts
  */
@@ -144,6 +157,7 @@ export interface Cities {
   resourcesSecondLocation: string;
   artefacts: string;
   journals: string;
+  hearts: string;
 }
 
 /**

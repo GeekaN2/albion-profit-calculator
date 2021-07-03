@@ -1,6 +1,13 @@
 import { ActionTree } from 'vuex'
 import axios from 'axios'
-import { createStringOfAllItems, createStringOfAllResources, createStringOfAllArtifacts, createStringOfAllJournals, isObjectEmpty } from '../utils'
+import { 
+  createStringOfAllItems, 
+  createStringOfAllResources, 
+  createStringOfAllArtifacts, 
+  createStringOfAllJournals,
+  createArrayOfAllHearts,
+  isObjectEmpty 
+} from '../utils'
 import { TreeState, ItemInfo, SettingsWithItem } from './typeDefs'
 import { isArtifactItem } from '../utils'
 
@@ -75,6 +82,10 @@ export const actions: ActionTree<TreeState, {}> = {
       await dispatch('FETCH_JOURNAL_PRICES', { currentItemInfo, settings });
     }
 
+    if (getters.areHeartsNeeded && isObjectEmpty(getters.getHearts)) {
+      await dispatch('FETCH_HEART_PRICES', settingsWithItem);
+    }
+
     // Send a request if something is changed
     if (state.currentItemInfo != currentItemInfo || state.settings != settings) {
       commit('SET_LOADING_TEXT', 'something changed');
@@ -112,6 +123,9 @@ export const actions: ActionTree<TreeState, {}> = {
       case 'artifacts':
         await dispatch('FETCH_ARTEFACT_PRICES', settingsWithItem);
         break;
+      case 'hearts':
+        await dispatch('FETCH_HEART_PRICES', settingsWithItem);
+        break;
       case 'journals':
         await dispatch('FETCH_JOURNAL_PRICES', settingsWithItem);
         break;
@@ -129,7 +143,7 @@ export const actions: ActionTree<TreeState, {}> = {
    * @param state - vuex state
    * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
    */
-  async FETCH_ITEM_PRICES({ commit }, settingsWithItem) {
+  async FETCH_ITEM_PRICES({ commit }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_TEXT', 'items');
 
     const itemName = settingsWithItem.currentItemInfo.name;
@@ -151,7 +165,7 @@ export const actions: ActionTree<TreeState, {}> = {
    * @param commit - vuex commit
    * @param state - vuex state
    */
-  async FETCH_RESOURCE_PRICES({ commit, state }, settingsWithItem) {
+  async FETCH_RESOURCE_PRICES({ commit, state }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_TEXT', 'materials');
 
     const resources = ['CLOTH', 'LEATHER', 'PLANKS', 'METALBAR'];
@@ -180,7 +194,7 @@ export const actions: ActionTree<TreeState, {}> = {
    * @param commit - vuex commit 
    * @param state - vuex state
    */
-  async FETCH_ARTEFACT_PRICES({ commit, state }, settingsWithItem) {
+  async FETCH_ARTEFACT_PRICES({ commit, state }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_TEXT', 'artefacts');
 
     const itemName = settingsWithItem.currentItemInfo.name;
@@ -202,7 +216,7 @@ export const actions: ActionTree<TreeState, {}> = {
    * @param commit - vuex commit 
    * @param state - vuex state
    */
-  async FETCH_JOURNAL_PRICES({ commit, state }, settingsWithItem) {
+  async FETCH_JOURNAL_PRICES({ commit, state }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_TEXT', 'journals');
 
     let allNames = createStringOfAllJournals(state.currentItemInfo.root);
@@ -214,6 +228,21 @@ export const actions: ActionTree<TreeState, {}> = {
         const data = response.data;
 
         commit('SET_JOURNAL_PRICES', { data, settingsWithItem })
+      });
+  },
+
+  async FETCH_HEART_PRICES({ commit, state }, settingsWithItem: SettingsWithItem) {
+    commit('SET_LOADING_TEXT', 'hearts');
+
+    const city = settingsWithItem.settings.cities.hearts;
+    let allNames = createArrayOfAllHearts(city).join(',');
+
+    await axios
+      .get(`${baseUrl}data?items=${allNames}&locations=${city}`)
+      .then(response => {
+        const data = response.data;
+
+        commit('SET_HEARTS_PRICES', { data, settingsWithItem })
       });
   },
 

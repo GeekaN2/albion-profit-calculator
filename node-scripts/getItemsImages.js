@@ -25,6 +25,7 @@ async function getImages() {
 
   baseItemNames.forEach(baseItemName => {
     createArrayOfAllItems(baseItemName).forEach(item => allItems.push(item));
+    createArrayOfAllHearts().forEach(item => allItems.push(item));
 
     if (isArtifactItem(baseItemName)) {
       createArrayOfAllArtifacts(baseItemName).forEach(artifact => allItems.push(artifact));
@@ -103,6 +104,15 @@ function createArrayOfAllResources(resource) {
 }
 
 /**
+ * Creates an array with all city hearts
+ */
+function createArrayOfAllHearts() {
+  const factions = ['CAERLEON', 'HIGHLAND', 'MOUNTAIN', 'STEPPE', 'FOREST', 'SWAMP'];
+
+  return factions.map(faction => `T1_FACTION_${faction}_TOKEN_1`);
+}
+
+/**
  * Creates an array with artefacts of all tiers
  * 
  * @param itemName - artefact item name: T4_2H_NATURESTAFF_KEEPER etc.
@@ -121,6 +131,14 @@ function createArrayOfAllArtifacts(itemName) {
 
   if (itemName.includes('INSIGHT')) {
     allNames.push(`T4_SKILLBOOK_STANDARD`);
+
+    return allNames;
+  }
+
+  if (itemName.includes('CAPEITEM')) {
+    for (let tier = 4; tier <= 8; tier++) {
+      allNames.push(`T${tier}_${itemName.slice(3)}_BP`);
+    }
 
     return allNames;
   }
@@ -155,7 +173,7 @@ function createArrayOfAllJournals(root) {
  * @param itemName - item name: T4_ARTEFACT_HEAD_CLOTH_HELL etc.
  */
 function isArtifactItem(itemName) {
-  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL', "INSIGHT"];
+  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL', 'INSIGHT', 'CAPEITEM'];
 
   if (!itemName) {
     return false;
