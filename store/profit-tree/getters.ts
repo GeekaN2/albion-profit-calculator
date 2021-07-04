@@ -155,22 +155,6 @@ export const getters: GetterTree<TreeState, {}> = {
   },
 
   /**
-   * Is the cape non-factional
-   * 
-   * @param state - vuex state
-   */
-  isNonFactionalCape: (state: TreeState): boolean => {
-    const itemName = state.currentItemInfo.name;
-
-    return [
-      'CAPEITEM_HERETIC',
-      'CAPEITEM_UNDEAD',
-      'CAPEITEM_KEEPER',
-      'CAPEITEM_MORGANA',
-      'CAPEITEM_DEMON'].some(substring => itemName.includes(substring));
-  },
-
-  /**
    * Get text of loading
    * 
    * @param state - vuex state

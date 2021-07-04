@@ -272,11 +272,6 @@ export default {
        * Get a heart prices for the cape
        */
       "tree/getHearts",
-      
-      /**
-       * Is cape non-factions
-       */
-      "tree/isNonFactionalCape",
 
       /**
        * Get artifact name
@@ -520,13 +515,16 @@ export default {
     craftFee(tier, subtier) {
       const fee = this.settings.craftFee;
       const artefactLevel = this.currentItemInfo.artefactLevel;
-      let itemValue = this.itemValues[subtier][tier - 4];
+      const itemName = this.currentItemInfo.name;
       const isBagInsight = this.currentItemInfo.name.includes('INSIGHT');
+      const isHereticCape = [ 'HERETIC', 'UNDEAD', 'KEEPER', 'MORGANA', 'DEMON'].some(substring => itemName.includes(`CAPEITEM_${substring}`));
+      const isFactionalCape = ['CAERLEON', 'MARTLOCK', 'FORTSTERLING', 'BRIDGEWATCH', 'LYMHURST', 'THETFORD'].some(substring => itemName.includes(`CAPEITEM_FW_${substring}`));
+      let itemValue = this.itemValues[subtier][tier - 4];
 
-      if (artefactLevel.length != 0 && !isBagInsight && !this['tree/isNonFactionalCape']) {
+      if (artefactLevel.length != 0 && !isBagInsight && !isFactionalCape && !isHereticCape) {
         itemValue += this.itemAndArtefactValues[`T${tier}_${artefactLevel}`] || 0;
-      } else if (this['tree/isNonFactionalCape']) {
-        itemValue += 1000;
+      } else if (isHereticCape) {
+        itemValue += 1000 / this.amountOfMaterials;
       }
       
       const feePrice = Math.floor(
