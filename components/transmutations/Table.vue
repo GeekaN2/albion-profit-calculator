@@ -70,7 +70,7 @@ export default {
       /**
        * It's a bit weird but rocks only have prev tier formula
        */
-      rockTransCost: [0, 375, 1200, 3600, 12500]
+      rockTransCost: [0, 1000, 2400, 4800, 12500]
     };
   },
   computed: {
