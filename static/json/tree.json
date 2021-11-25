@@ -194,6 +194,32 @@
         ]
       },
       {
+        "name": "T4_2H_KNUCKLES_SET1",
+        "children": [
+          {
+            "name": "T4_2H_KNUCKLES_SET1"
+          },
+          {
+            "name": "T4_2H_KNUCKLES_SET2"
+          },
+          {
+            "name": "T4_2H_KNUCKLES_SET3"
+          },
+          {
+            "name": "T4_2H_KNUCKLES_KEEPER"
+          },
+          {
+            "name": "T4_2H_KNUCKLES_HELL"
+          },
+          {
+            "name": "T4_2H_KNUCKLES_MORGANA"
+          },
+          {
+            "name": "T4_2H_KNUCKLES_AVALON"
+          }
+        ]
+      },
+      {
         "name": "T4_2H_CROSSBOW",
         "children": [
           {

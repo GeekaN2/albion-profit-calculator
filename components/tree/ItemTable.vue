@@ -482,7 +482,7 @@ export default {
       let craftFame =
         (fame * (subtier + 1) - 7.5 * subtier) * this.amountOfMaterials;
 
-      const journalFame = 1200 * 2 ** (tier - 4);
+      const journalFame = [3600, 7200, 14400, 28380, 58590][tier - 4];
       const journalName = `T${tier}_JOURNAL${this.currentItemInfo.root.slice(4)}`;
       const emptyJournal = this['tree/getEmptyJournals'][journalName + '_EMPTY'];
       const fullJournal = this['tree/getFullJournals'][journalName + '_FULL'];
@@ -528,12 +528,12 @@ export default {
       }
       
       const feePrice = Math.floor(
-        ((itemValue * this.amountOfMaterials) / 20) * fee
+        (itemValue * this.amountOfMaterials) * fee / 100 * 0.1125
       );
 
       this.$set(this.tableInfo[`T${tier}.${subtier}`], "fee", {
         name: "settings.fee",
-        percentage: fee,
+        addon: fee,
         price: -feePrice,
         date: "",
       });

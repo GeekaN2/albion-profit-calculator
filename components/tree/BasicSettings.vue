@@ -112,12 +112,12 @@
       <p>{{ $t('updateJournals') }}</p>
     </div>
     <div class="input">
+      <span> {{ $t('craftFee') }}</span>
       <input 
         v-model.number="craftFee"
         placeholder="0" 
-        maxlength="4" 
+        maxlength="10" 
       >
-      <span>% {{ $t('craftFee') }}</span>
     </div>
     <p class="setting__city-header">
       {{ useMultipleCities ? $t('cities.sellItems') : $t('cities.mainCity') }}
@@ -246,7 +246,7 @@
     "updateArtifacts": "Update artifact prices",
     "updateHearts": "Update heart prices",
     "updateJournals": "Update journal prices",
-    "craftFee": "craft fee",
+    "craftFee": "Fee for 100 nutrition",
     "averageItems": "Number of items sold",
     "averagePrice": "Use average price",
     "cities": {
@@ -270,7 +270,7 @@
     "updateArtifacts": "Обновить цены артефактов",
     "updateHearts": "Обновить цены сердец",
     "updateJournals": "Обновить цены журналов",
-    "craftFee": "налог станка",
+    "craftFee": "Налог за 100 еды",
     "averageItems": "Кол-во проданных предметов",
     "averagePrice": "Использовать среднюю цену",
     "cities": {
@@ -657,33 +657,24 @@ select {
 .input {
   margin-bottom: 10px;
   font-size: 1em;
-  position: relative;
+  color: #222222;
+  display: flex;
+  flex-direction: column;
+
 
   input {
-    display: inline-block;
     outline: none;
-    text-align: left;
-    width: 100%;
-    font-size: 0.9em;
-    border-image-source: linear-gradient(
-      90deg,
-      #000000 0%,
-      #000000 8%,
-      #5a5a5a 30%,
-      #ffffff 70%
-    );
-    border-image-slice: 1;
-    border-width: 0 0 2px 0;
-    margin-bottom: 2px;
-    letter-spacing: 1px;
-    padding-left: 0.4em;
-    color: #222222;
+    border: none;
+    border-bottom: 2px solid #000;
+    transition: 0.1s;
+
+    &:focus {
+      border-bottom-color: #e19839;
+    }
   }
 
   span {
-    position: absolute;
-    left: 2.8em;
-    color: #222222;
+    font-size: 0.8em;
   }
 }
 

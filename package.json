@@ -27,7 +27,7 @@
     "node-sass": "^5.0.0",
     "nuxt": "^2.0.0",
     "nuxt-clipboard2": "^0.2.1",
-    "nuxt-i18n": "^6.11.1",
+    "nuxt-i18n": "^6.28.1",
     "sass-loader": "10.1.1",
     "style-loader": "^2.0.0",
     "v-click-outside": "^3.0.1"
@@ -38,8 +38,8 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/eslint-config-typescript": "^5.0.0",
     "babel-eslint": "^10.0.1",
-    "eslint": "^7.19.0",
     "es6-promise-pool": "^2.5.0",
+    "eslint": "^7.19.0",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-vue": "^7.5.0",

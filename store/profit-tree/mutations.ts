@@ -36,7 +36,7 @@ export const mutations: MutationTree<TreeState> = {
       useAveragePrice: false,
       useExpertMode: false,
       returnPercentage: 15.2,
-      craftFee: 10,
+      craftFee: 500,
       cities: {
         sellItems: "Caerleon",
         craftItems: "Caerleon",
