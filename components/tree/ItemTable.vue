@@ -480,7 +480,7 @@ export default {
       // amount of fame per unit of this tier material
       const fame = this.materialsBaseFame[`T${tier}`];
       let craftFame =
-        (fame * (subtier + 1) - 7.5 * subtier) * this.amountOfMaterials;
+        fame * (2 ** (subtier)) * this.amountOfMaterials;
 
       const journalFame = [3600, 7200, 14400, 28380, 58590][tier - 4];
       const journalName = `T${tier}_JOURNAL${this.currentItemInfo.root.slice(4)}`;
