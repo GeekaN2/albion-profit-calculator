@@ -12,7 +12,7 @@
       >
     </div>
     <div class="setting">
-      <h3>{{ $t('settings.fee') }}</h3>
+      <h3>{{ $t('settings.feeForNutrition') }}</h3>
       <input 
         v-model.number="fee"
         class="input input--number"

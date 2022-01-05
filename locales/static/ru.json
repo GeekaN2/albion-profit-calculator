@@ -24,7 +24,8 @@
     "useMultipleCities": "Цены из разных городов",
     "ownReturnPercentage": "Собственный % возврата",
     "fee": "Налог",
-    "craftFee": "Налог станка"
+    "craftFee": "Налог станка",
+    "feeForNutrition": "Налог за 100 еды"
   },
   "cities": {
     "mainCity": "Основной город",

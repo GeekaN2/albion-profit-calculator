@@ -24,7 +24,8 @@
     "useMultipleCities": "Use multiple cities",
     "ownReturnPercentage": "Use own return %",
     "fee": "Fee",
-    "craftFee": "Craft fee"
+    "craftFee": "Craft fee",
+    "feeForNutrition": "Fee for 100 nutrition"
   },
   "cities": {
     "mainCity": "Main city",
