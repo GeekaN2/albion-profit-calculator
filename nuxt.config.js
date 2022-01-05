@@ -87,6 +87,9 @@ module.exports = {
   plugins: [{ 
     src: '@/plugins/vClickOutside', 
     ssr: false 
+  }, {
+    src: '@/plugins/vTooltip',
+    ssr: false,
   }],
 
   axios: {

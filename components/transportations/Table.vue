@@ -49,7 +49,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped lang="scss">
 .transportations-table {
   display: grid;
   margin: 0 auto;

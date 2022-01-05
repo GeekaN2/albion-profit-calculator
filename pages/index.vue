@@ -1,78 +1,96 @@
 <template>
   <section class="main_page_container main_page">
     <div>
-      <h1 class="main_page__title">
-        Albion Profit Calculator
-      </h1>
+      <h1 class="main_page__title">Albion Profit Calculator</h1>
       <h2 class="main_page__subtitle" />
       <div class="main_page__links">
-        <nuxt-link 
+        <nuxt-link
           v-if="$auth.loggedIn"
           :to="localePath('/tree')"
           class="links__button--brown button"
         >
-          {{ $t('tree') }}
+          🪴 {{ $t("tree") }}
         </nuxt-link>
-        <nuxt-link 
+        <nuxt-link
           v-if="$auth.loggedIn"
           :to="localePath('/transmutations')"
           class="links__button--brown button"
         >
-          {{ $t('transmutations') }}
+          🧪 {{ $t("transmutations") }}
         </nuxt-link>
-        <nuxt-link 
-          v-if="$auth.loggedIn && isSupporter"
+        <nuxt-link
+          v-if="$auth.loggedIn"
+          v-tooltip.bottom="!isSupporter ? $t('onlyForSupporters') : ''"
           :to="localePath('/refining')"
-          class="links__button--brown button"
+          :class="[
+            {
+              'links__button--disabled': $auth.loggedIn && !isSupporter,
+            },
+            'links__button--brown button',
+          ]"
         >
-          {{ $t('refining') }}
+          ♻️ {{ $t("refining") }}
+        </nuxt-link>
+        <nuxt-link
+          v-if="$auth.loggedIn"
+          v-tooltip.bottom="!isSupporter ? $t('onlyForSupporters') : ''"
+          :to="localePath('/transportations')"
+          :class="[
+            {
+              'links__button--disabled': $auth.loggedIn && !isSupporter,
+            },
+            'links__button--brown button',
+          ]"
+        >
+          🦣 {{ $t("transportations") }}
         </nuxt-link>
         <span
           v-if="$auth.loggedIn"
           class="links__button--brown button"
           @click="logout"
-        >{{ $t('logout') }}
+          >{{ $t("logout") }}
         </span>
         <span
           v-if="!$auth.loggedIn"
           class="links__button--brown button"
           @click="showModalAuth"
-        >{{ $t('login') }}
+          >{{ $t("login") }}
         </span>
         <span
           v-if="!$auth.loggedIn"
           class="links__button--brown button"
           @click="showModalRegister"
-        >{{ $t('register') }}
+          >{{ $t("register") }}
         </span>
       </div>
     </div>
-    <Auth 
-      v-if="isModalAuthShowed" 
-      @hide-modal-auth="hideModalAuth"
-    />
+    <Auth v-if="isModalAuthShowed" @hide-modal-auth="hideModalAuth" />
     <Register
       v-if="isModalRegisterShowed"
       @hide-modal-register="hideModalRegister"
     />
     <footer>
       <a href="https://github.com/GeekaN2">&copy; GeekaN</a>
-      <a href="https://www.albion-online-data.com/">Powered by Albion Online Data Project</a>
+      <a href="https://www.albion-online-data.com/"
+        >Powered by Albion Online Data Project</a
+      >
       <span>
         <nuxt-link
           :class="{
-            'button__underline': $i18n.locale === 'ru'
+            button__underline: $i18n.locale === 'ru',
           }"
           :to="switchLocalePath('ru')"
           class="button"
-        >RU</nuxt-link>
+          >RU</nuxt-link
+        >
         <nuxt-link
           :class="{
-            'button__underline': $i18n.locale === 'en'
+            button__underline: $i18n.locale === 'en',
           }"
           :to="switchLocalePath('en')"
           class="button"
-        >EN</nuxt-link>
+          >EN</nuxt-link
+        >
       </span>
     </footer>
   </section>
@@ -84,6 +102,8 @@
     "tree": "Profit tree",
     "transmutations": "Transmuting",
     "refining": "Refining",
+    "transportations": "Transportations (beta)",
+    "onlyForSupporters": "Only for supporters",
     "login": "Login",
     "register": "Register",
     "logout": "Logout"
@@ -92,6 +112,8 @@
     "tree": "Дерево профита",
     "transmutations": "Трансмутация",
     "refining": "Переработка",
+    "transportations": "Перевозки (бета)",
+    "onlyForSupporters": "Только для саппортеров",
     "login": "Войти",
     "register": "Зарегистрироваться",
     "logout": "Выйти"
@@ -100,14 +122,14 @@
 </i18n>
 
 <script>
-import Auth from '~/components/Auth';
-import Register from '~/components/Register';
+import Auth from "~/components/Auth";
+import Register from "~/components/Register";
 
 export default {
-  name: 'MainPage',
+  name: "MainPage",
   components: {
     Auth,
-    Register
+    Register,
   },
   data() {
     return {
@@ -120,14 +142,14 @@ export default {
        * Is modal form shown or not
        */
       isModalRegisterShowed: false,
-    }
+    };
   },
   computed: {
     isSupporter() {
-      const supporter = ['supporter', 'admin'];
+      const supporter = ["supporter", "admin"];
 
       return supporter.includes(this.$auth.user.role);
-    }
+    },
   },
   methods: {
     /**
@@ -162,15 +184,16 @@ export default {
      * Logout user
      */
     async logout() {
-      await this.$auth.logout('local');
-    }
-  }
-}
+      await this.$auth.logout("local");
+    },
+  },
+};
 </script>
 
 <style lang="scss">
 $base-brown: #583131;
 $base-purple: #583156;
+$color-disabled: #8b8b8b;
 
 .main_page_container {
   min-height: 100vh;
@@ -203,8 +226,9 @@ $base-purple: #583156;
 
   .links {
     padding-top: 15px;
-    
-    &__button--purple, &__button--brown {
+
+    &__button--purple,
+    &__button--brown {
       display: inline-block;
       border-radius: 4px;
       border: 1px solid $base-brown;
@@ -228,6 +252,30 @@ $base-purple: #583156;
     &__button--brown:hover {
       color: #fff;
       background: $base-brown;
+    }
+
+    &__button--disabled {
+      background: repeating-linear-gradient(
+        -45deg,
+        #c4c4c4,
+        #c4c4c4 5px,
+        transparent 5px,
+        transparent 15px
+      );
+      border-color: $color-disabled;
+      color: $color-disabled;
+
+      &:hover {
+        background: repeating-linear-gradient(
+          -45deg,
+          #c4c4c4,
+          #c4c4c4 5px,
+          transparent 5px,
+          transparent 15px
+        );
+        border-color: $color-disabled;
+        color: $color-disabled;
+      }
     }
   }
 }

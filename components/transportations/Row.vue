@@ -203,7 +203,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .row {
   display: grid;
   grid-template-columns: auto 1fr 1fr;
