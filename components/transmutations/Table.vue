@@ -158,7 +158,7 @@ export default {
       const value = this.getValue(tier, subtier);
       const fee = this.settings.fee;
 
-      const transmutationCost = itemTransCost - (itemTransCost * (3000 - goldPrice) / 3000) + (value * fee / 20);
+      const transmutationCost = itemTransCost - (itemTransCost * (3000 - goldPrice) / 3000) + (value * fee / 100 * 0.1125);
 
       return transmutationCost;
     },

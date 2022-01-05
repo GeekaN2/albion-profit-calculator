@@ -114,7 +114,7 @@ export default {
         }, {
           name: 'settings.fee',
           price: -Math.round(this.transmutationRowData.fee),
-          percent: this.settings.fee
+          additionalData: this.settings.fee
         }
       ];; 
     }

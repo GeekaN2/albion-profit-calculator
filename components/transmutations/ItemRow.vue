@@ -161,7 +161,7 @@ export default {
       tooltipRows.push({
         name: 'settings.fee',
         price: item.fee,
-        percent: this.settings.fee,
+        additionalData: this.settings.fee,
         date: ''
       });
 
