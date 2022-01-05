@@ -112,7 +112,7 @@ export default {
   data() {
     return {
       gold: 3000,
-      fee: 10,
+      fee: 800,
       cities: {
         sellResourcesLocation: 'Caerleon',
         buyResourcesLocation: 'Caerleon'

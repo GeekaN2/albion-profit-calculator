@@ -97,7 +97,7 @@ export default {
               additionalData: recipe.rawResource.quantity
             }, {
               name: 'settings.fee',
-              percent: this.settings.fee,
+              additionalData: this.settings.fee,
               price: -fee,
             }
           ]
@@ -112,7 +112,7 @@ export default {
      */
     craftFee(tier, subtier) {
       return Math.ceil(
-        this.materialValues[subtier][tier - 4] / 20 * this.settings.fee
+        this.materialValues[subtier][tier - 4] * this.settings.fee / 100 * 0.1125
       );
     },
 
