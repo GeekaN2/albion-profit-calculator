@@ -31,13 +31,14 @@ export default {
     this.$store.dispatch("transportations/GET_ITEMS");
   },
   mounted() {
+    console.log('mounted');
     this.scroll();
   },
   methods: {
     scroll() {
       window.onscroll = () => {
-        let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
-        
+        let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight >= document.documentElement.offsetHeight;
+
         if (bottomOfWindow) {
           this.$store.dispatch("transportations/UPDATE_TABLE");
         }
@@ -48,7 +49,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped lang="scss">
 .transportations-table {
   display: grid;
   margin: 0 auto;

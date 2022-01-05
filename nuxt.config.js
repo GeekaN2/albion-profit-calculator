@@ -69,7 +69,6 @@ module.exports = {
           code: 'ru',
           file: 'ru.js'
         }],
-        lazy: true,
         defaultLocale: 'en',
         vueI18nLoader: true,
         vueI18n: i18n,
@@ -88,6 +87,9 @@ module.exports = {
   plugins: [{ 
     src: '@/plugins/vClickOutside', 
     ssr: false 
+  }, {
+    src: '@/plugins/vTooltip',
+    ssr: false,
   }],
 
   axios: {

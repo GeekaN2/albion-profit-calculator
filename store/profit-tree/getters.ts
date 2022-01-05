@@ -1,6 +1,11 @@
 import { GetterTree } from 'vuex'
 import { TreeState, Item } from './typeDefs'
-import { isArtifactItem, normalizeItemsByMaxPriceFromMinPrices, normalizeItemBySellPriceMin } from '../utils'
+import {
+  isArtifactItem,
+  normalizeItemsByMaxPriceFromMinPrices,
+  normalizeItemBySellPriceMin,
+  getHeartNameByItemName,
+} from '../utils'
 
 export const getters: GetterTree<TreeState, {}> = {
   /**
@@ -13,17 +18,17 @@ export const getters: GetterTree<TreeState, {}> = {
     const city = state.settings.cities.sellItems;
     const qualities = state.settings.expert.qualities;
     let prices = state.prices[city][itemName] || [];
-    
+
     prices = prices.filter(item => qualities.includes(item.quality));
 
-    let normalized: {[key: string]: Item} = {};
+    let normalized: { [key: string]: Item } = {};
 
     if (state.settings.expert.useMinPricesNormalization) {
       normalized = normalizeItemBySellPriceMin(prices);
     } else {
       normalized = normalizeItemsByMaxPriceFromMinPrices(prices);
     }
-    
+
     return normalized;
   },
 
@@ -87,7 +92,7 @@ export const getters: GetterTree<TreeState, {}> = {
     let journals = state.journals[city][root] || {};
 
     journals = Object.fromEntries(Object.entries(journals).filter(([name, value]) => name.includes('EMPTY')));
-    
+
     return journals;
   },
 
@@ -117,6 +122,36 @@ export const getters: GetterTree<TreeState, {}> = {
     const averageData = state.averageData[city][itemName] || {};
 
     return averageData;
+  },
+
+  /**
+   * Heart prices
+   * 
+   * @param state - vuex state
+   */
+  getHearts: (state: TreeState, getters: GetterTree<TreeState, {}>) => {
+    const city = state.settings.cities.hearts;
+    const itemName = state.currentItemInfo.name;
+    const heartName = getHeartNameByItemName(itemName);
+
+    const hearts = state.hearts[city] || {};
+
+    return hearts;
+  },
+
+  /**
+   * Hearts of cities for some special items such as capes
+   * 
+   * @param state - vuex state
+   */
+  areHeartsNeeded: (state: TreeState): boolean => {
+    return state.currentItemInfo.name.includes('CAPEITEM');
+  },
+
+  getHeartName: (state: TreeState): string => {
+    const itemName = state.currentItemInfo.name;
+  
+    return getHeartNameByItemName(itemName);
   },
 
   /**
@@ -155,7 +190,7 @@ export const getters: GetterTree<TreeState, {}> = {
 
     // Keywords for the category of items that the bonus is assigned to
     const bonus: { [key: string]: string[] } = {
-      'Caerleon': ['TOOL'],
+      'Caerleon': ['TOOL', 'KNUCKLES'],
       'Martlock': ['AXE', 'QUARTERSTAFF', 'FROSTSTAFF', 'SHOES_PLATE', 'OFF'],
       'Bridgewatch': ['CROSSBOW', 'DAGGER', 'CURSEDSTAFF', 'ARMOR_PLATE', 'SHOES_CLOTH'],
       'Lymhurst': ['SWORD', 'BOW', 'ARCANESTAFF', 'HEAD_LEATHER', 'SHOES_LEATHER'],
@@ -195,6 +230,7 @@ export const getters: GetterTree<TreeState, {}> = {
     return isArtifactItem(state.currentItemInfo.name);
   },
 
+
   /**
    * Get an artifact name
    * 
@@ -215,6 +251,8 @@ export const getters: GetterTree<TreeState, {}> = {
       artifactName = `QUESTITEM_TOKEN_ROYAL_T${tier}`
     } else if (itemName.includes('INSIGHT')) {
       artifactName = `T4_SKILLBOOK_STANDARD`;
+    } else if (itemName.includes('CAPEITEM')) {
+      artifactName = `T${tier}_${itemName.slice(3)}_BP`;
     }
 
     return artifactName;

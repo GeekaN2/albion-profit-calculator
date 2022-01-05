@@ -194,6 +194,32 @@
         ]
       },
       {
+        "name": "T4_2H_KNUCKLES_SET1",
+        "children": [
+          {
+            "name": "T4_2H_KNUCKLES_SET1"
+          },
+          {
+            "name": "T4_2H_KNUCKLES_SET2"
+          },
+          {
+            "name": "T4_2H_KNUCKLES_SET3"
+          },
+          {
+            "name": "T4_2H_KNUCKLES_KEEPER"
+          },
+          {
+            "name": "T4_2H_KNUCKLES_HELL"
+          },
+          {
+            "name": "T4_2H_KNUCKLES_MORGANA"
+          },
+          {
+            "name": "T4_2H_KNUCKLES_AVALON"
+          }
+        ]
+      },
+      {
         "name": "T4_2H_CROSSBOW",
         "children": [
           {
@@ -425,7 +451,7 @@
             "name": "T4_MAIN_RAPIER_MORGANA"
           },
           {
-            "name": "T4_2H_IRONGAUNTLETS_HELL"
+            "name": "T4_MAIN_DAGGER_HELL"
           },
           {
             "name": "T4_2H_DUALSICKLE_UNDEAD"
@@ -849,7 +875,55 @@
         ]
       },
       {
-        "name": "T4_CAPE"
+        "name": "T4_CAPE",
+        "children": [
+          {
+            "name": "T4_CAPE"
+          },
+          {
+            "name": "T4_CAPEITEM_FW_CAERLEON",
+            "children": [
+              {
+                "name": "T4_CAPEITEM_FW_CAERLEON"
+              },
+              {
+                "name": "T4_CAPEITEM_FW_MARTLOCK"
+              },
+              {
+                "name": "T4_CAPEITEM_FW_FORTSTERLING"
+              },
+              {
+                "name": "T4_CAPEITEM_FW_BRIDGEWATCH"
+              },
+              {
+                "name": "T4_CAPEITEM_FW_LYMHURST"
+              },
+              {
+                "name": "T4_CAPEITEM_FW_THETFORD"
+              }
+            ]
+          },
+          {
+            "name": "T4_CAPEITEM_HERETIC",
+            "children": [
+              {
+                "name": "T4_CAPEITEM_HERETIC"
+              },
+              {
+                "name": "T4_CAPEITEM_UNDEAD"
+              },
+              {
+                "name": "T4_CAPEITEM_KEEPER"
+              },
+              {
+                "name": "T4_CAPEITEM_MORGANA"
+              },
+              {
+                "name": "T4_CAPEITEM_DEMON"
+              }
+            ]
+          }
+        ]
       },
       {
         "name": "T4_BAG",

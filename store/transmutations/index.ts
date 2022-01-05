@@ -23,8 +23,9 @@ const transmutationModule: Module<TransmutationsState, RootState> = {
   state: () => ({
     prices: clonedeep(Object.assign(cities, {'Black Market': {}})),
     settings: {
-      fee: 10,
+      fee: 800,
       gold: 3000,
+      showTransmutationWays: false,
       cities: {
         buyResourcesLocation: 'Caerleon',
         sellResourcesLocation: 'Caerleon'

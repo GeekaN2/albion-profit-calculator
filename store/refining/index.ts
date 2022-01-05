@@ -25,7 +25,7 @@ const refiningModule: Module<RefiningState, RootState>  = {
     materials: clonedeep(cities),
     settings: {
       useFocus: false,
-      fee: 10,
+      fee: 800,
       useOwnPercentage: false,
       returnPercentage: 15.2,
       useMultipleCities: false,

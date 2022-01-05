@@ -46,7 +46,7 @@ export default {
 };
 </script>
 
-<style lang='scss'>
+<style scoped lang='scss'>
 .row {
   display: flex;
   justify-content: center;

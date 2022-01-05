@@ -182,6 +182,34 @@
     "METALBAR": 20,
     "CLOTH": 12
   },
+  "T4_2H_KNUCKLES_SET1": {
+    "METALBAR": 12,
+    "LEATHER": 20
+  },
+  "T4_2H_KNUCKLES_SET2": {
+    "METALBAR": 12,
+    "LEATHER": 20
+  },
+  "T4_2H_KNUCKLES_SET3": {
+    "METALBAR": 12,
+    "LEATHER": 20
+  },
+  "T4_2H_KNUCKLES_KEEPER": {
+    "METALBAR": 12,
+    "LEATHER": 20
+  },
+  "T4_2H_KNUCKLES_HELL": {
+    "METALBAR": 12,
+    "LEATHER": 20
+  },
+  "T4_2H_KNUCKLES_MORGANA": {
+    "METALBAR": 12,
+    "LEATHER": 20
+  },
+  "T4_2H_KNUCKLES_AVALON": {
+    "METALBAR": 12,
+    "LEATHER": 20
+  },
   "T4_2H_CROSSBOW": {
     "PLANKS": 20,
     "METALBAR": 12
@@ -395,9 +423,9 @@
     "METALBAR": 16,
     "LEATHER": 8
   },
-  "T4_2H_IRONGAUNTLETS_HELL": {
+  "T4_MAIN_DAGGER_HELL": {
     "METALBAR": 12,
-    "LEATHER": 20
+    "LEATHER": 12
   },
   "T4_2H_DUALSICKLE_UNDEAD": {
     "METALBAR": 16,
@@ -790,6 +818,50 @@
     "CLOTH": 4
   },
   "T4_CAPE": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_FW_CAERLEON": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_FW_MARTLOCK": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_FW_FORTSTERLING": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_FW_BRIDGEWATCH": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_FW_LYMHURST": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_FW_THETFORD": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_HERETIC": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_UNDEAD": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_KEEPER": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_MORGANA": {
+    "LEATHER": 4,
+    "CLOTH": 4
+  },
+  "T4_CAPEITEM_DEMON": {
     "LEATHER": 4,
     "CLOTH": 4
   },

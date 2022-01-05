@@ -12,10 +12,10 @@ export const getters: GetterTree<TransmutationsState, {}> = {
     const itemName = state.currentItemInfo.name;
     const city = state.settings.cities.sellResourcesLocation;
     let prices = state.prices[city][itemName] || [];
-    let normalized: {[key: string]: ResponseModel} = {};
+    let normalized: { [key: string]: ResponseModel } = {};
 
     prices.forEach(item => normalized[item.itemId] = item);
-    
+
     return normalized;
   },
 
@@ -28,10 +28,10 @@ export const getters: GetterTree<TransmutationsState, {}> = {
     const itemName = state.currentItemInfo.name;
     const city = state.settings.cities.buyResourcesLocation;
     let prices = state.prices[city][itemName] || [];
-    let normalized: {[key: string]: ResponseModel} = {};
+    let normalized: { [key: string]: ResponseModel } = {};
 
     prices.forEach(item => normalized[item.itemId] = item);
-    
+
     return normalized;
   },
 
@@ -43,4 +43,17 @@ export const getters: GetterTree<TransmutationsState, {}> = {
   loadingText: (state: TransmutationsState) => {
     return state.features.loadingText;
   },
+
+  /**
+   * Get item current item name by tier and subtier
+   * 
+   * @param tier - item tier
+   * @param subtier - item subtier
+   */
+  getItemName: (state: TransmutationsState) => (tier: number, subtier: number) => {
+    const baseItemName = state.currentItemInfo.name;
+
+    return `T${tier}_${baseItemName}` +
+      (subtier == 0 ? '' : `_LEVEL${subtier}@${subtier}`);
+  }
 }

@@ -14,9 +14,10 @@
         v-show="showPrices"
         v-click-outside="hide"
         :name="name"
-        :index="index"
+        :getter-name="getterName"
+        :setter-name="setterName"
         :class="{
-          'prices-table--left': index == 3 || index == 4  
+          'prices-table--left': isJournal
         }"
         class="prices-table"
       />
@@ -61,14 +62,26 @@ export default {
     },
 
     /**
-     * Number of ingredient position to use the correct data in the table
+     * Prices getter name
      */
-    index: {
-      type: Number,
-      default: 0
+    getterName: {
+      type: String,
+      default: '',
+    },
+
+    /**
+     * Setter to update prices
+     */
+    setterName: {
+      type: String,
+      default: '',
     }
   },
   computed: {
+    isJournal() {
+      return this.name.includes('JOURNAL');
+    },
+
     ...mapGetters({
       isLoaded: "tree/isLoaded"
     })

@@ -26,35 +26,9 @@
             'item__warnings__tooltip tooltip', 
             `tooltip--tier${item.name.slice(1, 2)}`]"
         >
-          <div class="tooltip__table">
-            <template v-for="tooltipRow of tooltipData(item)">
-              <div
-                :key="`${JSON.stringify(tooltipRow)}:0`"
-                class="text-algin-left copy-cell"
-                @click="copyName($t(tooltipRow.name))"
-              >
-                {{ $t(tooltipRow.name) }}
-                {{ tooltipRow.percentage ? `${tooltipRow.percentage}%` : '' }}
-              </div>
-              <div
-                :key="`${JSON.stringify(tooltipRow)}:1`"
-                :class="{
-                  'error': tooltipRow.price == 0
-                }"
-              >
-                {{ tooltipRow.price | formatPrice }}
-              </div>
-              <div
-                :key="`${JSON.stringify(tooltipRow)}:2`"
-                :class="{
-                  'error': outdated(tooltipRow.date),
-                  'success': !outdated(tooltipRow.date)
-                }"
-              >
-                {{ formatDate(tooltipRow.date) }}
-              </div>
-            </template>
-          </div>
+          <Tooltip 
+            :data="tooltipData(item)"
+          />
         </div>
       </div>
     </div>
@@ -63,9 +37,13 @@
 
 <script>
 import { mapState } from 'vuex';
+import Tooltip from '../utils/Tooltip';
 
 export default {
   name: 'ItemRow',
+  components: {
+    Tooltip
+  },
   filters: {
     /**
      * Format the price for the convenience
@@ -168,7 +146,7 @@ export default {
       tooltipRows.push({
         name: item.name,
         price: item.price,
-        percentage: -item.marketFee,
+        percent: -item.marketFee,
         date: item.date
       });
 
@@ -183,7 +161,7 @@ export default {
       tooltipRows.push({
         name: 'settings.fee',
         price: item.fee,
-        percentage: this.settings.fee,
+        additionalData: this.settings.fee,
         date: ''
       });
 
@@ -348,6 +326,7 @@ export default {
   padding: 5px;
   white-space: nowrap;
   transition-delay: 0.03s;
+  z-index: 2;
 
   &:after {
     content: "";
@@ -387,6 +366,14 @@ export default {
 
     &:after {
       right: calc(50% - 5px);
+    }
+  }
+
+  &--right {
+    transform: translateX(70%);
+
+    &:after {
+      right: calc(70% - 5px);
     }
   }
 

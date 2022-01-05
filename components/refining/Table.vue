@@ -30,10 +30,10 @@ export default {
        * Values of materials from t4.0 to t8.3 
        */
       materialValues: [
-        [14, 30, 62, 126, 254],
-        [30, 61, 125, 253, 509],
-        [54, 118, 246, 502, 1014],
-        [102, 229, 485, 997, 2021]
+        [16, 32, 64, 128, 256],
+        [32, 64, 128, 256, 512],
+        [64, 128, 256, 512, 1024],
+        [128, 256, 512, 1024, 2048]
       ]
     }
   },
@@ -97,7 +97,7 @@ export default {
               additionalData: recipe.rawResource.quantity
             }, {
               name: 'settings.fee',
-              percent: this.settings.fee,
+              additionalData: this.settings.fee,
               price: -fee,
             }
           ]
@@ -112,7 +112,7 @@ export default {
      */
     craftFee(tier, subtier) {
       return Math.ceil(
-        this.materialValues[subtier][tier - 4] / 20 * this.settings.fee
+        this.materialValues[subtier][tier - 4] * this.settings.fee / 100 * 0.1125
       );
     },
 

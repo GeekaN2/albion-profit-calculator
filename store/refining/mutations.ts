@@ -13,7 +13,7 @@ export const mutations: MutationTree<RefiningState> = {
   SET_STATE(state) {
     state.settings = {
       useFocus: false,
-      fee: 10,
+      fee: 800,
       useOwnPercentage: false,
       returnPercentage: 15.2,
       useMultipleCities: false,
