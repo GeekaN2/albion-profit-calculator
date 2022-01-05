@@ -10,7 +10,7 @@ export const mutations: MutationTree<TransmutationsState> = {
    */
   SET_STATE(state) {
     state.settings = {
-      fee: 10,
+      fee: 800,
       gold: 2980,
       showTransmutationWays: false,
       cities: {
