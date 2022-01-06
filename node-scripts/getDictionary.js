@@ -18,7 +18,7 @@ async function getItems() {
  * @returns {string[]} - array of all item names that we need without a tier and subtier
  */
 function getAllNames() {
-  let recipes = fs.readFileSync('./static/json/recipes.json');
+  let recipes = fs.readFileSync('./static/json/profitTreeRecipes.json');
   recipes = JSON.parse(recipes);
 
   const baseItemNames = Object.keys(recipes).map(item => item.slice(3))

@@ -1,7 +1,9 @@
 <template>
   <section class="main_page_container main_page">
     <div>
-      <h1 class="main_page__title">Albion Profit Calculator</h1>
+      <h1 class="main_page__title">
+        Albion Profit Calculator
+      </h1>
       <h2 class="main_page__subtitle" />
       <div class="main_page__links">
         <nuxt-link
@@ -17,6 +19,14 @@
           class="links__button--brown button"
         >
           🧪 {{ $t("transmutations") }}
+        </nuxt-link>
+        <nuxt-link
+          v-if="$auth.loggedIn"
+          v-tooltip.bottom="$t('onlyForSupporters')"
+          :to="localePath('/food-and-potions')"
+          class="links__button--brown button"
+        >
+          🍲 {{ $t("Food & potions") }}
         </nuxt-link>
         <nuxt-link
           v-if="$auth.loggedIn"
@@ -48,32 +58,35 @@
           v-if="$auth.loggedIn"
           class="links__button--brown button"
           @click="logout"
-          >{{ $t("logout") }}
+        >{{ $t("logout") }}
         </span>
         <span
           v-if="!$auth.loggedIn"
           class="links__button--brown button"
           @click="showModalAuth"
-          >{{ $t("login") }}
+        >{{ $t("login") }}
         </span>
         <span
           v-if="!$auth.loggedIn"
           class="links__button--brown button"
           @click="showModalRegister"
-          >{{ $t("register") }}
+        >{{ $t("register") }}
         </span>
       </div>
     </div>
-    <Auth v-if="isModalAuthShowed" @hide-modal-auth="hideModalAuth" />
+    <Auth
+      v-if="isModalAuthShowed"
+      @hide-modal-auth="hideModalAuth"
+    />
     <Register
       v-if="isModalRegisterShowed"
       @hide-modal-register="hideModalRegister"
     />
     <footer>
       <a href="https://github.com/GeekaN2">&copy; GeekaN</a>
-      <a href="https://www.albion-online-data.com/"
-        >Powered by Albion Online Data Project</a
-      >
+      <a
+        href="https://www.albion-online-data.com/"
+      >Powered by Albion Online Data Project</a>
       <span>
         <nuxt-link
           :class="{
@@ -81,16 +94,14 @@
           }"
           :to="switchLocalePath('ru')"
           class="button"
-          >RU</nuxt-link
-        >
+        >RU</nuxt-link>
         <nuxt-link
           :class="{
             button__underline: $i18n.locale === 'en',
           }"
           :to="switchLocalePath('en')"
           class="button"
-          >EN</nuxt-link
-        >
+        >EN</nuxt-link>
       </span>
     </footer>
   </section>

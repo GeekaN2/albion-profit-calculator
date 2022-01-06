@@ -9,7 +9,7 @@ const imagesApiUrl = "https://render.albiononline.com/v1/item/";
 const MAX_PARALLEL_REQUESTS = 16
 
 async function getImages() {
-  let recipes = fs.readFileSync('./static/json/recipes.json');
+  let recipes = fs.readFileSync('./static/json/profitTreeRecipes.json');
   recipes = JSON.parse(recipes);
 
   // Array of T4 item names

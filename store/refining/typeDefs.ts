@@ -32,7 +32,7 @@ export interface ResponseModel {
 }
 
 /**
- * Transmutation settings
+ * Refining settings
  */
 export interface Settings {
   useFocus: boolean;

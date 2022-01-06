@@ -20,5 +20,7 @@ static/images/items/*.png
 # Static images that don't need to be uploaded
 !static/images/items/ROOT*
 
-
+# dynamic files that may change with updates. 
+# In general, it was necessary to do so from the very beginning ¯\_(ツ)_/¯
+static/jsonAutomatic
 
