@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
 const PromisePool = require('es6-promise-pool');
+const { getAllFoodAndPotionNames } = require('./utils');
 
 // e.g. https://render.albiononline.com/v1/item/T6_2H_INFERNOSTAFF_MORGANA.png
 const imagesApiUrl = "https://render.albiononline.com/v1/item/";
@@ -33,8 +34,8 @@ async function getImages() {
   });
 
   roots.forEach(root => allItems.push(...createArrayOfAllJournals(root)));
-
   resources.forEach(baseResource => createArrayOfAllResources(baseResource).forEach(resource => allItems.push(resource)));
+  allItems.push(...createArrayOfAllFoodAndPotions());
 
   const itemsQuantity = allItems.length;
 
@@ -165,6 +166,39 @@ function createArrayOfAllJournals(root) {
   }
 
   return allNames.slice(0, -1);
+}
+
+function createArrayOfAllFoodAndPotions() {
+  let allNames = [];
+  let baseNames = getAllFoodAndPotionNames();
+
+  const generateSubtiersUpTo = (baseName, highestSubtier) => {
+    let names = [];
+
+    for (let subtier = 0; subtier <= highestSubtier; subtier++) {
+      names.push(`${baseName}${subtier > 0 ? '@' + subtier : ''}`);
+    }
+
+    return names;
+  }
+
+  baseNames.forEach((baseName) => {
+    if (baseName.includes('POTION')) {
+      allNames.push(...generateSubtiersUpTo(baseName, 1));
+
+      return;
+    }
+    
+    if (baseName.includes('MEAL')) {
+      allNames.push(...generateSubtiersUpTo(baseName, 3));
+
+      return;
+    }
+
+    allNames.push(baseName);
+  });
+  console.log(allNames);
+  return allNames;
 }
 
 /**

@@ -7,13 +7,10 @@
         <h2 class="table__header">
           {{ $t('chooseBranch') }}
         </h2>
-        <Row />
+        <Tree />
         <Loading 
           v-if="itemName"
           :text="loadingText" 
-        />
-        <Table
-          v-if="loadingText == 'calculated' && itemName != ''"
         />
       </div>
     </div>
@@ -34,8 +31,7 @@
 <script>
 import Header from "~/components/Header";
 import Settings from "~/components/refining/Settings"
-import Row from "~/components/refining/Row";
-import Table from '~/components/refining/Table';
+import Tree from "~/components/food-and-potions/Tree";
 import Loading from '~/components/utils/Loading.vue';
 import { mapGetters, mapState } from 'vuex'; 
 
@@ -44,8 +40,7 @@ export default {
   components: {
     Header,
     Settings,
-    Row,
-    Table,
+    Tree,
     Loading,
   },
   middleware: ["authenticated"],
