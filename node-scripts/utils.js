@@ -24,7 +24,7 @@ function getAllFoodAndPotionNames() {
   const getItemNamesFromTree = (treeBranch) => treeBranch.map((treeBranch) => {
     let namesOrChildrens = getBranchOrNames(treeBranch);
 
-    if (namesOrChildrens.every(item => typeof item === 'string')) {
+    if (namesOrChildrens.every((item) => typeof item === 'string')) {
       itemNames.push(...namesOrChildrens);
     } else {
       getItemNamesFromTree(namesOrChildrens);

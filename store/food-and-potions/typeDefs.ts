@@ -1,9 +1,13 @@
 import { ResponseModel } from "../typeDefs";
+import { ConsumableItem } from "./models";
 
 export interface FoodAndPotionsState {
   items: Prices;
   resources: Prices;
   settings: Settings;
+  currentItemTiers: string[];
+  foodAndPotionsTreeItems: ConsumableItem[];
+  features: Features;
 }
 
 export type AlbionCities = 'Caerleon' 
@@ -12,6 +16,17 @@ export type AlbionCities = 'Caerleon'
   | 'Lymhurst'
   | 'Martlock'
   | 'Thetford';
+
+
+export enum LoadingStatus {
+  CALCULATED = 'calculated',
+  SOMETHING_CHANGED = 'somethingChanged',
+  LOADING_ITEMS = 'loadingItems',
+}
+export interface Features {
+  loadingStatus: LoadingStatus;
+}
+
 
 /**
  * city -> base_item_name -> array of prices
@@ -36,3 +51,5 @@ export type AlbionCities = 'Caerleon'
     sellItems: AlbionCities,
   }
 }
+
+export type SettingsWithItemTiers = Pick<FoodAndPotionsState, 'currentItemTiers' | 'settings'>

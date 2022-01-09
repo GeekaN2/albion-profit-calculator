@@ -235,7 +235,7 @@ export const actions: ActionTree<TreeState, {}> = {
     commit('SET_LOADING_TEXT', 'hearts');
 
     const city = settingsWithItem.settings.cities.hearts;
-    let allNames = createArrayOfAllHearts(city).join(',');
+    let allNames = createArrayOfAllHearts().join(',');
 
     await axios
       .get(`${baseUrl}data?items=${allNames}&locations=${city}`)

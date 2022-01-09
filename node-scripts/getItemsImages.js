@@ -168,6 +168,11 @@ function createArrayOfAllJournals(root) {
   return allNames.slice(0, -1);
 }
 
+/**
+ * Creates and arrat with all names of food, potions and relative items in their branches
+ * 
+ * @returns {string[]}
+ */
 function createArrayOfAllFoodAndPotions() {
   let allNames = [];
   let baseNames = getAllFoodAndPotionNames();

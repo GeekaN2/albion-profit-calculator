@@ -5,6 +5,7 @@ import transmutationsModule from './transmutations';
 import refiningModule from './refining';
 import adminPanelModule from './admin-panel';
 import featuresModule from './features';
+import foodAndPotionsModule from './food-and-potions';
 import { RootState } from './typeDefs';
 
 const store: StoreOptions<RootState> ={
@@ -29,6 +30,11 @@ const store: StoreOptions<RootState> ={
      * Transmutation tables module
      */
     transmutations: transmutationsModule,
+
+    /**
+     * Food and potions
+     */
+    foodAndPotions: foodAndPotionsModule,
 
     /**
      * Admin panel module

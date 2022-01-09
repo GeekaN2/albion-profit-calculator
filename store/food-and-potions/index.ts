@@ -4,8 +4,10 @@ import { getters } from './getters'
 import Vuex, { Module } from 'vuex';
 import Vue from 'vue'
 import clonedeep from 'lodash.clonedeep';
-import { FoodAndPotionsState } from './typeDefs';
+import { FoodAndPotionsState, LoadingStatus } from './typeDefs';
 import { RootState } from '../typeDefs';
+import { ConsumableItem } from './models';
+import axios from 'axios';
 
 Vue.use(Vuex);
 
@@ -23,6 +25,7 @@ const refiningModule: Module<FoodAndPotionsState, RootState>  = {
   state: () => ({
     items: clonedeep(cities),
     resources: clonedeep(cities),
+    foodAndPotionsTreeItems: [],
     settings: {
       useFocus: false,
       fee: 800,
@@ -34,6 +37,10 @@ const refiningModule: Module<FoodAndPotionsState, RootState>  = {
         sellItems: 'Caerleon'
       }
     },
+    features: {
+      loadingStatus: LoadingStatus.CALCULATED,
+    },
+    currentItemTiers: [],
   }),
   getters,
   actions,

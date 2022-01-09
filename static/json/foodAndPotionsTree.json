@@ -1,9 +1,134 @@
 [
   {
-    "name": "T2_POTION_HEAL",
+    "name": "T5_MEAL_SOUP",
     "children": [
       {
-        "name": "T2_POTION_HEAL",
+        "name": "T5_MEAL_SOUP",
+        "tiers": [
+          "T1_MEAL_SOUP",
+          "T3_MEAL_SOUP",
+          "T5_MEAL_SOUP"
+        ]
+      },
+      {
+        "name": "T5_MEAL_SOUP_FISH",
+        "tiers": [
+          "T1_MEAL_SOUP_FISH",
+          "T3_MEAL_SOUP_FISH",
+          "T5_MEAL_SOUP_FISH"
+        ]
+      },
+      {
+        "name": "T6_MEAL_SALAD",
+        "tiers": [
+          "T2_MEAL_SALAD",
+          "T4_MEAL_SALAD",
+          "T6_MEAL_SALAD"
+        ]
+      },
+      {
+        "name": "T6_MEAL_SALAD_FISH",
+        "tiers": [
+          "T2_MEAL_SALAD_FISH",
+          "T4_MEAL_SALAD_FISH",
+          "T6_MEAL_SALAD_FISH"
+        ]
+      },
+      {
+        "name": "T7_MEAL_PIE",
+        "tiers": [
+          "T3_MEAL_PIE",
+          "T5_MEAL_PIE",
+          "T7_MEAL_PIE"
+        ]
+      },
+      {
+        "name": "T7_MEAL_OMELETTE",
+        "tiers": [
+          "T3_MEAL_OMELETTE",
+          "T5_MEAL_OMELETTE",
+          "T7_MEAL_OMELETTE"
+        ]
+      },
+      {
+        "name": "T7_MEAL_OMELETTE_FISH",
+        "tiers": [
+          "T3_MEAL_OMELETTE_FISH",
+          "T5_MEAL_OMELETTE_FISH",
+          "T7_MEAL_OMELETTE_FISH"
+        ]
+      },
+      {
+        "name": "T7_MEAL_OMELETTE_AVALON",
+        "tiers": [
+          "T3_MEAL_OMELETTE_AVALON",
+          "T5_MEAL_OMELETTE_AVALON",
+          "T7_MEAL_OMELETTE_AVALON"
+        ]
+      },
+      {
+        "name": "T7_MEAL_ROAST",
+        "tiers": [
+          "T3_MEAL_ROAST",
+          "T5_MEAL_ROAST",
+          "T7_MEAL_ROAST"
+        ]
+      },
+      {
+        "name": "T7_MEAL_ROAST_FISH",
+        "tiers": [
+          "T3_MEAL_ROAST_FISH",
+          "T5_MEAL_ROAST_FISH",
+          "T7_MEAL_ROAST_FISH"
+        ]
+      },
+      {
+        "name": "T8_MEAL_STEW",
+        "tiers": [
+          "T4_MEAL_STEW",
+          "T6_MEAL_STEW",
+          "T8_MEAL_STEW"
+        ]
+      },
+      {
+        "name": "T8_MEAL_STEW_AVALON",
+        "tiers": [
+          "T4_MEAL_STEW_AVALON",
+          "T6_MEAL_STEW_AVALON",
+          "T8_MEAL_STEW_AVALON"
+        ]
+      },
+      {
+        "name": "T8_MEAL_SANDWICH",
+        "tiers": [
+          "T4_MEAL_SANDWICH",
+          "T6_MEAL_SANDWICH",
+          "T8_MEAL_SANDWICH"
+        ]
+      },
+      {
+        "name": "T8_MEAL_SANDWICH_FISH",
+        "tiers": [
+          "T4_MEAL_SANDWICH_FISH",
+          "T6_MEAL_SANDWICH_FISH",
+          "T8_MEAL_SANDWICH_FISH"
+        ]
+      },
+      {
+        "name": "T8_MEAL_SANDWICH_AVALON",
+        "tiers": [
+          "T4_MEAL_SANDWICH_AVALON",
+          "T6_MEAL_SANDWICH_AVALON",
+          "T8_MEAL_SANDWICH_AVALON"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "T6_POTION_HEAL",
+    "children": [
+      {
+        "name": "T6_POTION_HEAL",
         "tiers": [
           "T2_POTION_HEAL",
           "T4_POTION_HEAL",
@@ -11,7 +136,7 @@
         ]
       },
       {
-        "name": "T2_POTION_ENERGY",
+        "name": "T6_POTION_ENERGY",
         "tiers": [
           "T2_POTION_ENERGY",
           "T4_POTION_ENERGY",
@@ -19,23 +144,15 @@
         ]
       },
       {
-        "name": "T4_POTION_COOLDOWN",
-        "tiers": [
-          "T4_POTION_COOLDOWN",
-          "T6_POTION_COOLDOWN",
-          "T8_POTION_COOLDOWN"
-        ]
-      },
-      {
-        "name": "T3_POTION_REVIVE",
+        "name": "T7_POTION_REVIVE",
         "tiers": [
           "T3_POTION_REVIVE",
-          "T7_POTION_REVIVE",
+          "T5_POTION_REVIVE",
           "T7_POTION_REVIVE"
         ]
       },
       {
-        "name": "T3_POTION_SLOWFIELD",
+        "name": "T7_POTION_SLOWFIELD",
         "tiers": [
           "T3_POTION_SLOWFIELD",
           "T5_POTION_SLOWFIELD",
@@ -43,11 +160,19 @@
         ]
       },
       {
-        "name": "T3_POTION_STONESKIN",
+        "name": "T7_POTION_STONESKIN",
         "tiers": [
           "T3_POTION_STONESKIN",
           "T5_POTION_STONESKIN",
           "T7_POTION_STONESKIN"
+        ]
+      },
+      {
+        "name": "T8_POTION_COOLDOWN",
+        "tiers": [
+          "T4_POTION_COOLDOWN",
+          "T6_POTION_COOLDOWN",
+          "T8_POTION_COOLDOWN"
         ]
       },
       {
@@ -57,136 +182,11 @@
         ]
       },
       {
-        "name": "T6_ALCOHOL",
+        "name": "T8_ALCOHOL",
         "tiers": [
           "T6_ALCOHOL",
           "T7_ALCOHOL",
           "T8_ALCOHOL"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "T1_MEAL_SOUP",
-    "children": [
-      {
-        "name": "T1_MEAL_SOUP",
-        "tiers": [
-          "T1_MEAL_SOUP",
-          "T3_MEAL_SOUP",
-          "T5_MEAL_SOUP"
-        ]
-      },
-      {
-        "name": "T1_MEAL_SOUP_FISH",
-        "tiers": [
-          "T1_MEAL_SOUP_FISH",
-          "T3_MEAL_SOUP_FISH",
-          "T5_MEAL_SOUP_FISH"
-        ]
-      },
-      {
-        "name": "T2_MEAL_SALAD",
-        "tiers": [
-          "T2_MEAL_SALAD",
-          "T4_MEAL_SALAD",
-          "T6_MEAL_SALAD"
-        ]
-      },
-      {
-        "name": "T2_MEAL_SALAD_FISH",
-        "tiers": [
-          "T2_MEAL_SALAD_FISH",
-          "T4_MEAL_SALAD_FISH",
-          "T6_MEAL_SALAD_FISH"
-        ]
-      },
-      {
-        "name": "T3_MEAL_PIE",
-        "tiers": [
-          "T3_MEAL_PIE",
-          "T5_MEAL_PIE",
-          "T7_MEAL_PIE"
-        ]
-      },
-      {
-        "name": "T3_MEAL_OMELETTE",
-        "tiers": [
-          "T3_MEAL_OMELETTE",
-          "T5_MEAL_OMELETTE",
-          "T7_MEAL_OMELETTE"
-        ]
-      },
-      {
-        "name": "T3_MEAL_OMELETTE_FISH",
-        "tiers": [
-          "T3_MEAL_OMELETTE_FISH",
-          "T5_MEAL_OMELETTE_FISH",
-          "T7_MEAL_OMELETTE_FISH"
-        ]
-      },
-      {
-        "name": "T3_MEAL_OMELETTE_AVALON",
-        "tiers": [
-          "T3_MEAL_OMELETTE_AVALON",
-          "T5_MEAL_OMELETTE_AVALON",
-          "T7_MEAL_OMELETTE_AVALON"
-        ]
-      },
-      {
-        "name": "T4_MEAL_STEW",
-        "tiers": [
-          "T4_MEAL_STEW",
-          "T6_MEAL_STEW",
-          "T8_MEAL_STEW"
-        ]
-      },
-      {
-        "name": "T4_MEAL_STEW_AVALON",
-        "tiers": [
-          "T4_MEAL_STEW_AVALON",
-          "T6_MEAL_STEW_AVALON",
-          "T8_MEAL_STEW_AVALON"
-        ]
-      },
-      {
-        "name": "T4_MEAL_SANDWICH",
-        "tiers": [
-          "T4_MEAL_SANDWICH",
-          "T6_MEAL_SANDWICH",
-          "T8_MEAL_SANDWICH"
-        ]
-      },
-      {
-        "name": "T4_MEAL_SANDWICH_FISH",
-        "tiers": [
-          "T4_MEAL_SANDWICH_FISH",
-          "T6_MEAL_SANDWICH_FISH",
-          "T8_MEAL_SANDWICH_FISH"
-        ]
-      },
-      {
-        "name": "T4_MEAL_SANDWICH_AVALON",
-        "tiers": [
-          "T4_MEAL_SANDWICH_AVALON",
-          "T6_MEAL_SANDWICH_AVALON",
-          "T8_MEAL_SANDWICH_AVALON"
-        ]
-      },
-      {
-        "name": "T3_MEAL_ROAST",
-        "tiers": [
-          "T3_MEAL_ROAST",
-          "T5_MEAL_ROAST",
-          "T7_MEAL_ROAST"
-        ]
-      },
-      {
-        "name": "T3_MEAL_ROAST_FISH",
-        "tiers": [
-          "T3_MEAL_ROAST_FISH",
-          "T5_MEAL_ROAST_FISH",
-          "T7_MEAL_ROAST_FISH"
         ]
       }
     ]

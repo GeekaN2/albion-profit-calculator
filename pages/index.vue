@@ -22,7 +22,6 @@
         </nuxt-link>
         <nuxt-link
           v-if="$auth.loggedIn"
-          v-tooltip.bottom="$t('onlyForSupporters')"
           :to="localePath('/food-and-potions')"
           class="links__button--brown button"
         >

@@ -5,13 +5,9 @@
       <Settings />
       <div class="table">
         <h2 class="table__header">
-          {{ $t('chooseBranch') }}
+          {{ $t("chooseBranch") }}
         </h2>
         <Tree />
-        <Loading 
-          v-if="itemName"
-          :text="loadingText" 
-        />
       </div>
     </div>
   </section>
@@ -20,20 +16,18 @@
 <i18n>
 {
   "en": {
-    "chooseBranch": "Choose a branch to show crafts"
+    "chooseBranch": "Choose a branch of food & potions" 
   },
   "ru": {
-    "chooseBranch": "Выберите ресурс для переработки"
+    "chooseBranch": "Выберите ветку из еды и зелий"
   }
 }
 </i18n>
 
 <script>
 import Header from "~/components/Header";
-import Settings from "~/components/refining/Settings"
+import Settings from "~/components/refining/Settings";
 import Tree from "~/components/food-and-potions/Tree";
-import Loading from '~/components/utils/Loading.vue';
-import { mapGetters, mapState } from 'vuex'; 
 
 export default {
   name: "FoodAndPotions",
@@ -41,21 +35,11 @@ export default {
     Header,
     Settings,
     Tree,
-    Loading,
   },
   middleware: ["authenticated"],
-  computed: {
-    ...mapGetters({
-      loadingText: 'refining/loadingText'
-    }),
-
-    ...mapState({
-      itemName: (state) => state.refining.currentItemInfo.name
-    })
-  },
   created() {
-    this.$store.commit('refining/SET_STATE');
-  }
+    this.$store.dispatch('foodAndPotions/LOAD_FOOD_AND_POTIONS_TREE_ITEMS');
+  },
 };
 </script>
 
@@ -84,11 +68,11 @@ export default {
   .wrapper {
     flex-direction: column;
     font-size: 0.9rem;
-  } 
+  }
 
   .table {
     width: 100%;
-  } 
+  }
 }
 
 @media (max-width: 840px) {
