@@ -1,14 +1,18 @@
 <template>
   <div v-show="currentItemTier">
-    {{ getAllItemNamesWithSubtiers(currentItemTier) }}
+    <ItemRecipe :item-name="currentItemTier" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import ItemRecipe from './ItemRecipe.vue';
 
 export default {
   name: "ItemProfitTable",
+  components: {
+    ItemRecipe
+  },
   props: {
     currentItemTier: {
       type: String,

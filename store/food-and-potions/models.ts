@@ -10,6 +10,13 @@ export interface CraftResource {
   "@count": string;
 }
 
+export interface Enchantment {
+  "@enchantmentlevel": string;
+  "craftingrequirements": ConsumableItem['craftingrequirements'],
+  "upgraderequirements": CraftResource[],
+  [key: string]: any;
+}
+
 export interface ConsumableItem {
   /**
    * Example - "T4_POTION_HEAL"
@@ -31,15 +38,10 @@ export interface ConsumableItem {
      * Number, strange focus constant, example - "210"
      */
     "@craftingfocus": string;
-    "craftresource": CraftResource[]
+    "craftresource": CraftResource | CraftResource[]
   },
   "enchantments": {
-    "enchantment": {
-      "@enchantmentlevel": string;
-      "craftingrequirements": ConsumableItem['craftingrequirements'],
-      "upgraderequirements": CraftResource[],
-      [key: string]: any;
-    }
+    "enchantment": Enchantment | Enchantment[];
   }
   [key: string]: any;
 }

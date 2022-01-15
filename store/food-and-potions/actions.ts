@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { ActionTree } from 'vuex'
 import { isObjectEmpty } from '../utils';
+import { ConsumableItem } from './models';
 import { FoodAndPotionsState, LoadingStatus, SettingsWithItemTiers } from './typeDefs'
 
 const baseUrl = process.env.BASE_URL;
@@ -59,7 +60,11 @@ export const actions: ActionTree<FoodAndPotionsState, {}> = {
   },
 
   async LOAD_FOOD_AND_POTIONS_TREE_ITEMS({ commit }) {
-    const { data } = await axios.get('jsonAutomatic/foodAndPotionsTreeItems.json');
+    const { data }: {data: ConsumableItem[]} = await axios.get('jsonAutomatic/foodAndPotionsTreeItems.json');
+
+    data.sort((item1, item2) => item1['@uniquename'] > item2['@uniquename'] ? 1 : 
+      item1['@uniquename'] < item2['@uniquename'] ? -1 : 0
+    );
 
     commit('SET_FIELD', {
       fieldName: 'foodAndPotionsTreeItems',

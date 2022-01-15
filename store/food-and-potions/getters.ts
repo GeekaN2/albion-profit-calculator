@@ -1,5 +1,5 @@
 import { GetterTree } from 'vuex'
-import { generateSubtiersUpTo } from '../utils';
+import { generateSubtiersUpTo, lowerBoundForObjects } from '../utils';
 import { FoodAndPotionsState } from './typeDefs';
 import axios from 'axios';
 import { ConsumableItem, CraftResource } from './models';
@@ -47,26 +47,26 @@ export const getters: GetterTree<FoodAndPotionsState, {}> = {
     return allNames;
   },
 
-  getTreeItemsData: (state, getters) => {
-    const itemNames = getters.getItemNamesWithSubtiers();
-    const treeItems = state.foodAndPotionsTreeItems;
-    const filteredItems = treeItems.filter((item) => {
-      return itemNames.includes(item['@uniquename']);
-    });
+  // getTreeItemsData: (state, getters) => {
+  //   const itemNames = getters.getItemNamesWithSubtiers();
+  //   const treeItems = state.foodAndPotionsTreeItems;
+  //   const filteredItems = treeItems.filter((item) => {
+  //     return itemNames.includes(item['@uniquename']);
+  //   });
 
-    return filteredItems;
-  },
+  //   return filteredItems;
+  // },
 
   getResourcesNeeded: (state, getters) => {
-    const currentItemsData: ConsumableItem[] = getters.getTreeItemsData;
+    const namesWithSubtiers: string[] = getters.getItemNamesWithSubtiers(state.currentItemTiers)
 
-    const resources: CraftResource[] = [];
+    const allCraftResources = namesWithSubtiers.map(itemName => {
+      const craftingRequirement: ConsumableItem["craftingrequirements"] = getters.getItemCraftingRequirements(itemName);
+      
+      return craftingRequirement.craftresource;
+    }).flat();
 
-    currentItemsData.forEach((item) => {
-      resources.push(...item.craftingrequirements.craftresource);
-    });
-
-    const resourceNames: CraftResource['@uniquename'][] = resources.map((resource) => resource['@uniquename']);
+    const resourceNames = allCraftResources.map(resource => resource['@uniquename']);
 
     return [...new Set(resourceNames)];
   },
@@ -94,4 +94,33 @@ export const getters: GetterTree<FoodAndPotionsState, {}> = {
 
     return resources;
   },
+
+  getItemDumpData: (state) => (itemName: string): ConsumableItem | null => {
+    const items = state.foodAndPotionsTreeItems;
+
+    const item = lowerBoundForObjects<ConsumableItem>(items, '@uniquename', itemName);
+
+    return item;
+  },
+
+  getItemCraftingRequirements: (state, getters) => (itemName: string): ConsumableItem["craftingrequirements"] => {
+    const isEnchantment = itemName.includes('@');
+
+    if (isEnchantment) {
+      const itemDumpData: ConsumableItem = getters.getItemDumpData(itemName.slice(0, itemName.lastIndexOf('@')));
+
+      const enchantmentLevel = Number(itemName.slice(-1));
+      const enchantment = itemDumpData.enchantments.enchantment;
+
+      if (Array.isArray(enchantment)) {
+        return enchantment[enchantmentLevel - 1].craftingrequirements;
+      } else {
+        return enchantment.craftingrequirements;
+      }
+    }
+
+    const itemDumpData: ConsumableItem = getters.getItemDumpData(itemName);
+
+    return itemDumpData.craftingrequirements;
+  }
 }

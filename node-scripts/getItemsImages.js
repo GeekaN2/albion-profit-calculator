@@ -176,6 +176,31 @@ function createArrayOfAllJournals(root) {
 function createArrayOfAllFoodAndPotions() {
   let allNames = [];
   let baseNames = getAllFoodAndPotionNames();
+  let treeItems = fs.readFileSync('./static/jsonAutomatic/foodAndPotionsTreeItems.json');
+  treeItems = JSON.parse(treeItems);
+
+  // Push food and potions resources
+  for (let item of treeItems) {
+    const addResoruces = (craftResources) => {
+      if (Array.isArray(craftResources)) {
+        craftResources.forEach(resource => allNames.push(resource['@uniquename']));
+      } else {
+        allNames.push(craftResources['@uniquename']);
+      }
+    };
+    
+    addResoruces(item.craftingrequirements.craftresource);
+
+    if ('enchantments' in item) {
+      const enchantment = item.enchantments.enchantment;
+
+      if (Array.isArray(enchantment)) {
+        enchantment.forEach(ench => addResoruces(ench.craftingrequirements.craftresource))
+      } else {
+        addResoruces(enchantment.craftingrequirements.craftresource)
+      }
+    }
+  }
 
   const generateSubtiersUpTo = (baseName, highestSubtier) => {
     let names = [];
@@ -202,7 +227,7 @@ function createArrayOfAllFoodAndPotions() {
 
     allNames.push(baseName);
   });
-  console.log(allNames);
+
   return allNames;
 }
 

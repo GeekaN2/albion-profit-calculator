@@ -420,3 +420,37 @@ export const generateSubtiersUpTo = (baseName: string, highestSubtier: number) =
 
   return names;
 }
+
+/**
+ * O(log2n) search by objects
+ * @param objects - array of sorted object by field
+ * @param field - field name by which objects are sorted
+ * @param value - field value to find
+ * @returns 
+ */
+export const lowerBoundForObjects = <ObjectType>(
+  objects: ObjectType[],
+  field: keyof ObjectType,
+  value: ObjectType[keyof ObjectType],
+) => {
+  if (!objects.length) return null;
+
+  let lowerBound = 0;
+  let upperBound = objects.length;
+
+  while (lowerBound < upperBound - 1) {
+    const mid = Math.floor((lowerBound + upperBound) / 2);
+
+    if (objects[mid][field] <= value) {
+      lowerBound = mid;
+    } else {
+      upperBound = mid;
+    }
+  }
+
+  if (objects[lowerBound][field] !== value) {
+    return null;
+  }
+
+  return objects[lowerBound];
+};
