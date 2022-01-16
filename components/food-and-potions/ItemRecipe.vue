@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <template v-for="resource in creaftingRequirements.craftresource">
+  <div class="resources">
+    <template v-for="resource in craftResources">
       <ImageWithNumber
         :key="resource['@uniquename']"
         :name="resource['@uniquename']" 
@@ -20,23 +20,17 @@ export default {
     ImageWithNumber
   }, 
   props: {
-    itemName: {
-      type: String,
-      default: '',
+    craftResources: {
+      type: Array,
+      default: () => {},
     }
   },
-  computed: {
-    ...mapGetters({
-      getItemCraftingRequirements: 'foodAndPotions/getItemCraftingRequirements'
-    }),
-
-    creaftingRequirements() {
-      return this.getItemCraftingRequirements(this.itemName);
-    }
-  }
 }
 </script>
 
 <style scoped lang="scss">
-
+.resources {
+  display: flex;
+  flex-direction: row;
+}
 </style>

@@ -1,6 +1,9 @@
 <template>
   <div>
-    <Row :items="items" @showTable="showTable" />
+    <Row
+      :items="items"
+      @showTable="showTable"
+    />
     <Loading
       v-if="isShowingTable && currentItemTiers.length > 0"
       :text="loadingStatus"

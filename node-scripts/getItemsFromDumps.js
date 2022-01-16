@@ -23,11 +23,14 @@ async function getItems() {
 
 async function main() {
   const itemNames = getAllFoodAndPotionNames();
-  const dump = (await getItems())?.items?.consumableitem;
+  let dump = (await getItems());
+  dump = dump?.items?.consumableitem.concat(dump?.items?.simpleitem);
 
   const filteredItems = dump.filter((item) => itemNames.includes(item["@uniquename"]));
 
   fs.writeFileSync("./static/jsonAutomatic/foodAndPotionsTreeItems.json", JSON.stringify(filteredItems));
+  console.log(filteredItems);
+  itemNames.forEach(itemName => console.log('Added', itemName));
 }
 
 main();

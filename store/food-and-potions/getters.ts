@@ -5,16 +5,8 @@ import axios from 'axios';
 import { ConsumableItem, CraftResource } from './models';
 
 export const getters: GetterTree<FoodAndPotionsState, {}> = {
-  getAllItemNamesWithSubtiers: (state) => (itemName: string): string[] => {
-    const allNames: string[] = [];
-
-    if (itemName.includes('POTION')) {
-      allNames.push(...generateSubtiersUpTo(itemName, 1));
-    } else if (itemName.includes('MEAL')) {
-      allNames.push(...generateSubtiersUpTo(itemName, 3));
-    } else {
-      allNames.push(itemName);
-    }
+  getAllItemNamesWithSubtiers: (state, getters) => (itemName: string): string[] => {
+    const allNames: string[] = getters.getItemNamesWithSubtiers([itemName]);
 
     return allNames;
   },
@@ -29,7 +21,9 @@ export const getters: GetterTree<FoodAndPotionsState, {}> = {
     const allNames: string[] = [];
 
     baseNames.forEach((baseName) => {
-      if (baseName.includes('POTION')) {
+      const tier = Number(baseName.slice(1, 2));
+
+      if (baseName.includes('POTION') && tier >= 4) {
         allNames.push(...generateSubtiersUpTo(baseName, 1));
 
         return;
@@ -105,12 +99,12 @@ export const getters: GetterTree<FoodAndPotionsState, {}> = {
 
   getItemCraftingRequirements: (state, getters) => (itemName: string): ConsumableItem["craftingrequirements"] => {
     const isEnchantment = itemName.includes('@');
-
+    
     if (isEnchantment) {
       const itemDumpData: ConsumableItem = getters.getItemDumpData(itemName.slice(0, itemName.lastIndexOf('@')));
 
       const enchantmentLevel = Number(itemName.slice(-1));
-      const enchantment = itemDumpData.enchantments.enchantment;
+      const enchantment = itemDumpData?.enchantments?.enchantment;
 
       if (Array.isArray(enchantment)) {
         return enchantment[enchantmentLevel - 1].craftingrequirements;

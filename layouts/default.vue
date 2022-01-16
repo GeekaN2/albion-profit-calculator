@@ -64,8 +64,23 @@ body {
 }
 
 :root {
-  --error: #e73939;
-  --color: #1d7d18;
+  --tier2: #dddddd;
+  --tier3: #a2cea2;
+  --tier4: #9bc8e2;
+  --tier5: #eb8f87;
+  --tier6: #e09255;
+  --tier7: #eccc62;
+  --tier8: #f5f5f5;
+
+  --subtier0: #b0afae;
+  --subtier1: #6afe90;
+  --subtier2: #4bc8d2;
+  --subtier3: #b987f7;
+
+  --space-3-xs: 2px;
+  --space-2-xs: 4px;
+  --space-xs: 8px;
+  --space-s: 12px;
 }
 
 a {
