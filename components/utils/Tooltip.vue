@@ -1,5 +1,5 @@
 <template>
-  <div class="tooltip__table">
+  <div class="tooltip__table tooltip">
     <template v-for="row of data">
       <div
         :key="`${JSON.stringify(row)}:0`"
@@ -106,6 +106,54 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+.tooltip {
+  visibility: hidden;
+  right: 50%;
+  transform: translateX(8%);
+  bottom: 90%;
+  position: absolute;
+  background: #dfdfdf;
+  color: #5e5e5e;
+  font-weight: bold;
+  transition: 0.15s;
+  opacity: 0;
+  border-radius: 4px;
+  box-shadow: 0 0 6px 0px #6a6a6a;
+  font-size: 0.75em;
+  text-shadow: none;
+  padding: 5px;
+  white-space: nowrap;
+  transition-delay: 0.03s;
 
+  &:after {
+    content: "";
+    position: absolute;
+    right: calc(8% - 5px);
+    bottom: -5px;
+    width: 10px;
+    height: 10px;
+    background: #dfdfdf;
+    transform: rotate(45deg);
+  }
+
+  &__table {
+    display: grid;
+    grid-template-columns: 3fr 3fr 1fr;
+    text-align: right;
+    grid-gap: 5px 10px;
+  }
+}
+
+.text-algin-left {
+  text-align: left;
+}
+
+.error {
+  color: var(--error);
+}
+
+.success {
+  color: var(--success);
+}
 </style>

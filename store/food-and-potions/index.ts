@@ -12,12 +12,12 @@ import axios from 'axios';
 Vue.use(Vuex);
 
 const cities = {
-  'Caerleon': {},
-  'Bridgewatch': {},
-  'Fort Sterling': {},
-  'Lymhurst': {},
-  'Martlock': {},
-  'Thetford': {},
+  'Caerleon': [],
+  'Bridgewatch': [],
+  'Fort Sterling': [],
+  'Lymhurst': [],
+  'Martlock': [],
+  'Thetford': [],
 }
 
 const refiningModule: Module<FoodAndPotionsState, RootState>  = {
@@ -34,6 +34,7 @@ const refiningModule: Module<FoodAndPotionsState, RootState>  = {
       useMultipleCities: false,
       cities: {
         buyResources: 'Caerleon',
+        craftItems: 'Caerleon',
         sellItems: 'Caerleon'
       }
     },

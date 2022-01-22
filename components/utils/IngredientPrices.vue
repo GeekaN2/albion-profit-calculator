@@ -107,23 +107,23 @@ export default {
     font-size: 0.85rem;
     
     &:nth-child(5n + 1) {
-      background: #9bc8e2;
+      background: var(--tier4);
     }
 
     &:nth-child(5n+2) {
-      background: #eb8f87;
+      background: var(--tier5);
     }
 
     &:nth-child(5n+3) {
-      background: #e09255;
+      background: var(--tier6);
     }
 
     &:nth-child(5n+4) {
-      background: #eccc62;
+      background: var(--tier7);
     }
 
     &:nth-child(5n) {
-      background: #f5f5f5;
+      background: var(--tier8);
     }
 
     &:nth-child(1) {

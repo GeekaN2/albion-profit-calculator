@@ -32,11 +32,11 @@ export const actions: ActionTree<FoodAndPotionsState, {}> = {
       settings
     }
 
-    if (isObjectEmpty(getters.getItems)) {
+    if (getters.getItems.length === 0) {
       await dispatch('FETCH_ITEM_PRICES', settingsWithItemTiers);
     }
 
-    if (isObjectEmpty(getters.getResources)) {
+    if (getters.getResources.length !== getters.getResourcesNeeded.length) {
       await dispatch('FETCH_RESOURCE_PRICES', settingsWithItemTiers);
     }
 

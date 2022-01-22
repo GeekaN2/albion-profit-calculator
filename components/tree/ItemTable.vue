@@ -716,24 +716,24 @@ export default {
 
   .tier4 {
     border-radius: 15px 0 0 15px;
-    background: #9bc8e2;
+    background: var(--tier4);
   }
 
   .tier5 {
-    background: #eb8f87;
+    background: var(--tier5);
   }
 
   .tier6 {
-    background: #e09255;
+    background: var(--tier6);
   }
 
   .tier7 {
-    background: #eccc62;
+    background: var(--tier7);
   }
 
   .tier8 {
     border-radius: 0 15px 15px 0;
-    background: #f5f5f5;
+    background: var(--tier8);
   }
 }
 

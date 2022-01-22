@@ -209,29 +209,29 @@ export default {
   position: relative;
 
   &--profitable {
-    text-shadow: .5px .5px .5px #041e04;
-    color: #14a014;
+    text-shadow: .5px .5px .5px var(--profitable-color-shadow);
+    color: var(--profitable-color);
 
     .base-item-info__secondary-info {
-      color: #1bb31b;
+      color: var(--profitable-color-secondary);
     }
   }
 
   &--unprofitable {
-    text-shadow: .5px .5px .5px #380404;
-    color: #ae3a3a;
+    text-shadow: .5px .5px .5px var(--unprofitable-color-shadow);
+    color: var(--unprofitable-color);
 
     .base-item-info__secondary-info {
-      color: #d54c4c;
+      color: var(--unprofitable-color-secondary);
     }
   }
 
   &--unknown {
-    text-shadow: .5px .5px .5px #242424;
-    color: #585858;
+    text-shadow: .5px .5px .5px var(--unknown-color-shadow);
+    color: var(--unknown-color);
 
     .base-item-info__secondary-info {
-      color: #6a6a6a;
+      color: var(--unknown-color-secondary);
     }
   }
 
@@ -244,24 +244,24 @@ export default {
 
   .tier4 {
     border-radius: 15px 0 0 15px;
-    background: #9bc8e2;
+    background: var(--tier4);
   }
 
   .tier5 {
-    background: #eb8f87;
+    background: var(--tier5);
   }
 
   .tier6 {
-    background: #e09255;
+    background: var(--tier6);
   }
 
   .tier7 {
-    background: #eccc62;
+    background: var(--tier7);
   }
 
   .tier8 {
     border-radius: 0 15px 15px 0;
-    background: #f5f5f5;
+    background: var(--tier8);
   }
 }
 

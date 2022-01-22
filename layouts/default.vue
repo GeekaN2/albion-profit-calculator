@@ -64,6 +64,7 @@ body {
 }
 
 :root {
+  --tier1: #cecece;
   --tier2: #dddddd;
   --tier3: #a2cea2;
   --tier4: #9bc8e2;
@@ -72,7 +73,7 @@ body {
   --tier7: #eccc62;
   --tier8: #f5f5f5;
 
-  --subtier0: #b0afae;
+  --subtier0: #bebebe;
   --subtier1: #6afe90;
   --subtier2: #4bc8d2;
   --subtier3: #b987f7;
@@ -81,7 +82,23 @@ body {
   --space-2-xs: 4px;
   --space-xs: 8px;
   --space-s: 12px;
+
+  --profitable-color: #14a014;
+  --profitable-color-secondary: #1bb31b;
+  --profitable-color-shadow: #041e04;
+
+  --unprofitable-color: #ae3a3a;
+  --unprofitable-color-secondary: #d54c4c;
+  --unprofitable-color-shadow: #380404;
+
+  --unknown-color: #585858;
+  --unknown-color-secondary: #6a6a6a;
+  --unknown-color-shadow: #242424;
+
+  --error: #e73939;
+  --success: #1d7d18;
 }
+
 
 a {
   text-decoration: none;

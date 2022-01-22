@@ -3,6 +3,7 @@ import { generateSubtiersUpTo, lowerBoundForObjects } from '../utils';
 import { FoodAndPotionsState } from './typeDefs';
 import axios from 'axios';
 import { ConsumableItem, CraftResource } from './models';
+import { ResponseModel } from '../profit-tree/typeDefs';
 
 export const getters: GetterTree<FoodAndPotionsState, {}> = {
   getAllItemNamesWithSubtiers: (state, getters) => (itemName: string): string[] => {
@@ -41,17 +42,7 @@ export const getters: GetterTree<FoodAndPotionsState, {}> = {
     return allNames;
   },
 
-  // getTreeItemsData: (state, getters) => {
-  //   const itemNames = getters.getItemNamesWithSubtiers();
-  //   const treeItems = state.foodAndPotionsTreeItems;
-  //   const filteredItems = treeItems.filter((item) => {
-  //     return itemNames.includes(item['@uniquename']);
-  //   });
-
-  //   return filteredItems;
-  // },
-
-  getResourcesNeeded: (state, getters) => {
+  getResourcesNeeded: (state, getters): string[] => {
     const namesWithSubtiers: string[] = getters.getItemNamesWithSubtiers(state.currentItemTiers)
 
     const allCraftResources = namesWithSubtiers.map(itemName => {
@@ -65,16 +56,33 @@ export const getters: GetterTree<FoodAndPotionsState, {}> = {
     return [...new Set(resourceNames)];
   },
 
+  getResourcesNeededForItem: (state, getters) => (itemName: string): string[] => {
+    const craftResources: ConsumableItem["craftingrequirements"]['craftresource'] = getters.getItemCraftingRequirements(itemName).craftresource;
+    
+    const resourceNames = [craftResources].flat().map(resource => resource['@uniquename']);
+
+    return [...new Set(resourceNames)];
+  },
+
   /**
    * Get items data for selected city
    * 
    * @param state - vuex state
    */
-  getItems: (state) => {
+  getItems: (state, getters): ResponseModel[] => {
     const city = state.settings.cities.sellItems;
-    const items = state.items[city] || {};
+    const itemNames = getters.getItemNamesWithSubtiers(state.currentItemTiers); 
+    let items = state.items[city] || [];
+    items = items.filter(item => itemNames.includes(item.itemId));
 
     return items;
+  },
+
+  getItem: (state, getters) => (itemName: string): ResponseModel | null => {
+    const items: ResponseModel[] = getters.getItems;
+    const item: ResponseModel | null = items.find(item => item.itemId === itemName) || null;
+    
+    return item;
   },
 
   /**
@@ -82,11 +90,20 @@ export const getters: GetterTree<FoodAndPotionsState, {}> = {
    * 
    * @param state - vuex state
    */
-  getResources: (state) => {
+  getResources: (state, getters): ResponseModel[] => {
     const city = state.settings.cities.buyResources;
-    const resources = state.resources[city] || {};
+    const resourcesNeeded: string[] = getters.getResourcesNeeded;
+    let resources = state.resources[city] || [];
+    resources = resources.filter(item => resourcesNeeded.includes(item.itemId));
 
     return resources;
+  },
+
+  getResourceByName: (state, getters) => (resourceName: string): ResponseModel | undefined => {
+    const resources: ResponseModel[] = getters.getResources;
+    const resource = resources.find(resource => resource.itemId === resourceName);
+
+    return resource;
   },
 
   getItemDumpData: (state) => (itemName: string): ConsumableItem | null => {
@@ -116,5 +133,17 @@ export const getters: GetterTree<FoodAndPotionsState, {}> = {
     const itemDumpData: ConsumableItem = getters.getItemDumpData(itemName);
 
     return itemDumpData.craftingrequirements;
+  },
+
+  getReturnPercentage: (state) => {
+    const useFocus = state.settings.useFocus;
+    const craftItemsCity = state.settings.cities.craftItems;
+    let returnMaterialsPercentage = useFocus ? 43.5 : 15.2;
+    
+    if (craftItemsCity === 'Caerleon') {
+      returnMaterialsPercentage = useFocus ? 47.9 : 24.8;
+    }
+
+    return returnMaterialsPercentage;
   }
 }

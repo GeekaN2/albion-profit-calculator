@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import ImageWithNumber from '../utils/ImageWithNumber.vue';
 
 export default {
@@ -32,5 +31,6 @@ export default {
 .resources {
   display: flex;
   flex-direction: row;
+
 }
 </style>

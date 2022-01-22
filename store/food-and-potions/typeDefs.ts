@@ -29,12 +29,10 @@ export interface Features {
 
 
 /**
- * city -> base_item_name -> array of prices
+ * city -> array of items data
  */
  export interface Prices {
-  [key: string]: {
-    [key: string]: ResponseModel[]
-  }
+  [key: string]: ResponseModel[];
 }
 
 /**
@@ -48,6 +46,7 @@ export interface Features {
   useMultipleCities: boolean;
   cities: {
     buyResources: AlbionCities,
+    craftItems: AlbionCities,
     sellItems: AlbionCities,
   }
 }
