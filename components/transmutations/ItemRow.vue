@@ -328,7 +328,7 @@ export default {
 
 .tooltip {
   &--tier4 {
-    transform: translate(50%, -50%);
+    transform: translateX(50%);
 
     &:after {
       right: calc(50% - 5px);
