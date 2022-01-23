@@ -1,0 +1,1 @@
+## Butomatically generated json files. Basically these are pieces of dumps or similar files

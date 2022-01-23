@@ -28,9 +28,14 @@ async function main() {
 
   const filteredItems = dump.filter((item) => itemNames.includes(item["@uniquename"]));
 
-  fs.writeFileSync("./static/jsonAutomatic/foodAndPotionsTreeItems.json", JSON.stringify(filteredItems));
+  try {
+    fs.writeFileSync("./static/jsonAutomatic/foodAndPotionsTreeItems.json", JSON.stringify(filteredItems));
+    
+    itemNames.forEach(itemName => console.log('Added', itemName));
+  } catch (error) {
+    console.log('Writing aborted', error);
+  }
   
-  itemNames.forEach(itemName => console.log('Added', itemName));
 }
 
 main();
