@@ -22,5 +22,5 @@ static/images/items/*.png
 
 # dynamic files that may change with updates. 
 # In general, it was necessary to do so from the very beginning ¯\_(ツ)_/¯
-static/jsonAutomatic
+static/jsonAutomatic/*
 

@@ -22,11 +22,11 @@ $ yarn lint
 
 ## Download static data
 ```bash
-# download images
-$ yarn get-images
-
 # download food & potion dumps
 $ yarn get-items-from-dumps
+
+# download images
+$ yarn get-images
 
 # update dictionary
 $ yarn get-dictionary
