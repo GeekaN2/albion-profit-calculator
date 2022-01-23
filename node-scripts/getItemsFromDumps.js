@@ -24,7 +24,7 @@ async function getItems() {
 async function main() {
   const itemNames = getAllFoodAndPotionNames();
   let dump = (await getItems());
-  dump = dump?.items?.consumableitem.concat(dump?.items?.simpleitem);
+  dump = dump.items.consumableitem.concat(dump.items.simpleitem);
 
   const filteredItems = dump.filter((item) => itemNames.includes(item["@uniquename"]));
 

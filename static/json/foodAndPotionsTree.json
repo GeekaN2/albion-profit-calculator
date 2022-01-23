@@ -43,6 +43,14 @@
         ]
       },
       {
+        "name": "T7_MEAL_PIE_FISH",
+        "tiers": [
+          "T3_MEAL_PIE_FISH",
+          "T5_MEAL_PIE_FISH",
+          "T7_MEAL_PIE_FISH"
+        ]
+      },
+      {
         "name": "T7_MEAL_OMELETTE",
         "tiers": [
           "T3_MEAL_OMELETTE",
@@ -88,6 +96,14 @@
           "T4_MEAL_STEW",
           "T6_MEAL_STEW",
           "T8_MEAL_STEW"
+        ]
+      },
+      {
+        "name": "T8_MEAL_STEW_FISH",
+        "tiers": [
+          "T4_MEAL_STEW_FISH",
+          "T6_MEAL_STEW_FISH",
+          "T8_MEAL_STEW_FISH"
         ]
       },
       {
