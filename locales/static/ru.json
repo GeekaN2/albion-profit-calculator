@@ -32,9 +32,11 @@
     "sellItems": "Продажа предметов",
     "sellResources": "Продажа ресурсов",
     "sellMaterials": "Продажа материалов",
+    "craftItems": "Крафт предметов",
     "refining": "Переработка",
     "buyResources": "Покупка ресурсов",
     "buyMaterials": "Покупка материалов",
+    "updateItemPrices": "Обновить цены предметов",
     "updateMaterialPrices": "Обновить цены материалов",
     "updateResourcePrices": "Обновить цены ресурсов"
   }

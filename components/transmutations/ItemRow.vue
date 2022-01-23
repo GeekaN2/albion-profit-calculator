@@ -27,6 +27,7 @@
             `tooltip--tier${item.name.slice(1, 2)}`]"
         >
           <Tooltip 
+            :class="`tooltip--tier${item.name.slice(1, 2)}`"
             :data="tooltipData(item)"
           />
         </div>
@@ -171,7 +172,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .subtier1 {
   background: #6afe90;
   box-shadow: 0 0 4px 5px #6afe90;
@@ -269,11 +270,11 @@ export default {
   &__warnings {
     position: absolute;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     height: 100%;
-    bottom: -1px;
+    bottom: 2px;
     right: -1px;
     z-index: 10;
     width: 20px;
@@ -287,6 +288,12 @@ export default {
     &__info {
       width: 10px;
       height: 10px;
+    }
+
+    &__tooltip {
+      transition: 0.15s;
+      opacity: 0;
+      visibility: hidden;
     }
 
     &:hover &__tooltip {
@@ -308,45 +315,6 @@ export default {
   }
 }
 
-.tooltip {
-  visibility: hidden;
-  right: 50%;
-  transform: translateX(8%);
-  bottom: 90%;
-  position: absolute;
-  background: #dfdfdf;
-  color: #5e5e5e;
-  font-weight: bold;
-  transition: 0.15s;
-  opacity: 0;
-  border-radius: 4px;
-  box-shadow: 0 0 6px 0px #6a6a6a;
-  font-size: 0.75em;
-  text-shadow: none;
-  padding: 5px;
-  white-space: nowrap;
-  transition-delay: 0.03s;
-  z-index: 2;
-
-  &:after {
-    content: "";
-    position: absolute;
-    right: calc(8% - 5px);
-    bottom: -5px;
-    width: 10px;
-    height: 10px;
-    background: #dfdfdf;
-    transform: rotate(45deg);
-  }
-
-  &__table {
-    display: grid;
-    grid-template-columns: 3fr 3fr 1fr;
-    text-align: right;
-    grid-gap: 5px 10px;
-  }
-}
-
 .base-item-info__secondary-info {
   background: rgba(0, 0, 0, 0.08);
   border-radius: 5px;
@@ -362,23 +330,11 @@ export default {
 
 .tooltip {
   &--tier4 {
-    transform: translateX(50%);
+    transform: translate(50%, -50%);
 
     &:after {
       right: calc(50% - 5px);
     }
-  }
-
-  &--right {
-    transform: translateX(70%);
-
-    &:after {
-      right: calc(70% - 5px);
-    }
-  }
-
-  .copy-cell {
-    cursor: copy;
   }
 }
 

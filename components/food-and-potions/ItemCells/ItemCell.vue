@@ -17,9 +17,16 @@
       </div>
     </div>
     <div class="warnings">
-      <img class="warnings-info" src="/images/info.svg" alt="i" />
-      <div :class="['tooltip', `tooltip--tier${itemName.slice(1, 2)}`]">
-        <Tooltip :data="item.tooltipData" />
+      <img
+        class="warnings-info"
+        src="/images/info.svg"
+        alt="i"
+      >
+      <div class="tooltip">
+        <Tooltip 
+          :class="`tooltip--subtier${itemSubtier}`"
+          :data="item.tooltipData" 
+        />
       </div>
     </div>
   </div>
@@ -212,7 +219,7 @@ export default {
   align-items: center;
   flex-direction: column;
   height: 100%;
-  bottom: -1px;
+  bottom: 2px;
   right: -1px;
   z-index: 10;
   width: 20px;
@@ -225,6 +232,20 @@ export default {
 
   &:hover .tooltip:after {
     opacity: 1;
+  }
+}
+
+.tooltip {
+  opacity: 0;
+  transition: 0.15s;
+  visibility: hidden;
+
+  &--subtier0 {
+    transform: translateX(50%);
+
+    &:after {
+      right: calc(50% - 5px);
+    }
   }
 }
 

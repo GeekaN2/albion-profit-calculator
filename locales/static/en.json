@@ -32,9 +32,11 @@
     "sellItems": "Sell items",
     "sellResources": "Sell resources",
     "sellMaterials": "Sell materials",
+    "craftItems": "Craft items",
     "refining": "Refining",
     "buyResources": "Buy resources",
     "buyMaterials": "Buy materials",
+    "updateItemPrices": "Update item prices",
     "updateMaterialPrices": "Update material prices",
     "updateResourcePrices": "Update resource prices"
   }

@@ -108,7 +108,6 @@ export default {
 
 <style scoped lang="scss">
 .tooltip {
-  visibility: hidden;
   right: 50%;
   transform: translateX(8%);
   bottom: 90%;
@@ -117,7 +116,6 @@ export default {
   color: #5e5e5e;
   font-weight: bold;
   transition: 0.15s;
-  opacity: 0;
   border-radius: 4px;
   box-shadow: 0 0 6px 0px #6a6a6a;
   font-size: 0.75em;
@@ -155,5 +153,9 @@ export default {
 
 .success {
   color: var(--success);
+}
+
+.copy-cell {
+  cursor: copy;
 }
 </style>

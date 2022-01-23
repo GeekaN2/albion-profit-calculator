@@ -7,7 +7,7 @@
         v-model="useFocus"
         class="checkbox"
         type="checkbox"
-      />
+      >
       <label for="checkbox-focus">{{ $t("settings.useFocus") }}</label>
     </div>
     <div class="setting">
@@ -16,7 +16,7 @@
         v-model="useMultipleCities"
         class="checkbox"
         type="checkbox"
-      />
+      >
       <label for="checkbox-multiple-cities">{{
         $t("settings.useMultipleCities")
       }}</label>
@@ -27,18 +27,21 @@
         v-model="useOwnPercentage"
         class="checkbox"
         type="checkbox"
-      />
+      >
       <label for="checkbox-own-percentage">{{
         $t("settings.ownReturnPercentage")
       }}</label>
     </div>
-    <div v-if="useOwnPercentage" class="setting">
+    <div
+      v-if="useOwnPercentage"
+      class="setting"
+    >
       <input
         v-model.number="returnPercentage"
         class="input input--number"
         placeholder="10"
         maxlength="5"
-      />
+      >
     </div>
     <div class="setting">
       <h3>{{ $t("settings.feeForNutrition") }}</h3>
@@ -47,27 +50,36 @@
         class="input input--number"
         placeholder="800"
         maxlength="10"
-      />
+      >
     </div>
     <div class="setting">
-      <div class="refresh" @click="updateState('resource-prices')">
-        <img src="/images/redo-alt.svg" />
-        <p>{{ $t("cities.updateMaterialPrices") }}</p>
+      <div
+        class="refresh"
+        @click="updateState('item-prices')"
+      >
+        <img src="/images/redo-alt.svg">
+        <p>{{ $t("cities.updateItemPrices") }}</p>
       </div>
     </div>
     <div class="setting">
-      <div class="refresh" @click="updateState('item-prices')">
-        <img src="/images/redo-alt.svg" />
-        <p>{{ $t("cities.updateResourcePrices") }}</p>
+      <div
+        class="refresh"
+        @click="updateState('resource-prices')"
+      >
+        <img src="/images/redo-alt.svg">
+        <p>{{ $t("cities.updateMaterialPrices") }}</p>
       </div>
     </div>
     <div class="setting">
       <h3 class="setting__city-header">
         {{
-          useMultipleCities ? $t("cities.sellMaterials") : $t("cities.mainCity")
+          useMultipleCities ? $t("cities.sellItems") : $t("cities.mainCity")
         }}
       </h3>
-      <select v-model="cities.sellItems" class="city">
+      <select
+        v-model="cities.sellItems"
+        class="city"
+      >
         <template v-for="baseCity in baseCities">
           <option :key="baseCity">
             {{ baseCity }}
@@ -75,11 +87,17 @@
         </template>
       </select>
     </div>
-    <div v-show="useMultipleCities" class="setting">
+    <div
+      v-show="useMultipleCities"
+      class="setting"
+    >
       <h3 class="setting__city-header">
-        {{ $t("cities.buyResources") }}
+        {{ $t("cities.craftItems") }}
       </h3>
-      <select v-model="cities.craftItems" class="city">
+      <select
+        v-model="cities.craftItems"
+        class="city"
+      >
         <template v-for="baseCity in baseCities">
           <option :key="baseCity">
             {{ baseCity }}
@@ -87,11 +105,17 @@
         </template>
       </select>
     </div>
-    <div v-show="useMultipleCities" class="setting">
+    <div
+      v-show="useMultipleCities"
+      class="setting"
+    >
       <h3 class="setting__city-header">
-        {{ $t("cities.buyResources") }}
+        {{ $t("cities.buyMaterials") }}
       </h3>
-      <select v-model="cities.buyResources" class="city">
+      <select
+        v-model="cities.buyResources"
+        class="city"
+      >
         <template v-for="baseCity in baseCities">
           <option :key="baseCity">
             {{ baseCity }}
@@ -101,25 +125,6 @@
     </div>
   </div>
 </template>
-
-<i18n>
-{
-  "en": {
-    "goldPrice": "Gold price",
-    "sellLocation": "Sell resources",
-    "buyLocation": "Buy resources",
-    "updateSellPrice": "Update sell prices",
-    "updateBuyPrices": "Update buy prices"
-  },
-  "ru": {
-    "goldPrice": "Цена золота",
-    "sellLocation": "Продажа ресурсов",
-    "buyLocation": "Покупка ресурсов",
-    "updateSellPrice": "Обновить цены продажи",
-    "updateBuyPrices": "Обновить цены покупки"
-  }
-}
-</i18n>
 
 <script>
 import { mapState } from "vuex";

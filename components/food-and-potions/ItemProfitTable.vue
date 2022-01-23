@@ -1,5 +1,8 @@
 <template>
-  <div v-show="currentItemTier">
+  <div
+    v-show="currentItemTier"
+    class="table-row"
+  >
     <ItemRecipe :craft-resources="craftResourcesArray" />
     <ItemCells :item-names="allNamesWithSubtiers" />
   </div>
@@ -54,5 +57,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.table-row {
+  margin-top: 15px;
+}
 </style>

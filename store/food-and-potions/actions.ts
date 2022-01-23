@@ -19,8 +19,6 @@ export const actions: ActionTree<FoodAndPotionsState, {}> = {
       commit('SET_CURRENT_ITEM_TIERS', currentItemTiers);
     }
 
-    console.log('Status', state.features.loadingStatus);
-
     // Don't send a requests if some one is already in progress
     // Send a requests if we need to load the next item since itemInfo was modified to the end of the previous request
     if (!(state.features.loadingStatus === LoadingStatus.CALCULATED ||
@@ -51,7 +49,7 @@ export const actions: ActionTree<FoodAndPotionsState, {}> = {
      */
     const currentItemChanged = state.currentItemTiers?.some((item, index) => item !== settingsWithItemTiers.currentItemTiers[index]);
     const settingsChanged = state.settings != settings;
-    console.log(currentItemChanged, settingsChanged);
+
     if (currentItemChanged || settingsChanged) {
       commit('SET_LOADING_STATUS', LoadingStatus.SOMETHING_CHANGED);
 

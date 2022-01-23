@@ -29,7 +29,7 @@ async function main() {
   const filteredItems = dump.filter((item) => itemNames.includes(item["@uniquename"]));
 
   fs.writeFileSync("./static/jsonAutomatic/foodAndPotionsTreeItems.json", JSON.stringify(filteredItems));
-  console.log(filteredItems);
+  
   itemNames.forEach(itemName => console.log('Added', itemName));
 }
 

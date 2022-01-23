@@ -35,8 +35,6 @@ export default {
 }
 
 .cell {
-  margin-bottom: 15px;
-
   &:first-child {
     border-top-left-radius: var(--space-xs);
     border-bottom-left-radius:  var(--space-xs);
