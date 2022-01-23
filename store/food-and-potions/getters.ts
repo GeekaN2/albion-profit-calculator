@@ -56,12 +56,10 @@ export const getters: GetterTree<FoodAndPotionsState, {}> = {
     return [...new Set(resourceNames)];
   },
 
-  getResourcesNeededForItem: (state, getters) => (itemName: string): string[] => {
+  getResourcesNeededForItem: (state, getters) => (itemName: string): ConsumableItem["craftingrequirements"]['craftresource'] => {
     const craftResources: ConsumableItem["craftingrequirements"]['craftresource'] = getters.getItemCraftingRequirements(itemName).craftresource;
-    
-    const resourceNames = [craftResources].flat().map(resource => resource['@uniquename']);
 
-    return [...new Set(resourceNames)];
+    return craftResources;
   },
 
   /**
@@ -136,8 +134,13 @@ export const getters: GetterTree<FoodAndPotionsState, {}> = {
   },
 
   getReturnPercentage: (state) => {
+    if (state.settings.useOwnPercentage) {
+      return state.settings.returnPercentage;
+    }
+
     const useFocus = state.settings.useFocus;
     const craftItemsCity = state.settings.cities.craftItems;
+
     let returnMaterialsPercentage = useFocus ? 43.5 : 15.2;
     
     if (craftItemsCity === 'Caerleon') {
@@ -145,5 +148,17 @@ export const getters: GetterTree<FoodAndPotionsState, {}> = {
     }
 
     return returnMaterialsPercentage;
+  },
+
+  getResourceValueByName: (state) => (resourceName: string): Number => {
+    if (resourceName.includes('QUESTITEM_TOKEN_AVALON')) {
+      return 64;
+    }
+
+    if (resourceName.includes('FISH')) {
+      return 0;
+    }
+
+    return 40;
   }
 }

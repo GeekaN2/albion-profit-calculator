@@ -16,8 +16,8 @@
       <input 
         v-model.number="fee"
         class="input input--number"
-        placeholder="10" 
-        maxlength="5"
+        placeholder="800" 
+        maxlength="10"
         @change="updateFee"
       >
     </div>

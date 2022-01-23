@@ -7,6 +7,7 @@ export interface FoodAndPotionsState {
   settings: Settings;
   currentItemTiers: string[];
   foodAndPotionsTreeItems: ConsumableItem[];
+  foodAndPotionsTree: any;
   features: Features;
 }
 
@@ -20,8 +21,9 @@ export type AlbionCities = 'Caerleon'
 
 export enum LoadingStatus {
   CALCULATED = 'calculated',
-  SOMETHING_CHANGED = 'somethingChanged',
-  LOADING_ITEMS = 'loadingItems',
+  SOMETHING_CHANGED = 'something-changed',
+  LOADING_ITEMS = 'items',
+  LOADING_RESOURCES = 'resources'
 }
 export interface Features {
   loadingStatus: LoadingStatus;

@@ -30,7 +30,7 @@ export default {
 <style scoped lang="scss">
 .cells {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(10px,1fr));;
+  grid-template-columns: repeat(4, 25%);// repeat(auto-fit,minmax(10px,1fr));
   width: 100%;
 }
 

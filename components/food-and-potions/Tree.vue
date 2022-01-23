@@ -1,7 +1,7 @@
 <template>
   <div>
     <Row
-      :items="items"
+      :items="foodAndPotionsTree"
       @showTable="showTable"
     />
     <Loading
@@ -28,7 +28,6 @@ export default {
   },
   data() {
     return {
-      items: [],
       isShowingTable: false,
     };
   },
@@ -36,12 +35,8 @@ export default {
     ...mapState({
       currentItemTiers: (state) => state.foodAndPotions.currentItemTiers,
       loadingStatus: (state) => state.foodAndPotions.features.loadingStatus,
+      foodAndPotionsTree: (state) => state.foodAndPotions.foodAndPotionsTree,
     }),
-  },
-  created: async function () {
-    const { data: items } = await axios.get("/json/foodAndPotionsTree.json");
-
-    this.items = items;
   },
   methods: {
     showTable(isShowingTable) {

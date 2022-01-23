@@ -26,7 +26,7 @@
 
 <script>
 import Header from "~/components/Header";
-import Settings from "~/components/refining/Settings";
+import Settings from "~/components/food-and-potions/Settings";
 import Tree from "~/components/food-and-potions/Tree";
 
 export default {
@@ -39,6 +39,7 @@ export default {
   middleware: ["authenticated"],
   created() {
     this.$store.dispatch('foodAndPotions/LOAD_FOOD_AND_POTIONS_TREE_ITEMS');
+    this.$store.dispatch('foodAndPotions/LOAD_FOOD_AND_POTIONS_TREE');
   },
 };
 </script>

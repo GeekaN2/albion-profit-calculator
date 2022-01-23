@@ -1,5 +1,6 @@
 const axios = require('axios');
 const fs = require('fs');
+const { createArrayOfAllFoodAndPotions } = require('./utils');
 
 /**
  * Get data from albion online dumps repository
@@ -24,7 +25,8 @@ function getAllNames() {
   const baseItemNames = Object.keys(recipes).map(item => item.slice(3))
   .concat(['PLANKS', 'METALBAR', 'LEATHER', 'CLOTH', 'STONEBLOCK', 'FIBER', 'ROCK', 'ORE', 'WOOD', 'HIDE'])
   .concat(['JOURNAL_WARRIOR', 'JOURNAL_HUNTER', 'JOURNAL_TOOLMAKER', 'JOURNAL_MAGE'])
-  .concat(['SKILLBOOK_STANDARD', 'QUESTITEM_TOKEN_ROYAL', '_TOKEN_1', '_CAPEITEM_FW_']);
+  .concat(['SKILLBOOK_STANDARD', 'QUESTITEM_TOKEN_ROYAL', '_TOKEN_1', '_CAPEITEM_FW_'])
+  .concat(createArrayOfAllFoodAndPotions());
 
   return baseItemNames;
 }

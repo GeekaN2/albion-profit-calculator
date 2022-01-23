@@ -1,14 +1,14 @@
 <template>
   <div class="settings">
-    <h2>{{ $t('settings.settings') }}</h2>
+    <h2>{{ $t("settings.settings") }}</h2>
     <div class="setting">
       <input
         id="checkbox-focus"
         v-model="useFocus"
         class="checkbox"
         type="checkbox"
-      >
-      <label for="checkbox-focus">{{ $t('settings.useFocus') }}</label>
+      />
+      <label for="checkbox-focus">{{ $t("settings.useFocus") }}</label>
     </div>
     <div class="setting">
       <input
@@ -16,8 +16,10 @@
         v-model="useMultipleCities"
         class="checkbox"
         type="checkbox"
-      >
-      <label for="checkbox-multiple-cities">{{ $t('settings.useMultipleCities') }}</label>
+      />
+      <label for="checkbox-multiple-cities">{{
+        $t("settings.useMultipleCities")
+      }}</label>
     </div>
     <div class="setting setting--low-margin">
       <input
@@ -25,55 +27,47 @@
         v-model="useOwnPercentage"
         class="checkbox"
         type="checkbox"
-      >
-      <label for="checkbox-own-percentage">{{ $t('settings.ownReturnPercentage') }}</label>
+      />
+      <label for="checkbox-own-percentage">{{
+        $t("settings.ownReturnPercentage")
+      }}</label>
     </div>
-    <div 
-      v-if="useOwnPercentage"
-      class="setting"
-    >
-      <input 
+    <div v-if="useOwnPercentage" class="setting">
+      <input
         v-model.number="returnPercentage"
         class="input input--number"
-        placeholder="10" 
+        placeholder="10"
         maxlength="5"
-      >
+      />
     </div>
     <div class="setting">
-      <h3>{{ $t('settings.feeForNutrition') }}</h3>
-      <input 
+      <h3>{{ $t("settings.feeForNutrition") }}</h3>
+      <input
         v-model.number="fee"
         class="input input--number"
-        placeholder="800" 
+        placeholder="800"
         maxlength="10"
-      >
+      />
     </div>
     <div class="setting">
-      <div
-        class="refresh" 
-        @click="updateState('material-prices')"
-      >
-        <img src="/images/redo-alt.svg">
-        <p>{{ $t('cities.updateMaterialPrices') }}</p>
+      <div class="refresh" @click="updateState('resource-prices')">
+        <img src="/images/redo-alt.svg" />
+        <p>{{ $t("cities.updateMaterialPrices") }}</p>
       </div>
     </div>
     <div class="setting">
-      <div
-        class="refresh" 
-        @click="updateState('resource-prices')"
-      >
-        <img src="/images/redo-alt.svg">
-        <p>{{ $t('cities.updateResourcePrices') }}</p>
+      <div class="refresh" @click="updateState('item-prices')">
+        <img src="/images/redo-alt.svg" />
+        <p>{{ $t("cities.updateResourcePrices") }}</p>
       </div>
     </div>
     <div class="setting">
       <h3 class="setting__city-header">
-        {{ useMultipleCities ? $t('cities.sellMaterials') : $t('cities.mainCity') }}
+        {{
+          useMultipleCities ? $t("cities.sellMaterials") : $t("cities.mainCity")
+        }}
       </h3>
-      <select 
-        v-model="cities.sellMaterials" 
-        class="city" 
-      >
+      <select v-model="cities.sellItems" class="city">
         <template v-for="baseCity in baseCities">
           <option :key="baseCity">
             {{ baseCity }}
@@ -81,17 +75,11 @@
         </template>
       </select>
     </div>
-    <div 
-      v-show="useMultipleCities"
-      class="setting"
-    >
+    <div v-show="useMultipleCities" class="setting">
       <h3 class="setting__city-header">
-        {{ $t('cities.refining') }}
+        {{ $t("cities.buyResources") }}
       </h3>
-      <select 
-        v-model="cities.refiningResources" 
-        class="city" 
-      >
+      <select v-model="cities.craftItems" class="city">
         <template v-for="baseCity in baseCities">
           <option :key="baseCity">
             {{ baseCity }}
@@ -99,35 +87,11 @@
         </template>
       </select>
     </div>
-    <div 
-      v-show="useMultipleCities"
-      class="setting"
-    >
+    <div v-show="useMultipleCities" class="setting">
       <h3 class="setting__city-header">
-        {{ $t('cities.buyMaterials') }}
+        {{ $t("cities.buyResources") }}
       </h3>
-      <select 
-        v-model="cities.buyMaterials" 
-        class="city" 
-      >
-        <template v-for="baseCity in baseCities">
-          <option :key="baseCity">
-            {{ baseCity }}
-          </option>
-        </template>
-      </select>
-    </div>
-    <div 
-      v-show="useMultipleCities"
-      class="setting"
-    >
-      <h3 class="setting__city-header">
-        {{ $t('cities.buyResources') }}
-      </h3>
-      <select 
-        v-model="cities.buyRawResources" 
-        class="city" 
-      >
+      <select v-model="cities.buyResources" class="city">
         <template v-for="baseCity in baseCities">
           <option :key="baseCity">
             {{ baseCity }}
@@ -158,10 +122,10 @@
 </i18n>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
-  name: 'Settings',
+  name: "Settings",
   data() {
     return {
       /**
@@ -175,7 +139,7 @@ export default {
         "Martlock",
         "Thetford",
       ],
-    }
+    };
   },
   computed: {
     /**
@@ -183,11 +147,14 @@ export default {
      */
     useFocus: {
       set(useFocus) {
-        this.$store.commit("refining/UPDATE_USE_FOCUS", useFocus);
+        this.$store.commit("foodAndPotions/SET_SETTING_FIELD", {
+          fieldName: "useFocus",
+          fieldValue: useFocus,
+        });
       },
       get() {
         return this.settings.useFocus;
-      }
+      },
     },
 
     /**
@@ -196,17 +163,22 @@ export default {
     useMultipleCities: {
       set(useMultipleCities) {
         if (!useMultipleCities) {
-          this.$store.commit("refining/SET_CITIES", this.normalizedCities(this.cities.sellMaterials));
+          this.$store.commit("foodAndPotions/SET_SETTING_FIELD", {
+            fieldName: "useMultipleCities",
+            fieldValue: this.normalizedCities(this.cities),
+          });
         }
 
-        this.$store.commit('refining/UPDATE_USE_MULTIPLE_CITIES', useMultipleCities);
-        
+        this.$store.commit("foodAndPotions/SET_SETTING_FIELD", {
+          fieldName: "useMultipleCities",
+          fieldValue: useMultipleCities,
+        });
 
-        this.$store.dispatch("refining/CHECK_ALL");
+        this.$store.dispatch("foodAndPotions/CHECK_ALL");
       },
       get() {
         return this.settings.useMultipleCities;
-      }
+      },
     },
 
     /**
@@ -214,11 +186,14 @@ export default {
      */
     useOwnPercentage: {
       set(useOwnPercentage) {
-        this.$store.commit('refining/UPDATE_USE_OWN_PERCENTAGE', useOwnPercentage);
+        this.$store.commit("foodAndPotions/SET_SETTING_FIELD", {
+          fieldName: "useOwnPercentage",
+          fieldValue: useOwnPercentage,
+        });
       },
       get() {
         return this.settings.useOwnPercentage;
-      }
+      },
     },
 
     /**
@@ -226,11 +201,14 @@ export default {
      */
     returnPercentage: {
       set(returnPercentage) {
-        this.$store.commit('refining/UPDATE_RETURN_PERCENTAGE', returnPercentage);
+        this.$store.commit("foodAndPotions/SET_SETTING_FIELD", {
+          fieldName: "returnPercentage",
+          fieldValue: returnPercentage,
+        });
       },
       get() {
         return this.settings.returnPercentage;
-      }
+      },
     },
 
     /**
@@ -238,28 +216,35 @@ export default {
      */
     fee: {
       set(fee) {
-        this.$store.commit('refining/UPDATE_FEE', fee);
+        this.$store.commit("foodAndPotions/SET_SETTING_FIELD", {
+          fieldName: "fee",
+          fieldValue: fee,
+        });
       },
       get() {
-        return this.settings.fee
-      }
+        return this.settings.fee;
+      },
     },
 
     /**
      * Prices from different cities
      */
     cities() {
-      return new Proxy(this.$store.state.refining.settings.cities, {
+      return new Proxy(this.$store.state.foodAndPotions.settings.cities, {
         set: (target, prop, value) => {
           let normalizedCities = { [prop]: value };
 
-          if (!this.useMultipleCities && prop == 'sellMaterials') {
+          if (!this.useMultipleCities) {
             normalizedCities = this.normalizedCities(value);
           }
+          const storeCities = this.$store.state.foodAndPotions.settings.cities;
 
-          this.$store.commit('refining/SET_CITIES', normalizedCities);
-          
-          this.$store.dispatch("refining/CHECK_ALL");
+          this.$store.commit("foodAndPotions/SET_SETTING_FIELD", {
+            fieldName: "cities",
+            fieldValue: Object.assign(storeCities, normalizedCities),
+          });
+
+          this.$store.dispatch("foodAndPotions/CHECK_ALL");
 
           return true;
         },
@@ -270,12 +255,12 @@ export default {
       /**
        * Current item info
        */
-      currentItemInfo: (state) => state.refining.currentItemInfo,
+      currentItemInfo: (state) => state.foodAndPotions.currentItemInfo,
 
       /**
        * Settings
        */
-      settings: (state) => state.refining.settings,
+      settings: (state) => state.foodAndPotions.settings,
     }),
   },
   methods: {
@@ -285,7 +270,7 @@ export default {
      * @param {string} data - what we need to update
      */
     updateState(data) {
-      this.$store.dispatch('refining/UPDATE_STATE', data);
+      this.$store.dispatch("foodAndPotions/UPDATE_STATE", data);
     },
 
     /**
@@ -293,14 +278,13 @@ export default {
      */
     normalizedCities(normalizedCity) {
       return {
-        sellMaterials: normalizedCity,
-        refiningResources: normalizedCity,
-        buyMaterials: normalizedCity,
-        buyRawResources: normalizedCity
+        buyResources: normalizedCity,
+        craftItems: normalizedCity,
+        sellItems: normalizedCity,
       };
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -384,7 +368,7 @@ export default {
   }
 }
 
-.refresh  {
+.refresh {
   display: flex;
   align-items: center;
   font-size: 0.85rem;
@@ -400,5 +384,4 @@ export default {
 .city {
   width: 210px;
 }
-
 </style>

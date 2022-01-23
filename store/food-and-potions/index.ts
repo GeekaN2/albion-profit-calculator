@@ -26,6 +26,7 @@ const refiningModule: Module<FoodAndPotionsState, RootState>  = {
     items: clonedeep(cities),
     resources: clonedeep(cities),
     foodAndPotionsTreeItems: [],
+    foodAndPotionsTree: [],
     settings: {
       useFocus: false,
       fee: 800,

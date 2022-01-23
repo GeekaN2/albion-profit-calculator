@@ -2,7 +2,7 @@ import axios from 'axios';
 import Vue from 'vue';
 import { MutationTree } from 'vuex'
 import { ResponseModel } from '../typeDefs';
-import { FoodAndPotionsState, LoadingStatus, SettingsWithItemTiers } from './typeDefs'
+import { FoodAndPotionsState, LoadingStatus, Settings, SettingsWithItemTiers } from './typeDefs'
 
 export const mutations: MutationTree<FoodAndPotionsState> = {
   SET_FIELD(state: FoodAndPotionsState, { fieldName, fieldValue }: {
@@ -57,4 +57,8 @@ export const mutations: MutationTree<FoodAndPotionsState> = {
 
     Vue.set(state.resources, location, data);
   },
+
+  SET_SETTING_FIELD(state, { fieldName, fieldValue }: { fieldName: keyof Settings, fieldValue: Settings[keyof Settings]}) {
+    Vue.set(state.settings, fieldName, fieldValue);
+  }
 }

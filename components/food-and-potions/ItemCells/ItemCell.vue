@@ -1,9 +1,15 @@
 <template>
-  <div :style="cellStyles" :class="[{
-      'cell--profitable': true,
-      'cell--unprofitable': true,
-      'cell--unknown': true,
-    }, 'cell']">
+  <div
+    :style="cellStyles"
+    :class="[
+      {
+        'cell--profitable': item.profit > 0,
+        'cell--unprofitable': item.profit < 0,
+        'cell--unknown': item.profit === 0,
+      },
+      'cell',
+    ]"
+  >
     <div class="info">
       <span>{{ item.profit }}</span>
       <div class="secondary-info">
@@ -21,7 +27,7 @@
 
 <script>
 import Tooltip from "../../utils/Tooltip.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "ItemCell",
@@ -43,6 +49,11 @@ export default {
       getResourcesNeeded: "foodAndPotions/getResourcesNeeded",
       getReturnPercentage: "foodAndPotions/getReturnPercentage",
       getResourcesNeededForItem: "foodAndPotions/getResourcesNeededForItem",
+      getResourceValueByName: "foodAndPotions/getResourceValueByName",
+    }),
+
+    ...mapState({
+      fee: (state) => state.foodAndPotions.settings.fee,
     }),
 
     itemTier() {
@@ -64,46 +75,64 @@ export default {
       const item = this.getItem(this.itemName);
       const dumpData = this.itemDump(this.itemName);
       const craftingRequirements = this.getCraftingRequirements(this.itemName);
-      const resourcesNeeded = this.getResourcesNeededForItem(this.itemName);
+      const resourcesNeeded = [this.getResourcesNeededForItem(this.itemName)].flat();
       const returnPercentage = this.getReturnPercentage;
       let tooltipData = [];
 
-      const amountCrafted = craftingRequirements['@amountcrafted'];
-      const sellProfit = amountCrafted * item.sellPriceMin * (100 - 4.5) / 100;
+      const amountCrafted = craftingRequirements["@amountcrafted"];
+      const sellProfit =
+        (amountCrafted * item.sellPriceMin * (100 - 4.5)) / 100;
 
       tooltipData.push({
-        name: this.$t(item.itemId),
+        name: item.itemId,
         price: Math.floor(sellProfit),
         percent: -4.5,
         date: item.sellPriceMinDate,
-      })
-      
-      let resourcesWaste = 0;
-      console.log(resourcesNeeded);
-      resourcesNeeded.forEach(resourceName => {
-        const resourceData = this.getResourceByName(resourceName);
-        const resourceWaste = resourceData.sellPriceMin * (100 - returnPercentage) / 100;
-
-        resourcesWaste += resourceWaste;
-
-        tooltipData.push({
-          name: this.$t(resourceData.itemId),
-          price: -Math.floor(resourcesWaste),
-          percent: returnPercentage,
-          date: resourceData.sellPriceMinDate
-        })
+        additionalData: amountCrafted,
       });
 
+      let resourcesWaste = 0;
+      let itemValue = 0;
+
+      resourcesNeeded.forEach((resource) => {
+        const resourceName = resource["@uniquename"];
+        const resourceCount = resource['@count'];
+        const resourceData = this.getResourceByName(resourceName);
+        const resourceValue = this.getResourceValueByName(resourceName);
+        const resourceWaste =
+          (resourceData.sellPriceMin * (100 - returnPercentage)) / 100 * Number(resourceCount);
+
+        resourcesWaste += resourceWaste;
+        itemValue += resourceValue * resourceCount;
+
+        tooltipData.push({
+          name: resourceData.itemId,
+          price: -Math.floor(resourceWaste),
+          percent: -returnPercentage,
+          date: resourceData.sellPriceMinDate,
+          additionalData: resourceCount,
+        });
+      });
+
+      let feeWaste = itemValue * this.fee / 100 * 0.1125;
+
+      tooltipData.push({
+        name: 'settings.fee',
+        price: -Math.floor(feeWaste),
+        additionalData: this.fee,
+      });
+
+      const finalProfit = sellProfit === 0 ? 0 : sellProfit - resourcesWaste - feeWaste;
+      const finalPercentageProfit = sellProfit === 0 ? 0 : finalProfit / sellProfit * 100;
+
       return {
-        profit: item.sellPriceMin,
-        percentageProfit: 15.5,
+        profit: Math.floor(finalProfit),
+        percentageProfit: Number.parseFloat(finalPercentageProfit.toFixed(1)),
         tooltipData,
       };
     },
   },
-  methods: {
-
-  }
+  methods: {},
 };
 </script>
 
@@ -122,7 +151,7 @@ export default {
     content: "";
     width: 100%;
     height: 120%;
-    filter: blur(2px);
+    filter: blur(3px);
 
     top: -10%;
     left: 0;
