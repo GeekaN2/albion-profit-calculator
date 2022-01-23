@@ -22,9 +22,7 @@
           alt="i"
         >
         <div
-          :class="[
-            'item__warnings__tooltip tooltip', 
-            `tooltip--tier${item.name.slice(1, 2)}`]"
+          class="item__warnings__tooltip tooltip"
         >
           <Tooltip 
             :class="`tooltip--tier${item.name.slice(1, 2)}`"

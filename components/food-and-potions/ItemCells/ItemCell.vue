@@ -11,7 +11,7 @@
     ]"
   >
     <div class="info">
-      <span>{{ item.profit }}</span>
+      <span>{{ item.profit | formatPrice }}</span>
       <div class="secondary-info">
         <span class="percentage">{{ item.percentageProfit }}%</span>
       </div>
@@ -23,9 +23,9 @@
         alt="i"
       >
       <div class="tooltip">
-        <Tooltip 
+        <Tooltip
           :class="`tooltip--subtier${itemSubtier}`"
-          :data="item.tooltipData" 
+          :data="item.tooltipData"
         />
       </div>
     </div>
@@ -40,6 +40,15 @@ export default {
   name: "ItemCell",
   components: {
     Tooltip,
+  },
+  filters: {
+    /**
+     * Format the price for the convenience
+     * @param {number} price - number for formatting
+     */
+    formatPrice(price) {
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
   },
   props: {
     itemName: {
@@ -82,7 +91,9 @@ export default {
       const item = this.getItem(this.itemName);
       const dumpData = this.itemDump(this.itemName);
       const craftingRequirements = this.getCraftingRequirements(this.itemName);
-      const resourcesNeeded = [this.getResourcesNeededForItem(this.itemName)].flat();
+      const resourcesNeeded = [
+        this.getResourcesNeededForItem(this.itemName),
+      ].flat();
       const returnPercentage = this.getReturnPercentage;
       let tooltipData = [];
 
@@ -103,11 +114,12 @@ export default {
 
       resourcesNeeded.forEach((resource) => {
         const resourceName = resource["@uniquename"];
-        const resourceCount = resource['@count'];
+        const resourceCount = resource["@count"];
         const resourceData = this.getResourceByName(resourceName);
         const resourceValue = this.getResourceValueByName(resourceName);
         const resourceWaste =
-          (resourceData.sellPriceMin * (100 - returnPercentage)) / 100 * Number(resourceCount);
+          ((resourceData.sellPriceMin * (100 - returnPercentage)) / 100) *
+          Number(resourceCount);
 
         resourcesWaste += resourceWaste;
         itemValue += resourceValue * resourceCount;
@@ -121,16 +133,18 @@ export default {
         });
       });
 
-      let feeWaste = itemValue * this.fee / 100 * 0.1125;
+      let feeWaste = ((itemValue * this.fee) / 100) * 0.1125;
 
       tooltipData.push({
-        name: 'settings.fee',
+        name: "settings.fee",
         price: -Math.floor(feeWaste),
         additionalData: this.fee,
       });
 
-      const finalProfit = sellProfit === 0 ? 0 : sellProfit - resourcesWaste - feeWaste;
-      const finalPercentageProfit = sellProfit === 0 ? 0 : finalProfit / sellProfit * 100;
+      const finalProfit =
+        sellProfit === 0 ? 0 : sellProfit - resourcesWaste - feeWaste;
+      const finalPercentageProfit =
+        sellProfit === 0 ? 0 : (finalProfit / sellProfit) * 100;
 
       return {
         profit: Math.floor(finalProfit),
