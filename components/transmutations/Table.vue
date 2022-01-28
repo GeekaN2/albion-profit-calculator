@@ -100,7 +100,7 @@ export default {
         }
       }
 
-      bestWays.sort((row1, row2) => row1.profitPercentage < row2.profitPercentage);
+      bestWays.sort((row1, row2) => row2.profitPercentage - row1.profitPercentage);
 
       return bestWays;
     },
