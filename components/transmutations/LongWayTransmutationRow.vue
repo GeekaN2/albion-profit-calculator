@@ -122,7 +122,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .transmutation-way-row {
   display: flex;
   justify-content: left;
@@ -136,6 +136,7 @@ export default {
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  gap: var(--space-3-xs);
   padding: 2px 5px 2px 15px;
   margin: 10px 0 10px 10px;
   background: linear-gradient(to right, #eee 0%, #eee 70%, #ffffff00 100%);
@@ -172,12 +173,22 @@ export default {
 }
 
 .all-info {
+  position: relative;
+
   &__icon {
     height: 15px;
+    width: 15px;
+  }
+
+  &__tooltip {
+    position: absolute;
+    bottom: 27px;
+    transition: 0.15s;
+    opacity: 0;
+    visibility: hidden;
   }
 
   &:hover &__tooltip {
-    bottom: calc(100% + 15px);
     z-index: 2;
     opacity: 1;
     visibility: visible;
