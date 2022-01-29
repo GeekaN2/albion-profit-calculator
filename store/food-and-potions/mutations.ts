@@ -2,7 +2,7 @@ import axios from 'axios';
 import Vue from 'vue';
 import { MutationTree } from 'vuex'
 import { ResponseModel } from '../typeDefs';
-import { FoodAndPotionsState, LoadingStatus, Settings, SettingsWithItemTiers } from './typeDefs'
+import { AverageDataForItem, FoodAndPotionsState, LoadingStatus, Settings, SettingsWithItemTiers } from './typeDefs'
 
 export const mutations: MutationTree<FoodAndPotionsState> = {
   SET_FIELD(state: FoodAndPotionsState, { fieldName, fieldValue }: {
@@ -58,7 +58,20 @@ export const mutations: MutationTree<FoodAndPotionsState> = {
     Vue.set(state.resources, location, data);
   },
 
-  SET_SETTING_FIELD(state, { fieldName, fieldValue }: { fieldName: keyof Settings, fieldValue: Settings[keyof Settings]}) {
+  SET_SETTING_FIELD(state, { fieldName, fieldValue }: { fieldName: keyof Settings, fieldValue: Settings[keyof Settings] }) {
     Vue.set(state.settings, fieldName, fieldValue);
-  }
+  },
+
+  /**
+   * Set average data for items
+   * 
+   * @param state - vuex state
+   * @param data - api response
+   * @param settingsWithItem - сonvenient item data and settings 
+   */
+  SET_AVERAGE_DATA(state, { data, settingsWithItemTiers }: { data: AverageDataForItem[]; settingsWithItemTiers: SettingsWithItemTiers }) {
+    const city = settingsWithItemTiers.settings.cities.sellItems;
+
+    Vue.set(state.averageData, city, data);
+  },
 }

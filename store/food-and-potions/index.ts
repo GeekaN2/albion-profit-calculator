@@ -25,6 +25,7 @@ const refiningModule: Module<FoodAndPotionsState, RootState>  = {
   state: () => ({
     items: clonedeep(cities),
     resources: clonedeep(cities),
+    averageData: clonedeep(cities),
     foodAndPotionsTreeItems: [],
     foodAndPotionsTree: [],
     settings: {
@@ -33,6 +34,7 @@ const refiningModule: Module<FoodAndPotionsState, RootState>  = {
       useOwnPercentage: false,
       returnPercentage: 15.2,
       useMultipleCities: false,
+      showAverageItems: false,
       cities: {
         buyResources: 'Caerleon',
         craftItems: 'Caerleon',

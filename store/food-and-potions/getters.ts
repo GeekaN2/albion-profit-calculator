@@ -3,7 +3,7 @@ import { generateSubtiersUpTo, lowerBoundForObjects } from '../utils';
 import { FoodAndPotionsState } from './typeDefs';
 import axios from 'axios';
 import { ConsumableItem, CraftResource } from './models';
-import { ResponseModel } from '../profit-tree/typeDefs';
+import { AverageDataForItem, ResponseModel } from '../profit-tree/typeDefs';
 
 export const getters: GetterTree<FoodAndPotionsState, {}> = {
   getAllItemNamesWithSubtiers: (state, getters) => (itemName: string): string[] => {
@@ -80,6 +80,23 @@ export const getters: GetterTree<FoodAndPotionsState, {}> = {
     const items: ResponseModel[] = getters.getItems;
     const item: ResponseModel | null = items.find(item => item.itemId === itemName) || null;
     
+    return item;
+  },
+
+  getAverageData: (state, getters): AverageDataForItem[] => {
+    const city = state.settings.cities.sellItems;
+    const itemNames = getters.getItemNamesWithSubtiers(state.currentItemTiers);
+    let items =  state.averageData[city] || [];
+    items = items.filter(item => itemNames.includes(item.itemName));
+
+    return items;
+  },
+
+  getAverageDataByItemName: (state) => (itemName: string): AverageDataForItem | null => {
+    const city = state.settings.cities.sellItems;
+    let averageData =  state.averageData[city];
+    const item = averageData.find(item => item.itemName === itemName) || null;
+
     return item;
   },
 

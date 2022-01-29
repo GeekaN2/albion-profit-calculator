@@ -9,6 +9,7 @@ export interface FoodAndPotionsState {
   foodAndPotionsTreeItems: ConsumableItem[];
   foodAndPotionsTree: any;
   features: Features;
+  averageData: AverageData;
 }
 
 export type AlbionCities = 'Caerleon' 
@@ -34,7 +35,7 @@ export interface Features {
  * city -> array of items data
  */
  export interface Prices {
-  [key: string]: ResponseModel[];
+  [city: string]: ResponseModel[];
 }
 
 /**
@@ -46,11 +47,32 @@ export interface Features {
   useOwnPercentage: boolean;
   returnPercentage: number;
   useMultipleCities: boolean;
+  showAverageItems: boolean;
   cities: {
     buyResources: AlbionCities,
     craftItems: AlbionCities,
     sellItems: AlbionCities,
   }
 }
+
+/**
+ * city -> base item name -> item name
+ */
+ export interface AverageData {
+  [city: string]:  AverageDataForItem[];
+}
+
+/**
+ * Item average data
+ */
+ export interface AverageDataForItem {
+  itemName: string;
+  location: string;
+  averageItems: number;
+  averagePrice: number;
+  firstCheckDate: string;
+  lastCheckDate: string;
+}
+
 
 export type SettingsWithItemTiers = Pick<FoodAndPotionsState, 'currentItemTiers' | 'settings'>

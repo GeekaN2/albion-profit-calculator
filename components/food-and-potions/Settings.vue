@@ -21,7 +21,7 @@
         $t("settings.useMultipleCities")
       }}</label>
     </div>
-    <div class="setting setting--low-margin">
+    <div class="setting">
       <input
         id="checkbox-own-percentage"
         v-model="useOwnPercentage"
@@ -31,6 +31,15 @@
       <label for="checkbox-own-percentage">{{
         $t("settings.ownReturnPercentage")
       }}</label>
+    </div>
+    <div class="setting">
+      <input
+        id="checkbox-number-of-item-sold"
+        v-model="showAverageItems"
+        class="checkbox"
+        type="checkbox"
+      >
+      <label for="checkbox-number-of-item-sold">{{ $t('settings.numberOfItemsSold') }}</label>
     </div>
     <div
       v-if="useOwnPercentage"
@@ -229,6 +238,25 @@ export default {
       get() {
         return this.settings.fee;
       },
+    },
+
+    /**
+     * Number of items sold per day
+     */
+    showAverageItems: {
+      set(showAverageItems) {
+        this.$store.commit("foodAndPotions/SET_SETTING_FIELD", {
+          fieldName: "showAverageItems",
+          fieldValue: showAverageItems,
+        });
+
+        if (showAverageItems) {
+          this.$store.dispatch("foodAndPotions/CHECK_ALL");
+        }
+      },
+      get() {
+        return this.settings.showAverageItems
+      }
     },
 
     /**

@@ -25,7 +25,8 @@
     "ownReturnPercentage": "Use own return %",
     "fee": "Fee",
     "craftFee": "Craft fee",
-    "feeForNutrition": "Fee for 100 nutrition"
+    "feeForNutrition": "Fee for 100 nutrition",
+    "numberOfItemsSold": "Number of items sold"
   },
   "cities": {
     "mainCity": "Main city",

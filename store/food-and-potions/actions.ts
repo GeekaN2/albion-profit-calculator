@@ -43,6 +43,10 @@ export const actions: ActionTree<FoodAndPotionsState, {}> = {
     if (getters.getResources.length !== getters.getResourcesNeeded.length) {
       await dispatch('FETCH_RESOURCE_PRICES', settingsWithItemTiers);
     }
+    
+    if (getters.getAverageData.length === 0) {
+      await dispatch('FETCH_AVERAGE_DATA', settingsWithItemTiers);
+    }
 
     /**
      * Send a request if something is changed
@@ -155,5 +159,24 @@ export const actions: ActionTree<FoodAndPotionsState, {}> = {
     commit('SET_LOADING_STATUS', LoadingStatus.SOMETHING_CHANGED);
 
     await dispatch('CHECK_ALL');
+  },
+
+  /**
+   * Fetch average data for items
+   */
+  async FETCH_AVERAGE_DATA({ commit, getters }, settingsWithItemTiers: SettingsWithItemTiers) {
+    commit('SET_LOADING_STATUS', 'averageData');
+
+    const allNames = getters.getItemNamesWithSubtiers();
+    const location = settingsWithItemTiers.settings.cities.sellItems;
+    const baseURL = process.env.BASE_URL;
+
+    await axios
+      .get(`${baseURL}average_data?items=${allNames}&locations=${location}`)
+      .then(response => {
+        const data = response.data;
+
+        commit('SET_AVERAGE_DATA', { data, settingsWithItemTiers });
+      });
   },
 }

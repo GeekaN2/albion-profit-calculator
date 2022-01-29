@@ -44,5 +44,9 @@ export default {
     border-top-right-radius: var(--space-xs);
     border-bottom-right-radius: var(--space-xs);
   }
+
+  &:not(&:last-child) {
+    border-right: 2px solid rgba(0, 0, 0, 0.07);
+  }
 }
 </style>

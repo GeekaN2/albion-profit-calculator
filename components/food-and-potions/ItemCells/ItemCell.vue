@@ -14,6 +14,7 @@
       <span>{{ item.profit | formatPrice }}</span>
       <div class="secondary-info">
         <span class="percentage">{{ item.percentageProfit }}%</span>
+        <span v-if="showAverageItems">{{ item.numberOfItemsSold }}/{{ $t('days') }}</span>
       </div>
     </div>
     <div class="warnings">
@@ -66,10 +67,12 @@ export default {
       getReturnPercentage: "foodAndPotions/getReturnPercentage",
       getResourcesNeededForItem: "foodAndPotions/getResourcesNeededForItem",
       getResourceValueByName: "foodAndPotions/getResourceValueByName",
+      getAverageDataByItemName: "foodAndPotions/getAverageDataByItemName",
     }),
 
     ...mapState({
       fee: (state) => state.foodAndPotions.settings.fee,
+      showAverageItems: (state) => state.foodAndPotions.settings.showAverageItems,
     }),
 
     itemTier() {
@@ -89,7 +92,7 @@ export default {
 
     item() {
       const item = this.getItem(this.itemName);
-      const dumpData = this.itemDump(this.itemName);
+      const averageData = this.getAverageDataByItemName(this.itemName);
       const craftingRequirements = this.getCraftingRequirements(this.itemName);
       const resourcesNeeded = [
         this.getResourcesNeededForItem(this.itemName),
@@ -150,6 +153,7 @@ export default {
         profit: Math.floor(finalProfit),
         percentageProfit: Number.parseFloat(finalPercentageProfit.toFixed(1)),
         tooltipData,
+        numberOfItemsSold: Number.parseFloat((averageData.averageItems || 0).toFixed(1)),
       };
     },
   },
@@ -160,6 +164,7 @@ export default {
 <style scoped lang="scss">
 .cell {
   --offset: 4px;
+  --cell-border-width: 2px;
 
   padding: var(--space-3-xs) var(--space-2-xs);
   display: flex;
@@ -170,9 +175,9 @@ export default {
   &::before {
     position: absolute;
     content: "";
-    width: 100%;
+    width: calc(100% + var(--cell-border-width));
     height: 120%;
-    filter: blur(3px);
+    filter: blur(2.5px);
 
     top: -10%;
     left: 0;
@@ -181,7 +186,7 @@ export default {
   }
 
   &:first-child::before {
-    width: calc(100% + var(--offset));
+    width: calc(100% + var(--offset) + var(--cell-border-width));
     left: calc(-1 * var(--offset));
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -189,7 +194,6 @@ export default {
 
   &:last-child::before {
     width: calc(100% + var(--offset));
-    right: calc(-1 * var(--offset));
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
   }
@@ -274,10 +278,6 @@ export default {
 
 .secondary-info {
   width: 100%;
-}
-
-.percentage {
-  width: 100%;
   background: rgba(0, 0, 0, 0.07);
   border-radius: 5px;
   display: flex;
@@ -285,6 +285,6 @@ export default {
   flex-direction: row-reverse;
   font-size: 10px;
   padding-left: 3px;
-  gap: 7px;
+  gap: var(--space-s);
 }
 </style>

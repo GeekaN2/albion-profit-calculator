@@ -25,7 +25,8 @@
     "ownReturnPercentage": "Собственный % возврата",
     "fee": "Налог",
     "craftFee": "Налог станка",
-    "feeForNutrition": "Налог за 100 еды"
+    "feeForNutrition": "Налог за 100 еды",
+    "numberOfItemsSold": "Кол-во проданных предметов"
   },
   "cities": {
     "mainCity": "Основной город",
