@@ -83,7 +83,7 @@ export default {
   align-items: center;
   width: 100%;
   height: 100vh;
-  color: #583131;
+  color: var(--color-secondary);
 
 }
 
@@ -92,7 +92,7 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 260px;
-  border: 1px solid #908585;
+  border: 1px solid var(--color-blind);
   padding: 10px;
   border-radius: 10px;
 
@@ -107,20 +107,20 @@ export default {
   text-align: center;
   margin-bottom: 10px;
   border-radius: 5px;
-  border: 1px solid #908585;
+  border: 1px solid var(--color-blind);
   font-size: 1rem;
   outline: none;
   transition: 0.2s;
-  color: #583131;
+  color: var(--color-secondary);
 
   &:focus {
-    border-color: #583131;
+    border-color: var(--color-selected);
   }
 }
 
 .info {
   text-align: center;
-  color: #583156;
+  color: var(--color-selected);
   font-size: 0.9em;
   margin-bottom: 10px;
 }

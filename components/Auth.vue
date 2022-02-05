@@ -146,10 +146,10 @@ export default {
 .modal_form {
   width: 300px;
   padding: 15px;
-  background: #fff;
+  background: var(--color-primary);
   border-radius: 15px;
   text-align: center;
-  color: #583131;
+  color: var(--color-secondary);
 
   &__header {
     display: flex;
@@ -171,14 +171,14 @@ export default {
     text-align: center;
     margin-bottom: 10px;
     border-radius: 5px;
-    border: 1px solid #908585;
+    border: 1px solid var(--color-blind);
     font-size: 1rem;
     outline: none;
     transition: 0.2s;
-    color: #583131;
+    color: var(--color-secondary);
 
     &:focus {
-      border: 1px solid #583131;
+      border: 1px solid var(--color-secondary);
     }
   }
 

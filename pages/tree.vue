@@ -128,9 +128,6 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-$base-brown: #583131;
-$base-purple: #583156;
-
 .container {
   font-size: 16px;
   position: relative;

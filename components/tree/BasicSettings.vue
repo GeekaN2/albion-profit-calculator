@@ -669,7 +669,7 @@ select {
     transition: 0.1s;
 
     &:focus {
-      border-bottom-color: #e19839;
+      border-bottom-color: var(--color-focus);
     }
   }
 

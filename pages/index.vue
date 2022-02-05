@@ -201,10 +201,6 @@ export default {
 </script>
 
 <style lang="scss">
-$base-brown: #583131;
-$base-purple: #583156;
-$color-disabled: #8b8b8b;
-
 .main_page_container {
   min-height: 100vh;
   display: flex;
@@ -222,7 +218,7 @@ $color-disabled: #8b8b8b;
     display: block;
     font-weight: 300;
     font-size: 5em;
-    color: $base-brown;
+    color: var(--color-secondary);
     letter-spacing: 1px;
   }
 
@@ -241,8 +237,8 @@ $color-disabled: #8b8b8b;
     &__button--brown {
       display: inline-block;
       border-radius: 4px;
-      border: 1px solid $base-brown;
-      color: $base-brown;
+      border: 1px solid var(--color-secondary);
+      color: var(--color-secondary);
       text-decoration: none;
       padding: 10px 30px;
       margin-left: 15px;
@@ -250,18 +246,18 @@ $color-disabled: #8b8b8b;
     }
 
     &__button--purple {
-      border-color: $base-purple;
-      color: $base-purple;
+      border-color: var(--color-secondary);
+      color: var(--color-secondary);
     }
 
     &__button--purple:hover {
       color: #fff;
-      background-color: $base-purple;
+      background-color:var(--color-selected) ;
     }
 
     &__button--brown:hover {
       color: #fff;
-      background: $base-brown;
+      background: var(--color-secondary);
     }
 
     &__button--disabled {
@@ -272,8 +268,8 @@ $color-disabled: #8b8b8b;
         transparent 5px,
         transparent 15px
       );
-      border-color: $color-disabled;
-      color: $color-disabled;
+      border-color: var(--color-disabled);
+      color: var(--color-disabled);
 
       &:hover {
         background: repeating-linear-gradient(
@@ -283,8 +279,8 @@ $color-disabled: #8b8b8b;
           transparent 5px,
           transparent 15px
         );
-        border-color: $color-disabled;
-        color: $color-disabled;
+        border-color: var(--color-disabled);
+        color: var(--color-disabled);
       }
     }
   }
@@ -300,7 +296,7 @@ footer {
   justify-content: space-evenly;
 
   a {
-    color: $base-brown;
+    color: var(--color-secondary);
   }
 }
 
@@ -308,7 +304,7 @@ footer {
   border: none;
   background: none;
   cursor: pointer;
-  color: $base-purple;
+  color: var(--color-selected);
 
   &__underline {
     text-decoration: underline;

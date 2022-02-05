@@ -97,8 +97,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$base-brown: #583131;
-$base-purple: #583156;
 
 .header {
   padding: 15px;
@@ -114,7 +112,7 @@ $base-purple: #583156;
   }
 
   &__logo {
-    color: $base-brown;
+    color: var(--color-secondary);
     margin-right: 8px;
   }
 
@@ -136,7 +134,7 @@ $base-purple: #583156;
 
   &__user-role {
     font-size: 0.7em;
-    color: #745858;
+    color: var(--color-seondary);
     margin-left: 10px;
     border: 1px solid;
     padding: 0px 5px 1px 5px;
@@ -147,17 +145,17 @@ $base-purple: #583156;
     display: inline-block;
     margin-left: 10px;
     margin-right: 5px;
-    color: $base-brown;
+    color: var(--color-secondary);
   }
 
   &__link {
     margin-right: 5px;
     position: relative;
-    color: $base-brown;
+    color: var(--color-secondary);
     white-space: nowrap;
 
     &--purple {
-      color: $base-purple;
+      color: var(--color-selected);
     }
 
     &--underline {

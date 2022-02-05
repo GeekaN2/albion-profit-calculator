@@ -146,7 +146,7 @@ export default {
 
   &__link {
     text-decoration: underline;
-    color: #583131;
+    color: var(--color-secondary);
   }
 
   &__image {
@@ -171,15 +171,15 @@ export default {
 
   &__span {
     &--green {
-      color: #14a014;
+      color: var(--color-profitable);
     }
 
     &--red {
-      color: #ae3a3a;
+      color: var(--color-unprofitable);
     }
 
     &--gray {
-      color: #585858;
+      color: var(--color-unknown);
     }
   }
 

@@ -681,29 +681,29 @@ export default {
   position: relative;
 
   &__profitable {
-    text-shadow: .5px .5px .5px #041e04;
-    color: #14a014;
+    text-shadow: .5px .5px .5px var(--color-profitable-shadow);
+    color: var(--color-profitable);
 
     .base-item-info__secondary-info {
-      color: #1bb31b;
+      color: var(--color-profitable-secondary);
     }
   }
 
   &__unprofitable {
     text-shadow: .5px .5px .5px #380404;
-    color: #ae3a3a;
+    color: var(--color-unprofitable);
 
     .base-item-info__secondary-info {
-      color: #d54c4c;
+      color: var(--color-unprofitable-secondary);
     }
   }
 
   &__unknown {
     text-shadow: .5px .5px .5px #242424;
-    color: #585858;
+    color: var(--color-unknown);
 
     .base-item-info__secondary-info {
-      color: #6a6a6a;
+      color: var(--color-unknown-secondary);
     }
   }
 
@@ -792,7 +792,7 @@ export default {
   transition: 0.15s;
   opacity: 0;
   border-radius: 4px;
-  box-shadow: 0 0 6px 0px #6a6a6a;
+  box-shadow: 0 0 6px 0px var(--color-unknown-secondary);
   font-size: 0.75em;
   text-shadow: none;
   padding: 5px;

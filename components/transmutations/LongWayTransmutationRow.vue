@@ -150,13 +150,13 @@ export default {
     align-items: flex-end;
 
     &--profitable {
-      text-shadow: .4px 0 .4px #041e04;
-      color: #14a014;
+      text-shadow: .4px 0 .4px var(--color-profitable-shadow);
+      color: var(--color-profitable);
     }
 
     &--unprofitable {
       text-shadow: .4px 0 .4px #380404;
-      color: #ae3a3a;
+      color: var(--color-unprofitable);
     }
   }
 

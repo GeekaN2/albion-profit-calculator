@@ -208,29 +208,29 @@ export default {
   position: relative;
 
   &--profitable {
-    text-shadow: .5px .5px .5px var(--profitable-color-shadow);
-    color: var(--profitable-color);
+    text-shadow: .5px .5px .5px var(--color-profitable-shadow);
+    color: var(--color-profitable);
 
     .base-item-info__secondary-info {
-      color: var(--profitable-color-secondary);
+      color: var(--color-profitable-secondary);
     }
   }
 
   &--unprofitable {
-    text-shadow: .5px .5px .5px var(--unprofitable-color-shadow);
-    color: var(--unprofitable-color);
+    text-shadow: .5px .5px .5px var(--color-unprofitable-shadow);
+    color: var(--color-unprofitable);
 
     .base-item-info__secondary-info {
-      color: var(--unprofitable-color-secondary);
+      color: var(--color-unprofitable-secondary);
     }
   }
 
   &--unknown {
-    text-shadow: .5px .5px .5px var(--unknown-color-shadow);
-    color: var(--unknown-color);
+    text-shadow: .5px .5px .5px var(--color-unknown-shadow);
+    color: var(--color-unknown);
 
     .base-item-info__secondary-info {
-      color: var(--unknown-color-secondary);
+      color: var(--color-unknown-secondary);
     }
   }
 

@@ -166,10 +166,10 @@ export default {
 }
 
 .purple-link {
-  color: #583156;
+  color: var(--color-selected);
 
   &:hover {
-    color: #7b4c79;
+    color: var(--color-selected-hover);
   }
 }
 

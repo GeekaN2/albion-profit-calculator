@@ -176,29 +176,29 @@ export default {
   position: relative;
 
   &--profitable {
-    text-shadow: .5px .5px .5px #041e04;
-    color: #14a014;
+    text-shadow: .5px .5px .5px var(--color-profitable-shadow);
+    color: var(--color-profitable);
 
     .base-item-info__secondary-info {
-      color: #1bb31b;
+      color: var(--color-profitable-secondary);
     }
   }
 
   &--unprofitable {
     text-shadow: .5px .5px .5px #380404;
-    color: #ae3a3a;
+    color: var(--color-unprofitable);
 
     .base-item-info__secondary-info {
-      color: #d54c4c;
+      color: var(--color-unprofitable-secondary);
     }
   }
 
   &--unknown {
     text-shadow: .5px .5px .5px #242424;
-    color: #585858;
+    color: var(--color-unknown);
 
     .base-item-info__secondary-info {
-      color: #6a6a6a;
+      color: var(--color-unknown-secondary);
     }
   }
 
