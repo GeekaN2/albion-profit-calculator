@@ -120,8 +120,9 @@ export default {
         const resourceCount = resource["@count"];
         const resourceData = this.getResourceByName(resourceName);
         const resourceValue = this.getResourceValueByName(resourceName);
+        const returnPercentageForResource = resourceName.includes('QUESTITEM_TOKEN_AVALON') ? 0 : returnPercentage;
         const resourceWaste =
-          ((resourceData.sellPriceMin * (100 - returnPercentage)) / 100) *
+          ((resourceData.sellPriceMin * (100 - returnPercentageForResource)) / 100) *
           Number(resourceCount);
 
         resourcesWaste += resourceWaste;
@@ -130,7 +131,7 @@ export default {
         tooltipData.push({
           name: resourceData.itemId,
           price: -Math.floor(resourceWaste),
-          percent: -returnPercentage,
+          percent: -returnPercentageForResource,
           date: resourceData.sellPriceMinDate,
           additionalData: resourceCount,
         });
