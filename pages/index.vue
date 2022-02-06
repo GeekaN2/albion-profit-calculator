@@ -251,12 +251,12 @@ export default {
     }
 
     &__button--purple:hover {
-      color: #fff;
+      color: var(--color-primary);
       background-color:var(--color-selected) ;
     }
 
     &__button--brown:hover {
-      color: #fff;
+      color: var(--color-primary);
       background: var(--color-secondary);
     }
 

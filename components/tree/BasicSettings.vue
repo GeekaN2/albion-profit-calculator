@@ -591,7 +591,7 @@ export default {
 
     &:checked + label:after {
       
-      background: #e08c4c;
+      background: var(--color-checked);
     }
 
     & + label {
@@ -609,8 +609,8 @@ export default {
         top: 1px;
         width: 16px;
         height: 16px;
-        border: 2px solid #000;
-        background: white;
+        border: 2px solid var(--color-contrast);
+        background: var(--color-primary);
         display: block;
       }
     }
@@ -657,7 +657,7 @@ select {
 .input {
   margin-bottom: 10px;
   font-size: 1em;
-  color: #222222;
+  color: var(--color-contrast);
   display: flex;
   flex-direction: column;
 
@@ -665,7 +665,7 @@ select {
   input {
     outline: none;
     border: none;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--color-contrast);
     transition: 0.1s;
 
     &:focus {

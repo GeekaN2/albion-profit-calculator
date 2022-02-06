@@ -106,7 +106,7 @@ export default {
     box-shadow: rgb(158, 158, 158) 0 5px 10px 0;
     margin: 15px auto;
     padding: 10px;
-    background: #fff;
+    background: var(--color-primary);
     border-radius: 20px;
   }
 
@@ -136,9 +136,9 @@ export default {
   }
 
   &__code {
-    background: #a3a3a3;
+    background: var(--color-primary-analog-contrast);
     font-size: 0.9em;
-    color: #fff;
+    color: var(--color-primary);
     padding: 1px 5px;
     border-radius: 5px;
     font-family: Consolas, sans-serif;

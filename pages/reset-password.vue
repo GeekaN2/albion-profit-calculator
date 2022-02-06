@@ -130,9 +130,9 @@ export default {
   padding: 12px 5px;
   border-radius: 5px;
   margin-top: 10px;
-  background: #875f5f;
+  background: var(--color-secondary-analog);
   border: none;
-  color: #fff;
+  color: var(--color-primary);
   font-weight: bold;
   font-size: 1rem;
   letter-spacing: 1px;
@@ -141,7 +141,7 @@ export default {
   cursor: pointer;
 
   &:hover {
-    background: #a27e7e;
+    background: var(--color-secondary-analog-hover);
   }
 }
 </style>

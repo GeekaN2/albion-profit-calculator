@@ -55,6 +55,8 @@ html {
 
 body {
   margin-bottom: -30px;
+  background: var(--color-primary);
+  color: var(--color-contrast);
 }
 
 .body {
@@ -63,15 +65,56 @@ body {
   }
 }
 
-:root {
+// :dark-theme-colors {
+//   --color-primary: #242020;
+//   --color-primary-analog: #3a3434;
+//   --color-primary-analog-contrast: #d3c7c7;
+
+//   --color-secondary: #eeeeee;
+//   --color-secondary-analog: #c2c2c2; // lighter version of secondary
+//   --color-secondary-analog-hover: #a09494;
+
+//   --color-contrast: #ffffff;
+
+//   --color-disabled: #8b8b8b;
+//   --color-selected: #d6b9d5;
+//   --color-selected-hover: #b49ab3;
+//   --color-blind: #908585;
+// }
+
+/*
   --color-primary: #fff;
+  --color-primary-analog: #dfdfdf;
+  --color-primary-analog-contrast: #5e5e5e;
+
   --color-secondary: #583131;
+  --color-secondary-analog: #875f5f; // lighter version of secondary
+  --color-secondary-analog-hover: #a27e7e;
+
   --color-contrast: #000;
+
   --color-disabled: #8b8b8b;
   --color-selected: #583156;
   --color-selected-hover: #7b4c79;
   --color-blind: #908585;
 
+*/
+
+:root {
+  --color-primary: #fff;
+  --color-primary-analog: #dfdfdf;
+  --color-primary-analog-contrast: #5e5e5e;
+
+  --color-secondary: #583131;
+  --color-secondary-analog: #875f5f; // lighter version of secondary
+  --color-secondary-analog-hover: #a27e7e;
+
+  --color-contrast: #000;
+
+  --color-disabled: #8b8b8b;
+  --color-selected: #583156;
+  --color-selected-hover: #7b4c79;
+  --color-blind: #908585;
 
   --tier1: #cecece;
   --tier2: #dddddd;
@@ -87,10 +130,11 @@ body {
   --subtier2: #4bc8d2;
   --subtier3: #b987f7;
 
-  --space-3-xs: 2px;
-  --space-2-xs: 4px;
-  --space-xs: 8px;
-  --space-s: 12px;
+  --normal-quality: #acacac;
+  --good-quality: #5788bd;
+  --outstanding-quality: #db9c63;
+  --excellent-quality: #e6e6e6;
+  --masterpiece-quality: #fdb44f;
 
   --color-profitable: #14a014;
   --color-profitable-secondary: #1bb31b;
@@ -107,7 +151,14 @@ body {
   --error: #e73939;
   --success: #1d7d18;
 
-  --color-focus: #e19839;
+  --color-focus: #e08c4c;
+  --color-checked: #e08c4c;
+  --color-checked-analog: #3963e1;
+
+  --space-3-xs: 2px;
+  --space-2-xs: 4px;
+  --space-xs: 8px;
+  --space-s: 12px;
 }
 
 

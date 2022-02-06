@@ -155,7 +155,7 @@ export default {
     }
 
     &--unprofitable {
-      text-shadow: .4px 0 .4px #380404;
+      text-shadow: .4px 0 .4px var(--color-unprofitable-shadow);
       color: var(--color-unprofitable);
     }
   }

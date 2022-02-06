@@ -214,7 +214,7 @@ export default {
     display: none;
 
     &:checked + label:after {
-      background: #e08c4c;
+      background: var(--color-checked);
     }
 
     & + label {
@@ -232,8 +232,8 @@ export default {
         top: 2px;
         width: 15px;
         height: 15px;
-        border: 2px solid #000;
-        background: white;
+        border: 2px solid var(--color-contrast);
+        background: var(--color-primary);
         display: block;
       }
     }
@@ -250,7 +250,7 @@ export default {
   &--number {
     outline: none;
     border: none;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--color-contrast);
     transition: 0.1s;
 
     &:focus {

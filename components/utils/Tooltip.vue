@@ -112,8 +112,8 @@ export default {
   transform: translateX(8%);
   bottom: 90%;
   position: absolute;
-  background: #dfdfdf;
-  color: #5e5e5e;
+  background: var(--color-primary-analog);
+  color: var(--color-primary-analog-contrast);
   font-weight: bold;
   transition: 0.15s;
   border-radius: 4px;
@@ -131,7 +131,7 @@ export default {
     bottom: -5px;
     width: 10px;
     height: 10px;
-    background: #dfdfdf;
+    background: var(--color-primary-analog);
     transform: rotate(45deg);
   }
 

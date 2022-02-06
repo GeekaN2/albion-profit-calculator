@@ -144,15 +144,15 @@ export default {
     }
 
     &:nth-child(6) {
-      box-shadow: -8px 0 3px -3px #6afe90;
+      box-shadow: -8px 0 3px -3px var(--subtier1);
     }
 
     &:nth-child(11) {
-      box-shadow: -8px 0 3px -3px #4bc8d2;
+      box-shadow: -8px 0 3px -3px var(--subtier2);
     }
 
     &:nth-child(16) {
-      box-shadow: -8px 0 3px -3px  #b987f7;
+      box-shadow: -8px 0 3px -3px  var(--subtier3);
     }
   }
 

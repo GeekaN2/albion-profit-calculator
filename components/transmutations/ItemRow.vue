@@ -172,18 +172,18 @@ export default {
 
 <style scoped lang="scss">
 .subtier1 {
-  background: #6afe90;
-  box-shadow: 0 0 4px 5px #6afe90;
+  background: var(--subtier1);
+  box-shadow: 0 0 4px 5px var(--subtier1);
 }
 
 .subtier2 {
-  background: #4bc8d2;
-  box-shadow: 0 0 4px 5px #4bc8d2;
+  background: var(--subtier2);
+  box-shadow: 0 0 4px 5px var(--subtier2);
 }
 
 .subtier3 {
-  background: #b987f7;
-  box-shadow: 0 0 4px 5px #b987f7;
+  background: var(--subtier3);
+  box-shadow: 0 0 4px 5px var(--subtier3);
 }
 
 .text-algin-left {
@@ -191,11 +191,11 @@ export default {
 }
 
 .error {
-  color: #e73939;
+  color: var(--error);
 }
 
 .success {
-  color: #1d7d18;
+  color: var(--success);
 }
 
 .item-row {
@@ -323,7 +323,6 @@ export default {
   padding-left: 3px;
   gap: 7px;
   width: 95%;
-  /*color: #1c4c1b;*/
 }
 
 .tooltip {

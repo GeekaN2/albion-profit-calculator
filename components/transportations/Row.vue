@@ -215,7 +215,7 @@ export default {
     width: 6rem;
     background: none;
     border: none;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--color-contrast);
     text-align: right;
   }
 
@@ -266,10 +266,10 @@ export default {
 }
 
 .success {
-  color: #1d7d18;
+  color: var(--success);
 }
 
 .error {
-  color: #e73939;
+  color: var(--error);
 }
 </style>
