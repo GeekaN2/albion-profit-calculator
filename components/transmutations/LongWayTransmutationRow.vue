@@ -16,16 +16,17 @@
         </div>
       </div>
       <div class="item-info__all-info all-info">
-        <img
+        <svg-icon
           class="all-info__icon"
-          src="/svg/info.svg"
+          icon-class="info"
           alt="i"
         >
-        <div class="all-info__tooltip tooltip tooltip--right">
-          <Tooltip 
-            :data="tooltipData"
-          />
-        </div>
+          <div class="all-info__tooltip tooltip tooltip--right">
+            <Tooltip 
+              :data="tooltipData"
+            />
+          </div>
+        </svg-icon>
       </div>
     </div>
     <div class="way-images">

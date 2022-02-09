@@ -12,7 +12,7 @@
         href="https://patreon.com/geekan"
         target="_blank"
       >
-        <img 
+        <img
           :title="$t('support')"
           class="header__patreon" 
           src="/svg/patreon.svg"
@@ -32,10 +32,10 @@
         href="https://discord.gg/2AM2twM"
         target="_blank"
       >
-        <img 
-          title="Our discord server"
+        <img
           class="header__discord"
-          src="/svg/discord-logo-color.svg"
+          title="Our discord server"
+          src="svg/discord-logo-color.svg"
         > 
       </a>
     </div>
@@ -62,11 +62,12 @@
       <span 
         class="header__user-nickname"
       >{{ $auth.user.nickname }}</span>
-      <img
-        class="logout_button"
-        src="/svg/exit.svg" 
-        @click="logout"
-      >
+      <div @click="logout">
+        <svg-icon
+          class="logout_button"
+          icon-class="exit" 
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -176,5 +177,6 @@ export default {
   width: 20px;
   height: 20px;
   cursor: pointer;
+  fill: var(--color-contrast);
 }
 </style>

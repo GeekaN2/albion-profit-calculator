@@ -47,7 +47,7 @@ export default {
 <style scoped lang="scss">
 .container {
   text-align: center;
-  color: #3e3e3e;
+  color: var(--color-contrast);
 
   &__loading {
     padding: 2px;

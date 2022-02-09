@@ -18,11 +18,11 @@
       </div>
     </div>
     <div class="warnings">
-      <img
+      <svg-icon
         class="warnings-info"
-        src="/svg/info.svg"
+        icon-class="info"
         alt="i"
-      >
+      />
       <div class="tooltip">
         <Tooltip
           :class="`tooltip--subtier${itemSubtier}`"

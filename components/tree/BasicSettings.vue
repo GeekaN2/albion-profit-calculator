@@ -8,25 +8,33 @@
         type="checkbox"
       >
       <label for="checkbox-expert-mode">
-        <img
-          :title="$t('title.openExpertSettings')"
-          class="svg svg--flask" 
-          src="/svg/flask.svg"
-        >
+        <div :title="$t('title.openExpertSettings')">
+          <svg-icon
+            icon-class="flask"
+            class="svg svg--flask"
+          />
+        </div>
       </label>
-      <h2>{{ $t('settings.settings') }}</h2>
-      <svg-icon 
-        iconClass="save"
+      <h2>{{ $t("settings.settings") }}</h2>
+
+      <div 
         :title="$t('title.saveSettings')"
-        class="svg svg--save" 
         @click="saveSettings"
-      />
-      <img
+      >
+        <svg-icon
+          icon-class="save"
+          class="svg svg--save"
+        />
+      </div>
+      <div 
         :title="$t('title.resetSettings')"
-        class="svg svg--sync" 
-        src="/svg/sync-alt.svg"
         @click="resetSettings"
       >
+        <svg-icon
+          icon-class="sync-alt"
+          class="svg svg--sync"
+        />
+      </div>
     </div>
     <div class="setting">
       <input
@@ -35,7 +43,7 @@
         class="checkbox"
         type="checkbox"
       >
-      <label for="checkbox-journals">{{ $t('useJournals') }}</label>
+      <label for="checkbox-journals">{{ $t("useJournals") }}</label>
     </div>
     <div class="setting">
       <input
@@ -44,7 +52,7 @@
         class="checkbox"
         type="checkbox"
       >
-      <label for="checkbox-focus">{{ $t('useFocus') }}</label>
+      <label for="checkbox-focus">{{ $t("useFocus") }}</label>
     </div>
     <div class="setting">
       <input
@@ -53,7 +61,9 @@
         class="checkbox"
         type="checkbox"
       >
-      <label for="checkbox-cities">{{ $t('settings.useMultipleCities') }}</label>
+      <label for="checkbox-cities">{{
+        $t("settings.useMultipleCities")
+      }}</label>
     </div>
     <div class="setting">
       <input
@@ -62,7 +72,7 @@
         class="checkbox"
         type="checkbox"
       >
-      <label for="checkbox-average-items">{{ $t('averageItems') }}</label>
+      <label for="checkbox-average-items">{{ $t("averageItems") }}</label>
     </div>
     <div class="setting">
       <input
@@ -71,60 +81,75 @@
         class="checkbox"
         type="checkbox"
       >
-      <label for="checkbox-average-price">{{ $t('averagePrice') }}</label>
+      <label for="checkbox-average-price">{{ $t("averagePrice") }}</label>
     </div>
-    <div 
-      class="refresh" 
+    <div
+      class="refresh"
       @click="updateState('items')"
     >
-      <img src="/svg/redo-alt.svg">
-      <p>{{ $t('updateItems') }}</p>
+      <svg-icon
+        class="icon"
+        icon-class="redo-alt"
+      />
+      <p>{{ $t("updateItems") }}</p>
     </div>
-    <div 
-      class="refresh" 
+    <div
+      class="refresh"
       @click="updateState('resources')"
     >
-      <img src="/svg/redo-alt.svg">
-      <p>{{ $t('updateResources') }}</p>
+      <svg-icon
+        class="icon"
+        icon-class="redo-alt"
+      />
+      <p>{{ $t("updateResources") }}</p>
     </div>
     <div
       v-if="isArtifactItem"
       class="refresh"
       @click="updateState('artifacts')"
     >
-      <img src="/svg/redo-alt.svg">
-      <p>{{ $t('updateArtifacts') }}</p>
+      <svg-icon
+        class="icon"
+        icon-class="redo-alt"
+      />
+      <p>{{ $t("updateArtifacts") }}</p>
     </div>
     <div
       v-if="this['tree/areHeartsNeeded']"
       class="refresh"
       @click="updateState('hearts')"
     >
-      <img src="/svg/redo-alt.svg">
-      <p>{{ $t('updateHearts') }}</p>
+      <svg-icon
+        class="icon"
+        icon-class="redo-alt"
+      />
+      <p>{{ $t("updateHearts") }}</p>
     </div>
     <div
       v-if="useJournals"
-      class="refresh" 
+      class="refresh"
       @click="updateState('journals')"
     >
-      <img src="/svg/redo-alt.svg">
-      <p>{{ $t('updateJournals') }}</p>
+      <svg-icon
+        class="icon"
+        icon-class="redo-alt"
+      />
+      <p>{{ $t("updateJournals") }}</p>
     </div>
     <div class="input">
-      <span> {{ $t('craftFee') }}</span>
-      <input 
+      <span> {{ $t("craftFee") }}</span>
+      <input
         v-model.number="craftFee"
-        placeholder="0" 
-        maxlength="10" 
+        placeholder="0"
+        maxlength="10"
       >
     </div>
     <p class="setting__city-header">
-      {{ useMultipleCities ? $t('cities.sellItems') : $t('cities.mainCity') }}
+      {{ useMultipleCities ? $t("cities.sellItems") : $t("cities.mainCity") }}
     </p>
-    <select 
-      v-model="cities.sellItems" 
-      class="city" 
+    <select
+      v-model="cities.sellItems"
+      class="city"
     >
       <option>Black Market</option>
       <template v-for="city in baseCities">
@@ -133,16 +158,16 @@
         </option>
       </template>
     </select>
-    <div 
-      v-if="useMultipleCities" 
+    <div
+      v-if="useMultipleCities"
       class="setting__multiple-cities"
     >
       <p class="setting__city-header">
-        {{ $t('cities.craftItems') }}
+        {{ $t("cities.craftItems") }}
       </p>
-      <select 
-        v-model="cities.craftItems" 
-        class="city" 
+      <select
+        v-model="cities.craftItems"
+        class="city"
       >
         <template v-for="city in baseCities">
           <option :key="city">
@@ -150,21 +175,21 @@
           </option>
         </template>
       </select>
-      <p 
+      <p
         v-if="Object.entries(this['tree/getRecipe']).length == 0"
         class="setting__city-header"
       >
-        {{ $t('cities.resources') }}
+        {{ $t("cities.resources") }}
       </p>
-      <p 
+      <p
         v-else
         class="setting__city-header"
       >
-        {{ $t(`resources.${Object.entries(this['tree/getRecipe'])[0][0]}`) }}
+        {{ $t(`resources.${Object.entries(this["tree/getRecipe"])[0][0]}`) }}
       </p>
-      <select 
-        v-model="cities.resourcesFirstLocation" 
-        class="city" 
+      <select
+        v-model="cities.resourcesFirstLocation"
+        class="city"
       >
         <template v-for="city in baseCities">
           <option :key="city">
@@ -174,11 +199,11 @@
       </select>
       <template v-if="Object.entries(this['tree/getRecipe']).length == 2">
         <p class="setting__city-header">
-          {{ $t(`resources.${Object.entries(this['tree/getRecipe'])[1][0]}`) }}
+          {{ $t(`resources.${Object.entries(this["tree/getRecipe"])[1][0]}`) }}
         </p>
-        <select 
-          v-model="cities.resourcesSecondLocation" 
-          class="city" 
+        <select
+          v-model="cities.resourcesSecondLocation"
+          class="city"
         >
           <template v-for="city in baseCities">
             <option :key="city">
@@ -191,9 +216,9 @@
         <p class="setting__city-header">
           {{ artefactsCategory }}
         </p>
-        <select 
-          v-model="cities.artefacts" 
-          class="city" 
+        <select
+          v-model="cities.artefacts"
+          class="city"
         >
           <template v-for="city in baseCities">
             <option :key="city">
@@ -204,11 +229,11 @@
       </template>
       <template v-if="this['tree/areHeartsNeeded']">
         <p class="setting__city-header">
-          {{ $t('cities.hearts') }}
+          {{ $t("cities.hearts") }}
         </p>
-        <select 
-          v-model="cities.hearts" 
-          class="city" 
+        <select
+          v-model="cities.hearts"
+          class="city"
         >
           <template v-for="city in baseCities">
             <option :key="city">
@@ -219,11 +244,11 @@
       </template>
       <template v-if="useJournals">
         <p class="setting__city-header">
-          {{ $t('cities.journals') }}
+          {{ $t("cities.journals") }}
         </p>
-        <select 
-          v-model="cities.journals" 
-          class="city" 
+        <select
+          v-model="cities.journals"
+          class="city"
         >
           <template v-for="city in baseCities">
             <option :key="city">
@@ -321,7 +346,7 @@ export default {
       },
       get() {
         return this.settings.useJournals;
-      }
+      },
     },
 
     /**
@@ -335,7 +360,7 @@ export default {
       },
       get() {
         return this.settings.useFocus;
-      }
+      },
     },
 
     /**
@@ -349,7 +374,7 @@ export default {
       },
       get() {
         return this.settings.useExpertMode;
-      }
+      },
     },
 
     /**
@@ -358,16 +383,22 @@ export default {
     useMultipleCities: {
       set(useMultipleCities) {
         if (!useMultipleCities) {
-          this.$store.commit("tree/SET_CITIES", this.normalizedCities(this.cities.sellItems));
+          this.$store.commit(
+            "tree/SET_CITIES",
+            this.normalizedCities(this.cities.sellItems)
+          );
         }
 
-        this.$store.commit("tree/UPDATE_USE_MULTIPLE_CITIES", useMultipleCities);
+        this.$store.commit(
+          "tree/UPDATE_USE_MULTIPLE_CITIES",
+          useMultipleCities
+        );
 
         this.$store.dispatch("tree/CHECK_ALL");
       },
       get() {
         return this.settings.useMultipleCities;
-      }
+      },
     },
 
     /**
@@ -381,7 +412,7 @@ export default {
       },
       get() {
         return this.settings.craftFee;
-      }
+      },
     },
 
     /**
@@ -392,12 +423,12 @@ export default {
         set: (target, prop, value) => {
           let normalizedCities = { [prop]: value };
 
-          if (!this.useMultipleCities && prop == 'sellItems') {
+          if (!this.useMultipleCities && prop == "sellItems") {
             normalizedCities = this.normalizedCities(value);
           }
 
-          this.$store.commit('tree/SET_CITIES', normalizedCities);
-          
+          this.$store.commit("tree/SET_CITIES", normalizedCities);
+
           this.$store.dispatch("tree/CHECK_ALL");
 
           return true;
@@ -416,7 +447,7 @@ export default {
       },
       get() {
         return this.settings.showAverageItems;
-      }
+      },
     },
 
     /**
@@ -430,14 +461,14 @@ export default {
       },
       get() {
         return this.settings.useAveragePrice;
-      }
+      },
     },
 
     /**
      * Is the current item an artifact
      */
     isArtifactItem() {
-      return this.$store.getters['tree/isArtifactItem'];
+      return this.$store.getters["tree/isArtifactItem"];
     },
 
     /**
@@ -445,8 +476,11 @@ export default {
      */
     artefactsCategory() {
       const itemName = this.currentItemInfo.name;
-      const category = itemName.includes('ROYAL') ? 'cities.sigils' : 
-      itemName.includes('INSIGHT') ? 'cities.skillbook' : 'cities.artefacts';
+      const category = itemName.includes("ROYAL")
+        ? "cities.sigils"
+        : itemName.includes("INSIGHT")
+        ? "cities.skillbook"
+        : "cities.artefacts";
 
       return this.$t(category);
     },
@@ -480,7 +514,8 @@ export default {
      * Normalize Black Market to set correct cities in settings
      */
     normalizedCities(sellItemsCity) {
-      const normalizedCity = sellItemsCity == "Black Market" ? "Caerleon" : sellItemsCity;
+      const normalizedCity =
+        sellItemsCity == "Black Market" ? "Caerleon" : sellItemsCity;
 
       return {
         sellItems: sellItemsCity,
@@ -499,7 +534,7 @@ export default {
      * @param {string} data - what we need to update
      */
     async updateState(data) {
-      await this.$store.dispatch('tree/UPDATE_STATE', data);
+      await this.$store.dispatch("tree/UPDATE_STATE", data);
     },
 
     /**
@@ -507,11 +542,14 @@ export default {
      */
     async saveSettings() {
       try {
-        await this.$store.dispatch('tree/SAVE_USER_SETTINGS', this.$auth.strategy.token.get());
+        await this.$store.dispatch(
+          "tree/SAVE_USER_SETTINGS",
+          this.$auth.strategy.token.get()
+        );
 
-        this.$toast.success(this.$t('toast.settingsSavedSuccessfully'));
+        this.$toast.success(this.$t("toast.settingsSavedSuccessfully"));
       } catch {
-        this.$toast.error(this.$t('toast.somethingWentWrong'));
+        this.$toast.error(this.$t("toast.somethingWentWrong"));
       }
     },
 
@@ -519,11 +557,11 @@ export default {
      * Reset settings to user default settings
      */
     resetSettings() {
-      this.$store.commit('tree/RESET_SETTINGS');
-      this.$store.dispatch('tree/CHECK_ALL');
-    }
+      this.$store.commit("tree/RESET_SETTINGS");
+      this.$store.dispatch("tree/CHECK_ALL");
+    },
   },
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -537,7 +575,7 @@ export default {
   &__header {
     display: flex;
     justify-content: left;
-    
+
     margin-bottom: 5px;
   }
 
@@ -553,6 +591,7 @@ export default {
   width: 18px;
   height: 18px;
   cursor: pointer;
+  fill: var(--color-contrast);
 
   &--flask {
     width: 21px;
@@ -590,7 +629,6 @@ export default {
     display: none;
 
     &:checked + label:after {
-      
       background: var(--color-checked);
     }
 
@@ -629,7 +667,7 @@ export default {
 
 select {
   height: 22px;
-  font-family: "Ubuntu";
+  font-family: "Ubuntu", sans-serif;
   font-size: 1em;
 }
 
@@ -639,7 +677,7 @@ select {
   margin-bottom: 10px;
   cursor: pointer;
 
-  img {
+  & .icon {
     width: 18px;
     height: 18px;
   }
@@ -660,13 +698,16 @@ select {
   color: var(--color-contrast);
   display: flex;
   flex-direction: column;
-
+  background: var(--color-primary);
+  color: var(--color-contrast);
 
   input {
     outline: none;
     border: none;
     border-bottom: 2px solid var(--color-contrast);
     transition: 0.1s;
+    background: var(--color-primary);
+    color: var(--color-contrast);
 
     &:focus {
       border-bottom-color: var(--color-focus);

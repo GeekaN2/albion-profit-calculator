@@ -53,7 +53,10 @@
         class="refresh" 
         @click="updateState('material-prices')"
       >
-        <img src="/svg/redo-alt.svg">
+        <svg-icon
+          class="icon"
+          icon-class="redo-alt"
+        />
         <p>{{ $t('cities.updateMaterialPrices') }}</p>
       </div>
     </div>
@@ -62,7 +65,10 @@
         class="refresh" 
         @click="updateState('resource-prices')"
       >
-        <img src="/svg/redo-alt.svg">
+        <svg-icon
+          class="icon"
+          icon-class="redo-alt"
+        />
         <p>{{ $t('cities.updateResourcePrices') }}</p>
       </div>
     </div>
@@ -371,6 +377,8 @@ export default {
 
 .input {
   width: 100%;
+  background: var(--color-primary);
+  color: var(--color-contrast);
 
   &--number {
     outline: none;
@@ -390,7 +398,7 @@ export default {
   font-size: 0.85rem;
   cursor: pointer;
 
-  img {
+  & .icon {
     width: 15px;
     height: 15px;
     margin-right: 5px;

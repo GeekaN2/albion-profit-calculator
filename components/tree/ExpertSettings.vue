@@ -265,6 +265,8 @@ export default {
     border: none;
     border-bottom: 2px solid var(--color-contrast);
     transition: 0.1s;
+    background: var(--color-primary);
+    color: var(--color-contrast);
 
     &:focus {
       border-bottom-color: var(--color-checked-analog);

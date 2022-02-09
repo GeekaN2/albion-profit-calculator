@@ -36,7 +36,7 @@ export default {
     font-size: 0.8rem;
     right: 15%;
     bottom: 20%;
-    color: var(--color-primary);
+    color: #fff;
     background: rgba(0, 0, 0, 0.6);
     padding: 0 5px;
     border-radius: 5px;

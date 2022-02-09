@@ -111,7 +111,8 @@ export default {
   font-size: 1rem;
   outline: none;
   transition: 0.2s;
-  color: var(--color-secondary);
+  background: var(--color-primary);
+  color: var(--color-contrast);
 
   &:focus {
     border-color: var(--color-selected);

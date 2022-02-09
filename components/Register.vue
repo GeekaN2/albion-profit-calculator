@@ -8,11 +8,12 @@
         <h2 class="modal_form__title">
           {{ $t('register') }}
         </h2>
-        <img 
-          class="close_button" 
-          src="svg/close.svg" 
-          @click="hideModal"
-        >
+        <div @click="hideModal">
+          <svg-icon
+            icon-class="close" 
+            class="close_button" 
+          />
+        </div>
       </div>
       <form @submit.prevent="register">
         <p class="modal_form__error">

@@ -35,7 +35,10 @@
         class="refresh" 
         @click="updateState('sell-items')"
       >
-        <img src="/svg/redo-alt.svg">
+        <svg-icon
+          class="icon"
+          icon-class="redo-alt"
+        />
         <p>{{ $t('updateSellPrice') }}</p>
       </div>
     </div>
@@ -44,7 +47,10 @@
         class="refresh" 
         @click="updateState('buy-items')"
       >
-        <img src="/svg/redo-alt.svg">
+        <svg-icon
+          class="icon"
+          icon-class="redo-alt"
+        />
         <p>{{ $t('updateBuyPrices') }}</p>
       </div>
     </div>
@@ -247,6 +253,9 @@ export default {
 
 .input {
   width: 185px;
+  background: var(--color-primary);
+  color: var(--color-contrast);
+
   &--number {
     outline: none;
     border: none;
@@ -265,7 +274,7 @@ export default {
   font-size: 0.85rem;
   cursor: pointer;
 
-  img {
+  & .icon {
     width: 15px;
     height: 15px;
     margin-right: 5px;

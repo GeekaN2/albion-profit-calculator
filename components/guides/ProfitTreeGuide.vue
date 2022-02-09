@@ -104,19 +104,23 @@
       may be incorrect. There are several reasons for this. There are 2
       modifiers to help you figure out what's wrong more quickly.
       <br>
-      <img
-        src="/svg/clock.svg"
+      <svg-icon
+        icon-class="clock"
         class="guide__svg"
-      > - This modifier says
-      that more than 1 day has passed since the last item price check. You
-      should go to the market and update prices.
-      <br>
-      <img
-        src="/svg/exclamation-triangle.svg"
-        class="guide__svg"
-      > - This
-      one says that there is no such artifact on sale. You can go to the market,
-      or you can set the price yourself.
+      >
+        - This modifier says
+        that more than 1 day has passed since the last item price check. You
+        should go to the market and update prices.
+        <br>
+        <svg-icon
+          icon-class="exclamation-triangle"
+          class="guide__svg"
+        >
+          - This
+          one says that there is no such artifact on sale. You can go to the market,
+          or you can set the price yourself.
+        </svg-icon>
+      </svg-icon>
     </p>
 
     <p class="guide__paragraph">
@@ -148,22 +152,22 @@
       >
       Firstly, the icons.
       <br>
-      <img
-        src="/svg/flask.svg"
+      <svg-icon
+        icon-class="flask"
         class="guide__svg"
-      > - Open expert settings,
+      /> - Open expert settings,
       additional settings that are needed only occasionally.
       <br>
-      <img
-        src="/svg/save.svg"
+      <svg-icon
+        icon-class="save"
         class="guide__svg"
-      > - Saves your settings so
+      /> - Saves your settings so
       you don't have to set them every time
       <br>
-      <img
-        src="/svg/sync-alt.svg"
+      <svg-icon
+        icon-class="sync-alt"
         class="guide__svg"
-      > - Resets settings
+      /> - Resets settings
       changes to your defaults.
     </p>
     <p class="guide__paragraph">
@@ -236,18 +240,20 @@
       Changes the price of the item, instead of the price from the market,
       average price will be shown. The tooltip will also show the average price
       of the item and the date it was last updated in days.
-      <img
-        src="/svg/clock.svg"
+      <svg-icon
+        icon-class="clock"
         class="guide__svg"
-      > modifier will not be
-      displayed.
-      <img
-        src="/images/guides/profit-tree/average-price.png"
-        class="guide__image"
       >
-      This setting is useful sometimes on the black market, also useful when an
-      item's abnormal price is shown. And it is not so useful, because often
-      there is simply no data on the average price.
+        modifier will not be
+        displayed.
+        <img
+          src="/images/guides/profit-tree/average-price.png"
+          class="guide__image"
+        >
+        This setting is useful sometimes on the black market, also useful when an
+        item's abnormal price is shown. And it is not so useful, because often
+        there is simply no data on the average price.
+      </svg-icon>
     </p>
     <p class="guide__paragraph">
       <img
@@ -324,8 +330,10 @@
 </template>
 
 <script>
+import SvgIcon from '../utils/SvgIcon.vue';
 export default {
   name: "ProfitTreeGuide",
+  components: { SvgIcon },
 };
 </script>
 

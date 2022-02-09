@@ -8,12 +8,12 @@
         <h2 class="modal_form__title">
           {{ $t('login') }}
         </h2>
-        <img 
-          class="close_button" 
-          src="svg/close.svg"
-          fill="var(--color-primary)"
-          @click="hideModal"
-        >
+        <div @click="hideModal">
+          <svg-icon
+            class="close_button"
+            icon-class="close"
+          />
+        </div>
       </div>
       <form @submit.prevent="login">
         <p class="modal_form__error">
@@ -209,5 +209,6 @@ export default {
   width: 2rem;
   opacity: 0.6;
   cursor: pointer;
+  fill: var(--color-contrast);
 }
 </style>

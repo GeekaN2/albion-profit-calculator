@@ -26,22 +26,22 @@
           </div>
         </div>
         <div class="item__warnings">
-          <img
+          <svg-icon
             v-if="noArtefactForSale(name)"
-            src="/svg/exclamation-triangle.svg"
+            icon-class="exclamation-triangle"
             class="item__warnings__icon"
-          >
-          <img 
+          />
+          <svg-icon 
             v-if="outdated(item.date, 'item date')" 
-            src="/svg/clock.svg" 
+            icon-class="clock" 
             class="item__warnings__icon"
-          >
-          <img
+          />
+          <svg-icon
             v-if="!outdated(item.date, 'item date') && !noArtefactForSale(name)"
             class="item__warnings__info"
-            src="/svg/info.svg"
+            icon-class="info"
             alt="i"
-          >
+          />
           <div
             :class="[
               'item__warnings__tooltip tooltip', 
@@ -104,9 +104,11 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import { getHeartNameByItemName } from '../../store/utils';
+import SvgIcon from '../utils/SvgIcon.vue';
 
 export default {
   name: "ItemTable",
+  components: { SvgIcon },
   filters: {
     /**
      * Format the price for the convenience

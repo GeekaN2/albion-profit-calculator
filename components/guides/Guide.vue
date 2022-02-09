@@ -1,10 +1,11 @@
 <template>
   <div class="guides">
-    <img
-      class="guides__icon guides__icon--baseline"
-      src="/svg/book-spells.svg"
-      @click="showModal"
-    >
+    <div @click="showModal">
+      <svg-icon
+        class="guides__icon guides__icon--baseline"
+        icon-class="book-spells"
+      />
+    </div>
     <div
       v-if="isModalShown"
       class="guide"

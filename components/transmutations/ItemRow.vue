@@ -16,11 +16,11 @@
         </div>
       </div>
       <div class="item__warnings">
-        <img
+        <svg-icon
           class="item__warnings__info"
-          src="/svg/info.svg"
+          icon-class="info"
           alt="i"
-        >
+        />
         <div
           class="item__warnings__tooltip tooltip"
         >
