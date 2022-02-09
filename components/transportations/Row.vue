@@ -217,6 +217,7 @@ export default {
     border: none;
     border-bottom: 2px solid var(--color-contrast);
     text-align: right;
+    background: var(--color-primary);
   }
 
   &__item-name {

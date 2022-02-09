@@ -20,7 +20,7 @@
     <div class="warnings">
       <img
         class="warnings-info"
-        src="/images/info.svg"
+        src="/svg/info.svg"
         alt="i"
       >
       <div class="tooltip">

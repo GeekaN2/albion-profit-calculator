@@ -15,7 +15,7 @@
         <img 
           :title="$t('support')"
           class="header__patreon" 
-          src="/images/patreon.svg"
+          src="/svg/patreon.svg"
         >
       </a><a
         class="header__social"
@@ -35,7 +35,7 @@
         <img 
           title="Our discord server"
           class="header__discord"
-          src="/images/discord-logo-color.svg"
+          src="/svg/discord-logo-color.svg"
         > 
       </a>
     </div>
@@ -64,7 +64,7 @@
       >{{ $auth.user.nickname }}</span>
       <img
         class="logout_button"
-        src="/images/exit.svg" 
+        src="/svg/exit.svg" 
         @click="logout"
       >
     </div>
@@ -156,10 +156,18 @@ export default {
 
     &--purple {
       color: var(--color-selected);
+
+      &:hover {
+        color: var(--color-selected-hover);
+      }
     }
 
     &--underline {
       text-decoration: underline;
+
+      &:hover {
+        color: var(--color-selected);
+      }
     }
   }
 }

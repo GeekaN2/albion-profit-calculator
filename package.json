@@ -15,7 +15,7 @@
     "get-items-from-dumps": "node node-scripts/getItemsFromDumps.js"
   },
   "dependencies": {
-    "@hawk.so/javascript": "^2.4.0",
+    "@hawk.so/javascript": "^3.0.1",
     "@nuxtjs/auth-next": "^5.0.0-1612791489.a5d8c28",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/toast": "^3.3.1",
@@ -31,6 +31,7 @@
     "nuxt-i18n": "^6.28.1",
     "sass-loader": "10.1.1",
     "style-loader": "^2.0.0",
+    "svg-sprite-loader": "^6.0.11",
     "v-click-outside": "^3.0.1",
     "v-tooltip": "^3.0.0-beta.4"
   },

@@ -10,7 +10,7 @@
         </h2>
         <img 
           class="close_button" 
-          src="images/close.svg" 
+          src="svg/close.svg" 
           @click="hideModal"
         >
       </div>

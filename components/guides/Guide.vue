@@ -2,7 +2,7 @@
   <div class="guides">
     <img
       class="guides__icon guides__icon--baseline"
-      src="/images/book-spells.svg"
+      src="/svg/book-spells.svg"
       @click="showModal"
     >
     <div

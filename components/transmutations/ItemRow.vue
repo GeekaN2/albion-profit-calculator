@@ -18,7 +18,7 @@
       <div class="item__warnings">
         <img
           class="item__warnings__info"
-          src="/images/info.svg"
+          src="/svg/info.svg"
           alt="i"
         >
         <div

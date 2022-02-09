@@ -53,7 +53,7 @@
         class="refresh" 
         @click="updateState('material-prices')"
       >
-        <img src="/images/redo-alt.svg">
+        <img src="/svg/redo-alt.svg">
         <p>{{ $t('cities.updateMaterialPrices') }}</p>
       </div>
     </div>
@@ -62,7 +62,7 @@
         class="refresh" 
         @click="updateState('resource-prices')"
       >
-        <img src="/images/redo-alt.svg">
+        <img src="/svg/redo-alt.svg">
         <p>{{ $t('cities.updateResourcePrices') }}</p>
       </div>
     </div>
@@ -358,7 +358,7 @@ export default {
         width: 16px;
         height: 16px;
         border: 2px solid var(--color-contrast);
-        background: white;
+        background: var(--color-primary);
         display: block;
       }
     }

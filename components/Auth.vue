@@ -10,7 +10,8 @@
         </h2>
         <img 
           class="close_button" 
-          src="images/close.svg"
+          src="svg/close.svg"
+          fill="var(--color-primary)"
           @click="hideModal"
         >
       </div>
@@ -176,6 +177,7 @@ export default {
     outline: none;
     transition: 0.2s;
     color: var(--color-secondary);
+    background: var(--color-primary);
 
     &:focus {
       border: 1px solid var(--color-secondary);

@@ -35,7 +35,7 @@
         class="refresh" 
         @click="updateState('sell-items')"
       >
-        <img src="/images/redo-alt.svg">
+        <img src="/svg/redo-alt.svg">
         <p>{{ $t('updateSellPrice') }}</p>
       </div>
     </div>
@@ -44,7 +44,7 @@
         class="refresh" 
         @click="updateState('buy-items')"
       >
-        <img src="/images/redo-alt.svg">
+        <img src="/svg/redo-alt.svg">
         <p>{{ $t('updateBuyPrices') }}</p>
       </div>
     </div>

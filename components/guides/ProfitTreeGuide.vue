@@ -105,14 +105,14 @@
       modifiers to help you figure out what's wrong more quickly.
       <br>
       <img
-        src="/images/clock.svg"
+        src="/svg/clock.svg"
         class="guide__svg"
       > - This modifier says
       that more than 1 day has passed since the last item price check. You
       should go to the market and update prices.
       <br>
       <img
-        src="/images/exclamation-triangle.svg"
+        src="/svg/exclamation-triangle.svg"
         class="guide__svg"
       > - This
       one says that there is no such artifact on sale. You can go to the market,
@@ -149,19 +149,19 @@
       Firstly, the icons.
       <br>
       <img
-        src="/images/flask.svg"
+        src="/svg/flask.svg"
         class="guide__svg"
       > - Open expert settings,
       additional settings that are needed only occasionally.
       <br>
       <img
-        src="/images/save.svg"
+        src="/svg/save.svg"
         class="guide__svg"
       > - Saves your settings so
       you don't have to set them every time
       <br>
       <img
-        src="/images/sync-alt.svg"
+        src="/svg/sync-alt.svg"
         class="guide__svg"
       > - Resets settings
       changes to your defaults.
@@ -237,7 +237,7 @@
       average price will be shown. The tooltip will also show the average price
       of the item and the date it was last updated in days.
       <img
-        src="/images/clock.svg"
+        src="/svg/clock.svg"
         class="guide__svg"
       > modifier will not be
       displayed.

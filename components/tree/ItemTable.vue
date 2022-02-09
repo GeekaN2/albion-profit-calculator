@@ -28,18 +28,18 @@
         <div class="item__warnings">
           <img
             v-if="noArtefactForSale(name)"
-            src="/images/exclamation-triangle.svg"
+            src="/svg/exclamation-triangle.svg"
             class="item__warnings__icon"
           >
           <img 
             v-if="outdated(item.date, 'item date')" 
-            src="/images/clock.svg" 
+            src="/svg/clock.svg" 
             class="item__warnings__icon"
           >
           <img
             v-if="!outdated(item.date, 'item date') && !noArtefactForSale(name)"
             class="item__warnings__info"
-            src="/images/info.svg"
+            src="/svg/info.svg"
             alt="i"
           >
           <div

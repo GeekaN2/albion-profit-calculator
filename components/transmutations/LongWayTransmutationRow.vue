@@ -18,7 +18,7 @@
       <div class="item-info__all-info all-info">
         <img
           class="all-info__icon"
-          src="/images/info.svg"
+          src="/svg/info.svg"
           alt="i"
         >
         <div class="all-info__tooltip tooltip tooltip--right">

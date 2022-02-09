@@ -11,20 +11,20 @@
         <img
           :title="$t('title.openExpertSettings')"
           class="svg svg--flask" 
-          src="/images/flask.svg"
+          src="/svg/flask.svg"
         >
       </label>
       <h2>{{ $t('settings.settings') }}</h2>
-      <img
+      <svg-icon 
+        iconClass="save"
         :title="$t('title.saveSettings')"
         class="svg svg--save" 
-        src="/images/save.svg"
         @click="saveSettings"
-      >
+      />
       <img
         :title="$t('title.resetSettings')"
         class="svg svg--sync" 
-        src="/images/sync-alt.svg"
+        src="/svg/sync-alt.svg"
         @click="resetSettings"
       >
     </div>
@@ -77,14 +77,14 @@
       class="refresh" 
       @click="updateState('items')"
     >
-      <img src="/images/redo-alt.svg">
+      <img src="/svg/redo-alt.svg">
       <p>{{ $t('updateItems') }}</p>
     </div>
     <div 
       class="refresh" 
       @click="updateState('resources')"
     >
-      <img src="/images/redo-alt.svg">
+      <img src="/svg/redo-alt.svg">
       <p>{{ $t('updateResources') }}</p>
     </div>
     <div
@@ -92,7 +92,7 @@
       class="refresh"
       @click="updateState('artifacts')"
     >
-      <img src="/images/redo-alt.svg">
+      <img src="/svg/redo-alt.svg">
       <p>{{ $t('updateArtifacts') }}</p>
     </div>
     <div
@@ -100,7 +100,7 @@
       class="refresh"
       @click="updateState('hearts')"
     >
-      <img src="/images/redo-alt.svg">
+      <img src="/svg/redo-alt.svg">
       <p>{{ $t('updateHearts') }}</p>
     </div>
     <div
@@ -108,7 +108,7 @@
       class="refresh" 
       @click="updateState('journals')"
     >
-      <img src="/images/redo-alt.svg">
+      <img src="/svg/redo-alt.svg">
       <p>{{ $t('updateJournals') }}</p>
     </div>
     <div class="input">
