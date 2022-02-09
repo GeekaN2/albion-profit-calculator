@@ -7,6 +7,7 @@
 <script>
 import Vue from 'vue';
 import LogRocket from 'logrocket';
+import { mapState } from 'vuex';
 
 if (process.client && process.env.HAWK_CATCHER_TOKEN) {
   import('@hawk.so/javascript')
@@ -69,24 +70,7 @@ svg path {
   fill: var(--color-contrast);
 }
 
-:dark-theme-colors {
-  --color-primary: #242020;
-  --color-primary-analog: #3a3434;
-  --color-primary-analog-contrast: #d3c7c7;
-
-  --color-secondary: #eeeeee;
-  --color-secondary-analog: #c2c2c2; // lighter version of secondary
-  --color-secondary-analog-hover: #a09494;
-
-  --color-contrast: #ffffff;
-
-  --color-disabled: #8b8b8b;
-  --color-selected: #d6b9d5;
-  --color-selected-hover: #b49ab3;
-  --color-blind: #908585;
-}
-
-/*
+.light-mode body {
   --color-primary: #fff;
   --color-primary-analog: #dfdfdf;
   --color-primary-analog-contrast: #5e5e5e;
@@ -101,10 +85,9 @@ svg path {
   --color-selected: #583156;
   --color-selected-hover: #7b4c79;
   --color-blind: #908585;
+}
 
-*/
-
-:root {
+.dark-mode body {
   --color-primary: #242020;
   --color-primary-analog: #3a3434;
   --color-primary-analog-contrast: #d3c7c7;
@@ -119,7 +102,9 @@ svg path {
   --color-selected: #b69bb5;
   --color-selected-hover: #916c8f;
   --color-blind: #908585;
+}
 
+:root {
   --tier1: #cecece;
   --tier2: #dddddd;
   --tier3: #a2cea2;

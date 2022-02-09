@@ -44,7 +44,7 @@ const store: StoreOptions<RootState> ={
     /**
      * Some global features
      */
-    features: featuresModule
+    features: featuresModule,
   }
 };
 

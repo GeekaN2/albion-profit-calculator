@@ -101,6 +101,7 @@
           :to="switchLocalePath('en')"
           class="button"
         >EN</nuxt-link>
+        <ThemeToggle />
       </span>
     </footer>
   </section>
@@ -134,12 +135,14 @@
 <script>
 import Auth from "~/components/Auth";
 import Register from "~/components/Register";
+import ThemeToggle from "~/components/utils/ThemeToggle";
 
 export default {
   name: "MainPage",
   components: {
     Auth,
     Register,
+    ThemeToggle,
   },
   data() {
     return {

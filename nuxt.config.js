@@ -66,7 +66,7 @@ module.exports = {
   /**
    * Build typescript
    */
-  buildModules: ['@nuxt/typescript-build', '@nuxtjs/dotenv'],
+  buildModules: ['@nuxt/typescript-build', '@nuxtjs/dotenv', '@nuxtjs/color-mode'],
   /**
    * Modules
    */
