@@ -210,15 +210,17 @@ export default {
   align-items: center;
   padding: 2px 10px;
   position: relative;
+  color: #000;
 
   &__input {
     width: 6rem;
     background: none;
     border: none;
-    border-bottom: 2px solid var(--color-contrast);
+    border-bottom: 2px solid #000;
     text-align: right;
-    background: var(--color-primary);
-    color: var(--color-contrast);
+    background: transparent;
+    outline: none;
+    color: #000;
   }
 
   &__item-name {

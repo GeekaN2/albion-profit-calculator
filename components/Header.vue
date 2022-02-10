@@ -17,7 +17,8 @@
           class="header__patreon" 
           src="/svg/patreon.svg"
         >
-      </a><a
+      </a>
+      <a
         class="header__social"
         href="https://ko-fi.com/geekan"
         target="_blank"
@@ -27,7 +28,8 @@
           class="header__ko-fi"
           src="/images/ko-fi-logo.png"
         >  
-      </a><a
+      </a>
+      <a
         class="header__social"
         href="https://discord.gg/2AM2twM"
         target="_blank"
@@ -40,6 +42,7 @@
       </a>
     </div>
     <div class="header__wrapper">
+      <ThemeToggle class="header__toggle" />
       <nuxt-link
         :class="{
           'header__link--underline': $i18n.locale === 'ru'
@@ -84,8 +87,13 @@
 </i18n>
 
 <script>
+import ThemeToggle from './utils/ThemeToggle.vue';
+
 export default {
   name: "Header",
+  components: {
+    ThemeToggle
+  },
   methods: {
     /**
      * Logout user
@@ -131,6 +139,10 @@ export default {
   &__wrapper {
     display: flex;
     align-items: center;
+  }
+
+  &__toggle {
+    margin-right: var(--space-xs);
   }
 
   &__user-role {

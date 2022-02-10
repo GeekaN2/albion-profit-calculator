@@ -86,21 +86,23 @@
       <a
         href="https://www.albion-online-data.com/"
       >Powered by Albion Online Data Project</a>
-      <span>
-        <nuxt-link
-          :class="{
-            button__underline: $i18n.locale === 'ru',
-          }"
-          :to="switchLocalePath('ru')"
-          class="button"
-        >RU</nuxt-link>
-        <nuxt-link
-          :class="{
-            button__underline: $i18n.locale === 'en',
-          }"
-          :to="switchLocalePath('en')"
-          class="button"
-        >EN</nuxt-link>
+      <span class="options">
+        <span>
+          <nuxt-link
+            :class="{
+              button__underline: $i18n.locale === 'ru',
+            }"
+            :to="switchLocalePath('ru')"
+            class="button"
+          >RU</nuxt-link>
+          <nuxt-link
+            :class="{
+              button__underline: $i18n.locale === 'en',
+            }"
+            :to="switchLocalePath('en')"
+            class="button"
+          >EN</nuxt-link>
+        </span>
         <ThemeToggle />
       </span>
     </footer>
@@ -203,7 +205,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .main_page_container {
   min-height: 100vh;
   display: flex;
@@ -301,6 +303,12 @@ footer {
   a {
     color: var(--color-secondary);
   }
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
 }
 
 .button {

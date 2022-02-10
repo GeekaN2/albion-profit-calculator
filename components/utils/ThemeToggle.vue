@@ -5,8 +5,8 @@
       class="checkbox"
       :checked="$colorMode.preference === 'dark'"
       @click="toggleTheme"
-    />
-    <span class="switch-btn"></span>
+    >
+    <span class="switch-btn" />
   </label>
 </template>
 
@@ -28,7 +28,7 @@ export default {
   position: relative;
   display: inline-block;
   width: 30px;
-  height: 17px;  
+  height: 16px;  
 }
 
 .checkbox {
@@ -43,7 +43,7 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  border-radius: 13px;
+  border-radius: 11px;
   outline: 1px solid var(--color-secondary);
   outline-offset: -1px;
   background-color: var(--color-primary);
@@ -54,17 +54,17 @@ export default {
 .switch-btn::before {
   position: absolute;
   content: "";
-  height: 13px;
-  width: 13px;
+  height: 12px;
+  width: 12px;
   left: 2px;
   bottom: 2px;
   border-radius: inherit;
   background-color: var(--color-secondary);
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
-  transition: 0.4s ease all, left 0.4s cubic-bezier(0.18, 0.7, 0.35, 1);
+  transition: 0.4s ease all, left 0.4s ease;
 }
 .switch-btn:active:before {
-  width: 15px;
+  width: 13px;
 }
 
 .checkbox:checked + .switch-btn {
