@@ -3,7 +3,7 @@
     <input 
       type="checkbox"
       class="checkbox"
-      :checked="$colorMode.preference === 'dark'"
+      :checked="$colorMode.value === 'dark'"
       @click="toggleTheme"
     >
     <span class="switch-btn" />
