@@ -66,10 +66,6 @@ body {
   }
 }
 
-svg path {
-  fill: var(--color-contrast);
-}
-
 .light-mode body {
   --color-primary: #fff;
   --color-primary-analog: #dfdfdf;
