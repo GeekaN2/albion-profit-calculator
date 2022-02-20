@@ -203,7 +203,7 @@ export default {
     isSupporter() {
       const supporter = ["supporter", "admin"];
 
-      return supporter.includes(this.$auth.user.role);
+      return supporter.includes(this.$auth?.user?.role);
     },
     onlyForSupporterTooltip() {
       return {
