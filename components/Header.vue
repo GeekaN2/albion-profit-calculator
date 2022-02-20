@@ -12,11 +12,10 @@
         href="https://patreon.com/geekan"
         target="_blank"
       >
-        <img
-          :title="$t('support')"
+        <svg-icon
           class="header__patreon" 
-          src="/svg/patreon.svg"
-        >
+          icon-class="patreon"
+        />
       </a>
       <a
         class="header__social"
@@ -126,7 +125,7 @@ export default {
   }
 
   &__social {
-    display: inline-block;
+    display: flex;
     margin-left: 5px;
     width: 15px;
     min-width: 13px;
@@ -134,6 +133,12 @@ export default {
     &:first-child {
       margin: 10px;
     }
+  }
+
+  &__patreon {
+    color: #ff424d;
+    width: 15px;
+    height: 15px;
   }
 
   &__wrapper {

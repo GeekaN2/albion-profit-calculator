@@ -99,9 +99,6 @@ module.exports = {
   plugins: [{
     src: '@/plugins/vClickOutside',
     ssr: false
-  }, {
-    src: '@/plugins/vTooltip',
-    ssr: false,
   }, { 
     src: '@/plugins/icons', 
     ssr: true 

@@ -33,8 +33,7 @@
     "sass-loader": "10.1.1",
     "style-loader": "^2.0.0",
     "svg-sprite-loader": "^6.0.11",
-    "v-click-outside": "^3.0.1",
-    "v-tooltip": "^3.0.0-beta.4"
+    "v-click-outside": "^3.0.1"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.7",

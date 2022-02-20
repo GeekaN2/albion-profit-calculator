@@ -76,6 +76,7 @@ body {
   --color-secondary-analog-hover: #a27e7e;
 
   --color-contrast: #000;
+  --color-contrast-analog: #333333;
 
   --color-disabled: #8b8b8b;
   --color-selected: #583156;
@@ -93,6 +94,7 @@ body {
   --color-secondary-analog-hover: #a09494;
 
   --color-contrast: #ffffff;
+  --color-contrast-analog: #cccccc;
 
   --color-disabled: #8b8b8b;
   --color-selected: #b69bb5;
@@ -144,6 +146,9 @@ body {
   --space-2-xs: 4px;
   --space-xs: 8px;
   --space-s: 12px;
+
+  --radius-xs: 4px;
+  --radius-s: 8px;
 }
 
 

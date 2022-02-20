@@ -25,34 +25,62 @@
           :to="localePath('/food-and-potions')"
           class="links__button--brown button"
         >
-          🍲 {{ $t("Food & potions") }}
+          🍲 {{ $t("foodAndPotions") }}
         </nuxt-link>
-        <nuxt-link
-          v-if="$auth.loggedIn"
-          v-tooltip.bottom="!isSupporter ? $t('onlyForSupporters') : ''"
-          :to="localePath('/refining')"
-          :class="[
-            {
-              'links__button--disabled': $auth.loggedIn && !isSupporter,
-            },
-            'links__button--brown button',
-          ]"
-        >
-          ♻️ {{ $t("refining") }}
-        </nuxt-link>
-        <nuxt-link
-          v-if="$auth.loggedIn"
-          v-tooltip.bottom="!isSupporter ? $t('onlyForSupporters') : ''"
-          :to="localePath('/transportations')"
-          :class="[
-            {
-              'links__button--disabled': $auth.loggedIn && !isSupporter,
-            },
-            'links__button--brown button',
-          ]"
-        >
-          🦣 {{ $t("transportations") }}
-        </nuxt-link>
+        <CustomTooltipLayout :hide-tooltip="isSupporter">
+          <template #content>
+            <nuxt-link
+              v-if="$auth.loggedIn"
+              :disabled="!isSupporter"
+              :to="localePath('/refining')"
+              :class="[
+                {
+                  'links__button--disabled': $auth.loggedIn && !isSupporter,
+                },
+                'links__button--brown button',
+              ]"
+            >
+              ♻️ {{ $t("refining") }}
+            </nuxt-link>
+          </template>
+          <template #tooltip>
+            {{ $t('onlyForSupporters') }}
+            <br>
+            <span class="tooltip-text">
+              {{ $t('supportServer') }}
+              <Patreon />
+              {{ $t('or') }}
+              <KoFi />
+            </span>
+          </template>
+        </CustomTooltipLayout>
+        <CustomTooltipLayout :hide-tooltip="isSupporter">
+          <template #content>
+            <nuxt-link
+              v-if="$auth.loggedIn"
+              :disabled="!isSupporter"
+              :to="localePath('/transportations')"
+              :class="[
+                {
+                  'links__button--disabled': $auth.loggedIn && !isSupporter,
+                },
+                'links__button--brown button',
+              ]"
+            >
+              🦣 {{ $t("transportations") }}
+            </nuxt-link>
+          </template>
+          <template #tooltip>
+            {{ $t('onlyForSupporters') }}
+            <br>
+            <span class="tooltip-text">
+              {{ $t('supportServer') }}
+              <Patreon />
+              {{ $t('or') }}
+              <KoFi />
+            </span>
+          </template>
+        </CustomTooltipLayout>
         <span
           v-if="$auth.loggedIn"
           class="links__button--brown button"
@@ -117,9 +145,12 @@
     "refining": "Refining",
     "transportations": "Transportations (beta)",
     "onlyForSupporters": "Only for supporters",
+    "supportServer": "Support the server on",
+    "or": "or", 
     "login": "Login",
     "register": "Register",
-    "logout": "Logout"
+    "logout": "Logout",
+    "foodAndPotions": "Food & potions"
   },
   "ru": {
     "tree": "Дерево профита",
@@ -127,9 +158,12 @@
     "refining": "Переработка",
     "transportations": "Перевозки (бета)",
     "onlyForSupporters": "Только для саппортеров",
+    "supportServer": "Вы можете поддержать сервер на",
+    "or": "или", 
     "login": "Войти",
     "register": "Зарегистрироваться",
-    "logout": "Выйти"
+    "logout": "Выйти",
+    "foodAndPotions": "Еда и зелья"
   }
 }
 </i18n>
@@ -138,6 +172,9 @@
 import Auth from "~/components/Auth";
 import Register from "~/components/Register";
 import ThemeToggle from "~/components/utils/ThemeToggle";
+import CustomTooltipLayout from '~/components/utils/CustomTooltips/CustomTooltipLayout';
+import Patreon from '~/components/icons/Patreon';
+import KoFi from '~/components/icons/KoFi';
 
 export default {
   name: "MainPage",
@@ -145,6 +182,9 @@ export default {
     Auth,
     Register,
     ThemeToggle,
+    CustomTooltipLayout,
+    Patreon,
+    KoFi,
   },
   data() {
     return {
@@ -165,6 +205,13 @@ export default {
 
       return supporter.includes(this.$auth.user.role);
     },
+    onlyForSupporterTooltip() {
+      return {
+        content: this.$t('onlyForSupporters'),
+        template: SupportMeTooltip,
+        html: true,
+      }
+    } 
   },
   methods: {
     /**
@@ -216,6 +263,10 @@ export default {
   width: 100%;
 }
 
+.tooltip-wrapper {
+  display: inline-block;
+}
+
 .main_page {
   font-size: 16px;
 
@@ -246,8 +297,7 @@ export default {
       color: var(--color-secondary);
       text-decoration: none;
       padding: 10px 30px;
-      margin-left: 15px;
-      margin-bottom: 5px;
+      margin: 0 7px 5px 7px;
     }
 
     &__button--purple {
@@ -321,6 +371,18 @@ footer {
     text-decoration: underline;
   }
 }
+
+.tooltip-text {
+  font-size: 0.9em;
+}
+
+.social {
+  display: inline-block;
+  margin-left: 5px;
+  width: 15px;
+  min-width: 13px;
+}
+
 
 @media (max-width: 991px) {
   .main_page {
