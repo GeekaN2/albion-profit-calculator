@@ -23,8 +23,7 @@ export default {
 }
 
 .social {
-  width: 10px;
-  height: 10px;
   color: #ff424d;
+  font-size: 0.8em;
 }
 </style>
