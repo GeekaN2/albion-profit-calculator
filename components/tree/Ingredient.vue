@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import ImageWithNumber from "./ImageWithNumber";
+import ImageWithNumber from "~/components/utils/ImageWithNumber";
 import IngredientPrices from "./IngredientPrices";
 import { mapGetters } from 'vuex';
 

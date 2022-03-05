@@ -74,4 +74,20 @@ export const mutations: MutationTree<FoodAndPotionsState> = {
 
     Vue.set(state.averageData, city, data);
   },
+
+  UPDATE_ITEM_BY_ITEM_NAME(state, { itemName, item }: { itemName: string; item: ResponseModel }) {
+    const cities = state.settings.cities;
+    const items = state.items[cities.sellItems];
+    const resources = state.resources[cities.buyResources];
+    const storeItemIndex = state.items[cities.sellItems].findIndex((item) => item.itemId === itemName);
+    const storeResourceIndex = state.resources[cities.buyResources].findIndex((resource) => resource.itemId === itemName);
+    
+    if (storeItemIndex != -1) {
+      Vue.set(items, storeItemIndex, item);
+    }
+
+    if (storeResourceIndex != -1) {
+      Vue.set(resources, storeResourceIndex, item);
+    }
+  }
 }

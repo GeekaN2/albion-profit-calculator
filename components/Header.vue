@@ -36,7 +36,7 @@
         <img
           class="header__discord"
           title="Our discord server"
-          src="svg/discord-logo-color.svg"
+          src="/svg/discord-logo-color.svg"
         > 
       </a>
     </div>

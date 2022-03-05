@@ -174,8 +174,20 @@ export const getters: GetterTree<FoodAndPotionsState, {}> = {
 
     if (resourceName.includes('FISH')) {
       return 0;
-    }
+    } 
 
     return 40;
+  },
+
+  getItemResponseModelByName: (state, getters) => (itemName: string): ResponseModel | undefined => {
+    const resource: ResponseModel | undefined = getters.getResourceByName(itemName);
+
+    if (resource) {
+      return resource;
+    }
+
+    const item: ResponseModel | undefined = getters.getItem(itemName);
+
+    return item || undefined;
   }
 }

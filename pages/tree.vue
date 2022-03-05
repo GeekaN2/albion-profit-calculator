@@ -54,7 +54,7 @@ import Header from "~/components/Header";
 import Row from "~/components/tree/Row";
 import ItemTable from "~/components/tree/ItemTable";
 import Settings from "~/components/tree/Settings";
-import ItemRecipe from "~/components/utils/ItemRecipe";
+import ItemRecipe from "~/components/tree/ItemRecipe";
 import Loading from "~/components/utils/Loading";
 import Guide from "~/components/guides/Guide";
 import { mapState, mapGetters } from "vuex";

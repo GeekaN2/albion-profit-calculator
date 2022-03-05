@@ -145,10 +145,11 @@ export default {
         additionalData: this.fee,
       });
 
+      const allWastes = resourcesWaste + feeWaste;
       const finalProfit =
-        sellProfit === 0 ? 0 : sellProfit - resourcesWaste - feeWaste;
+        sellProfit === 0 ? 0 : sellProfit - allWastes;
       const finalPercentageProfit =
-        sellProfit === 0 ? 0 : (finalProfit / sellProfit) * 100;
+        sellProfit === 0 ? 0 : (finalProfit / allWastes) * 100;
 
       return {
         profit: Math.floor(finalProfit),
