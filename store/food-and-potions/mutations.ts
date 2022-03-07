@@ -41,8 +41,11 @@ export const mutations: MutationTree<FoodAndPotionsState> = {
    */
   SET_ITEM_PRICES(state, { data, settingsWithItemTiers }: { data: ResponseModel[]; settingsWithItemTiers: SettingsWithItemTiers }) {
     const location = settingsWithItemTiers.settings.cities.sellItems;
+    const sortedData = data.sort(({ itemId: itemId1 }, { itemId: itemId2 }) => 
+      itemId1 > itemId2 ? 1 : itemId1 < itemId2 ? -1 : 0
+    );
 
-    Vue.set(state.items, location, data);
+    Vue.set(state.items, location, sortedData);
   },
 
   /**
@@ -54,8 +57,11 @@ export const mutations: MutationTree<FoodAndPotionsState> = {
    */
   SET_RESOURCE_PRICES(state, { data, settingsWithItemTiers }: { data: ResponseModel[]; settingsWithItemTiers: SettingsWithItemTiers }) {
     const location = settingsWithItemTiers.settings.cities.buyResources;
+    const sortedData = data.sort(({ itemId: itemId1 }, { itemId: itemId2 }) => 
+      itemId1 > itemId2 ? 1 : itemId1 < itemId2 ? -1 : 0
+    );
 
-    Vue.set(state.resources, location, data);
+    Vue.set(state.resources, location, sortedData);
   },
 
   SET_SETTING_FIELD(state, { fieldName, fieldValue }: { fieldName: keyof Settings, fieldValue: Settings[keyof Settings] }) {

@@ -36,7 +36,6 @@ export default {
       itemName,
       item,
     }) {
-      console.log('Updating', item);
       this.$store.commit('foodAndPotions/UPDATE_ITEM_BY_ITEM_NAME', {
         itemName,
         item

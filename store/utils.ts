@@ -454,3 +454,58 @@ export const lowerBoundForObjects = <ObjectType>(
 
   return objects[lowerBound];
 };
+
+/**
+ * O(log2n) search by objects
+ * 
+ * @param objects - array of sorted object by field
+ * @param field - field name by which objects are sorted
+ * @param value - field value to find
+ * @returns index
+ */
+ export const lowerBoundForObjectsIndex = <ObjectType>(
+  objects: ObjectType[],
+  field: keyof ObjectType,
+  value: ObjectType[keyof ObjectType],
+) => {
+  if (!objects.length) return null;
+
+  let lowerBound = 0;
+  let upperBound = objects.length;
+
+  while (lowerBound < upperBound - 1) {
+    const mid = Math.floor((lowerBound + upperBound) / 2);
+
+    if (objects[mid][field] <= value) {
+      lowerBound = mid;
+    } else {
+      upperBound = mid;
+    }
+  }
+
+  if (objects[lowerBound][field] !== value) {
+    return null;
+  }
+
+  return lowerBound;
+};
+
+export const getItemTierByName = (itemName: string) => {
+  const tier = itemName.match(/(?<=T)\d/);
+
+  if (itemName.includes('QUESTITEM_TOKEN_AVALON')) {
+    return 6;
+  } 
+
+  return tier ? Number(tier[0]) : 0;
+}
+
+export const getItemSubtierByName = (itemName: string) => {
+  const subtier = itemName.match(/(?<=@)\d/);
+
+  if (!subtier) {
+    return 0;
+  }
+
+  return Number(subtier[0]) || 0;
+}

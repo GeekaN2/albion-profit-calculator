@@ -276,6 +276,7 @@ export default {
     right: -1px;
     z-index: 10;
     width: 20px;
+    color: var(--color-unknown);
 
     &__icon {
       top: 6px;
