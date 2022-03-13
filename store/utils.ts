@@ -491,7 +491,7 @@ export const lowerBoundForObjects = <ObjectType>(
 };
 
 export const getItemTierByName = (itemName: string) => {
-  const tier = itemName.match(/(?<=T)\d/);
+  const tier = itemName.match(/T\d/)?.slice(1);
 
   if (itemName.includes('QUESTITEM_TOKEN_AVALON')) {
     return 6;
@@ -501,7 +501,7 @@ export const getItemTierByName = (itemName: string) => {
 }
 
 export const getItemSubtierByName = (itemName: string) => {
-  const subtier = itemName.match(/(?<=@)\d/);
+  const subtier = itemName.match(/@\d/)?.slice(1);
 
   if (!subtier) {
     return 0;
