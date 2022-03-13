@@ -238,7 +238,6 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 100%;
   bottom: 2px;
   right: -1px;
   z-index: 10;
