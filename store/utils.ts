@@ -491,21 +491,21 @@ export const lowerBoundForObjects = <ObjectType>(
 };
 
 export const getItemTierByName = (itemName: string) => {
-  const tier = itemName.match(/T\d/)?.slice(1);
+  const tier = itemName.match(/T\d/)?.[0];
 
   if (itemName.includes('QUESTITEM_TOKEN_AVALON')) {
     return 6;
   } 
 
-  return tier ? Number(tier[0]) : 0;
+  return tier ? Number(tier.slice(1)) : 0;
 }
 
 export const getItemSubtierByName = (itemName: string) => {
-  const subtier = itemName.match(/@\d/)?.slice(1);
+  const subtier = itemName.match(/@\d/)?.[0];
 
   if (!subtier) {
     return 0;
   }
 
-  return Number(subtier[0]) || 0;
+  return Number(subtier.slice(1)) || 0;
 }

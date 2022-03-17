@@ -107,20 +107,18 @@
       <svg-icon
         icon-class="clock"
         class="guide__svg"
-      >
-        - This modifier says
-        that more than 1 day has passed since the last item price check. You
-        should go to the market and update prices.
-        <br>
-        <svg-icon
-          icon-class="exclamation-triangle"
-          class="guide__svg"
-        >
-          - This
-          one says that there is no such artifact on sale. You can go to the market,
-          or you can set the price yourself.
-        </svg-icon>
-      </svg-icon>
+      />
+      - This modifier says
+      that more than 1 day has passed since the last item price check. You
+      should go to the market and update prices.
+      <br>
+      <svg-icon
+        icon-class="exclamation-triangle"
+        class="guide__svg"
+      />
+      - This
+      one says that there is no such artifact on sale. You can go to the market,
+      or you can set the price yourself.
     </p>
 
     <p class="guide__paragraph">
