@@ -33,6 +33,7 @@
 <script>
 import ImageWithNumber from '~/components/utils/ImageWithNumber.vue';
 import { getItemTierByName, getItemSubtierByName } from '~/store/utils';
+import { HANDWRITTEN_PRICE_DATE } from '~/store/constants';
 
 export default {
   name: 'Ingredient',
@@ -87,6 +88,7 @@ export default {
         itemName,
         item: {
           ...item,
+          sellPriceMinDate: HANDWRITTEN_PRICE_DATE,
           sellPriceMin: Number(event.target.value) || 0,
         }
       })
@@ -130,9 +132,9 @@ export default {
   display: grid;
   grid-template-areas:
     't1s0 t2s0 t3s0 t4s0 t5s0 t6s0 t7s0 t8s0'
-    'void void void t4s1 t5s1 t6s1 t7s1 t8s1'
-    'void void void t4s2 t5s2 t6s2 t7s2 t8s2'
-    'void void void t4s3 t5s3 t6s3 t7s3 t8s3';
+    't1s1 t2s1 t3s1 t4s1 t5s1 t6s1 t7s1 t8s1'
+    't1s2 t2s2 t3s2 t4s2 t5s2 t6s2 t7s2 t8s2'
+    't1s3 t2s3 t3s3 t4s3 t5s3 t6s3 t7s3 t8s3';
   overflow: hidden;
   border-radius: var(--radius-xs);
   box-shadow: 0px 0px 3px var(--color-primary-analog-contrast);

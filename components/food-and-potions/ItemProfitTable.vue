@@ -3,7 +3,10 @@
     v-show="currentItemTier"
     class="table-row"
   >
-    <ItemRecipe :craft-resources="craftResourcesArray" />
+    <ItemRecipe 
+      :craft-resources="craftResourcesArray"
+      :item-name="currentItemTier"
+    />
     <ItemCells :item-names="allNamesWithSubtiers" />
   </div>
 </template>
@@ -29,7 +32,6 @@ export default {
     ...mapGetters({
       getAllItemNamesWithSubtiers: 'foodAndPotions/getAllItemNamesWithSubtiers',
       getItemCraftingRequirements: 'foodAndPotions/getItemCraftingRequirements'
-
     }),
 
     allNamesWithSubtiers() {

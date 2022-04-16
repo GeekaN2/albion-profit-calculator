@@ -1,0 +1,1 @@
+export const HANDWRITTEN_PRICE_DATE = '1337-10-10T10:10:00';

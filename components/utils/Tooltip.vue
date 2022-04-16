@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import { HANDWRITTEN_PRICE_DATE } from '~/store/constants';
+
 export default {
   name: 'Tooltip',
   filters: {
@@ -81,12 +83,16 @@ export default {
      *
      * @param {string} date - timestamp
      */
-    formatDate(date) {
-      if (!date || date.length == 0) {
+    formatDate(timestamp) {
+      if (!timestamp || timestamp.length == 0) {
         return '-';
       }
 
-      date = new Date(date);
+      const date = new Date(timestamp);
+
+      if (timestamp === HANDWRITTEN_PRICE_DATE) {
+        return '📝';
+      }
 
       let lastCheckInHours = Math.floor(
         (Date.now() - date.getTime()) / 3600000

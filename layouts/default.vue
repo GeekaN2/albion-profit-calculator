@@ -10,13 +10,17 @@ import LogRocket from 'logrocket';
 import { mapState } from 'vuex';
 
 if (process.client && process.env.HAWK_CATCHER_TOKEN) {
-  import('@hawk.so/javascript')
+  try {
+    import('@hawk.so/javascript')
     .then(HawkCatcher =>  {
       const hawk = new HawkCatcher.default({
         token: process.env.HAWK_CATCHER_TOKEN,
         vue: Vue,
       });
     })
+  } catch {
+    console.log('Couldn\'t initialize Hawk');
+  }
 }
 
 if (process.env.ENABLE_LOG_ROCKET == 'true' && process.env.LOG_ROCKET_PROJECT) {
