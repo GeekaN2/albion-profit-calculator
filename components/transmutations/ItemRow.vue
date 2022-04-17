@@ -292,7 +292,10 @@ export default {
     &__tooltip {
       transition: 0.15s;
       opacity: 0;
+      bottom: -100px;
+      bottom: 100%;
       visibility: hidden;
+      will-change: visibility bottom;
     }
 
     &:hover &__tooltip {
