@@ -138,7 +138,7 @@ export default {
   display: none;
 
   &:checked + label:after {
-    background: #e08c4c;
+    background: var(--color-checked);
   }
 
   & + label {
@@ -155,8 +155,8 @@ export default {
       top: 1px;
       width: 16px;
       height: 16px;
-      border: 2px solid #000;
-      background: white;
+      border: 2px solid var(--color-contrast);
+      background: var(--color-primary);
       display: block;
     }
   }

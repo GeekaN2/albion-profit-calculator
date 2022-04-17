@@ -25,16 +25,19 @@
     "ownReturnPercentage": "Use own return %",
     "fee": "Fee",
     "craftFee": "Craft fee",
-    "feeForNutrition": "Fee for 100 nutrition"
+    "feeForNutrition": "Fee for 100 nutrition",
+    "numberOfItemsSold": "Number of items sold"
   },
   "cities": {
     "mainCity": "Main city",
     "sellItems": "Sell items",
     "sellResources": "Sell resources",
     "sellMaterials": "Sell materials",
+    "craftItems": "Craft items",
     "refining": "Refining",
     "buyResources": "Buy resources",
     "buyMaterials": "Buy materials",
+    "updateItemPrices": "Update item prices",
     "updateMaterialPrices": "Update material prices",
     "updateResourcePrices": "Update resource prices"
   }

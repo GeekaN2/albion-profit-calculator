@@ -8,11 +8,12 @@
         <h2 class="modal_form__title">
           {{ $t('register') }}
         </h2>
-        <img 
-          class="close_button" 
-          src="images/close.svg" 
-          @click="hideModal"
-        >
+        <div @click="hideModal">
+          <svg-icon
+            icon-class="close" 
+            class="close_button" 
+          />
+        </div>
       </div>
       <form @submit.prevent="register">
         <p class="modal_form__error">
@@ -166,10 +167,10 @@ export default {
 }
 
 .purple-link {
-  color: #583156;
+  color: var(--color-selected);
 
   &:hover {
-    color: #7b4c79;
+    color: var(--color-selected-hover);
   }
 }
 

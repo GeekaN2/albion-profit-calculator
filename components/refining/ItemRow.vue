@@ -16,17 +16,16 @@
         </div>
       </div>
       <div class="item__warnings">
-        <img
+        <svg-icon
           class="item__warnings__info"
-          src="/images/info.svg"
+          icon-class="info"
           alt="i"
-        >
+        />
         <div
-          :class="[
-            'item__warnings__tooltip tooltip', 
-            `tooltip--tier${item.name.slice(1, 2)}`]"
+          class="item__warnings__tooltip tooltip"
         >
           <Tooltip 
+            :class="`tooltip--tier${item.name.slice(1, 2)}`"
             :data="item.tooltipData"
           />
         </div>
@@ -141,18 +140,18 @@ export default {
 
 <style scoped lang="scss">
 .subtier1 {
-  background: #6afe90;
-  box-shadow: 0 0 4px 5px #6afe90;
+  background: var(--subtier1);
+  box-shadow: 0 0 4px 5px var(--subtier1);
 }
 
 .subtier2 {
-  background: #4bc8d2;
-  box-shadow: 0 0 4px 5px #4bc8d2;
+  background: var(--subtier2);
+  box-shadow: 0 0 4px 5px var(--subtier2);
 }
 
 .subtier3 {
-  background: #b987f7;
-  box-shadow: 0 0 4px 5px #b987f7;
+  background: var(--subtier3);
+  box-shadow: 0 0 4px 5px var(--subtier3);
 }
 
 .text-algin-left {
@@ -160,11 +159,11 @@ export default {
 }
 
 .error {
-  color: #e73939;
+  color: var(--error);
 }
 
 .success {
-  color: #1d7d18;
+  color: var(--success);
 }
 
 .item-row {
@@ -177,29 +176,29 @@ export default {
   position: relative;
 
   &--profitable {
-    text-shadow: .5px .5px .5px #041e04;
-    color: #14a014;
+    text-shadow: .5px .5px .5px var(--color-profitable-shadow);
+    color: var(--color-profitable);
 
     .base-item-info__secondary-info {
-      color: #1bb31b;
+      color: var(--color-profitable-secondary);
     }
   }
 
   &--unprofitable {
-    text-shadow: .5px .5px .5px #380404;
-    color: #ae3a3a;
+    text-shadow: .5px .5px .5px var(--color-unprofitable-shadow);
+    color: var(--color-unprofitable);
 
     .base-item-info__secondary-info {
-      color: #d54c4c;
+      color: var(--color-unprofitable-secondary);
     }
   }
 
   &--unknown {
-    text-shadow: .5px .5px .5px #242424;
-    color: #585858;
+    text-shadow: .5px .5px .5px var(--color-unknown-shadow);
+    color: var(--color-unknown);
 
     .base-item-info__secondary-info {
-      color: #6a6a6a;
+      color: var(--color-unknown-secondary);
     }
   }
 
@@ -212,24 +211,24 @@ export default {
 
   .tier4 {
     border-radius: 15px 0 0 15px;
-    background: #9bc8e2;
+    background: var(--tier4);
   }
 
   .tier5 {
-    background: #eb8f87;
+    background: var(--tier5);
   }
 
   .tier6 {
-    background: #e09255;
+    background: var(--tier6);
   }
 
   .tier7 {
-    background: #eccc62;
+    background: var(--tier7);
   }
 
   .tier8 {
     border-radius: 0 15px 15px 0;
-    background: #f5f5f5;
+    background: var(--tier8);
   }
 }
 
@@ -237,14 +236,15 @@ export default {
   &__warnings {
     position: absolute;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     height: 100%;
-    bottom: -1px;
+    bottom: 2px;
     right: -1px;
     z-index: 10;
     width: 20px;
+    color: var(--color-unknown);
 
     &__icon {
       top: 6px;
@@ -255,6 +255,12 @@ export default {
     &__info {
       width: 10px;
       height: 10px;
+    }
+
+    &__tooltip {
+      transition: 0.15s;
+      opacity: 0;
+      visibility: hidden;
     }
 
     &:hover &__tooltip {
@@ -276,44 +282,6 @@ export default {
   }
 }
 
-.tooltip {
-  visibility: hidden;
-  right: 50%;
-  transform: translateX(8%);
-  bottom: 90%;
-  position: absolute;
-  background: #dfdfdf;
-  color: #5e5e5e;
-  font-weight: bold;
-  transition: 0.15s;
-  opacity: 0;
-  border-radius: 4px;
-  box-shadow: 0 0 6px 0px #6a6a6a;
-  font-size: 0.75em;
-  text-shadow: none;
-  padding: 5px;
-  white-space: nowrap;
-  transition-delay: 0.03s;
-
-  &:after {
-    content: "";
-    position: absolute;
-    right: calc(8% - 5px);
-    bottom: -5px;
-    width: 10px;
-    height: 10px;
-    background: #dfdfdf;
-    transform: rotate(45deg);
-  }
-
-  &__table {
-    display: grid;
-    grid-template-columns: 3fr 3fr 1fr;
-    text-align: right;
-    grid-gap: 5px 10px;
-  }
-}
-
 .base-item-info__secondary-info {
   background: rgba(0, 0, 0, 0.08);
   border-radius: 5px;
@@ -324,7 +292,6 @@ export default {
   padding-left: 3px;
   gap: 7px;
   width: 95%;
-  /*color: #1c4c1b;*/
 }
 
 .tooltip {

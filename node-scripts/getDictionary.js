@@ -1,5 +1,6 @@
 const axios = require('axios');
 const fs = require('fs');
+const { createArrayOfAllFoodAndPotions } = require('./utils');
 
 /**
  * Get data from albion online dumps repository
@@ -18,13 +19,14 @@ async function getItems() {
  * @returns {string[]} - array of all item names that we need without a tier and subtier
  */
 function getAllNames() {
-  let recipes = fs.readFileSync('./static/json/recipes.json');
+  let recipes = fs.readFileSync('./static/json/profitTreeRecipes.json');
   recipes = JSON.parse(recipes);
 
   const baseItemNames = Object.keys(recipes).map(item => item.slice(3))
   .concat(['PLANKS', 'METALBAR', 'LEATHER', 'CLOTH', 'STONEBLOCK', 'FIBER', 'ROCK', 'ORE', 'WOOD', 'HIDE'])
   .concat(['JOURNAL_WARRIOR', 'JOURNAL_HUNTER', 'JOURNAL_TOOLMAKER', 'JOURNAL_MAGE'])
-  .concat(['SKILLBOOK_STANDARD', 'QUESTITEM_TOKEN_ROYAL', '_TOKEN_1', '_CAPEITEM_FW_']);
+  .concat(['SKILLBOOK_STANDARD', 'QUESTITEM_TOKEN_ROYAL', '_TOKEN_1', '_CAPEITEM_FW_'])
+  .concat(createArrayOfAllFoodAndPotions());
 
   return baseItemNames;
 }

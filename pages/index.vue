@@ -1,7 +1,9 @@
 <template>
   <section class="main_page_container main_page">
     <div>
-      <h1 class="main_page__title">Albion Profit Calculator</h1>
+      <h1 class="main_page__title">
+        Albion Profit Calculator
+      </h1>
       <h2 class="main_page__subtitle" />
       <div class="main_page__links">
         <nuxt-link
@@ -20,77 +22,116 @@
         </nuxt-link>
         <nuxt-link
           v-if="$auth.loggedIn"
-          v-tooltip.bottom="!isSupporter ? $t('onlyForSupporters') : ''"
-          :to="localePath('/refining')"
-          :class="[
-            {
-              'links__button--disabled': $auth.loggedIn && !isSupporter,
-            },
-            'links__button--brown button',
-          ]"
+          :to="localePath('/food-and-potions')"
+          class="links__button--brown button"
         >
-          ♻️ {{ $t("refining") }}
+          🍲 {{ $t("foodAndPotions") }}
         </nuxt-link>
-        <nuxt-link
-          v-if="$auth.loggedIn"
-          v-tooltip.bottom="!isSupporter ? $t('onlyForSupporters') : ''"
-          :to="localePath('/transportations')"
-          :class="[
-            {
-              'links__button--disabled': $auth.loggedIn && !isSupporter,
-            },
-            'links__button--brown button',
-          ]"
-        >
-          🦣 {{ $t("transportations") }}
-        </nuxt-link>
+        <CustomTooltipLayout :hide-tooltip="isSupporter">
+          <template #content>
+            <nuxt-link
+              v-if="$auth.loggedIn"
+              :disabled="!isSupporter"
+              :to="localePath('/refining')"
+              :class="[
+                {
+                  'links__button--disabled': $auth.loggedIn && !isSupporter,
+                },
+                'links__button--brown button',
+              ]"
+            >
+              ♻️ {{ $t("refining") }}
+            </nuxt-link>
+          </template>
+          <template #tooltip>
+            {{ $t('onlyForSupporters') }}
+            <br>
+            <span class="tooltip-text">
+              {{ $t('supportServer') }}
+              <Patreon />
+              {{ $t('or') }}
+              <KoFi />
+            </span>
+          </template>
+        </CustomTooltipLayout>
+        <CustomTooltipLayout :hide-tooltip="isSupporter">
+          <template #content>
+            <nuxt-link
+              v-if="$auth.loggedIn"
+              :disabled="!isSupporter"
+              :to="localePath('/transportations')"
+              :class="[
+                {
+                  'links__button--disabled': $auth.loggedIn && !isSupporter,
+                },
+                'links__button--brown button',
+              ]"
+            >
+              🦣 {{ $t("transportations") }}
+            </nuxt-link>
+          </template>
+          <template #tooltip>
+            {{ $t('onlyForSupporters') }}
+            <br>
+            <span class="tooltip-text">
+              {{ $t('supportServer') }}
+              <Patreon />
+              {{ $t('or') }}
+              <KoFi />
+            </span>
+          </template>
+        </CustomTooltipLayout>
         <span
           v-if="$auth.loggedIn"
           class="links__button--brown button"
           @click="logout"
-          >{{ $t("logout") }}
+        >{{ $t("logout") }}
         </span>
         <span
           v-if="!$auth.loggedIn"
           class="links__button--brown button"
           @click="showModalAuth"
-          >{{ $t("login") }}
+        >{{ $t("login") }}
         </span>
         <span
           v-if="!$auth.loggedIn"
           class="links__button--brown button"
           @click="showModalRegister"
-          >{{ $t("register") }}
+        >{{ $t("register") }}
         </span>
       </div>
     </div>
-    <Auth v-if="isModalAuthShowed" @hide-modal-auth="hideModalAuth" />
+    <Auth
+      v-if="isModalAuthShowed"
+      @hide-modal-auth="hideModalAuth"
+    />
     <Register
       v-if="isModalRegisterShowed"
       @hide-modal-register="hideModalRegister"
     />
     <footer>
       <a href="https://github.com/GeekaN2">&copy; GeekaN</a>
-      <a href="https://www.albion-online-data.com/"
-        >Powered by Albion Online Data Project</a
-      >
-      <span>
-        <nuxt-link
-          :class="{
-            button__underline: $i18n.locale === 'ru',
-          }"
-          :to="switchLocalePath('ru')"
-          class="button"
-          >RU</nuxt-link
-        >
-        <nuxt-link
-          :class="{
-            button__underline: $i18n.locale === 'en',
-          }"
-          :to="switchLocalePath('en')"
-          class="button"
-          >EN</nuxt-link
-        >
+      <a
+        href="https://www.albion-online-data.com/"
+      >Powered by Albion Online Data Project</a>
+      <span class="options">
+        <span>
+          <nuxt-link
+            :class="{
+              button__underline: $i18n.locale === 'ru',
+            }"
+            :to="switchLocalePath('ru')"
+            class="button"
+          >RU</nuxt-link>
+          <nuxt-link
+            :class="{
+              button__underline: $i18n.locale === 'en',
+            }"
+            :to="switchLocalePath('en')"
+            class="button"
+          >EN</nuxt-link>
+        </span>
+        <ThemeToggle />
       </span>
     </footer>
   </section>
@@ -104,9 +145,12 @@
     "refining": "Refining",
     "transportations": "Transportations (beta)",
     "onlyForSupporters": "Only for supporters",
+    "supportServer": "Support the server on",
+    "or": "or", 
     "login": "Login",
     "register": "Register",
-    "logout": "Logout"
+    "logout": "Logout",
+    "foodAndPotions": "Food & potions"
   },
   "ru": {
     "tree": "Дерево профита",
@@ -114,9 +158,12 @@
     "refining": "Переработка",
     "transportations": "Перевозки (бета)",
     "onlyForSupporters": "Только для саппортеров",
+    "supportServer": "Вы можете поддержать сервер на",
+    "or": "или", 
     "login": "Войти",
     "register": "Зарегистрироваться",
-    "logout": "Выйти"
+    "logout": "Выйти",
+    "foodAndPotions": "Еда и зелья"
   }
 }
 </i18n>
@@ -124,12 +171,20 @@
 <script>
 import Auth from "~/components/Auth";
 import Register from "~/components/Register";
+import ThemeToggle from "~/components/utils/ThemeToggle";
+import CustomTooltipLayout from '~/components/utils/CustomTooltips/CustomTooltipLayout';
+import Patreon from '~/components/icons/Patreon';
+import KoFi from '~/components/icons/KoFi';
 
 export default {
   name: "MainPage",
   components: {
     Auth,
     Register,
+    ThemeToggle,
+    CustomTooltipLayout,
+    Patreon,
+    KoFi,
   },
   data() {
     return {
@@ -148,8 +203,15 @@ export default {
     isSupporter() {
       const supporter = ["supporter", "admin"];
 
-      return supporter.includes(this.$auth.user.role);
+      return supporter.includes(this.$auth?.user?.role);
     },
+    onlyForSupporterTooltip() {
+      return {
+        content: this.$t('onlyForSupporters'),
+        template: SupportMeTooltip,
+        html: true,
+      }
+    } 
   },
   methods: {
     /**
@@ -190,11 +252,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
-$base-brown: #583131;
-$base-purple: #583156;
-$color-disabled: #8b8b8b;
-
+<style scoped lang="scss">
 .main_page_container {
   min-height: 100vh;
   display: flex;
@@ -205,6 +263,10 @@ $color-disabled: #8b8b8b;
   width: 100%;
 }
 
+.tooltip-wrapper {
+  display: inline-block;
+}
+
 .main_page {
   font-size: 16px;
 
@@ -212,7 +274,7 @@ $color-disabled: #8b8b8b;
     display: block;
     font-weight: 300;
     font-size: 5em;
-    color: $base-brown;
+    color: var(--color-secondary);
     letter-spacing: 1px;
   }
 
@@ -231,27 +293,26 @@ $color-disabled: #8b8b8b;
     &__button--brown {
       display: inline-block;
       border-radius: 4px;
-      border: 1px solid $base-brown;
-      color: $base-brown;
+      border: 1px solid var(--color-secondary);
+      color: var(--color-secondary);
       text-decoration: none;
       padding: 10px 30px;
-      margin-left: 15px;
-      margin-bottom: 5px;
+      margin: 0 7px 5px 7px;
     }
 
     &__button--purple {
-      border-color: $base-purple;
-      color: $base-purple;
+      border-color: var(--color-secondary);
+      color: var(--color-secondary);
     }
 
     &__button--purple:hover {
-      color: #fff;
-      background-color: $base-purple;
+      color: var(--color-primary);
+      background-color:var(--color-selected) ;
     }
 
     &__button--brown:hover {
-      color: #fff;
-      background: $base-brown;
+      color: var(--color-primary);
+      background: var(--color-secondary);
     }
 
     &__button--disabled {
@@ -262,8 +323,8 @@ $color-disabled: #8b8b8b;
         transparent 5px,
         transparent 15px
       );
-      border-color: $color-disabled;
-      color: $color-disabled;
+      border-color: var(--color-disabled);
+      color: var(--color-disabled);
 
       &:hover {
         background: repeating-linear-gradient(
@@ -273,8 +334,8 @@ $color-disabled: #8b8b8b;
           transparent 5px,
           transparent 15px
         );
-        border-color: $color-disabled;
-        color: $color-disabled;
+        border-color: var(--color-disabled);
+        color: var(--color-disabled);
       }
     }
   }
@@ -290,20 +351,38 @@ footer {
   justify-content: space-evenly;
 
   a {
-    color: $base-brown;
+    color: var(--color-secondary);
   }
+}
+
+.options {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
 }
 
 .button {
   border: none;
   background: none;
   cursor: pointer;
-  color: $base-purple;
+  color: var(--color-selected);
 
   &__underline {
     text-decoration: underline;
   }
 }
+
+.tooltip-text {
+  font-size: 0.9em;
+}
+
+.social {
+  display: inline-block;
+  margin-left: 5px;
+  width: 15px;
+  min-width: 13px;
+}
+
 
 @media (max-width: 991px) {
   .main_page {

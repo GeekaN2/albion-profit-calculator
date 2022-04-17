@@ -210,6 +210,7 @@ export default {
   align-items: center;
   padding: 2px 10px;
   position: relative;
+  color: #000;
 
   &__input {
     width: 6rem;
@@ -217,6 +218,9 @@ export default {
     border: none;
     border-bottom: 2px solid #000;
     text-align: right;
+    background: transparent;
+    outline: none;
+    color: #000;
   }
 
   &__item-name {
@@ -266,10 +270,10 @@ export default {
 }
 
 .success {
-  color: #1d7d18;
+  color: var(--success);
 }
 
 .error {
-  color: #e73939;
+  color: var(--error);
 }
 </style>

@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+import path from 'path';
 import i18n from './locales/i18n'
 
 module.exports = {
@@ -15,10 +15,10 @@ module.exports = {
       { name: 'google', content: 'notranslate' }
     ],
     link: [
-      { 
-        rel: 'icon', 
-        type: 'image/x-icon', 
-        href: '/favicon.ico' 
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
       }, {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap'
@@ -40,7 +40,7 @@ module.exports = {
     /*
     ** Run ESLint on save
     */
-    extend (config, { isDev, isClient }) {
+    extend(config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',
@@ -49,17 +49,29 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-    }
+
+      const svgRule = config.module.rules.find(rule => rule.test.test('.svg'))
+      svgRule.exclude = [path.resolve(__dirname, 'static/svg')]
+      // Includes /icons/svg for svg-sprite-loader
+      config.module.rules.push({
+        test: /\.svg$/,
+        include: [path.resolve(__dirname, 'static/svg')],
+        loader: 'svg-sprite-loader',
+        options: {
+          symbolId: 'icon-[name]'
+        }
+      })
+    },
   },
   /**
    * Build typescript
    */
-  buildModules: ['@nuxt/typescript-build', '@nuxtjs/dotenv'],
+  buildModules: ['@nuxt/typescript-build', '@nuxtjs/dotenv', '@nuxtjs/color-mode'],
   /**
    * Modules
    */
   modules: [
-    [ 
+    [
       'nuxt-i18n',
       {
         locales: [{
@@ -84,12 +96,12 @@ module.exports = {
     ['nuxt-clipboard2'],
     ['@nuxtjs/toast']
   ],
-  plugins: [{ 
-    src: '@/plugins/vClickOutside', 
-    ssr: false 
-  }, {
-    src: '@/plugins/vTooltip',
-    ssr: false,
+  plugins: [{
+    src: '@/plugins/vClickOutside',
+    ssr: false
+  }, { 
+    src: '@/plugins/icons', 
+    ssr: true 
   }],
 
   axios: {

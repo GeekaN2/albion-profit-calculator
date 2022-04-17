@@ -25,16 +25,19 @@
     "ownReturnPercentage": "Собственный % возврата",
     "fee": "Налог",
     "craftFee": "Налог станка",
-    "feeForNutrition": "Налог за 100 еды"
+    "feeForNutrition": "Налог за 100 еды",
+    "numberOfItemsSold": "Кол-во проданных предметов"
   },
   "cities": {
     "mainCity": "Основной город",
     "sellItems": "Продажа предметов",
     "sellResources": "Продажа ресурсов",
     "sellMaterials": "Продажа материалов",
+    "craftItems": "Крафт предметов",
     "refining": "Переработка",
     "buyResources": "Покупка ресурсов",
     "buyMaterials": "Покупка материалов",
+    "updateItemPrices": "Обновить цены предметов",
     "updateMaterialPrices": "Обновить цены материалов",
     "updateResourcePrices": "Обновить цены ресурсов"
   }

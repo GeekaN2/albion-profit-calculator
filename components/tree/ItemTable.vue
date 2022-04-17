@@ -26,22 +26,22 @@
           </div>
         </div>
         <div class="item__warnings">
-          <img
+          <svg-icon
             v-if="noArtefactForSale(name)"
-            src="/images/exclamation-triangle.svg"
+            icon-class="exclamation-triangle"
             class="item__warnings__icon"
-          >
-          <img 
+          />
+          <svg-icon 
             v-if="outdated(item.date, 'item date')" 
-            src="/images/clock.svg" 
+            icon-class="clock" 
             class="item__warnings__icon"
-          >
-          <img
+          />
+          <svg-icon
             v-if="!outdated(item.date, 'item date') && !noArtefactForSale(name)"
             class="item__warnings__info"
-            src="/images/info.svg"
+            icon-class="info"
             alt="i"
-          >
+          />
           <div
             :class="[
               'item__warnings__tooltip tooltip', 
@@ -104,9 +104,11 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import { getHeartNameByItemName } from '../../store/utils';
+import SvgIcon from '../utils/SvgIcon.vue';
 
 export default {
   name: "ItemTable",
+  components: { SvgIcon },
   filters: {
     /**
      * Format the price for the convenience
@@ -645,18 +647,18 @@ export default {
   font-size: 16px;
 
   .subtier1 {
-    background: #6afe90;
-    box-shadow: 0 0 4px 5px #6afe90;
+    background: var(--subtier1);
+    box-shadow: 0 0 4px 5px var(--subtier1);
   }
 
   .subtier2 {
-    background: #4bc8d2;
-    box-shadow: 0 0 4px 5px #4bc8d2;
+    background: var(--subtier2);
+    box-shadow: 0 0 4px 5px var(--subtier2);
   }
 
   .subtier3 {
-    background: #b987f7;
-    box-shadow: 0 0 4px 5px #b987f7;
+    background: var(--subtier3);
+    box-shadow: 0 0 4px 5px var(--subtier3);
   }
 
   .text-algin-left {
@@ -664,11 +666,11 @@ export default {
   }
 
   .error {
-    color: #e73939;
+    color: var(--error);
   }
 
   .success {
-    color: #1d7d18;
+    color: var(--success);
   }
 }
 
@@ -681,29 +683,29 @@ export default {
   position: relative;
 
   &__profitable {
-    text-shadow: .5px .5px .5px #041e04;
-    color: #14a014;
+    text-shadow: .5px .5px .5px var(--color-profitable-shadow);
+    color: var(--color-profitable);
 
     .base-item-info__secondary-info {
-      color: #1bb31b;
+      color: var(--color-profitable-secondary);
     }
   }
 
   &__unprofitable {
-    text-shadow: .5px .5px .5px #380404;
-    color: #ae3a3a;
+    text-shadow: .5px .5px .5px var(--color-unprofitable-shadow);
+    color: var(--color-unprofitable);
 
     .base-item-info__secondary-info {
-      color: #d54c4c;
+      color: var(--color-unprofitable-secondary);
     }
   }
 
   &__unknown {
-    text-shadow: .5px .5px .5px #242424;
-    color: #585858;
+    text-shadow: .5px .5px .5px var(--color-unknown-shadow);
+    color: var(--color-unknown);
 
     .base-item-info__secondary-info {
-      color: #6a6a6a;
+      color: var(--color-unknown-secondary);
     }
   }
 
@@ -716,24 +718,24 @@ export default {
 
   .tier4 {
     border-radius: 15px 0 0 15px;
-    background: #9bc8e2;
+    background: var(--tier4);
   }
 
   .tier5 {
-    background: #eb8f87;
+    background: var(--tier5);
   }
 
   .tier6 {
-    background: #e09255;
+    background: var(--tier6);
   }
 
   .tier7 {
-    background: #eccc62;
+    background: var(--tier7);
   }
 
   .tier8 {
     border-radius: 0 15px 15px 0;
-    background: #f5f5f5;
+    background: var(--tier8);
   }
 }
 
@@ -749,6 +751,7 @@ export default {
     right: -1px;
     z-index: 10;
     width: 20px;
+    color: var(--color-unknown);
 
     &__icon {
       top: 6px;
@@ -786,13 +789,13 @@ export default {
   transform: translateX(8%);
   bottom: 90%;
   position: absolute;
-  background: #dfdfdf;
-  color: #5e5e5e;
+  background: var(--color-primary-analog);
+  color: var(--color-primary-analog-contrast);
   font-weight: bold;
   transition: 0.15s;
   opacity: 0;
   border-radius: 4px;
-  box-shadow: 0 0 6px 0px #6a6a6a;
+  box-shadow: 0 0 6px 0px var(--color-unknown-secondary);
   font-size: 0.75em;
   text-shadow: none;
   padding: 5px;
@@ -806,7 +809,7 @@ export default {
     bottom: -5px;
     width: 10px;
     height: 10px;
-    background: #dfdfdf;
+    background: var(--color-primary-analog);
     transform: rotate(45deg);
   }
 
@@ -819,28 +822,28 @@ export default {
 
   &--quality {
     &-1 {
-      border-top: 4px solid #b0afae;
-      border-left: 4px solid #b0afae;
+      border-top: 4px solid var(--normal-quality);
+      border-left: 4px solid var(--normal-quality);
     }
 
     &-2 {
-      border-top: 4px solid #5d81a7;
-      border-left: 4px solid #5d81a7;
+      border-top: 4px solid var(--good-quality);
+      border-left: 4px solid var(--good-quality);
     }
 
     &-3 {
-      border-top: 4px solid #db9c63;
-      border-left: 4px solid #db9c63;
+      border-top: 4px solid var(--outstanding-quality);
+      border-left: 4px solid var(--outstanding-quality);
     }
 
     &-4 {
-      border-top: 4px solid #fdfefe;
-      border-left: 4px solid #fdfefe;
+      border-top: 4px solid var(--excellent-quality);
+      border-left: 4px solid var(--excellent-quality);
     }
 
     &-5 {
-      border-top: 4px solid #fdb44f;
-      border-left: 4px solid #fdb44f;
+      border-top: 4px solid var(--masterpiece-quality);
+      border-left: 4px solid var(--masterpiece-quality);
     } 
   }
 }

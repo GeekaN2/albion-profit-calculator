@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import ImageWithNumber from "./ImageWithNumber";
+import ImageWithNumber from "~/components/utils/ImageWithNumber";
 import IngredientPrices from "./IngredientPrices";
 import { mapGetters } from 'vuex';
 
@@ -110,7 +110,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .ingredient {
   position: relative;
   

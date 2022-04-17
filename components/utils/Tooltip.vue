@@ -1,5 +1,5 @@
 <template>
-  <div class="tooltip__table">
+  <div class="tooltip__table tooltip">
     <template v-for="row of data">
       <div
         :key="`${JSON.stringify(row)}:0`"
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import { HANDWRITTEN_PRICE_DATE } from '~/store/constants';
+
 export default {
   name: 'Tooltip',
   filters: {
@@ -81,12 +83,16 @@ export default {
      *
      * @param {string} date - timestamp
      */
-    formatDate(date) {
-      if (!date || date.length == 0) {
+    formatDate(timestamp) {
+      if (!timestamp || timestamp.length == 0) {
         return '-';
       }
 
-      date = new Date(date);
+      const date = new Date(timestamp);
+
+      if (timestamp === HANDWRITTEN_PRICE_DATE) {
+        return '📝';
+      }
 
       let lastCheckInHours = Math.floor(
         (Date.now() - date.getTime()) / 3600000
@@ -106,6 +112,56 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+.tooltip {
+  right: 50%;
+  transform: translateX(8%);
+  bottom: 90%;
+  position: absolute;
+  background: var(--color-primary-analog);
+  color: var(--color-primary-analog-contrast);
+  font-weight: bold;
+  transition: 0.15s;
+  border-radius: 4px;
+  box-shadow: 0 0 6px 0px var(--color-unknown-secondary);
+  font-size: 0.75em;
+  text-shadow: none;
+  padding: 5px;
+  white-space: nowrap;
+  transition-delay: 0.03s;
 
+  &:after {
+    content: "";
+    position: absolute;
+    right: calc(8% - 5px);
+    bottom: -5px;
+    width: 10px;
+    height: 10px;
+    background: var(--color-primary-analog);
+    transform: rotate(45deg);
+  }
+
+  &__table {
+    display: grid;
+    grid-template-columns: 3fr 3fr 1fr;
+    text-align: right;
+    grid-gap: 5px 10px;
+  }
+}
+
+.text-algin-left {
+  text-align: left;
+}
+
+.error {
+  color: var(--error);
+}
+
+.success {
+  color: var(--success);
+}
+
+.copy-cell {
+  cursor: copy;
+}
 </style>

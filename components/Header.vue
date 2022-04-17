@@ -12,12 +12,12 @@
         href="https://patreon.com/geekan"
         target="_blank"
       >
-        <img 
-          :title="$t('support')"
+        <svg-icon
           class="header__patreon" 
-          src="/images/patreon.svg"
-        >
-      </a><a
+          icon-class="patreon"
+        />
+      </a>
+      <a
         class="header__social"
         href="https://ko-fi.com/geekan"
         target="_blank"
@@ -27,19 +27,21 @@
           class="header__ko-fi"
           src="/images/ko-fi-logo.png"
         >  
-      </a><a
+      </a>
+      <a
         class="header__social"
         href="https://discord.gg/2AM2twM"
         target="_blank"
       >
-        <img 
-          title="Our discord server"
+        <img
           class="header__discord"
-          src="/images/discord-logo-color.svg"
+          title="Our discord server"
+          src="/svg/discord-logo-color.svg"
         > 
       </a>
     </div>
     <div class="header__wrapper">
+      <ThemeToggle class="header__toggle" />
       <nuxt-link
         :class="{
           'header__link--underline': $i18n.locale === 'ru'
@@ -62,11 +64,12 @@
       <span 
         class="header__user-nickname"
       >{{ $auth.user.nickname }}</span>
-      <img
-        class="logout_button"
-        src="/images/exit.svg" 
-        @click="logout"
-      >
+      <div @click="logout">
+        <svg-icon
+          class="logout_button"
+          icon-class="exit" 
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -83,8 +86,13 @@
 </i18n>
 
 <script>
+import ThemeToggle from './utils/ThemeToggle.vue';
+
 export default {
   name: "Header",
+  components: {
+    ThemeToggle
+  },
   methods: {
     /**
      * Logout user
@@ -97,8 +105,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$base-brown: #583131;
-$base-purple: #583156;
 
 .header {
   padding: 15px;
@@ -114,12 +120,12 @@ $base-purple: #583156;
   }
 
   &__logo {
-    color: $base-brown;
+    color: var(--color-secondary);
     margin-right: 8px;
   }
 
   &__social {
-    display: inline-block;
+    display: flex;
     margin-left: 5px;
     width: 15px;
     min-width: 13px;
@@ -129,14 +135,24 @@ $base-purple: #583156;
     }
   }
 
+  &__patreon {
+    color: #ff424d;
+    width: 15px;
+    height: 15px;
+  }
+
   &__wrapper {
     display: flex;
     align-items: center;
   }
 
+  &__toggle {
+    margin-right: var(--space-xs);
+  }
+
   &__user-role {
     font-size: 0.7em;
-    color: #745858;
+    color: var(--color-seondary);
     margin-left: 10px;
     border: 1px solid;
     padding: 0px 5px 1px 5px;
@@ -147,21 +163,29 @@ $base-purple: #583156;
     display: inline-block;
     margin-left: 10px;
     margin-right: 5px;
-    color: $base-brown;
+    color: var(--color-secondary);
   }
 
   &__link {
     margin-right: 5px;
     position: relative;
-    color: $base-brown;
+    color: var(--color-secondary);
     white-space: nowrap;
 
     &--purple {
-      color: $base-purple;
+      color: var(--color-selected);
+
+      &:hover {
+        color: var(--color-selected-hover);
+      }
     }
 
     &--underline {
       text-decoration: underline;
+
+      &:hover {
+        color: var(--color-selected);
+      }
     }
   }
 }
@@ -170,5 +194,6 @@ $base-purple: #583156;
   width: 20px;
   height: 20px;
   cursor: pointer;
+  fill: var(--color-contrast);
 }
 </style>

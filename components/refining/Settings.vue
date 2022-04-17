@@ -44,8 +44,8 @@
       <input 
         v-model.number="fee"
         class="input input--number"
-        placeholder="10" 
-        maxlength="5"
+        placeholder="800" 
+        maxlength="10"
       >
     </div>
     <div class="setting">
@@ -53,7 +53,10 @@
         class="refresh" 
         @click="updateState('material-prices')"
       >
-        <img src="/images/redo-alt.svg">
+        <svg-icon
+          class="icon"
+          icon-class="redo-alt"
+        />
         <p>{{ $t('cities.updateMaterialPrices') }}</p>
       </div>
     </div>
@@ -62,7 +65,10 @@
         class="refresh" 
         @click="updateState('resource-prices')"
       >
-        <img src="/images/redo-alt.svg">
+        <svg-icon
+          class="icon"
+          icon-class="redo-alt"
+        />
         <p>{{ $t('cities.updateResourcePrices') }}</p>
       </div>
     </div>
@@ -339,7 +345,7 @@ export default {
     display: none;
 
     &:checked + label:after {
-      background: #e08c4c;
+      background: var(--color-checked);
     }
 
     & + label {
@@ -357,8 +363,8 @@ export default {
         top: 1px;
         width: 16px;
         height: 16px;
-        border: 2px solid #000;
-        background: white;
+        border: 2px solid var(--color-contrast);
+        background: var(--color-primary);
         display: block;
       }
     }
@@ -371,15 +377,17 @@ export default {
 
 .input {
   width: 100%;
+  background: var(--color-primary);
+  color: var(--color-contrast);
 
   &--number {
     outline: none;
     border: none;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--color-contrast);
     transition: 0.1s;
 
     &:focus {
-      border-bottom-color: #e19839;
+      border-bottom-color: var(--color-focus);
     }
   }
 }
@@ -390,7 +398,7 @@ export default {
   font-size: 0.85rem;
   cursor: pointer;
 
-  img {
+  & .icon {
     width: 15px;
     height: 15px;
     margin-right: 5px;

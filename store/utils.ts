@@ -59,7 +59,7 @@ export function createStringOfAllResources(resource: string, startTier = 4): str
       if (tier < 4 && subtier > 0) {
         continue;
       }
-      
+
       allNames = allNames + `T${tier}_` + resource + (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : '') + ',';
     }
   }
@@ -163,17 +163,15 @@ export function createStringOfAllJournals(root: string): string {
 
 /**
  * Creates array with hearts name of needed city
- * 
- * @param city - location name: Caerleon, Lyumhurst etc.
  */
-export function createArrayOfAllHearts(city: string): string[] {
+export function createArrayOfAllHearts(): string[] {
   const allCities = ['Caerleon', 'Martlock', 'Fort Sterling', 'Bridgewatch', 'Lymhurst', 'Thetford'];
 
   return allCities.map(city => getHeartNameByCity(city));
 }
 
 export function getHeartNameByCity(city: string): string {
-  const hearts: {[key: string]: string} = {
+  const hearts: { [key: string]: string } = {
     'Caerleon': 'T1_FACTION_CAERLEON_TOKEN_1',
     'Martlock': 'T1_FACTION_HIGHLAND_TOKEN_1',
     'Fort Sterling': 'T1_FACTION_MOUNTAIN_TOKEN_1',
@@ -188,7 +186,7 @@ export function getHeartNameByCity(city: string): string {
 export function getHeartNameByItemName(itemName: string): string {
   let heartName = '';
 
-  const itemSubstrings: {[key: string]: string[]} = {
+  const itemSubstrings: { [key: string]: string[] } = {
     'Caerleon': ['CAPEITEM_FW_CAERLEON'],
     'Martlock': ['CAPEITEM_FW_MARTLOCK', 'CAPEITEM_KEEPER'],
     'Fort Sterling': ['CAPEITEM_FW_FORTSTERLING', 'CAPEITEM_UNDEAD'],
@@ -370,7 +368,7 @@ export function isObjectEmpty(obj: object): boolean {
  * @param itemName - item name: T4_HEAD_CLOTH_HELL etc.
  */
 export function isArtifactItem(itemName: string): boolean {
-  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL', "INSIGHT", "CAPEITEM" ];
+  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL', "INSIGHT", "CAPEITEM"];
 
   if (!itemName) {
     return false;
@@ -396,7 +394,7 @@ export function isArtifact(itemName: string): boolean {
  * @param material - material name
  */
 export function getRawResourceNameByMaterial(material: string): string {
-  const rawResourcesDictionary: {[key: string]: string} = {
+  const rawResourcesDictionary: { [key: string]: string } = {
     METALBAR: 'ORE',
     LEATHER: 'HIDE',
     CLOTH: 'FIBER',
@@ -405,4 +403,109 @@ export function getRawResourceNameByMaterial(material: string): string {
   }
 
   return rawResourcesDictionary[material] || '';
+}
+
+/**
+ * Small function to help in subtier names generation
+ * 
+ * @param baseName - item name without a subtier
+ * @param highestSubtier - bound of subtiers
+ */
+export const generateSubtiersUpTo = (baseName: string, highestSubtier: number) => {
+  let names = [];
+
+  for (let subtier = 0; subtier <= highestSubtier; subtier++) {
+    names.push(`${baseName}${subtier > 0 ? '@' + subtier : ''}`);
+  }
+
+  return names;
+}
+
+/**
+ * O(log2n) search by objects
+ * @param objects - array of sorted object by field
+ * @param field - field name by which objects are sorted
+ * @param value - field value to find
+ * @returns 
+ */
+export const lowerBoundForObjects = <ObjectType>(
+  objects: ObjectType[],
+  field: keyof ObjectType,
+  value: ObjectType[keyof ObjectType],
+) => {
+  if (!objects.length) return null;
+
+  let lowerBound = 0;
+  let upperBound = objects.length;
+
+  while (lowerBound < upperBound - 1) {
+    const mid = Math.floor((lowerBound + upperBound) / 2);
+
+    if (objects[mid][field] <= value) {
+      lowerBound = mid;
+    } else {
+      upperBound = mid;
+    }
+  }
+
+  if (objects[lowerBound][field] !== value) {
+    return null;
+  }
+
+  return objects[lowerBound];
+};
+
+/**
+ * O(log2n) search by objects
+ * 
+ * @param objects - array of sorted object by field
+ * @param field - field name by which objects are sorted
+ * @param value - field value to find
+ * @returns index
+ */
+ export const lowerBoundForObjectsIndex = <ObjectType>(
+  objects: ObjectType[],
+  field: keyof ObjectType,
+  value: ObjectType[keyof ObjectType],
+) => {
+  if (!objects.length) return null;
+
+  let lowerBound = 0;
+  let upperBound = objects.length;
+
+  while (lowerBound < upperBound - 1) {
+    const mid = Math.floor((lowerBound + upperBound) / 2);
+
+    if (objects[mid][field] <= value) {
+      lowerBound = mid;
+    } else {
+      upperBound = mid;
+    }
+  }
+
+  if (objects[lowerBound][field] !== value) {
+    return null;
+  }
+
+  return lowerBound;
+};
+
+export const getItemTierByName = (itemName: string) => {
+  const tier = itemName.match(/T\d/)?.[0];
+
+  if (itemName.includes('QUESTITEM_TOKEN_AVALON')) {
+    return 6;
+  } 
+
+  return tier ? Number(tier.slice(1)) : 0;
+}
+
+export const getItemSubtierByName = (itemName: string) => {
+  const subtier = itemName.match(/@\d/)?.[0];
+
+  if (!subtier) {
+    return 0;
+  }
+
+  return Number(subtier.slice(1)) || 0;
 }

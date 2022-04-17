@@ -68,7 +68,7 @@ export default {
 
 .role {
   display: inline-block;
-  border: 1px solid #4b4343;
+  border: 1px solid var(--color-secondary);
   border-radius: 10px;
   padding: 1px 5px;
   text-align: center;
@@ -78,9 +78,9 @@ export default {
   transition: 0.1s;
 
   &--selected {
-    border: 1px solid #888585;
-    background: #7e6c6c;
-    color: #fff;
+    border: 1px solid var(--color-blind);
+    background: var(--color-blind);
+    color: var(--color-primary);
   }
 
   &:first-child {
@@ -88,8 +88,8 @@ export default {
   }
 
   &:hover {
-    background: #cecece;
-    color: #fff;
+    background: var(--color-primary-analog-contrast);
+    color: var(--color-primary);
   }
 }
 </style>

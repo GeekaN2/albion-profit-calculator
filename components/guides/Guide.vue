@@ -1,10 +1,11 @@
 <template>
   <div class="guides">
-    <img
-      class="guides__icon guides__icon--baseline"
-      src="/images/book-spells.svg"
-      @click="showModal"
-    >
+    <div @click="showModal">
+      <svg-icon
+        class="guides__icon guides__icon--baseline"
+        icon-class="book-spells"
+      />
+    </div>
     <div
       v-if="isModalShown"
       class="guide"
@@ -106,7 +107,7 @@ export default {
     box-shadow: rgb(158, 158, 158) 0 5px 10px 0;
     margin: 15px auto;
     padding: 10px;
-    background: #fff;
+    background: var(--color-primary);
     border-radius: 20px;
   }
 
@@ -136,9 +137,9 @@ export default {
   }
 
   &__code {
-    background: #a3a3a3;
+    background: var(--color-primary-analog-contrast);
     font-size: 0.9em;
-    color: #fff;
+    color: var(--color-primary);
     padding: 1px 5px;
     border-radius: 5px;
     font-family: Consolas, sans-serif;
@@ -146,7 +147,7 @@ export default {
 
   &__link {
     text-decoration: underline;
-    color: #583131;
+    color: var(--color-secondary);
   }
 
   &__image {
@@ -171,15 +172,15 @@ export default {
 
   &__span {
     &--green {
-      color: #14a014;
+      color: var(--color-profitable);
     }
 
     &--red {
-      color: #ae3a3a;
+      color: var(--color-unprofitable);
     }
 
     &--gray {
-      color: #585858;
+      color: var(--color-unknown);
     }
   }
 

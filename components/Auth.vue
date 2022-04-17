@@ -8,11 +8,12 @@
         <h2 class="modal_form__title">
           {{ $t('login') }}
         </h2>
-        <img 
-          class="close_button" 
-          src="images/close.svg"
-          @click="hideModal"
-        >
+        <div @click="hideModal">
+          <svg-icon
+            class="close_button"
+            icon-class="close"
+          />
+        </div>
       </div>
       <form @submit.prevent="login">
         <p class="modal_form__error">
@@ -146,10 +147,10 @@ export default {
 .modal_form {
   width: 300px;
   padding: 15px;
-  background: #fff;
+  background: var(--color-primary);
   border-radius: 15px;
   text-align: center;
-  color: #583131;
+  color: var(--color-secondary);
 
   &__header {
     display: flex;
@@ -162,7 +163,7 @@ export default {
     margin-bottom: 10px;
     font-size: 0.9rem;
     text-align: left;
-    color: #ad0404;
+    color: var(--color-unprofitable);
   }
 
   &__input {
@@ -171,14 +172,15 @@ export default {
     text-align: center;
     margin-bottom: 10px;
     border-radius: 5px;
-    border: 1px solid #908585;
+    border: 1px solid var(--color-blind);
     font-size: 1rem;
     outline: none;
     transition: 0.2s;
-    color: #583131;
+    color: var(--color-secondary);
+    background: var(--color-primary);
 
     &:focus {
-      border: 1px solid #583131;
+      border: 1px solid var(--color-secondary);
     }
   }
 
@@ -187,9 +189,9 @@ export default {
     padding: 12px 5px;
     border-radius: 5px;
     margin-top: 10px;
-    background: #875f5f;
+    background: var(--color-secondary-analog);
     border: none;
-    color: #fff;
+    color: var(--color-primary);
     font-weight: bold;
     font-size: 1rem;
     letter-spacing: 1px;
@@ -198,7 +200,7 @@ export default {
     cursor: pointer;
 
     &:hover {
-      background: #a27e7e;
+      background: var(--color-secondary-analog-hover);
     }
   }
 }
@@ -207,5 +209,6 @@ export default {
   width: 2rem;
   opacity: 0.6;
   cursor: pointer;
+  fill: var(--color-contrast);
 }
 </style>

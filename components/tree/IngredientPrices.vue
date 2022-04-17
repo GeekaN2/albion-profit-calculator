@@ -107,23 +107,23 @@ export default {
     font-size: 0.85rem;
     
     &:nth-child(5n + 1) {
-      background: #9bc8e2;
+      background: var(--tier4);
     }
 
     &:nth-child(5n+2) {
-      background: #eb8f87;
+      background: var(--tier5);
     }
 
     &:nth-child(5n+3) {
-      background: #e09255;
+      background: var(--tier6);
     }
 
     &:nth-child(5n+4) {
-      background: #eccc62;
+      background: var(--tier7);
     }
 
     &:nth-child(5n) {
-      background: #f5f5f5;
+      background: var(--tier8);
     }
 
     &:nth-child(1) {
@@ -144,15 +144,15 @@ export default {
     }
 
     &:nth-child(6) {
-      box-shadow: -8px 0 3px -3px #6afe90;
+      box-shadow: -8px 0 3px -3px var(--subtier1);
     }
 
     &:nth-child(11) {
-      box-shadow: -8px 0 3px -3px #4bc8d2;
+      box-shadow: -8px 0 3px -3px var(--subtier2);
     }
 
     &:nth-child(16) {
-      box-shadow: -8px 0 3px -3px  #b987f7;
+      box-shadow: -8px 0 3px -3px  var(--subtier3);
     }
   }
 

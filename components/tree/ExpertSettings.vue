@@ -181,7 +181,7 @@ export default {
     display: none;
 
     &:checked + label:after {
-      background: #3963e1;
+      background: var(--color-checked-analog);
     }
 
     & + label {
@@ -198,8 +198,8 @@ export default {
         top: 1px;
         width: 16px;
         height: 16px;
-        border: 2px solid #000;
-        background: white;
+        border: 2px solid var(--color-contrast);
+        background: var(--color-primary);
         display: block;
       }
     }
@@ -214,7 +214,7 @@ export default {
     display: none;
 
     &:checked + label:after {
-      background: #fff;
+      background: var(--color-primary);
     }
 
     & + label {
@@ -231,30 +231,30 @@ export default {
         top: 1px;
         width: 18px;
         height: 18px;
-        border: 2px solid #000;
-        background: white;
+        border: 2px solid var(--color-contrast);
+        background: var(--color-primary);
         display: block;
       }
     }
     
     &--normal:checked + label:after {
-      background: #acacac;
+      background: var(--normal-quality);
     }
 
     &--good:checked + label:after {
-      background: #5788bd;
+      background: var(--good-quality);
     }
 
     &--outstanding:checked + label:after {
-      background: #db9c63;
+      background: var(--outstanding-quality);
     }
 
     &--excellent:checked + label:after {
-      background: #d5d5d5;
+      background: var(--excellent-quality);
     }
 
     &--masterpiece:checked + label:after {
-      background: #fdb44f;
+      background: var(--masterpiece-quality);
     }
   }
 }
@@ -263,11 +263,13 @@ export default {
   &--number {
     outline: none;
     border: none;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--color-contrast);
     transition: 0.1s;
+    background: var(--color-primary);
+    color: var(--color-contrast);
 
     &:focus {
-      border-bottom-color: #3963e1;
+      border-bottom-color: var(--color-checked-analog);
     }
   }
   

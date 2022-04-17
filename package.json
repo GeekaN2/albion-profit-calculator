@@ -11,12 +11,14 @@
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "get-images": "node node-scripts/getItemsImages.js",
-    "get-dictionary": "node node-scripts/getDictionary.js"
+    "get-dictionary": "node node-scripts/getDictionary.js",
+    "get-items-from-dumps": "node node-scripts/getItemsFromDumps.js"
   },
   "dependencies": {
-    "@hawk.so/javascript": "^2.4.0",
+    "@hawk.so/javascript": "^3.0.1",
     "@nuxtjs/auth-next": "^5.0.0-1612791489.a5d8c28",
     "@nuxtjs/axios": "^5.13.1",
+    "@nuxtjs/color-mode": "^2.1.1",
     "@nuxtjs/toast": "^3.3.1",
     "@types/lodash.clonedeep": "^4.5.6",
     "axios": "^0.21.2",
@@ -30,8 +32,8 @@
     "nuxt-i18n": "^6.28.1",
     "sass-loader": "10.1.1",
     "style-loader": "^2.0.0",
-    "v-click-outside": "^3.0.1",
-    "v-tooltip": "^3.0.0-beta.4"
+    "svg-sprite-loader": "^6.0.11",
+    "v-click-outside": "^3.0.1"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.7",

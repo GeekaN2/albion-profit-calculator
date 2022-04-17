@@ -20,8 +20,8 @@ export const actions: ActionTree<TreeState, {}> = {
    * @param commit - vuex commit
    */
   async FETCH_STATE({ commit }) {
-    const tree = await axios.get('/json/tree.json');
-    const recipes = await axios.get('/json/recipes.json');
+    const tree = await axios.get('/json/profitTreeItemsTree.json');
+    const recipes = await axios.get('/json/profitTreeRecipes.json');
 
     commit('SET_STATE', {
       'tree': tree.data,
@@ -235,7 +235,7 @@ export const actions: ActionTree<TreeState, {}> = {
     commit('SET_LOADING_TEXT', 'hearts');
 
     const city = settingsWithItem.settings.cities.hearts;
-    let allNames = createArrayOfAllHearts(city).join(',');
+    let allNames = createArrayOfAllHearts().join(',');
 
     await axios
       .get(`${baseUrl}data?items=${allNames}&locations=${city}`)

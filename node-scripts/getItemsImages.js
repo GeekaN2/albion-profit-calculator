@@ -3,13 +3,14 @@ const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
 const PromisePool = require('es6-promise-pool');
+const { getAllFoodAndPotionNames, createArrayOfAllFoodAndPotions, createArrayOfAllJournals } = require('./utils');
 
 // e.g. https://render.albiononline.com/v1/item/T6_2H_INFERNOSTAFF_MORGANA.png
 const imagesApiUrl = "https://render.albiononline.com/v1/item/";
 const MAX_PARALLEL_REQUESTS = 16
 
 async function getImages() {
-  let recipes = fs.readFileSync('./static/json/recipes.json');
+  let recipes = fs.readFileSync('./static/json/profitTreeRecipes.json');
   recipes = JSON.parse(recipes);
 
   // Array of T4 item names
@@ -33,8 +34,8 @@ async function getImages() {
   });
 
   roots.forEach(root => allItems.push(...createArrayOfAllJournals(root)));
-
   resources.forEach(baseResource => createArrayOfAllResources(baseResource).forEach(resource => allItems.push(resource)));
+  allItems.push(...createArrayOfAllFoodAndPotions());
 
   const itemsQuantity = allItems.length;
 
@@ -148,23 +149,6 @@ function createArrayOfAllArtifacts(itemName) {
   }
 
   return allNames;
-}
-
-/**
- * Creates an array with all names of full journals of all tiers and subtiers
- * 
- * @param {string} root - journals branch: WARRIOR, MAGE etc.
- * @returns {string[]} - array with all tiers and subtiers for empty and full journals
- */
-function createArrayOfAllJournals(root) {
-  let allNames = [];
-
-  for (let tier = 4; tier <= 8; tier++) {
-    allNames.push(`T${tier}_JOURNAL_${root}_EMPTY`);
-    allNames.push( `T${tier}_JOURNAL_${root}_FULL`);
-  }
-
-  return allNames.slice(0, -1);
 }
 
 /**

@@ -16,16 +16,17 @@
         </div>
       </div>
       <div class="item-info__all-info all-info">
-        <img
+        <svg-icon
           class="all-info__icon"
-          src="/images/info.svg"
+          icon-class="info"
           alt="i"
         >
-        <div class="all-info__tooltip tooltip tooltip--right">
-          <Tooltip 
-            :data="tooltipData"
-          />
-        </div>
+          <div class="all-info__tooltip tooltip tooltip--right">
+            <Tooltip 
+              :data="tooltipData"
+            />
+          </div>
+        </svg-icon>
       </div>
     </div>
     <div class="way-images">
@@ -122,7 +123,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .transmutation-way-row {
   display: flex;
   justify-content: left;
@@ -136,6 +137,7 @@ export default {
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  gap: var(--space-3-xs);
   padding: 2px 5px 2px 15px;
   margin: 10px 0 10px 10px;
   background: linear-gradient(to right, #eee 0%, #eee 70%, #ffffff00 100%);
@@ -149,13 +151,13 @@ export default {
     align-items: flex-end;
 
     &--profitable {
-      text-shadow: .4px 0 .4px #041e04;
-      color: #14a014;
+      text-shadow: .4px 0 .4px var(--color-profitable-shadow);
+      color: var(--color-profitable);
     }
 
     &--unprofitable {
-      text-shadow: .4px 0 .4px #380404;
-      color: #ae3a3a;
+      text-shadow: .4px 0 .4px var(--color-unprofitable-shadow);
+      color: var(--color-unprofitable);
     }
   }
 
@@ -172,12 +174,22 @@ export default {
 }
 
 .all-info {
+  position: relative;
+
   &__icon {
     height: 15px;
+    width: 15px;
+  }
+
+  &__tooltip {
+    position: absolute;
+    bottom: 27px;
+    transition: 0.15s;
+    opacity: 0;
+    visibility: hidden;
   }
 
   &:hover &__tooltip {
-    bottom: calc(100% + 15px);
     z-index: 2;
     opacity: 1;
     visibility: visible;
