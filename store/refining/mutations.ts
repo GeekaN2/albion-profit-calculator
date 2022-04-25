@@ -141,4 +141,28 @@ export const mutations: MutationTree<RefiningState> = {
   SET_LOADING_TEXT(state, loadingText: string) {
     state.features.loadingText = loadingText;
   },
+
+  UPDATE_ITEM_BY_ITEM_NAME(state, { 
+    itemName, 
+    item, 
+    itemGroup,
+  }: { 
+    itemName: string; 
+    item: ResponseModel, 
+    itemGroup: 'sellMaterials' | 'buyMaterials' | 'buyRawResources',
+  }) {
+    const currentItemInfo = state.currentItemInfo;
+    const cities = state.settings.cities;
+    let city = cities[itemGroup];
+
+    const prices = itemGroup === 'buyRawResources' ? state.rawResources : state.materials;
+    const baseItemName = itemGroup === 'buyRawResources' ? getRawResourceNameByMaterial(currentItemInfo.name) : currentItemInfo.name;
+
+    const items = prices[city][baseItemName];
+    const storeItemIndex = items.findIndex((resource) => resource.itemId === itemName);
+
+    if (storeItemIndex != -1) {
+      Vue.set(items, storeItemIndex, item);
+    }
+  }
 }

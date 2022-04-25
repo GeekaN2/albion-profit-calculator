@@ -98,4 +98,20 @@ export const getters: GetterTree<RefiningState, {}> = {
 
     return returnMaterialsPercentage;
   },
+
+  getItemByName: (state: RefiningState) => (
+    itemName: string,
+    itemGroup: 'sellMaterials' | 'buyMaterials' | 'buyRawResources'
+  ): ResponseModel | undefined => {
+    const currentItemInfo = state.currentItemInfo;
+    const cities = state.settings.cities;
+    let city = cities[itemGroup];
+
+    const prices = itemGroup === 'buyRawResources' ? state.rawResources : state.materials;
+    const baseItemName = itemGroup === 'buyRawResources' ? getRawResourceNameByMaterial(currentItemInfo.name) : currentItemInfo.name;
+    const items = prices[city][baseItemName];
+    const item = items.find((resource) => resource.itemId === itemName);
+
+    return item;
+  }
 }
