@@ -58,5 +58,29 @@ export const actions: ActionTree<AdminPanelState, {}> = {
     });
 
     return response.data.message || response.data;
-  }
+  },
+
+    /**
+   * Update user role
+   * 
+   * @param nickname - user nickname
+   * @param token - admin auth token
+   */
+     async UPDATE_ALLOW_RESET_PASSWORD({ commit }, { nickname, token }) {
+      const response = await axios.post(`${baseUrl}admin/allow-reset-password`, {
+        nickname,
+      }, {
+        headers: {
+          Authorization: token
+        }
+      });
+  
+      commit('ALLOW_RESET_PASSWORD', {
+        nickname,
+      });
+  
+      return response.data.message || response.data;
+    },
+
+  
 }

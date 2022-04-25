@@ -37,7 +37,16 @@ export const mutations: MutationTree<AdminPanelState> = {
    * 
    * @param state - vuex state
    */
-  UPDATE_USER_ROLE(state, { nickname, role }: { nickname: string, role: string}) {
+  UPDATE_USER_ROLE(state, { nickname, role }: { nickname: string, role: string }) {
     state.users = state.users.map(user => user.nickname != nickname ? user : Object.assign(user, { role: role || user.role }));
+  },
+
+  /**
+   * Update user role
+   * 
+   * @param state - vuex state
+   */
+  ALLOW_RESET_PASSWORD(state, { nickname }: { nickname: string, role: string }) {
+    state.users = state.users.map(user => user.nickname != nickname ? user : Object.assign(user, { resetPassword: true }));
   }
 }

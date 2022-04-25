@@ -4,7 +4,7 @@
     <div>
       <div class="users">
         <div 
-          v-for="user of users"
+          v-for="user of users.slice(0, 10)"
           :key="user.nickname"
           class="user"
         >

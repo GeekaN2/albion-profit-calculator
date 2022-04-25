@@ -150,6 +150,11 @@ body {
   --space-2-xs: 4px;
   --space-xs: 8px;
   --space-s: 12px;
+  --space-m: 14px;
+  --space-l: 16px;
+  --space-xl: 20px;
+  --space-2-xl: 24px;
+  --space-3-xl: 28px;
 
   --radius-xs: 4px;
   --radius-s: 8px;
