@@ -2,27 +2,35 @@
   <div>
     <template v-if="!settings.showTransmutationWays || baseItemName == 'ROCK'">
       <div class="item-table">
+        <ItemRecipe
+          :resource-from="'T4_' + baseItemName"
+          :resource-to="'T5_' + baseItemName"
+        />
         <div
-          v-for="subtier in (baseItemName != 'ROCK' ? 4 : 1)"
+          v-for="subtier in baseItemName != 'ROCK' ? 4 : 1"
           :key="subtier"
         >
-          <ItemRow 
+          <ItemRow
             :class="`subtier${subtier - 1}`"
-            :row="getRowFirst(subtier - 1)" 
+            :row="getRowFirst(subtier - 1)"
           />
         </div>
       </div>
-      <div 
+      <div
         v-if="baseItemName != 'ROCK'"
         class="item-table"
       >
+        <ItemRecipe
+          :resource-from="'T4_' + baseItemName"
+          :resource-to="'T4_' + baseItemName + '_LEVEL1@1'"
+        />
         <div
           v-for="subtier in 4"
           :key="subtier"
         >
-          <ItemRow 
+          <ItemRow
             :class="`subtier${subtier - 1}`"
-            :row="getRowSecond(subtier - 1)" 
+            :row="getRowSecond(subtier - 1)"
           />
         </div>
       </div>
@@ -32,7 +40,7 @@
       class="ways-table"
     >
       <template v-for="(row, index) in getBestWaysToTransmute">
-        <LongWayTransmutationRow 
+        <LongWayTransmutationRow
           :key="index"
           :transmutation-row-data="row"
         />
@@ -42,15 +50,17 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
-import ItemRow from './ItemRow';
-import LongWayTransmutationRow from './LongWayTransmutationRow';
+import { mapGetters, mapState } from "vuex";
+import ItemRow from "./ItemRow";
+import LongWayTransmutationRow from "./LongWayTransmutationRow";
+import ItemRecipe from "./ItemRecipe.vue";
 
 export default {
   name: "Table",
   components: {
     ItemRow,
-    LongWayTransmutationRow
+    LongWayTransmutationRow,
+    ItemRecipe,
   },
   data() {
     return {
@@ -59,31 +69,31 @@ export default {
         [4, 5.4, 8, 12.8, 25.6],
         [12, 10.62, 16, 25.6, 51.2],
         [24, 21.36, 32, 51.2, 102],
-        [48, 42.66, 64, 102.4, 204]
+        [48, 42.66, 64, 102.4, 204],
       ],
       transCostPrevTierFormula: [
         [0, 375, 600, 1200, 5000],
         [0, 750, 1200, 2500, 10200],
         [0, 2100, 3200, 5100, 20400],
-        [0, 8400, 12800, 20400, 40800]
+        [0, 8400, 12800, 20400, 40800],
       ],
       /**
        * It's a bit weird but rocks only have prev tier formula
        */
-      rockTransCost: [0, 1000, 2400, 4800, 12500]
+      rockTransCost: [0, 1000, 2400, 4800, 12500],
     };
   },
   computed: {
     ...mapGetters({
-      sellItems: 'transmutations/sellItemPrices',
-      buyItems: 'transmutations/buyItemPrices',
-      getItemName: 'transmutations/getItemName',
-      loadingText: 'transmutations/loadingText'
+      sellItems: "transmutations/sellItemPrices",
+      buyItems: "transmutations/buyItemPrices",
+      getItemName: "transmutations/getItemName",
+      loadingText: "transmutations/loadingText",
     }),
 
     ...mapState({
-      settings: state => state.transmutations.settings,
-      baseItemName: state => state.transmutations.currentItemInfo.name
+      settings: (state) => state.transmutations.settings,
+      baseItemName: (state) => state.transmutations.currentItemInfo.name,
     }),
 
     /**
@@ -93,14 +103,20 @@ export default {
       let bestWays = [];
       // Started item, can't be T8.3
       for (let tier = 4; tier <= 8; tier++) {
-        for (let subtier = 0; subtier <= 3 && !(tier == 8 && subtier == 3); subtier++) {
+        for (
+          let subtier = 0;
+          subtier <= 3 && !(tier == 8 && subtier == 3);
+          subtier++
+        ) {
           let allWays = this.getAllTransmuteWays(tier, subtier);
 
           bestWays.push(...allWays);
         }
       }
 
-      bestWays.sort((row1, row2) => row2.profitPercentage - row1.profitPercentage);
+      bestWays.sort(
+        (row1, row2) => row2.profitPercentage - row1.profitPercentage
+      );
 
       return bestWays;
     },
@@ -108,7 +124,7 @@ export default {
   methods: {
     /**
      * Get item value for item tier and subtier
-     * 
+     *
      * @param {number} tier - item tier
      * @param {number} subtier - item subtier
      */
@@ -119,12 +135,12 @@ export default {
     /**
      * Getting item trans cost by previous tier recipe
      * needed for calcuation of transmutation fee
-     * 
+     *
      * @param {number} tier - item tier
      * @param {number} subtier - item subtier
      */
     getItemTransCostPrevTierFormula(tier, subtier) {
-      if (this.baseItemName == 'ROCK') {
+      if (this.baseItemName == "ROCK") {
         return this.rockTransCost[tier - 4];
       }
 
@@ -134,18 +150,22 @@ export default {
     /**
      * Getting item transmutation cost by previous subtier recipe
      * needed for calcuation of transmutation fee
-     * 
+     *
      * @param {number} tier - item tier
      * @param {number} subtier - item subtier
      */
     getItemTransCostPrevSubtierFormula(tier, subtier) {
       const subtierMultilier = [0, 3, 2, 1];
-      return this.getValue(tier, subtier) * (subtier * 50 - !(subtier % 2) * 25) * subtierMultilier[subtier];
+      return (
+        this.getValue(tier, subtier) *
+        (subtier * 50 - !(subtier % 2) * 25) *
+        subtierMultilier[subtier]
+      );
     },
 
     /**
      * Calculate transmutation fee for given item name
-     * 
+     *
      * @param {string} itemName - item name
      * @param {function(tier, subtier): number} formula - function to get transmutation cost
      * @returns transmutation fee
@@ -158,7 +178,10 @@ export default {
       const value = this.getValue(tier, subtier);
       const fee = this.settings.fee;
 
-      const transmutationCost = itemTransCost - (itemTransCost * (3000 - goldPrice) / 3000) + (value * fee / 100 * 0.1125);
+      const transmutationCost =
+        itemTransCost -
+        (itemTransCost * (3000 - goldPrice)) / 3000 +
+        ((value * fee) / 100) * 0.1125;
 
       return transmutationCost;
     },
@@ -170,8 +193,9 @@ export default {
       let row = [];
 
       for (let tier = 4; tier <= 8; tier++) {
-        const itemName = `T${tier}_${this.baseItemName}` + 
-          (subtier == 0 ? '' : `_LEVEL${subtier}@${subtier}`);
+        const itemName =
+          `T${tier}_${this.baseItemName}` +
+          (subtier == 0 ? "" : `_LEVEL${subtier}@${subtier}`);
 
         if (tier == 4) {
           row.push({
@@ -181,22 +205,28 @@ export default {
             marketFee: 4.5,
             profit: 0,
             percentageProfit: 0,
-            date: '',
-            key: 0
+            date: "",
+            key: 0,
           });
 
           continue;
         }
-        
+
         const item = this.sellItems[itemName];
-        const price =  Math.floor(item.sellPriceMin * (0.955));
-        const fee = Math.floor(this.getTransmutationFee(itemName, this.getItemTransCostPrevTierFormula));
-        const materialName = `T${tier - 1}_${this.baseItemName}` + 
-          (subtier == 0 ? '' : `_LEVEL${subtier}@${subtier}`);
+        const price = Math.floor(item.sellPriceMin * 0.955);
+        const fee = Math.floor(
+          this.getTransmutationFee(
+            itemName,
+            this.getItemTransCostPrevTierFormula
+          )
+        );
+        const materialName =
+          `T${tier - 1}_${this.baseItemName}` +
+          (subtier == 0 ? "" : `_LEVEL${subtier}@${subtier}`);
         const material = this.buyItems[materialName];
-        const outcome = fee + material.sellPriceMin
+        const outcome = fee + material.sellPriceMin;
         const profit = price == 0 ? 0 : price - outcome;
-        const percentageProfit = price == 0 ? 0 : profit / outcome * 100;
+        const percentageProfit = price == 0 ? 0 : (profit / outcome) * 100;
 
         row.push({
           name: itemName,
@@ -209,7 +239,7 @@ export default {
           materialName,
           materialPrice: -material.sellPriceMin,
           materialDate: material.sellPriceMinDate,
-          key: 0
+          key: 0,
         });
       }
 
@@ -223,8 +253,9 @@ export default {
       let row = [];
 
       for (let tier = 4; tier <= 8; tier++) {
-        const itemName = `T${tier}_${this.baseItemName}` + 
-          (subtier == 0 ? '' : `_LEVEL${subtier}@${subtier}`);
+        const itemName =
+          `T${tier}_${this.baseItemName}` +
+          (subtier == 0 ? "" : `_LEVEL${subtier}@${subtier}`);
 
         if (subtier == 0) {
           row.push({
@@ -234,35 +265,41 @@ export default {
             marketFee: 4.5,
             profit: 0,
             percentageProfit: 0,
-            date: '',
+            date: "",
             key: 1,
           });
 
           continue;
         }
-        
+
         const item = this.sellItems[itemName];
-        const price =  Math.floor(item.sellPriceMin * (0.955));
-        const fee = Math.floor(this.getTransmutationFee(itemName, this.getItemTransCostPrevSubtierFormula));
-        const materialName = `T${tier}_${this.baseItemName}` + 
-        (subtier - 1 <= 0 ? '' : `_LEVEL${subtier - 1}@${subtier - 1}`);
+        const price = Math.floor(item.sellPriceMin * 0.955);
+        const fee = Math.floor(
+          this.getTransmutationFee(
+            itemName,
+            this.getItemTransCostPrevSubtierFormula
+          )
+        );
+        const materialName =
+          `T${tier}_${this.baseItemName}` +
+          (subtier - 1 <= 0 ? "" : `_LEVEL${subtier - 1}@${subtier - 1}`);
         const material = this.buyItems[materialName];
-        const outcome = fee + material.sellPriceMin
+        const outcome = fee + material.sellPriceMin;
         const profit = price == 0 ? 0 : price - outcome;
-        const percentageProfit = price == 0 ? 0 : profit / outcome * 100;
+        const percentageProfit = price == 0 ? 0 : (profit / outcome) * 100;
 
         row.push({
           name: itemName,
           price,
           fee: -fee,
-          marketFee: 4.5, 
+          marketFee: 4.5,
           profit,
           percentageProfit,
           date: item.sellPriceMinDate,
           materialName,
           materialPrice: -material.sellPriceMin,
           materialDate: material.sellPriceMinDate,
-          key: 1
+          key: 1,
         });
       }
 
@@ -270,13 +307,13 @@ export default {
     },
 
     /**
-     * Calculate all the best ways from the item of the current tier 
+     * Calculate all the best ways from the item of the current tier
      * and subtier to all the others above the tier or subtier
      */
     getAllTransmuteWays(tier, subtier) {
       let cells = [];
       let bestWays = [];
-      
+
       for (let s = subtier; s <= 3; s++) {
         cells[s] = [];
 
@@ -294,7 +331,7 @@ export default {
               transmutationFee: 0,
               prevTier: 0,
               pervSubtier: 0,
-            }
+            };
 
             continue;
           }
@@ -303,33 +340,48 @@ export default {
           let prevSubtierFee = 0;
 
           if (t - 1 >= tier) {
-            prevTierFee = cells[s][t - 1].transmutationFee + this.getTransmutationFee(itemName, this.getItemTransCostPrevTierFormula);
+            prevTierFee =
+              cells[s][t - 1].transmutationFee +
+              this.getTransmutationFee(
+                itemName,
+                this.getItemTransCostPrevTierFormula
+              );
           }
 
           if (s - 1 >= subtier) {
-            prevSubtierFee = cells[s - 1][t].transmutationFee + this.getTransmutationFee(itemName, this.getItemTransCostPrevSubtierFormula);
+            prevSubtierFee =
+              cells[s - 1][t].transmutationFee +
+              this.getTransmutationFee(
+                itemName,
+                this.getItemTransCostPrevSubtierFormula
+              );
           }
 
           cells[s][t].cost = 0;
 
-          if (prevTierFee < prevSubtierFee && prevTierFee != 0 || prevSubtierFee == 0) {
+          if (
+            (prevTierFee < prevSubtierFee && prevTierFee != 0) ||
+            prevSubtierFee == 0
+          ) {
             cells[s][t] = {
               transmutationFee: prevTierFee,
               prevTier: t - 1,
-              prevSubtier: s
-            }
+              prevSubtier: s,
+            };
           } else {
             cells[s][t] = {
               transmutationFee: prevSubtierFee,
               prevTier: t,
-              prevSubtier: s - 1
-            }
+              prevSubtier: s - 1,
+            };
           }
         }
       }
 
-      let getBuyCost = ([tier, subtier]) => this.buyItems[this.getItemName(tier, subtier)].sellPriceMin;
-      let getSellCost = ([tier, subtier]) => this.sellItems[this.getItemName(tier, subtier)].sellPriceMin;
+      let getBuyCost = ([tier, subtier]) =>
+        this.buyItems[this.getItemName(tier, subtier)].sellPriceMin;
+      let getSellCost = ([tier, subtier]) =>
+        this.sellItems[this.getItemName(tier, subtier)].sellPriceMin;
 
       for (let t = tier; t <= 8; t++) {
         for (let s = subtier; s <= 3; s++) {
@@ -339,20 +391,22 @@ export default {
 
           const recoveredWay = this.recoverWay(cells, t, s);
           const transmutationFee = cells[s][t].transmutationFee;
-          const income = getSellCost(recoveredWay[recoveredWay.length - 1]) * (1 - 4.5 / 100);
+          const income =
+            getSellCost(recoveredWay[recoveredWay.length - 1]) *
+            (1 - 4.5 / 100);
           const outcome = getBuyCost(recoveredWay[0]) + transmutationFee;
           const profit = income - outcome;
-          const profitPercentage = profit / outcome * 100;
+          const profitPercentage = (profit / outcome) * 100;
 
           bestWays.push({
             profit,
             profitPercentage,
             fee: transmutationFee,
-            way: recoveredWay
+            way: recoveredWay,
           });
         }
       }
-  
+
       return bestWays;
     },
 
@@ -361,7 +415,8 @@ export default {
      */
     recoverWay(cells, toTier, toSubtier) {
       let path = [];
-      let tier = toTier, subtier = toSubtier;
+      let tier = toTier,
+        subtier = toSubtier;
 
       while (tier != 0) {
         let { prevTier, prevSubtier } = cells[subtier][tier];
@@ -370,9 +425,9 @@ export default {
         tier = prevTier;
         subtier = prevSubtier;
       }
-      
+
       return path.reverse();
-    }
+    },
   },
 };
 </script>

@@ -106,5 +106,18 @@ export const mutations: MutationTree<TransmutationsState> = {
 
   UPDATE_SHOW_TRANSMUTATION_WAYS(state, showTransmutationWays: boolean) {
     state.settings.showTransmutationWays = showTransmutationWays;
+  },
+
+  UPDATE_ITEM_BY_ITEM_NAME(state, { itemName, item, location }: { itemName: string; item: ResponseModel, location: 'sell' | 'buy' }) {
+    const currentItemInfo = state.currentItemInfo;
+    const { buyResourcesLocation, sellResourcesLocation } = state.settings.cities;
+
+    const city = location === 'sell' ? sellResourcesLocation : buyResourcesLocation;
+    const resources = state.prices[city][currentItemInfo.name];
+    const storeResourceIndex = resources.findIndex((resource) => resource.itemId === itemName);
+
+    if (storeResourceIndex != -1) {
+      Vue.set(resources, storeResourceIndex, item);
+    }
   }
 }
