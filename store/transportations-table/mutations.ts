@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { TransportationsState, Item } from './typeDefs'
+import { TransportationsState, Item, Transportation, BackendSorting } from './typeDefs'
 
 export const mutations: MutationTree<TransportationsState> = {
   /**
@@ -14,7 +14,7 @@ export const mutations: MutationTree<TransportationsState> = {
       locationFrom: 'Lymhurst',
       locationTo: 'Black Market',
       skip: 0,
-      useHeuristicSort: false
+      backendSorting: [BackendSorting.BY_LAST_TIME_CHECKED, BackendSorting.BY_PERCENTAGE_PROFIT],
     }
   },
 
@@ -24,11 +24,11 @@ export const mutations: MutationTree<TransportationsState> = {
    * @param state - vuex state
    * @param data - items to add
    */
-  UPDATE_ITEMS_DATA(state, data: Item[]) {
-    state.items = [];
+  UPDATE_ITEMS_DATA(state, data: Transportation[]) {
+    state.transportations = [];
     
-    data.forEach(item => {
-      state.items.push(item);
+    data.forEach(transportation => {
+      state.transportations.push(transportation);
     });
   },
 
@@ -38,9 +38,9 @@ export const mutations: MutationTree<TransportationsState> = {
    * @param state - vuex state
    * @param data - items to add
    */
-  ADD_ITEMS_DATA(state, data: Item[]) {
-    data.forEach(item => {
-      state.items.push(item);
+  ADD_ITEMS_DATA(state, data: Transportation[]) {
+    data.forEach(transportation => {
+      state.transportations.push(transportation);
     });
   },
 
@@ -69,9 +69,9 @@ export const mutations: MutationTree<TransportationsState> = {
    * Use heuristic sort
    * 
    * @param state - vuex state
-   * @param useHeuristicSort - use a heuristic algorithm to sort items or not
+   * @param backendSorting - used backend sortings
    */
-  USE_HEURISTIC_SORT(state, useHeuristicSort: boolean) {
-    state.settings.useHeuristicSort = useHeuristicSort;
+  UDPATE_BACKEND_SORTING(state, backendSorting: BackendSorting[]) {
+    state.settings.backendSorting = backendSorting;
   }
 }

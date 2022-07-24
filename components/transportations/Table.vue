@@ -3,23 +3,23 @@
     <Settings />
     <div class="items">
       <ItemCard
-        v-for="(item, index) in items"
-        :key="item.itemId + index + 'x'"
+        v-for="(items, index) in transportations"
+        :key="items.from.itemId + index + 'x'"
         :item-from="{
-          itemId: item.itemId,
-          price: item.priceFrom,
-          date: item.dateFrom,
-          location: item.locationFrom,
-          quality: item.qualityFrom,
-          averageItemsSold: item.averageItems,
+          itemId: items.from.itemId,
+          price: items.from.sellPriceMin,
+          date: items.from.sellPriceMinDate,
+          location: items.from.location,
+          quality: items.from.quality,
+          averageItemsSold: items.from.averageItems,
         }"
         :item-to="{
-          itemId: item.itemId,
-          price: item.priceTo,
-          date: item.dateTo,
-          location: item.locationTo,
-          quality: item.qualityTo,
-          averageItemsSold: item.averageItems,
+          itemId: items.to.itemId,
+          price: items.to.sellPriceMin,
+          date: items.to.sellPriceMinDate,
+          location: items.to.location,
+          quality: items.to.quality,
+          averageItemsSold: items.to.averageItems,
         }"
       />
     </div>
@@ -39,7 +39,7 @@ export default {
     },
     computed: {
         ...mapState({
-            items: (state) => state.transportations.items,
+            transportations: (state) => state.transportations.transportations,
         }),
     },
     created() {

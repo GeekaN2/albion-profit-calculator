@@ -33,38 +33,65 @@
       </template>
     </select>
     <input
-      id="checkbox-heuristic"
-      v-model="useHeuristicSort"
+      id="checkbox-use-last-time-checked-sorting"
+      v-model="useLastTimeCheckedSorting"
       class="checkbox"
       type="checkbox"
-      @change="changeUseHeuristicSort"
+      @change="changeBackendSorting"
     >
-    <label for="checkbox-heuristic">{{ $t("useHeuristicSort") }}</label>
+    <label for="checkbox-use-last-time-checked-sorting">{{ $t("useLastTimeCheckedSorting") }}</label>
+    <p class="subtitle">
+      {{ $t("mainSorting") }}
+    </p>
+    <select
+      v-model="mainBackendSorting"
+      class="location"
+      @change="changeBackendSorting"
+    >
+      <template v-for="sorting in backendSorting">
+        <option
+          :key="sorting"
+          :value="sorting"
+        >
+          {{ $t(`sorting.${sorting}`) }}
+        </option>
+      </template>
+    </select>
   </div>
 </template>
 
 <i18n>
 {
   "en": {
-    "useHeuristicSort": "Use heuristic sort",
+    "useLastTimeCheckedSorting": "Sort by the last price check time",
     "cities": {
       "locationFrom": "Buy items",
       "locationTo": "Sell items"
+    },
+    "mainSorting": "Main sort",
+    "sorting": {
+      "BY_PROFIT": "By silver profit",
+      "BY_PERCENTAGE_PROFIT": "By percentage profit",
+      "BY_PROFIT_VOLUME": "By profit volume"
     }
   },
   "ru": {
-    "useHeuristicSort": "Использовать эвристическую сортировку",
+    "useLastTimeCheckedSorting": "Сортировать по времени последней проверке цены",
     "cities": {
       "locationFrom": "Покупка предметов",
       "locationTo": "Продажа предметов"
+    },
+    "mainSorting": "Основная сортировка",
+    "sorting": {
+      "BY_PROFIT": "По профиту в серебра",
+      "BY_PERCENTAGE_PROFIT": "По профиту в процентах",
+      "BY_PROFIT_VOLUME": "По объему профита"
     }
   }
 }
 </i18n>
 
 <script>
-import { mapState } from "vuex";
-
 export default {
   name: "Settings",
   data() {
@@ -73,11 +100,6 @@ export default {
         locationFrom: "Caerleon",
         locationTo: "Black Market",
       },
-
-      /**
-       * Heuristic sort
-       */
-      useHeuristicSort: false,
 
       /**
        * All available locations without Black Market
@@ -90,6 +112,14 @@ export default {
         "Martlock",
         "Thetford",
       ],
+
+      useLastTimeCheckedSorting: true,
+      mainBackendSorting: 'BY_PERCENTAGE_PROFIT',
+      backendSorting: [
+        'BY_PROFIT',
+        'BY_PERCENTAGE_PROFIT',
+        'BY_PROFIT_VOLUME'
+      ]
     };
   },
   mounted() {
@@ -106,8 +136,14 @@ export default {
       this.$store.dispatch("transportations/GET_ITEMS");
     },
 
-    changeUseHeuristicSort() {
-      this.$store.commit("transportations/USE_HEURISTIC_SORT", this.useHeuristicSort);
+    changeBackendSorting() {
+      let allSorts = [this.mainBackendSorting];
+
+      if (this.useLastTimeCheckedSorting) {
+        allSorts.push('BY_LAST_TIME_CHECKED');
+      }
+
+      this.$store.commit("transportations/UDPATE_BACKEND_SORTING", allSorts);
       this.$store.dispatch("transportations/GET_ITEMS");
     }
   },
@@ -128,6 +164,7 @@ export default {
 
 .subtitle {
   font-size: 0.9rem;
+  margin-top: var(--space-xs);
 }
 
 .location {

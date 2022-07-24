@@ -21,8 +21,8 @@ export default {
             default: 0,
         },
         date: {
-            type: Number,
-            default: 0,
+            type: String,
+            default: '1970-01-01T00:00:00Z',
         },
     },
     computed: {

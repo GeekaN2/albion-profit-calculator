@@ -135,7 +135,7 @@ export default {
         },
 
         averageItemsSoldPerDay() {
-            return roundPrice(this.itemFrom.averageItemsSold, 1);
+            return roundPrice(this.itemTo.averageItemsSold, 1);
         },
     },
     methods: {

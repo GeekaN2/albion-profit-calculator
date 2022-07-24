@@ -23,7 +23,7 @@ export const actions: ActionTree<TransportationsState, {}> = {
     const skip = state.settings.skip;
 
     await axios
-      .get(`${baseUrl}transportations/analyze?from=${settings.locationFrom}&to=${settings.locationTo}&count=${count}&skip=${skip}&useHeuristicSort=${settings.useHeuristicSort}`)
+      .get(`${baseUrl}transportations/sort?from=${settings.locationFrom}&to=${settings.locationTo}&count=${count}&skip=${skip}`)
       .then(response => {
         const data = response.data;
 
@@ -43,7 +43,7 @@ export const actions: ActionTree<TransportationsState, {}> = {
     const skip = 0;
 
     await axios
-      .get(`${baseUrl}transportations/analyze?from=${settings.locationFrom}&to=${settings.locationTo}&count=${count}&skip=${skip}&useHeuristicSort=${settings.useHeuristicSort}`)
+      .get(`${baseUrl}transportations/sort?from=${settings.locationFrom}&to=${settings.locationTo}&count=${count}&skip=${skip}&sort=${settings.backendSorting.join(',')}`)
       .then(response => {
         const data = response.data;
 
