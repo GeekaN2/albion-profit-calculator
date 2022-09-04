@@ -23,7 +23,7 @@ export const actions: ActionTree<TransportationsState, {}> = {
     const skip = state.settings.skip;
 
     await axios
-      .get(`${baseUrl}transportations/sort?from=${settings.locationFrom}&to=${settings.locationTo}&count=${count}&skip=${skip}`)
+      .get(`${baseUrl}transportations/sort?from=${settings.locationFrom}&to=${settings.locationTo}&count=${count}&skip=${skip}&sort=${settings.backendSorting.join(',')}`)
       .then(response => {
         const data = response.data;
 
