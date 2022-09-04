@@ -83,7 +83,7 @@
     },
     "mainSorting": "Основная сортировка",
     "sorting": {
-      "BY_PROFIT": "По профиту в серебра",
+      "BY_PROFIT": "По профиту в серебре",
       "BY_PERCENTAGE_PROFIT": "По профиту в процентах",
       "BY_PROFIT_VOLUME": "По объему профита"
     }

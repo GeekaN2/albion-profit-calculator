@@ -11,7 +11,7 @@
           :to="localePath('/tree')"
           class="links__button--brown button"
         >
-          🪴 {{ $t("tree") }}
+          🌳 {{ $t("tree") }}
         </nuxt-link>
         <nuxt-link
           v-if="$auth.loggedIn"
@@ -67,7 +67,7 @@
                 'links__button--brown button',
               ]"
             >
-              🦣 {{ $t("transportations") }}
+              🐗 {{ $t("transportations") }}
             </nuxt-link>
           </template>
           <template #tooltip>
@@ -76,8 +76,6 @@
             <span class="tooltip-text">
               {{ $t('supportServer') }}
               <Patreon />
-              {{ $t('or') }}
-              <KoFi />
             </span>
           </template>
         </CustomTooltipLayout>

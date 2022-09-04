@@ -41,5 +41,5 @@ export const formatPrice = (price: number) => {
 };
 
 export const roundPrice = (price: number, numbersAfterComma: number) => {
-    return Number.parseFloat(price.toFixed(numbersAfterComma));
+    return Number.parseFloat(price?.toFixed(numbersAfterComma));
 }
