@@ -71,7 +71,7 @@
         src="/images/guides/transmutations/tooltip.png"
         class="guide__image"
       >
-      In the first row of first column you can see number like -4.5%, this is a
+      In the first row of first column you can see number like -6.5%, this is a
       market fee for selling an item. Second column displays how much silver you
       will spend or receive. And the third one shows last time of the last price
       update.

@@ -35,6 +35,7 @@
 
 <script>
 import Tooltip from "../../utils/Tooltip.vue";
+import { MARKET_SELL_ORDER_FEE } from '../../../store/constants';
 import { mapGetters, mapState } from "vuex";
 
 export default {
@@ -102,12 +103,12 @@ export default {
 
       const amountCrafted = craftingRequirements["@amountcrafted"];
       const sellProfit =
-        (amountCrafted * item.sellPriceMin * (100 - 4.5)) / 100;
+        (amountCrafted * item.sellPriceMin * (100 - MARKET_SELL_ORDER_FEE)) / 100;
 
       tooltipData.push({
         name: item.itemId,
         price: Math.floor(sellProfit),
-        percent: -4.5,
+        percent: -MARKET_SELL_ORDER_FEE,
         date: item.sellPriceMinDate,
         additionalData: amountCrafted,
       });

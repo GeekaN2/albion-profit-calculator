@@ -88,6 +88,7 @@ import ImageWithoutNumber from "~/components/utils/ImageWithoutNumber";
 import { isOutdated, formatPrice, roundPrice } from "./utils";
 import PriceWithDate from "./ItemCardComponents/PriceWithDate";
 import SvgIcon from "../utils/SvgIcon.vue";
+import { MARKET_SELL_ORDER_FEE } from '../../store/constants';
 
 export default {
     name: "ItemCard",
@@ -123,7 +124,7 @@ export default {
     computed: {
         profit() {
             return (
-                (this.itemTo.price * (100 - 4.5)) / 100 - this.itemFrom.price
+                (this.itemTo.price * (100 - MARKET_SELL_ORDER_FEE)) / 100 - this.itemFrom.price
             );
         },
 

@@ -54,6 +54,7 @@ import { mapGetters, mapState } from "vuex";
 import ItemRow from "./ItemRow";
 import LongWayTransmutationRow from "./LongWayTransmutationRow";
 import ItemRecipe from "./ItemRecipe.vue";
+import { MARKET_SELL_ORDER_FEE } from '../../store/constants';
 
 export default {
   name: "Table",
@@ -75,7 +76,7 @@ export default {
         [0, 375, 600, 1200, 5000],
         [0, 750, 1200, 2500, 10200],
         [0, 2100, 3200, 5100, 20400],
-        [0, 8400, 12800, 20400, 40800],
+        [0, 8400, 12800, 20400, 40960],
       ],
       /**
        * It's a bit weird but rocks only have prev tier formula
@@ -202,7 +203,7 @@ export default {
             name: itemName,
             price: 0,
             fee: 0,
-            marketFee: 4.5,
+            marketFee: MARKET_SELL_ORDER_FEE,
             profit: 0,
             percentageProfit: 0,
             date: "",
@@ -232,7 +233,7 @@ export default {
           name: itemName,
           price,
           fee: -fee,
-          marketFee: 4.5,
+          marketFee: MARKET_SELL_ORDER_FEE,
           profit,
           percentageProfit,
           date: item.sellPriceMinDate,
@@ -262,7 +263,7 @@ export default {
             name: itemName,
             price: 0,
             fee: 0,
-            marketFee: 4.5,
+            marketFee: MARKET_SELL_ORDER_FEE,
             profit: 0,
             percentageProfit: 0,
             date: "",
@@ -292,7 +293,7 @@ export default {
           name: itemName,
           price,
           fee: -fee,
-          marketFee: 4.5,
+          marketFee: MARKET_SELL_ORDER_FEE,
           profit,
           percentageProfit,
           date: item.sellPriceMinDate,
@@ -393,7 +394,7 @@ export default {
           const transmutationFee = cells[s][t].transmutationFee;
           const income =
             getSellCost(recoveredWay[recoveredWay.length - 1]) *
-            (1 - 4.5 / 100);
+            (1 - MARKET_SELL_ORDER_FEE / 100);
           const outcome = getBuyCost(recoveredWay[0]) + transmutationFee;
           const profit = income - outcome;
           const profitPercentage = (profit / outcome) * 100;

@@ -11,7 +11,7 @@ export const mutations: MutationTree<TransmutationsState> = {
   SET_STATE(state) {
     state.settings = {
       fee: 800,
-      gold: 2980,
+      gold: 3000,
       showTransmutationWays: false,
       cities: {
         buyResourcesLocation: 'Caerleon',

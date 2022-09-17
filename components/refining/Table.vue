@@ -19,6 +19,7 @@
 import { mapGetters, mapState } from 'vuex';
 import ItemRow from './ItemRow';
 import { getItemRecipe } from './getItemRecipe';
+import { MARKET_SELL_ORDER_FEE } from '../../store/constants';
 import ItemRecipe from '~/components/refining/ItemRecipe.vue';
 
 export default {
@@ -66,7 +67,7 @@ export default {
         const recipe = getItemRecipe(this.baseItemName, tier, subtier);
         const fee = this.craftFee(tier, subtier);
 
-        const itemPrice = Math.floor(this.sellMaterials[itemName].sellPriceMin * (1 - 4.5 / 100));
+        const itemPrice = Math.floor(this.sellMaterials[itemName].sellPriceMin * (1 - MARKET_SELL_ORDER_FEE / 100));
         const rawResourcesPrice = Math.floor(this.buyRawResources[recipe.rawResource.name].sellPriceMin
           * recipe.rawResource.quantity
           * (1 - this.returnPercentage / 100));
@@ -84,7 +85,7 @@ export default {
           tooltipData: [
             {
               name: itemName,
-              percent: -4.5,
+              percent: -MARKET_SELL_ORDER_FEE,
               price: itemPrice,
               date: this.sellMaterials[itemName].sellPriceMinDate
             }, {

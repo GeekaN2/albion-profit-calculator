@@ -1,3 +1,4 @@
+import { MARKET_ORDER_FEE, MARKET_SELL_ORDER_FEE } from './constants';
 import { ResponseModel, Item } from './profit-tree/typeDefs'
 
 /**
@@ -215,14 +216,14 @@ export function normalizedPriceAndDate(item: ResponseModel): Item {
   const sellPriceRespone = {
     price: item.sellPriceMin,
     date: item.sellPriceMinDate,
-    marketFee: 4.5,
+    marketFee: MARKET_SELL_ORDER_FEE,
     quality: item.quality
   }
 
   const buyPriceResponse = {
     price: item.buyPriceMax,
     date: item.buyPriceMaxDate,
-    marketFee: 3,
+    marketFee: MARKET_ORDER_FEE,
     quality: item.quality
   }
 
@@ -342,7 +343,7 @@ export function normalizeItemBySellPriceMin(prices: ResponseModel[]) {
     let newPrice: Item = {
       price: item.sellPriceMin,
       date: item.sellPriceMinDate,
-      marketFee: 4.5,
+      marketFee: MARKET_SELL_ORDER_FEE,
       quality: item.quality
     };
 
