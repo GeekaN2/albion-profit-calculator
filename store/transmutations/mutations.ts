@@ -11,7 +11,6 @@ export const mutations: MutationTree<TransmutationsState> = {
   SET_STATE(state) {
     state.settings = {
       fee: 800,
-      gold: 3000,
       showTransmutationWays: false,
       cities: {
         buyResourcesLocation: 'Caerleon',
@@ -72,16 +71,6 @@ export const mutations: MutationTree<TransmutationsState> = {
    */
   SET_LOADING_TEXT(state, loadingText: string) {
     state.features.loadingText = loadingText;
-  },
-
-  /**
-   * Update gold
-   * 
-   * @param state - vuex state
-   * @param gold - market gold price
-   */
-  UPDATE_GOLD(state, gold: number) {
-    state.settings.gold = gold;
   },
 
   /**

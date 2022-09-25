@@ -67,16 +67,22 @@ export default {
     return {
       resources: ["ORE", "HIDE", "FIBER", "WOOD", "ROCK"],
       values: [
-        [4, 5.4, 8, 12.8, 25.6],
-        [12, 10.62, 16, 25.6, 51.2],
-        [24, 21.36, 32, 51.2, 102],
-        [48, 42.66, 64, 102.4, 204],
+        [4, 5.34, 8, 12.8, 25.6],
+        [12, 10.66, 16, 25.6, 51.2],
+        [28, 21.34, 32, 51.2, 102.4],
+        [60, 42.66, 64, 102.4, 204.8],
+      ],
+      transCostPrevSubtierFormula: [
+        [0, 0, 0, 0, 0],
+        [1800, 1600, 2400, 3840, 7680],
+        [3600, 3200, 4800, 7680, 15360],
+        [7200, 6400, 9600, 15360, 30720]
       ],
       transCostPrevTierFormula: [
-        [0, 375, 600, 1200, 5000],
-        [0, 750, 1200, 2500, 10200],
-        [0, 2100, 3200, 5100, 20400],
-        [0, 8400, 12800, 20400, 40960],
+        [0, 1070, 1600, 2560, 5120],
+        [0, 2130, 3200, 5120, 10240],
+        [0, 4270, 6400, 10240, 20480],
+        [0, 8530, 12800, 20480, 40960],
       ],
       /**
        * It's a bit weird but rocks only have prev tier formula
@@ -145,7 +151,7 @@ export default {
         return this.rockTransCost[tier - 4];
       }
 
-      return this.getValue(tier, subtier) * 200;
+      return this.transCostPrevTierFormula[subtier][tier - 4];
     },
 
     /**
@@ -156,12 +162,7 @@ export default {
      * @param {number} subtier - item subtier
      */
     getItemTransCostPrevSubtierFormula(tier, subtier) {
-      const subtierMultilier = [0, 3, 2, 1];
-      return (
-        this.getValue(tier, subtier) *
-        (subtier * 50 - !(subtier % 2) * 25) *
-        subtierMultilier[subtier]
-      );
+      return this.transCostPrevSubtierFormula[subtier][tier - 4];
     },
 
     /**
@@ -175,13 +176,14 @@ export default {
       const tier = Number(itemName.slice(1, 2));
       const subtier = Number(itemName.slice(-1)) || 0;
       const itemTransCost = formula(tier, subtier);
-      const goldPrice = this.settings.gold;
       const value = this.getValue(tier, subtier);
       const fee = this.settings.fee;
 
+      // previously: 1 - (3000 - goldPrice) / 3000
+      const globalDiscount = 1.1; 
+
       const transmutationCost =
-        itemTransCost -
-        (itemTransCost * (3000 - goldPrice)) / 3000 +
+        itemTransCost * globalDiscount +
         ((value * fee) / 100) * 0.1125;
 
       return transmutationCost;
@@ -214,7 +216,7 @@ export default {
         }
 
         const item = this.sellItems[itemName];
-        const price = Math.floor(item.sellPriceMin * 0.955);
+        const price = Math.floor(item.sellPriceMin * (100 - MARKET_SELL_ORDER_FEE) / 100);
         const fee = Math.floor(
           this.getTransmutationFee(
             itemName,

@@ -2,16 +2,6 @@
   <div class="settings">
     <h2>{{ $t('settings.settings') }}</h2>
     <div class="setting">
-      <h3>{{ $t('goldPrice') }}</h3>
-      <input 
-        v-model.number="gold"
-        class="input input--number"
-        placeholder="3000" 
-        maxlength="6"
-        @change="updateGold"
-      >
-    </div>
-    <div class="setting">
       <h3>{{ $t('settings.feeForNutrition') }}</h3>
       <input 
         v-model.number="fee"
@@ -92,7 +82,6 @@
 <i18n>
 {
   "en": {
-    "goldPrice": "Gold price",
     "sellLocation": "Sell resources",
     "showTransmutationWays": "Transmutation ways",
     "buyLocation": "Buy resources",
@@ -100,7 +89,6 @@
     "updateBuyPrices": "Update buy prices"
   },
   "ru": {
-    "goldPrice": "Цена золота",
     "sellLocation": "Продажа ресурсов",
     "showTransmutationWays": "Пути трансмутации",
     "buyLocation": "Покупка ресурсов",
@@ -117,7 +105,6 @@ export default {
   name: 'Settings',
   data() {
     return {
-      gold: 3000,
       fee: 800,
       cities: {
         sellResourcesLocation: 'Caerleon',
@@ -155,13 +142,6 @@ export default {
     })
   },
   methods: {
-    /**
-     * Update gold price at the state
-     */
-    updateGold() {
-      this.$store.commit('transmutations/UPDATE_GOLD', this.gold);
-    },
-
     /**
      * Update craft bench fee
      */
