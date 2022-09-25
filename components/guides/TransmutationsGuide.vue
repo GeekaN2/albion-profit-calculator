@@ -50,8 +50,7 @@
       Fee is calculated as:
       <span
         class="guide__code"
-      >itemTransCost - (itemTransCost * (3000 - goldPrice) / 3000) + (value *
-        fee / 20)</span>
+      >itemTransCost * 1.1 + (resourceValue * fee / 100 * 0.1125)</span>
       <br>
       <span class="guide__code">itemTransCost</span> is constant in the recipe
       that you can get from
@@ -61,8 +60,6 @@
         class="guide__link"
       >game dumps</a>.
       <br>
-      <span class="guide__code">goldPrice</span> - gold selling price in the
-      gold market.<br>
       <span class="guide__code">value</span> - value of the resource into which
       you are transmuting.<br>
       <span class="guide__code">fee</span> - craft bench fee where you craft, as
@@ -104,13 +101,6 @@
         src="/images/guides/transmutations/settings.png"
         class="guide__image"
       >
-    </p>
-    <p class="guide__paragraph">
-      <img
-        src="/images/guides/transmutations/gold-price.png"
-        class="guide__image guide__image--inline"
-      >
-      Gold selling price in the gold market.
     </p>
     <p class="guide__paragraph">
       <img
