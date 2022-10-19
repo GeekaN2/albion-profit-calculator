@@ -73,5 +73,13 @@ export const mutations: MutationTree<TransportationsState> = {
    */
   UDPATE_BACKEND_SORTING(state, backendSorting: BackendSorting[]) {
     state.settings.backendSorting = backendSorting;
+  },
+
+  UPDATE_ITEM_PRICE(state, { itemId, direction, price }: { itemId: string; direction: 'from' | 'to', price: number}) {
+    const item = state.transportations.find(item => item[direction].itemId === itemId);
+
+    if (item) {
+      item[direction].sellPriceMin = price;
+    }
   }
 }

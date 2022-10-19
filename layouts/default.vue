@@ -156,6 +156,7 @@ body {
   --space-2-xl: 24px;
   --space-3-xl: 28px;
 
+  --radius-2-xs: 2px;
   --radius-xs: 4px;
   --radius-s: 8px;
 }

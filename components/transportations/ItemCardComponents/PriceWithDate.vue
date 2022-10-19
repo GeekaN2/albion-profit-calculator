@@ -1,6 +1,10 @@
 <template>
   <div class="price-with-date">
-    <span class="price">{{ formatPrice(price) }}</span>
+    <InputWithView
+      :get-text="() => price"
+      :set-text="setItemPrice"
+      :format-text="formatPrice"
+    />
     <span
       :class="['date', {
         'profitable': !isOutdated,
@@ -12,28 +16,36 @@
 
 <script>
 import { formatDate, formatPrice, isOutdated } from '../utils';
+import InputWithView from '../../utils/InputWithView.vue';
 
 export default {
-    name: "PriceWithDate",
-    props: {
-        price: {
-            type: Number,
-            default: 0,
-        },
-        date: {
-            type: String,
-            default: '1970-01-01T00:00:00Z',
-        },
+  name: "PriceWithDate",
+  components: {
+    InputWithView
+  },
+  props: {
+    setItemPrice: {
+      type: Function,
+      default: () => {},
     },
-    computed: {
-      isOutdated() {
-        return isOutdated(this.date);
-      }
+    price: {
+      type: Number,
+      default: 0,
     },
-    methods: {
-      formatDate: formatDate,
-      formatPrice: formatPrice,
+    date: {
+      type: String,
+      default: '1970-01-01T00:00:00Z',
+    },
+  },
+  computed: {
+    isOutdated() {
+      return isOutdated(this.date);
     }
+  },
+  methods: {
+    formatDate: formatDate,
+    formatPrice: formatPrice,
+  }
 };
 </script>
 
@@ -50,10 +62,10 @@ export default {
 }
 
 .profitable {
-    color: var(--color-profitable);
+  color: var(--color-profitable);
 }
 
 .unprofitable {
-    color: var(--color-unprofitable);
+  color: var(--color-unprofitable);
 }
 </style>

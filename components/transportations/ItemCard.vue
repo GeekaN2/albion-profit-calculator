@@ -27,6 +27,9 @@
         <div class="item">
           <div class="inputs-grid">
             <PriceWithDate
+              :set-item-price="(price) => {
+                setItemPrice(itemFrom.itemId, 'from', price);
+              }"
               :price="itemFrom.price"
               :date="itemFrom.date"
             />
@@ -35,6 +38,9 @@
               icon-class="arrow-right"
             />
             <PriceWithDate
+              :set-item-price="(price) => {
+                setItemPrice(itemTo.itemId, 'to', price);
+              }"
               :price="itemTo.price"
               :date="itemTo.date"
             />
@@ -151,6 +157,13 @@ export default {
         },
         formatPrice: formatPrice,
         isOutdated: isOutdated,
+        setItemPrice(itemId, direction, price) {
+          this.$store.commit("transportations/UPDATE_ITEM_PRICE", {
+            itemId,
+            direction,
+            price,
+          });
+        }
     },
 };
 </script>

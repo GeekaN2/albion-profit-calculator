@@ -10,7 +10,7 @@ export interface TransportationsState {
  * Main item model
  */
 export interface Item {
-  itemId: number;
+  itemId: string;
   location: number;
   averageItems: number;
   averagePrice: number;
