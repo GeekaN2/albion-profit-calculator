@@ -27,6 +27,13 @@
         >
           🍲 {{ $t("foodAndPotions") }}
         </nuxt-link>
+        <nuxt-link
+          v-if="$auth.loggedIn"
+          :to="localePath('/artifacts-foundry')"
+          class="links__button--brown button"
+        >
+          🪨 {{ $t("artifactFoundry") }}
+        </nuxt-link>
         <CustomTooltipLayout :hide-tooltip="isSupporter">
           <template #content>
             <nuxt-link
@@ -49,8 +56,6 @@
             <span class="tooltip-text">
               {{ $t('supportServer') }}
               <Patreon />
-              {{ $t('or') }}
-              <KoFi />
             </span>
           </template>
         </CustomTooltipLayout>
@@ -148,7 +153,8 @@
     "login": "Login",
     "register": "Register",
     "logout": "Logout",
-    "foodAndPotions": "Food & potions"
+    "foodAndPotions": "Food & potions",
+    "artifactFoundry": "Artifacts foundry"
   },
   "ru": {
     "tree": "Дерево профита",
@@ -161,7 +167,8 @@
     "login": "Войти",
     "register": "Зарегистрироваться",
     "logout": "Выйти",
-    "foodAndPotions": "Еда и зелья"
+    "foodAndPotions": "Еда и зелья",
+    "artifactFoundry": "Цех артефактов"
   }
 }
 </i18n>
@@ -172,7 +179,6 @@ import Register from "~/components/Register";
 import ThemeToggle from "~/components/utils/ThemeToggle";
 import CustomTooltipLayout from '~/components/utils/CustomTooltips/CustomTooltipLayout';
 import Patreon from '~/components/icons/Patreon';
-import KoFi from '~/components/icons/KoFi';
 
 export default {
   name: "MainPage",
@@ -182,7 +188,6 @@ export default {
     ThemeToggle,
     CustomTooltipLayout,
     Patreon,
-    KoFi,
   },
   data() {
     return {

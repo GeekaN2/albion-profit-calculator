@@ -19,17 +19,6 @@
       </a>
       <a
         class="header__social"
-        href="https://ko-fi.com/geekan"
-        target="_blank"
-      >
-        <img 
-          title="Support me on ko-fi"
-          class="header__ko-fi"
-          src="/images/ko-fi-logo.png"
-        >  
-      </a>
-      <a
-        class="header__social"
         href="https://discord.gg/2AM2twM"
         target="_blank"
       >

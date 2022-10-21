@@ -34,7 +34,7 @@
 <script>
 import Header from "~/components/Header";
 import Settings from "~/components/refining/Settings"
-import Row from "~/components/refining/Row";
+import Row from "~/components/refining/Row.vue";
 import Table from '~/components/refining/Table';
 import Loading from '~/components/utils/Loading.vue';
 import { mapGetters, mapState } from 'vuex'; 

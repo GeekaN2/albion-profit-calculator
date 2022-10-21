@@ -17,6 +17,7 @@ async function getImages() {
   const baseItemNames = Object.keys(recipes);
   const resources = ['PLANKS', 'METALBAR', 'LEATHER', 'CLOTH', 'STONEBLOCK', 'FIBER', 'ROCK', 'ORE', 'WOOD', 'HIDE'];
   const roots = ['WARRIOR', 'MAGE', 'HUNTER', 'TOOLMAKER'];
+  const artifactFragments = ['RUNE', 'SOUL', 'RELIC', 'SHARD_AVALONIAN'];
   
   let counter = 1;
   
@@ -34,7 +35,8 @@ async function getImages() {
   });
 
   roots.forEach(root => allItems.push(...createArrayOfAllJournals(root)));
-  resources.forEach(baseResource => createArrayOfAllResources(baseResource).forEach(resource => allItems.push(resource)));
+  resources.forEach(baseResource => allItems.push(...createArrayOfAllResources(baseResource)));
+  artifactFragments.forEach(fragmenBaseName => allItems.push(...createArrayOfAllArtifactFragments(fragmenBaseName)));
   allItems.push(...createArrayOfAllFoodAndPotions());
 
   const itemsQuantity = allItems.length;
@@ -146,6 +148,22 @@ function createArrayOfAllArtifacts(itemName) {
 
   for (let tier = 4; tier <= 8; tier++) {
     allNames.push(`T${tier}_ARTEFACT${itemName.slice(2)}`);
+  }
+
+  return allNames;
+}
+
+/**
+ * Creates an array with all artifact fragmenst
+ * 
+ * @param itemName - fragment name: SHARD_AVALONIAN etc.
+ * @returns string with all tiers of fragments
+ */
+function createArrayOfAllArtifactFragments(itemName) {
+  const allNames = [];
+
+  for (let tier = 4; tier <= 8; tier++) {
+    allNames.push(`T${tier}_${itemName}`);
   }
 
   return allNames;

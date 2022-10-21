@@ -78,5 +78,5 @@ export interface SettingsWithItem {
  * Various features
  */
 export interface Features {
-  loadingText: string;
+  loadingText: 'calculated' | 'something changed';
 }

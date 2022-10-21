@@ -6,6 +6,7 @@ import refiningModule from './refining';
 import adminPanelModule from './admin-panel';
 import featuresModule from './features';
 import foodAndPotionsModule from './food-and-potions';
+import artifactsFoundryModule from './artifacts-foundry';
 import { RootState } from './typeDefs';
 
 const store: StoreOptions<RootState> ={
@@ -40,6 +41,11 @@ const store: StoreOptions<RootState> ={
      * Admin panel module
      */
     adminPanel: adminPanelModule,
+
+    /**
+     * Artifacts melding and salvaging
+     */
+    artifactsFoundry: artifactsFoundryModule,
 
     /**
      * Some global features

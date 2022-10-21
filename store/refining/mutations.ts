@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { RefiningState } from './typeDefs'
+import { Features, RefiningState } from './typeDefs'
 import { ResponseModel, SettingsWithItem, ItemInfo, OneOfCitiesProp } from './typeDefs'
 import { getRawResourceNameByMaterial } from '../utils';
 import Vue from 'vue';
@@ -138,7 +138,7 @@ export const mutations: MutationTree<RefiningState> = {
    * @param state - vuex state
    * @param loadingText - text of loading
    */
-  SET_LOADING_TEXT(state, loadingText: string) {
+  SET_LOADING_TEXT(state, loadingText: Features['loadingText']) {
     state.features.loadingText = loadingText;
   },
 
