@@ -2,12 +2,12 @@ import axios from 'axios';
 import { ActionTree } from 'vuex'
 import { ProfitTreeItem } from '../typeDefs';
 import { isArtifactItem, isObjectEmpty } from '../utils';
-import { ArtifactsFoundryState, ArtifactsTree, ItemInfo, LoadingStatus, SettingsWithItem, ArtifactBranch, ArtifactsTreeForCurrentFragment } from './typeDefs';
+import { ArtifactFoundryState, ArtifactsTree, ItemInfo, LoadingStatus, SettingsWithItem, ArtifactBranch, ArtifactsTreeForCurrentFragment } from './typeDefs';
 import PromisePool from 'es6-promise-pool';
 
 const baseUrl = process.env.BASE_URL;
 
-export const actions: ActionTree<ArtifactsFoundryState, {}> = {
+export const actions: ActionTree<ArtifactFoundryState, {}> = {
   /**
  * Check all prices of materials and raw resources
  * If there are no prices, then download them
@@ -89,7 +89,7 @@ export const actions: ActionTree<ArtifactsFoundryState, {}> = {
           treeItem.children.forEach((item) => getAllArtifactLeafs(item));
         } else if (treeItem.children && treeItem.children.length >= 4 && areAllChildrenLeafs(treeItem.children)) {
           const names = getAllLeafNames(treeItem.children);
-          const [rune, soul, relic, avaShard] = names.slice(-4);
+          const [rune, soul, relic, avaShard] = names.slice(-4).map(name => 'ARTEFACT_' + name.slice(3));
   
           artifactItems.RUNE.push(rune);
           artifactItems.SOUL.push(soul);

@@ -1,11 +1,11 @@
 import { MutationTree } from 'vuex'
-import { ArtifactsFoundryState, AverageDataForItem, ItemInfo, LoadingStatus, Settings, SettingsWithItem } from './typeDefs'
+import { ArtifactFoundryState, AverageDataForItem, ItemInfo, LoadingStatus, Settings, SettingsWithItem } from './typeDefs'
 import Vue from 'vue';
 import { ResponseModel } from '../typeDefs';
 
-export const mutations: MutationTree<ArtifactsFoundryState> = {
-  SET_FIELD(state: ArtifactsFoundryState, { fieldName, fieldValue }: {
-    fieldName: keyof ArtifactsFoundryState,
+export const mutations: MutationTree<ArtifactFoundryState> = {
+  SET_FIELD(state: ArtifactFoundryState, { fieldName, fieldValue }: {
+    fieldName: keyof ArtifactFoundryState,
     fieldValue: any
   }): void {
     state[fieldName] = fieldValue;

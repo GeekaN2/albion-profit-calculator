@@ -29,7 +29,7 @@
         </nuxt-link>
         <nuxt-link
           v-if="$auth.loggedIn"
-          :to="localePath('/artifacts-foundry')"
+          :to="localePath('/artifact-foundry')"
           class="links__button--brown button"
         >
           🪨 {{ $t("artifactFoundry") }}

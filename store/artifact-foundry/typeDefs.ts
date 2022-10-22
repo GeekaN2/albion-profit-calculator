@@ -1,6 +1,6 @@
 import { ResponseModel } from "../typeDefs";
 
-export interface ArtifactsFoundryState {
+export interface ArtifactFoundryState {
   tree: ArtifactsTree;
   fragments: Prices;
   artifacts: Prices;
@@ -44,7 +44,7 @@ export interface Features {
 }
 
 export interface ItemInfo {
-  name: FragmentType;
+  name?: FragmentType;
 }
 
 /**

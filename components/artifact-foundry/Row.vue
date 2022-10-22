@@ -35,7 +35,7 @@
           this.currentItem = itemName;
         }
   
-        this.$store.dispatch('artifactsFoundry/CHECK_ALL', {
+        this.$store.dispatch('artifactFoundry/CHECK_ALL', {
           name: this.currentItem
         });
       }

@@ -4,7 +4,7 @@ import { getters } from './getters'
 import Vuex, { Module } from 'vuex';
 import Vue from 'vue'
 import clonedeep from 'lodash.clonedeep';
-import { ArtifactsFoundryState, FragmentType, LoadingStatus } from './typeDefs';
+import { ArtifactFoundryState, FragmentType, LoadingStatus } from './typeDefs';
 import { RootState } from '../typeDefs';
 
 Vue.use(Vuex);
@@ -25,7 +25,7 @@ const fragments: { [key in FragmentType ]: string[]} = {
   'SHARD_AVALONIAN': []
 };
 
-const artifactsFoundryModule: Module<ArtifactsFoundryState, RootState>  = {
+const artifactFoundryModule: Module<ArtifactFoundryState, RootState>  = {
   namespaced: true,
   state: () => ({
     tree: {
@@ -48,13 +48,11 @@ const artifactsFoundryModule: Module<ArtifactsFoundryState, RootState>  = {
     features: {
       loadingStatus: LoadingStatus.CALCULATED,
     },
-    currentItemInfo: {
-      name: 'RUNE'
-    }
+    currentItemInfo: {}
   }),
   getters,
   actions,
   mutations
 }
 
-export default artifactsFoundryModule;
+export default artifactFoundryModule;
