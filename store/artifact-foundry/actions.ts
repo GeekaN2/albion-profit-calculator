@@ -26,7 +26,7 @@ export const actions: ActionTree<ArtifactFoundryState, {}> = {
       return;
     }
 
-    const currentItemInfo = state.currentItemInfo;
+    const currentItemInfo = state.currentFragmentType;
     const settings = state.settings;
     const settingsWithItem: SettingsWithItem = {
       currentItemInfo,
@@ -54,7 +54,7 @@ export const actions: ActionTree<ArtifactFoundryState, {}> = {
     }
 
     // Send a request if something is changed
-    if (state.currentItemInfo != currentItemInfo || state.settings != settings) {
+    if (state.currentFragmentType != currentItemInfo || state.settings != settings) {
       commit('SET_LOADING_STATUS', LoadingStatus.SOMETHING_CHANGED);
 
       dispatch('CHECK_ALL');

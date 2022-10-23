@@ -48,7 +48,7 @@ const artifactFoundryModule: Module<ArtifactFoundryState, RootState>  = {
     features: {
       loadingStatus: LoadingStatus.CALCULATED,
     },
-    currentItemInfo: {}
+    currentFragmentType: {},
   }),
   getters,
   actions,

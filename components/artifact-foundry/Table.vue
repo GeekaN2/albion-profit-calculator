@@ -1,18 +1,18 @@
 <template>
-    <div>
-      <div class="item-table">
-        <div
-          v-for="branch in ['WARRIOR_BRANCH', 'HUNTER_BRANCH', 'MAGE_BRANCH', 'ALL']"
-          :key="branch"
-        >
-          <ItemRow 
-            :class="`branch-${branch}`"
-            :row="getRow(branch)" 
-          />
-        </div>
+  <div>
+    <div class="item-table">
+      <div
+        v-for="branch in ['WARRIOR_BRANCH', 'HUNTER_BRANCH', 'MAGE_BRANCH', 'ALL']"
+        :key="branch"
+      >
+        <ItemRow 
+          :class="`branch-${branch}`"
+          :row="getRow(branch)" 
+        />
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
   import { mapGetters, mapState } from 'vuex';

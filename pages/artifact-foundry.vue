@@ -12,8 +12,9 @@
           :text="status" 
         />
          
-        <Table  v-if="status == 'calculated' && itemName"  />
+        <Table v-if="status == 'calculated' && itemName" />
       </div>
+      <ExtendedCellTable v-if="status == 'calculated' && itemName && extendedCell " />
     </div>
   </section>
 </template>
@@ -34,6 +35,7 @@ import Header from "~/components/Header";
 import Row from "~/components/artifact-foundry/Row.vue";
 import Table from "~/components/artifact-foundry/Table.vue";
 import Loading from '~/components/utils/Loading.vue';
+import ExtendedCellTable from '~/components/artifact-foundry/ExtendedCellTable.vue';
 import { mapState } from 'vuex'; 
 
 export default {
@@ -43,12 +45,14 @@ export default {
     Row,
     Loading,
     Table,
+    ExtendedCellTable,
   },
   middleware: ["authenticated"],
   computed: {
     ...mapState({
-      itemName: (state) => state.artifactFoundry.currentItemInfo.name,
+      itemName: (state) => state.artifactFoundry.currentFragmentType.name,
       status: (state) => state.artifactFoundry.features.loadingStatus,
+      extendedCell: (state) => state.artifactFoundry.extendedCell,
     })
   },
   created() {

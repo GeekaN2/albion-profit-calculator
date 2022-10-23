@@ -1,30 +1,33 @@
 <template>
-    <div class="item-row">
-      <div 
-        v-for="item of row"
-        :key="item.branch + item.tier"
-        :class="[{
-          'item-row--unprofitable': item.profit < 0,
-          'item-row--profitable': item.profit > 0,
-          'item-row--unknown': item.profit == 0,
-        }, `tier${item.tier} tier item`]"
-      > 
-        <div class="item__base-item-info base-item-info">
-          <span>{{ item.profit | formatPrice }}</span>
-          <div class="base-item-info__secondary-info">
-            <span class="secondary-info__profit-percentage">{{ item.profitPercentage | formatPercentage }}%</span>
-          </div>
-        </div>
-        <div class="item__warnings">
-          <svg-icon
-            class="item__warnings__info"
-            icon-class="info"
-            alt="i"
-          />
+  <div class="item-row">
+    <div 
+      v-for="item of row"
+      :key="item.branch + item.tier"
+      :class="[{
+        'item-row--unprofitable': item.profit < 0,
+        'item-row--profitable': item.profit > 0,
+        'item-row--unknown': item.profit == 0,
+      }, `tier${item.tier} tier item`]"
+    > 
+      <div class="item__base-item-info base-item-info">
+        <span>{{ item.profit | formatPrice }}</span>
+        <div class="base-item-info__secondary-info">
+          <span class="secondary-info__profit-percentage">{{ item.profitPercentage | formatPercentage }}%</span>
         </div>
       </div>
+      <div
+        class="item__warnings"
+        @click="extendCell(item.branch, item.tier)"
+      >
+        <svg-icon
+          class="item__warnings__info"
+          icon-class="info-circle-outline"
+          alt="i"
+        />
+      </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
   import { mapState } from 'vuex';
@@ -117,15 +120,14 @@
           ? lastCheckInHours + this.$t('hours')
           : Math.floor(lastCheckInHours / 24) + this.$t('days');
       },
-  
-      /**
-       * Copy text to the clipboard
-       * 
-       * @param {string} text - text to copy
-       */
-      copyName(text) {
-        this.$copyText(text);
-      },
+
+      extendCell(branch, tier) {
+        console.log('BLA');
+        this.$store.commit('artifactFoundry/SET_EXTENDED_CELL', {
+          branch,
+          tier
+        })
+      }
     }
   }
   </script>
@@ -223,35 +225,11 @@
       z-index: 10;
       width: 20px;
       color: var(--color-unknown);
-  
-      &__icon {
-        top: 6px;
-        padding: 1px 0;
-        width: 11px;
-      }
-  
+
       &__info {
-        width: 10px;
-        height: 10px;
-      }
-  
-      &__tooltip {
-        transition: 0.15s;
-        opacity: 0;
-        bottom: -100px;
-        bottom: 100%;
-        visibility: hidden;
-        will-change: visibility bottom;
-      }
-  
-      &:hover &__tooltip {
-        bottom: 100%;
-        opacity: 1;
-        visibility: visible;
-      }
-  
-      &:hover &__tooltip:after {
-        opacity: 1;
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
       }
     }
     

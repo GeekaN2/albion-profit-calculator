@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { ArtifactFoundryState, AverageDataForItem, ItemInfo, LoadingStatus, Settings, SettingsWithItem } from './typeDefs'
+import { ArtifactFoundryState, AverageDataForItem, ExtendedCell, ItemInfo, LoadingStatus, Settings, SettingsWithItem } from './typeDefs'
 import Vue from 'vue';
 import { ResponseModel } from '../typeDefs';
 
@@ -22,42 +22,45 @@ export const mutations: MutationTree<ArtifactFoundryState> = {
   },
 
   SET_ITEM_INFO(state, itemInfo: ItemInfo) {
-    state.currentItemInfo = itemInfo;
+    state.currentFragmentType = itemInfo;
   },
 
   SET_BUY_ARTIFACT_PRICES(state, { data, settingsWithItem }: { data: ResponseModel[]; settingsWithItem: SettingsWithItem }) {
     const location = settingsWithItem.settings.cities.buyArtifacts;
-    const sortedData = data.sort(({ itemId: itemId1 }, { itemId: itemId2 }) =>
-      itemId1 > itemId2 ? 1 : itemId1 < itemId2 ? -1 : 0
-    );
+    const artifacts = state.artifacts[location];
+    const sortedData = data.filter((newArtifactData) => artifacts.every((artifact) => newArtifactData.itemId !== artifact.itemId));
 
-    Vue.set(state.artifacts, location, sortedData);
+    Vue.set(state.artifacts, location, artifacts.concat(sortedData));
   },
 
   SET_SELL_ARTIFACT_PRICES(state, { data, settingsWithItem }: { data: ResponseModel[]; settingsWithItem: SettingsWithItem }) {
     const location = settingsWithItem.settings.cities.sellArtifacts;
-    const sortedData = data.sort(({ itemId: itemId1 }, { itemId: itemId2 }) =>
-      itemId1 > itemId2 ? 1 : itemId1 < itemId2 ? -1 : 0
-    );
+    const artifacts = state.artifacts[location];
+    const sortedData = data.filter((newArtifactData) => artifacts.every((artifact) => newArtifactData.itemId !== artifact.itemId));
 
-    Vue.set(state.artifacts, location, sortedData);
+    Vue.set(state.artifacts, location, artifacts.concat(sortedData));
   },
 
   SET_BUY_FRAGMENT_PRICES(state, { data, settingsWithItem }: { data: ResponseModel[]; settingsWithItem: SettingsWithItem }) {
     const location = settingsWithItem.settings.cities.buyFragments;
-    const sortedData = data.sort(({ itemId: itemId1 }, { itemId: itemId2 }) =>
-      itemId1 > itemId2 ? 1 : itemId1 < itemId2 ? -1 : 0
-    );
+    const fragments = state.fragments[location];
+    const sortedData = data.filter((newFragmentData) => fragments.every((fragment) => newFragmentData.itemId !== fragment.itemId));
 
-    Vue.set(state.fragments, location, sortedData);
+    Vue.set(state.fragments, location, fragments.concat(sortedData));
   },
 
   SET_SELL_FRAGMENT_PRICES(state, { data, settingsWithItem }: { data: ResponseModel[]; settingsWithItem: SettingsWithItem }) {
     const location = settingsWithItem.settings.cities.sellFragments;
-    const sortedData = data.sort(({ itemId: itemId1 }, { itemId: itemId2 }) =>
-      itemId1 > itemId2 ? 1 : itemId1 < itemId2 ? -1 : 0
-    );
+    const fragments = state.fragments[location];
+    const sortedData = data.filter((newFragmentData) => fragments.every((fragment) => newFragmentData.itemId !== fragment.itemId));
 
-    Vue.set(state.fragments, location, sortedData);
+    Vue.set(state.fragments, location, fragments.concat(sortedData));
   },
+
+  SET_EXTENDED_CELL(state, { branch, tier}: ExtendedCell) {
+    Vue.set(state, 'extendedCell', {
+      branch,
+      tier
+    });
+  }
 }

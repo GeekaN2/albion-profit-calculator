@@ -8,7 +8,7 @@ export const getters: GetterTree<ArtifactFoundryState, {}> = {
 
   getArtifactsNeeded: (state): ArtifactsTreeForCurrentFragment => {
     const { WARRIOR_BRANCH, HUNTER_BRANCH, MAGE_BRANCH } = state.tree;
-    const currentFragmentType = state.currentItemInfo.name ?? 'RUNE';
+    const currentFragmentType = state.currentFragmentType.name ?? 'RUNE';
 
     const getArtifactsWithTiers = (baseArtifactNames: string[]) => baseArtifactNames.reduce<string[]>((acc, baseName) => [...acc, ...generateTiers(baseName)], [])
 
@@ -20,7 +20,7 @@ export const getters: GetterTree<ArtifactFoundryState, {}> = {
   },
 
   getFragmentsNeeded: (state): string[] => {
-    const fragments = state.currentItemInfo.name;
+    const fragments = state.currentFragmentType.name;
 
     if (!fragments) {
         return [];
@@ -29,14 +29,24 @@ export const getters: GetterTree<ArtifactFoundryState, {}> = {
     return generateTiers(fragments);
   },
 
+  getAllBaseArtifactNames: (state): string[] => {
+    const fragmentType = state.currentFragmentType.name;
+
+    if (!fragmentType) {
+      return [];
+    }
+
+    return Object.values(state.tree).map(branch => branch[fragmentType]).flat();
+  },
+
   getFragmentsMeldProfit: (state, getters) => (branch: ArtifactBranchType | 'ALL', tier: number) => {
-    const fragmentType = state.currentItemInfo.name;
+    const fragmentType = state.currentFragmentType.name;
 
     if (!fragmentType) {
       return;
     }
 
-    const branchItems = branch === 'ALL' ? Object.values(state.tree).map(branch => branch[fragmentType]).flat() : state.tree[branch][fragmentType];
+    const branchItems = branch === 'ALL' ? getters.getAllBaseArtifactNames as string[] : state.tree[branch][fragmentType];
     const sellArtifactItems: ResponseModel[] = getters.sellArtifacts;
     const buyFragmentItems: ResponseModel[] = getters.buyFragments;
     const filteredItems = sellArtifactItems
@@ -73,28 +83,99 @@ export const getters: GetterTree<ArtifactFoundryState, {}> = {
     }
   },
 
-  buyFragments: (state) => {
-    const city = state.settings.cities.buyFragments;
+  getCellItems: (state, getters) => {
+    if (!state.extendedCell || !state.currentFragmentType.name) {
+      return;
+    }
 
-    return state.fragments[city];
+    const fragmentType = state.currentFragmentType.name;
+    const { branch, tier } = state.extendedCell;
+
+    const branchItems = branch === 'ALL' ? getters.getAllBaseArtifactNames as string[] : state.tree[branch][fragmentType];
+    const sellArtifactItems: ResponseModel[] = getters.sellArtifacts;
+    const buyFragmentItems: ResponseModel[] = getters.buyFragments;
+    const filteredItems = sellArtifactItems
+      .filter(artifact => artifact.itemId.slice(1, 2) === String(tier))
+      .filter(artifact => branchItems.includes(artifact.itemId.slice(3)));
+
+    const fragmentsPrice = buyFragmentItems.find(fragment => fragment.itemId.includes(`T${tier}`)); 
+
+    if (!fragmentsPrice) {
+      return;
+    }
+
+    const fragmentExpenses = fragmentsPrice.sellPriceMin * (branch === 'ALL' ? 36 : 50);
+    
+    const getItemProfit = (item: ResponseModel) => item.sellPriceMin * (100 - MARKET_SELL_ORDER_FEE) / 100 - fragmentExpenses;
+    const getItemProfitPercentage = (item: ResponseModel) => getItemProfit(item) / fragmentExpenses * 100;
+
+    // We have a normal distribution, so we use these formulas
+    const totalProfit = filteredItems.reduce((acc, item) => acc + getItemProfit(item), 0);
+    const averageMeanProfit = totalProfit / filteredItems.length;
+    const variance = filteredItems.reduce((acc, item) => acc + (getItemProfit(item) - averageMeanProfit) ** 2, 0) / filteredItems.length;
+    const quadraticMeanProfit = Math.sqrt(variance);
+    
+    const totalItemsPrice = filteredItems.reduce((acc, item) => acc + item.sellPriceMin, 0);
+    const averageMeanPrice = totalItemsPrice / filteredItems.length;
+    const averageMeanProfitPercentage = averageMeanProfit / fragmentExpenses * 100;
+
+    const medianItem = filteredItems[Math.floor(filteredItems.length / 2)];
+    const medianItemPrice = medianItem.sellPriceMin;
+    const medianItemProfit = medianItemPrice - fragmentExpenses;
+    const medianItemProfitPercentage = medianItemProfit / fragmentExpenses * 100;
+
+    const artifactCellsData = filteredItems.map(artifact => ({
+      item: artifact,
+      profit: getItemProfit(artifact),
+      profitPercentage: getItemProfitPercentage(artifact),
+      expenses: fragmentExpenses,
+    })).sort((art1, art2) => art2.profit - art1.profit);
+
+    return {
+      averageMeanProfit,
+      averageMeanProfitPercentage,
+      quadraticMeanProfit,
+      variance,
+      averageMeanPrice,
+      medianItemPrice,
+      medianItemProfit,
+      medianItemProfitPercentage,
+
+      items: artifactCellsData,
+
+    }
+  },
+
+  buyFragments: (state) => {
+    const currentFragmentType = state.currentFragmentType.name ?? '';
+    const city = state.settings.cities.buyFragments;
+    const fragments = state.fragments[city].filter(fragment => fragment.itemId.includes(currentFragmentType))
+
+    return fragments;
   },
 
   sellFragments: (state) => {
+    const currentFragmentType = state.currentFragmentType.name ?? '';
     const city = state.settings.cities.sellFragments;
+    const fragments = state.fragments[city].filter(fragment => fragment.itemId.includes(currentFragmentType))
 
-    return state.fragments[city];
+    return fragments;
   },
 
-  buyArtifacts: (state) => {
+  buyArtifacts: (state, getters) => {
+    const allArtifactNames: string[] = getters.getAllBaseArtifactNames;
     const city = state.settings.cities.buyArtifacts;
+    const artifacts = state.artifacts[city].filter(({ itemId }) => allArtifactNames.includes(itemId.slice(3)));
 
-    return state.artifacts[city];
+    return artifacts;
   },
 
-  sellArtifacts: (state) => {
+  sellArtifacts: (state, getters) => {
+    const allArtifactNames: string[] = getters.getAllBaseArtifactNames;
     const city = state.settings.cities.sellArtifacts;
+    const artifacts = state.artifacts[city].filter(({ itemId }) => allArtifactNames.includes(itemId.slice(3)));
 
-    return state.artifacts[city];
+    return artifacts;
   }
 
 }

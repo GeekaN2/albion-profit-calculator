@@ -7,7 +7,8 @@ export interface ArtifactFoundryState {
   settings: Settings;
   features: Features;
   averageData: AverageData;
-  currentItemInfo: ItemInfo;
+  currentFragmentType: ItemInfo;
+  extendedCell?: ExtendedCell;
 }
 
 export type FragmentType = 'RUNE' | 'SOUL' | 'RELIC' | 'SHARD_AVALONIAN';
@@ -94,4 +95,9 @@ export interface ItemInfo {
  export interface SettingsWithItem {
   currentItemInfo: ItemInfo;
   settings: Settings;
+}
+
+export interface ExtendedCell {
+  branch: ArtifactBranchType | 'ALL',
+  tier: number,
 }
