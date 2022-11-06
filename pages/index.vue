@@ -1,107 +1,85 @@
 <template>
   <section class="main_page_container main_page">
     <div>
-      <h1 class="main_page__title">
-        Albion Profit Calculator
-      </h1>
+      <div class="main_page__title">
+        <img
+          src="favicon.png"
+          class="main_page__logo"
+        >
+        <h1>Albion Profit Calculator</h1>
+      </div>
       <h2 class="main_page__subtitle" />
       <div class="main_page__links">
-        <nuxt-link
-          v-if="$auth.loggedIn"
-          :to="localePath('/tree')"
-          class="links__button--brown button"
-        >
-          🌳 {{ $t("tree") }}
-        </nuxt-link>
-        <nuxt-link
-          v-if="$auth.loggedIn"
-          :to="localePath('/transmutations')"
-          class="links__button--brown button"
-        >
-          🧪 {{ $t("transmutations") }}
-        </nuxt-link>
-        <nuxt-link
-          v-if="$auth.loggedIn"
-          :to="localePath('/food-and-potions')"
-          class="links__button--brown button"
-        >
-          🍲 {{ $t("foodAndPotions") }}
-        </nuxt-link>
-        <nuxt-link
-          v-if="$auth.loggedIn"
-          :to="localePath('/artifact-foundry')"
-          class="links__button--brown button"
-        >
-          🪨 {{ $t("artifactFoundry") }}
-        </nuxt-link>
-        <CustomTooltipLayout :hide-tooltip="isSupporter">
-          <template #content>
-            <nuxt-link
-              v-if="$auth.loggedIn"
-              :disabled="!isSupporter"
-              :to="localePath('/refining')"
-              :class="[
-                {
-                  'links__button--disabled': $auth.loggedIn && !isSupporter,
-                },
-                'links__button--brown button',
-              ]"
-            >
-              ♻️ {{ $t("refining") }}
-            </nuxt-link>
-          </template>
-          <template #tooltip>
-            {{ $t('onlyForSupporters') }}
-            <br>
-            <span class="tooltip-text">
-              {{ $t('supportServer') }}
-              <Patreon />
-            </span>
-          </template>
-        </CustomTooltipLayout>
-        <CustomTooltipLayout :hide-tooltip="isSupporter">
-          <template #content>
-            <nuxt-link
-              v-if="$auth.loggedIn"
-              :disabled="!isSupporter"
-              :to="localePath('/transportations')"
-              :class="[
-                {
-                  'links__button--disabled': $auth.loggedIn && !isSupporter,
-                },
-                'links__button--brown button',
-              ]"
-            >
-              🐗 {{ $t("transportations") }}
-            </nuxt-link>
-          </template>
-          <template #tooltip>
-            {{ $t('onlyForSupporters') }}
-            <br>
-            <span class="tooltip-text">
-              {{ $t('supportServer') }}
-              <Patreon />
-            </span>
-          </template>
-        </CustomTooltipLayout>
-        <span
-          v-if="$auth.loggedIn"
-          class="links__button--brown button"
-          @click="logout"
-        >{{ $t("logout") }}
-        </span>
-        <span
-          v-if="!$auth.loggedIn"
-          class="links__button--brown button"
-          @click="showModalAuth"
-        >{{ $t("login") }}
-        </span>
-        <span
-          v-if="!$auth.loggedIn"
-          class="links__button--brown button"
-          @click="showModalRegister"
-        >{{ $t("register") }}
-        </span>
+        <div class="main_page__links_tables">
+          <nuxt-link
+            :to="localePath('/tree')"
+            class="links__button--brown button"
+          >
+            🌳 {{ $t("tree") }}
+          </nuxt-link>
+          <nuxt-link
+            :to="localePath('/transmutations')"
+            class="links__button--brown button"
+          >
+            🧪 {{ $t("transmutations") }}
+          </nuxt-link>
+          <nuxt-link
+            :to="localePath('/food-and-potions')"
+            class="links__button--brown button"
+          >
+            🍲 {{ $t("foodAndPotions") }}
+          </nuxt-link>
+          <nuxt-link
+            :to="localePath('/artifact-foundry')"
+            class="links__button--brown button"
+          >
+            🪨 {{ $t("artifactFoundry") }}
+          </nuxt-link>
+          <nuxt-link
+            :disabled="!isSupporter"
+            :to="localePath('/refining')"
+            :class="[
+              {
+                'links__button--disabled': $auth.loggedIn && !isSupporter,
+              },
+              'links__button--brown button',
+            ]"
+          >
+            ♻️ {{ $t("refining") }}
+          </nuxt-link>
+          <nuxt-link
+            :disabled="!isSupporter"
+            :to="localePath('/transportations')"
+            :class="[
+              {
+                'links__button--disabled': $auth.loggedIn && !isSupporter,
+              },
+              'links__button--brown button',
+            ]"
+          >
+            🐗 {{ $t("transportations") }}
+          </nuxt-link>
+        </div>
+        <div class="auth-blocks">
+          <span
+            v-if="$auth.loggedIn"
+            class="links__button--brown button"
+            @click="logout"
+          >{{ $t("logout") }}
+          </span>
+          <span
+            v-if="!$auth.loggedIn"
+            class="links__button--brown button"
+            @click="showModalAuth"
+          >{{ $t("login") }}
+          </span>
+          <span
+            v-if="!$auth.loggedIn"
+            class="links__button--brown button"
+            @click="showModalRegister"
+          >{{ $t("register") }}
+          </span>
+        </div>
       </div>
     </div>
     <Auth
@@ -113,7 +91,7 @@
       @hide-modal-register="hideModalRegister"
     />
     <footer>
-      <a href="https://github.com/GeekaN2">&copy; GeekaN</a>
+      <a href="https://github.com/GeekaN2">&copy; GeekaN &nbsp;<Patreon /></a>
       <a
         href="https://www.albion-online-data.com/"
       >Powered by Albion Online Data Project</a>
@@ -150,7 +128,7 @@
     "onlyForSupporters": "Only for supporters",
     "supportServer": "Support the server on",
     "or": "or", 
-    "login": "Login",
+    "login": "Sign in",
     "register": "Register",
     "logout": "Logout",
     "foodAndPotions": "Food & potions",
@@ -177,8 +155,7 @@
 import Auth from "~/components/Auth";
 import Register from "~/components/Register";
 import ThemeToggle from "~/components/utils/ThemeToggle";
-import CustomTooltipLayout from '~/components/utils/CustomTooltips/CustomTooltipLayout';
-import Patreon from '~/components/icons/Patreon';
+import Patreon from '~/components/icons/Patreon.vue';
 
 export default {
   name: "MainPage",
@@ -186,7 +163,6 @@ export default {
     Auth,
     Register,
     ThemeToggle,
-    CustomTooltipLayout,
     Patreon,
   },
   data() {
@@ -270,15 +246,50 @@ export default {
   display: inline-block;
 }
 
+.auth-blocks {
+  margin-top: var(--space-2-xs);
+  display: flex;
+  justify-content: center;
+  gap: var(--space-s);
+}
+
 .main_page {
   font-size: 16px;
 
+  &__links {
+    display: flex;
+    gap: var(--space-xs);
+    flex-direction: column;
+  }
+
+  &__links_tables {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xs);
+    row-gap: var(--space-s);
+    padding: 0 var(--space-s);
+  }
+
+  &__logo {
+    width: 1em;
+    height: 1em;
+  }
+
   &__title {
-    display: block;
-    font-weight: 300;
+    display: flex;
     font-size: 5em;
-    color: var(--color-secondary);
-    letter-spacing: 1px;
+    padding: 0 var(--space-s);
+
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: var(--space-s);
+    
+    & h1 {
+      font-weight: 300;
+      color: var(--color-secondary);
+      letter-spacing: 1px;
+    }
   }
 
   &__subtitle {
@@ -300,7 +311,6 @@ export default {
       color: var(--color-secondary);
       text-decoration: none;
       padding: 10px 30px;
-      margin: 0 7px 5px 7px;
     }
 
     &__button--purple {
@@ -396,12 +406,26 @@ footer {
 @media (max-width: 840px) {
   .main_page {
     font-size: 12px;
+
+    &__title {
+      font-size: 4em;
+    }
+
+    &__links_tables {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
+
+  
 }
 
 @media (max-width: 479px) {
   .main_page {
     font-size: 11px;
+
+    &__links_tables {
+      grid-template-columns: 1fr;
+    }
   }
 }
 </style>

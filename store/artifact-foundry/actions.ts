@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { ActionTree } from 'vuex'
-import { ProfitTreeItem } from '../typeDefs';
+import { ProfitTreeItem, ResponseModel } from '../typeDefs';
 import { isArtifactItem, isObjectEmpty } from '../utils';
-import { ArtifactFoundryState, ArtifactsTree, ItemInfo, LoadingStatus, SettingsWithItem, ArtifactBranch, ArtifactsTreeForCurrentFragment } from './typeDefs';
+import { ArtifactFoundryState, ArtifactsTree, ItemInfo, LoadingStatus, SettingsWithItem, ArtifactBranch, ArtifactsTreeForCurrentFragment, BranchCells } from './typeDefs';
 import PromisePool from 'es6-promise-pool';
 
 const baseUrl = process.env.BASE_URL;
@@ -174,4 +174,18 @@ export const actions: ActionTree<ArtifactFoundryState, {}> = {
         commit('SET_SELL_FRAGMENT_PRICES', { data, settingsWithItem });
       });
   },
+
+  SORT_EXTENDED_CELL_ARTIFACTS({ state, commit, getters}) {
+    const branchArtifacts: BranchCells = getters.getCellItems;
+    const branchArtifactIds = branchArtifacts.items.map(item => item.item.itemId);
+    const city = state.settings.cities.sellArtifacts;
+    const sellArtifacts: ResponseModel[] = state.artifacts[city];
+    const sortedArtifacts = branchArtifacts.items.sort((item1, item2) => item2.profit - item1.profit);
+
+    const artifactsWithSortedBranch = sellArtifacts
+      .filter(artifact => !branchArtifactIds.includes(artifact.itemId))
+      .concat(sortedArtifacts.map(({ item }) => item));
+
+    commit('SET_SORTED_CELL_ARTIFACTS', artifactsWithSortedBranch);
+  }
 }

@@ -43,7 +43,6 @@
   
         for (let tier = 4; tier <= 8; tier++) {
           const cellData = this.getFragmentsMeldProfit(branch, tier);
-          console.log('cell data', cellData);
 
           row.push(cellData);
         }

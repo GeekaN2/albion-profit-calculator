@@ -87,7 +87,7 @@ module.exports = {
         detectBrowserLanguage: {
           useCookie: true,
           cookieKey: 'i18n_redirected'
-        }
+        },
       }
     ],
     ['@nuxtjs/dotenv'],
@@ -102,6 +102,12 @@ module.exports = {
   }, { 
     src: '@/plugins/icons', 
     ssr: true 
+  }, {
+    src: '@/plugins/vTooltip',
+    ssr: false
+  }, {
+    src: '@/plugins/portalVue',
+    ssr: false
   }],
 
   axios: {
@@ -132,9 +138,10 @@ module.exports = {
           user: { url: 'user', method: 'get' },
           logout: { url: 'auth/logout', method: 'post' }
         },
-        autoLogout: false
-      }
-    }
+        autoLogout: false,
+      },
+    },
+    redirect: false,
   },
 
   toast: {

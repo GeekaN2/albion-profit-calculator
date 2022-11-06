@@ -47,7 +47,6 @@ export default {
     Table,
     ExtendedCellTable,
   },
-  middleware: ["authenticated"],
   computed: {
     ...mapState({
       itemName: (state) => state.artifactFoundry.currentFragmentType.name,

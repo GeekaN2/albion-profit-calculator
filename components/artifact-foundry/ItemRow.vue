@@ -122,7 +122,6 @@
       },
 
       extendCell(branch, tier) {
-        console.log('BLA');
         this.$store.commit('artifactFoundry/SET_EXTENDED_CELL', {
           branch,
           tier

@@ -15,7 +15,6 @@ export default {
     Header,
     Table
   },
-  middleware: ["authenticated", "supporter"],
   data() {
     return {};
   },

@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { ArtifactFoundryState, AverageDataForItem, ExtendedCell, ItemInfo, LoadingStatus, Settings, SettingsWithItem } from './typeDefs'
+import { ArtifactFoundryState, AverageDataForItem, BranchCells, ExtendedCell, ItemInfo, LoadingStatus, Settings, SettingsWithItem } from './typeDefs'
 import Vue from 'vue';
 import { ResponseModel } from '../typeDefs';
 
@@ -62,5 +62,18 @@ export const mutations: MutationTree<ArtifactFoundryState> = {
       branch,
       tier
     });
+  },
+
+  SET_ARTIFACT_PRICE(state, { itemId, price, locationAction }: { itemId: string, price: number, locationAction: 'sell' | 'buy'}) {
+    const city = locationAction === 'sell' ? state.settings.cities.sellArtifacts : state.settings.cities.buyArtifacts;
+    const artifact = state.artifacts[city].find((artifact) => artifact.itemId === itemId);
+
+    if (artifact) {
+      artifact.sellPriceMin = price;
+    }
+  },
+
+  SET_SORTED_CELL_ARTIFACTS(state, items: ResponseModel[]) {
+    Vue.set(state.artifacts, state.settings.cities.sellArtifacts, items);
   }
 }

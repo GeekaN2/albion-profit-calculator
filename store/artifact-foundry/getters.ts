@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex'
 import { ResponseModel } from '../typeDefs';
 import { generateTiers } from '../utils';
-import { ArtifactBranchType, ArtifactFoundryState, ArtifactsTreeForCurrentFragment } from './typeDefs';
+import { ArtifactBranchType, ArtifactFoundryState, ArtifactsTreeForCurrentFragment, BranchCells } from './typeDefs';
 import { MARKET_SELL_ORDER_FEE } from '../constants';
 
 export const getters: GetterTree<ArtifactFoundryState, {}> = {
@@ -67,13 +67,9 @@ export const getters: GetterTree<ArtifactFoundryState, {}> = {
     const totalProfit = filteredItems.reduce((acc, item) => acc + getItemProfit(item), 0);
     const averageMean = totalProfit / filteredItems.length;
     const variance = filteredItems.reduce((acc, item) => acc + (getItemProfit(item) - averageMean) ** 2, 0) / filteredItems.length;
-    const quadraticMean = Math.sqrt(variance);
-    const medianItem = filteredItems[Math.floor(filteredItems.length / 2)];
 
     const averageProfitReal = averageMean;
     const averageProfitPercentage = averageMean / fragmentExpenses * 100;
-
-    console.log(branch, averageMean, variance);
 
     return {
       branch,
@@ -83,7 +79,7 @@ export const getters: GetterTree<ArtifactFoundryState, {}> = {
     }
   },
 
-  getCellItems: (state, getters) => {
+  getCellItems: (state, getters): BranchCells | undefined => {
     if (!state.extendedCell || !state.currentFragmentType.name) {
       return;
     }
@@ -129,7 +125,7 @@ export const getters: GetterTree<ArtifactFoundryState, {}> = {
       profit: getItemProfit(artifact),
       profitPercentage: getItemProfitPercentage(artifact),
       expenses: fragmentExpenses,
-    })).sort((art1, art2) => art2.profit - art1.profit);
+    }));
 
     return {
       averageMeanProfit,
@@ -140,9 +136,9 @@ export const getters: GetterTree<ArtifactFoundryState, {}> = {
       medianItemPrice,
       medianItemProfit,
       medianItemProfitPercentage,
+      fragmentExpenses,
 
       items: artifactCellsData,
-
     }
   },
 

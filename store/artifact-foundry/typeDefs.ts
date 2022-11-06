@@ -101,3 +101,21 @@ export interface ExtendedCell {
   branch: ArtifactBranchType | 'ALL',
   tier: number,
 }
+
+export interface BranchCells {
+    averageMeanProfit: number;
+    averageMeanProfitPercentage: number;
+    quadraticMeanProfit: number;
+    variance: number;
+    averageMeanPrice: number;
+    medianItemPrice: number;
+    medianItemProfit: number;
+    medianItemProfitPercentage: number;
+    fragmentExpenses: number;
+    items: {
+      item: ResponseModel,
+      profit: number,
+      profitPercentage: number,
+      expenses: number,
+    }[],
+}

@@ -48,7 +48,6 @@ export default {
     Table,
     Loading,
   },
-  middleware: ["authenticated", "supporter"],
   computed: {
     ...mapGetters({
       loadingText: 'refining/loadingText'

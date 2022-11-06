@@ -11,7 +11,14 @@
         </span>
                 
                     
-        <span>{{ formatPrice(artifact.item.sellPriceMin) }} 
+        <span>
+          <InputWithView 
+            :set-text="(price) => {
+              setArtifactPrice(artifact.item.itemId, price);
+            }"
+            :get-text="() => artifact.item.sellPriceMin"
+            :format-text="formatPrice"
+          />
           <span>{{ formatDate(artifact.item.sellPriceMinDate) }}</span>
         </span>
       </div>
@@ -25,12 +32,15 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { formatPrice } from '~/store/utils';
 import ImageWithoutNumber from '../utils/ImageWithoutNumber.vue';
+import InputWithView from '../utils/InputWithView.vue';
 
 export default {
     name: "ExtendedCellItem",
-    components: { ImageWithoutNumber },
+    components: { 
+        ImageWithoutNumber, 
+        InputWithView 
+    },
     props: {
         /**
          * @param profit
@@ -69,6 +79,14 @@ export default {
 
         formatFloat(num) {
             return Math.floor(num) == num ? num : num.toFixed(1);
+        },
+
+        setArtifactPrice(itemId, price) {
+            this.$store.commit('artifactFoundry/SET_ARTIFACT_PRICE', {
+                itemId,
+                price,
+                locationAction: 'sell',
+            })
         },
 
         copyName(text) {

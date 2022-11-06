@@ -53,7 +53,6 @@ export default {
     Loading,
     Guide
   },
-  middleware: ["authenticated"],
   data() {
     return {};
   },

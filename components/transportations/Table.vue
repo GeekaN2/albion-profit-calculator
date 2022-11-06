@@ -46,7 +46,6 @@ export default {
         this.$store.dispatch("transportations/GET_ITEMS");
     },
     mounted() {
-        console.log("mounted");
         this.scroll();
     },
     methods: {
