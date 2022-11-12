@@ -20,13 +20,12 @@
           class="all-info__icon"
           icon-class="info"
           alt="i"
-        >
-          <div class="all-info__tooltip tooltip tooltip--right">
-            <Tooltip 
-              :data="tooltipData"
-            />
-          </div>
-        </svg-icon>
+        />
+        <div class="all-info__tooltip tooltip tooltip--right">
+          <Tooltip 
+            :data="tooltipData"
+          />
+        </div>
       </div>
     </div>
     <div class="way-images">
@@ -44,6 +43,7 @@
 import { mapGetters, mapState } from 'vuex';
 import ImageWithoutNumber from '../utils/ImageWithoutNumber';
 import Tooltip from '../utils/Tooltip';
+import { MARKET_SELL_ORDER_FEE } from '../../store/constants';
 
 export default {
   name: "LongWayTransmutationRow",
@@ -105,8 +105,8 @@ export default {
       return [
         {
           name: this.getItemName(toTier, toSubtier),
-          price: Math.round(this.sellItemPrices[this.getItemName(toTier, toSubtier)].sellPriceMin * (1 - 4.5 / 100)),
-          percent: 4.5,
+          price: Math.round(this.sellItemPrices[this.getItemName(toTier, toSubtier)].sellPriceMin * (1 - MARKET_SELL_ORDER_FEE / 100)),
+          percent: MARKET_SELL_ORDER_FEE,
           date: this.sellItemPrices[this.getItemName(toTier, toSubtier)].sellPriceMinDate
         }, {
           name: this.getItemName(fromTier, fromSubtier),
@@ -140,7 +140,7 @@ export default {
   gap: var(--space-3-xs);
   padding: 2px 5px 2px 15px;
   margin: 10px 0 10px 10px;
-  background: linear-gradient(to right, #eee 0%, #eee 70%, #ffffff00 100%);
+  background: var(--color-primary-analog);
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
 
@@ -183,7 +183,7 @@ export default {
 
   &__tooltip {
     position: absolute;
-    bottom: 27px;
+    bottom: 24px;
     transition: 0.15s;
     opacity: 0;
     visibility: hidden;
@@ -192,6 +192,7 @@ export default {
   &:hover &__tooltip {
     z-index: 2;
     opacity: 1;
+    bottom: 30px;
     visibility: visible;
   }
 

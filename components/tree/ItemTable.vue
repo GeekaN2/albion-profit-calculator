@@ -105,6 +105,7 @@
 import { mapGetters, mapState } from "vuex";
 import { getHeartNameByItemName } from '../../store/utils';
 import SvgIcon from '../utils/SvgIcon.vue';
+import { MARKET_SELL_ORDER_FEE } from '../../store/constants';
 
 export default {
   name: "ItemTable",
@@ -335,7 +336,7 @@ export default {
           if (this.settings.useAveragePrice) {
             itemPrice = Math.floor(this['tree/getAverageData'][itemName].averagePrice);
             lastCheckDate = this['tree/getAverageData'][itemName].lastCheckDate;
-            marketFee = 4.5;
+            marketFee = MARKET_SELL_ORDER_FEE;
           }
 
           itemPrice = Math.floor(itemPrice * (1 - marketFee / 100));

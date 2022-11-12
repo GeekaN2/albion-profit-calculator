@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="item-table">
+      <ItemRecipe />
       <div
         v-for="subtier in (baseItemName != 'STONEBLOCK' ? 4 : 1)"
         :key="subtier"
@@ -17,12 +18,15 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import ItemRow from './ItemRow';
-import { getRawResourceNameByMaterial } from '../../store/utils';
+import { getItemRecipe } from './getItemRecipe';
+import { MARKET_SELL_ORDER_FEE } from '../../store/constants';
+import ItemRecipe from '~/components/refining/ItemRecipe.vue';
 
 export default {
   name: "Table",
   components: {
-    ItemRow
+    ItemRow,
+    ItemRecipe
   },
   data() {
     return {
@@ -60,10 +64,10 @@ export default {
 
       for (let tier = 4; tier <= 8; tier++) {
         const itemName = this.getItemName(tier, subtier);
-        const recipe = this.getItemRecipe(tier, subtier);
+        const recipe = getItemRecipe(this.baseItemName, tier, subtier);
         const fee = this.craftFee(tier, subtier);
 
-        const itemPrice = Math.floor(this.sellMaterials[itemName].sellPriceMin * (1 - 4.5 / 100));
+        const itemPrice = Math.floor(this.sellMaterials[itemName].sellPriceMin * (1 - MARKET_SELL_ORDER_FEE / 100));
         const rawResourcesPrice = Math.floor(this.buyRawResources[recipe.rawResource.name].sellPriceMin
           * recipe.rawResource.quantity
           * (1 - this.returnPercentage / 100));
@@ -81,7 +85,7 @@ export default {
           tooltipData: [
             {
               name: itemName,
-              percent: -4.5,
+              percent: -MARKET_SELL_ORDER_FEE,
               price: itemPrice,
               date: this.sellMaterials[itemName].sellPriceMinDate
             }, {
@@ -121,33 +125,6 @@ export default {
      */
     getItemName(tier, subtier) {
       return `T${tier}_${this.baseItemName}` + (subtier == 0 ? '' : `_LEVEL${subtier}@${subtier}`);
-    },
-
-    /**
-     * Generate item recipe
-     */
-    getItemRecipe(tier, subtier) {
-      let rawResource = `T${tier}_${getRawResourceNameByMaterial(this.baseItemName)}` + 
-        (subtier == 0 ? '' : `_LEVEL${subtier}@${subtier}`);
-      let material = `T${tier - 1}_${this.baseItemName}`;
-
-      if (tier != 4 && subtier > 0) {
-        material = material + `_LEVEL${subtier}@${subtier}`;
-      }
-
-      let recipe = {};
-
-      recipe.rawResource = {
-        name: rawResource,
-        quantity: Math.min(tier - 2, 5)
-      };
-
-      recipe.material = {
-        name: material,
-        quantity: 1
-      }
-
-      return recipe;
     },
   }
 };

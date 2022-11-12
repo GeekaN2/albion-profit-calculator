@@ -1,7 +1,6 @@
 import { GetterTree } from 'vuex'
 import { generateSubtiersUpTo, lowerBoundForObjects } from '../utils';
 import { FoodAndPotionsState } from './typeDefs';
-import axios from 'axios';
 import { ConsumableItem, CraftResource } from './models';
 import { AverageDataForItem, ResponseModel } from '../profit-tree/typeDefs';
 

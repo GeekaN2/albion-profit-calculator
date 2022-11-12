@@ -19,17 +19,6 @@
       </a>
       <a
         class="header__social"
-        href="https://ko-fi.com/geekan"
-        target="_blank"
-      >
-        <img 
-          title="Support me on ko-fi"
-          class="header__ko-fi"
-          src="/images/ko-fi-logo.png"
-        >  
-      </a>
-      <a
-        class="header__social"
         href="https://discord.gg/2AM2twM"
         target="_blank"
       >
@@ -60,46 +49,76 @@
       >
         EN
       </nuxt-link>
-      <span class="header__user-role">{{ $auth.user.role }}</span>
+      <span class="header__user-role">{{ $auth?.user?.role ?? 'guest' }}</span>
       <span 
         class="header__user-nickname"
-      >{{ $auth.user.nickname }}</span>
-      <div @click="logout">
+      >{{ $auth?.user?.nickname }}</span>
+      <div
+        v-if="$auth.loggedIn" 
+        @click="logout"
+      >
         <svg-icon
           class="logout_button"
           icon-class="exit" 
         />
       </div>
+      <button
+        v-if="!$auth.loggedIn"
+        class="header__sign-in"
+        @click.stop="showModalAuth"
+      >
+        {{ $t('signIn') }}
+      </button>
     </div>
+    <portal to="body">
+      <Auth
+        v-if="isModalAuthShowed"
+        @hide-modal-auth="hideModalAuth"
+      />
+    </portal>
   </div>
 </template>
 
 <i18n>
 {
   "en": {
-    "support": "Become a patron"
+    "support": "Become a patron",
+    "signIn": "Sign in"
   },
   "ru": {
-    "support": "Поддержать на патреоне"
+    "support": "Поддержать на патреоне",
+    "signIn": "Войти"
   }
 }
 </i18n>
 
 <script>
 import ThemeToggle from './utils/ThemeToggle.vue';
+import Auth from './Auth.vue';
 
 export default {
   name: "Header",
   components: {
-    ThemeToggle
+    ThemeToggle,
+    Auth,
+  },
+  data() {
+    return {
+      isModalAuthShowed: false,
+    };
   },
   methods: {
-    /**
-     * Logout user
-     */
     logout() {
       this.$auth.logout('local');
-    }
+    },
+
+    showModalAuth() {
+      this.isModalAuthShowed = true;
+    },
+
+    hideModalAuth() {
+      this.isModalAuthShowed = false;
+    },
   }
 };
 </script>
@@ -113,6 +132,20 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-between;
+
+  &__sign-in {
+    background: none;
+    color: var(--color-seondary);
+    border: var(--color-secondary) 1px solid;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    padding: var(--space-2-xs) var(--space-s);
+
+    &:hover {
+      background: var(--color-secondary);
+      color: var(--color-primary);
+    }
+  }
 
   &__left {
     display: flex;

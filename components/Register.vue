@@ -34,6 +34,9 @@
           required
         >
         <p class="modal_form__description">
+          {{ $t('registerToSaveSettings') }}
+        </p>
+        <p class="modal_form__description">
           {{ $t('visitUs') }}
           <a 
             class="underline_text purple-link" 
@@ -59,7 +62,8 @@
     "registerButton": "Register",
     "nickname": "Nickname",
     "password": "Password",
-    "visitUs": "Visit our discord, there is a lot of useful information",
+    "registerToSaveSettings": "Register to be able to save settings and test beta features",
+    "visitUs": "Visit my discord, there is a lot of useful information",
     "discordServer": "Discord server",
     "error": {
       "badToken": "Bad register token",
@@ -72,7 +76,8 @@
     "registerButton": "Зарегистрироваться",
     "nickname": "Никнейм",
     "password": "Пароль",
-    "visitUs": "Посети наш дискорд, там много полезной инфы",
+    "registerToSaveSettings": "Зерегистрируйтесь, чтобы сохранять настройки и тестировать бета фичи",
+    "visitUs": "Заходи в мой дискорд, там много полезной инфы",
     "discordServer": "Сервер в дискорде",
     "error": {
       "badToken": "Такого токена не существует",

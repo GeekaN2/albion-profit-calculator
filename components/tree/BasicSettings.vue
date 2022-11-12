@@ -18,7 +18,14 @@
       <h2>{{ $t("settings.settings") }}</h2>
 
       <div 
+        v-tooltip="{
+          content: $t('signInToSaveSettings'),
+          container: '#__layout',
+        }"
         :title="$t('title.saveSettings')"
+        :class="{
+          'setting-disabled': !$auth.loggedIn
+        }"
         @click="saveSettings"
       >
         <svg-icon
@@ -274,6 +281,7 @@
     "craftFee": "Fee for 100 nutrition",
     "averageItems": "Number of items sold",
     "averagePrice": "Use average price",
+    "signInToSaveSettings": "Sign in to save settings",
     "cities": {
       "mainCity": "Main city",
       "sellItems": "Sell items",
@@ -298,6 +306,7 @@
     "craftFee": "Налог за 100 еды",
     "averageItems": "Кол-во проданных предметов",
     "averagePrice": "Использовать среднюю цену",
+    "signInToSaveSettings": "Войдите, чтобы сохранить настройки",
     "cities": {
       "mainCity": "Основной город",
       "sellItems": "Продажа предметов",
@@ -624,6 +633,10 @@ export default {
 .setting {
   font-size: 1em;
   margin-bottom: 10px;
+
+  &-disabled {
+    opacity: 0.6;
+  }
 
   .checkbox {
     display: none;

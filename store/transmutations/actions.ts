@@ -88,7 +88,6 @@ export const actions: ActionTree<TransmutationsState, {}> = {
    * Fetch item prices
    * 
    * @param commit - vuex commit
-   * @param state - vuex state
    * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
    */
   async FETCH_SELL_ITEM_PRICES({ commit }, settingsWithItem: SettingsWithItem) {
@@ -111,7 +110,6 @@ export const actions: ActionTree<TransmutationsState, {}> = {
    * Fetch item prices
    * 
    * @param commit - vuex commit
-   * @param state - vuex state
    * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
    */
   async FETCH_BUY_ITEM_PRICES({ commit }, settingsWithItem: SettingsWithItem) {

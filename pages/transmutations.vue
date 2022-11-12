@@ -38,7 +38,7 @@
 import Header from "~/components/Header";
 import Settings from "~/components/transmutations/Settings"
 import Table from "~/components/transmutations/Table";
-import Row from "~/components/transmutations/Row";
+import Row from "~/components/transmutations/Row.vue";
 import Loading from '~/components/utils/Loading.vue';
 import Guide from "~/components/guides/Guide";
 import { mapGetters, mapState } from 'vuex'; 
@@ -53,7 +53,6 @@ export default {
     Loading,
     Guide
   },
-  middleware: ["authenticated"],
   data() {
     return {};
   },

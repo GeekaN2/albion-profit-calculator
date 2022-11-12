@@ -1,37 +1,51 @@
 <template>
   <div class="user-data">
     <span class="nickname">{{ user.nickname }}</span>
-    <div class="roles">
-      <span 
-        v-for="role in roles"
-        :key="role"
-        class="role"
-        :class="{
-          'role--selected': role == user.role
-        }"
-        @click="updateRole(role)"
+    <div class="user-info">
+      <div
+        v-if="!user.resetPassword"
+        @click="allowResetPassword"
       >
-        {{ role }}
-      </span>
+        User is not allowed to change the password:
+        <button class="role">
+          Allow?
+        </button>
+      </div>
+      <div v-else>
+        User allowed to change the password: ✅
+      </div>
+      <div class="roles">
+        <span
+          v-for="role in roles"
+          :key="role"
+          class="role"
+          :class="{
+            'role--selected': role == user.role,
+          }"
+          @click="updateRole(role)"
+        >
+          {{ role }}
+        </span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
-  name: 'User',
+  name: "User",
   props: {
     user: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
   computed: {
     ...mapState({
-      roles: state => state.adminPanel.roles
-    })
+      roles: (state) => state.adminPanel.roles,
+    }),
   },
   methods: {
     async updateRole(role) {
@@ -40,30 +54,58 @@ export default {
       }
 
       try {
-        const message = await this.$store.dispatch('adminPanel/UPDATE_ROLE', {
+        const message = await this.$store.dispatch("adminPanel/UPDATE_ROLE", {
           nickname: this.user.nickname,
           role,
-          token: this.$auth.strategy.token.get()
+          token: this.$auth.strategy.token.get(),
         });
 
         this.$toast.success(message);
       } catch {
-        this.$toast.error(this.$t('toast.somethingWentWrong'));
+        this.$toast.error(this.$t("toast.somethingWentWrong"));
+      }
+    },
+
+    async allowResetPassword() {
+      try {
+        const message = await this.$store.dispatch("adminPanel/UPDATE_ALLOW_RESET_PASSWORD", {
+          nickname: this.user.nickname,
+          token: this.$auth.strategy.token.get(),
+        });
+
+        this.$toast.success(message);
+      } catch {
+        this.$toast.error(this.$t("toast.somethingWentWrong"));
       }
     }
-  }
-}
+  },
+};
 </script>
 
 <style scoped lang="scss">
 .user-data {
   display: flex;
-  flex-direction: column;
-  padding: 0 15px 10px 15px;
+  flex-direction: row;
+  padding: var(--space-xs) var(--space-m);
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-blind);
 }
 
 .nickname {
   font-size: 20px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-xs);
+}
+
+.roles {
+  display: flex;
+  flex-direction: row;
 }
 
 .role {

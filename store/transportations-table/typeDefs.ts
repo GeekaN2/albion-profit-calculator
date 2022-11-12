@@ -2,7 +2,7 @@
  * Vuex root state
  */
 export interface TransportationsState {
-  items: Item[];
+  transportations: Transportation[];
   settings: Settings;
 }
 
@@ -11,15 +11,22 @@ export interface TransportationsState {
  */
 export interface Item {
   itemId: string;
-  locationFrom: string;
-  locationTo: string;
-  priceFrom: number;
-  priceTo: number;
-  dateFrom: Date;
-  dateTo: Date;
+  location: number;
+  averageItems: number;
+  averagePrice: number;
+  buyPriceMax: number;
+  buyPriceMaxDate: string;
+  date: string;
   marketFee: number;
-  qualityFrom: number;
-  qualityTo: number;
+  normalizedPrice: number;
+  quality: number;
+  sellPriceMin: number;
+  sellPriceMinDate: string;
+}
+
+export interface Transportation {
+  from: Item;
+  to: Item;
 }
 
 /**
@@ -42,5 +49,13 @@ export interface Settings {
   locationFrom: string;
   locationTo: string;
   skip: number;
-  useHeuristicSort: boolean;
+  backendSorting: BackendSorting[];
+}
+
+export enum BackendSorting {
+  BY_PERCENTAGE_PROFIT = 'BY_PERCENTAGE_PROFIT',
+  BY_PROFIT = 'BY_PROFIT',
+  BY_LAST_TIME_CHECKED = 'BY_LAST_TIME_CHECKED', 
+  // BY_MOUNT_PROFIT = 'BY_MOUNT_PROFIT', 
+  BY_PROFIT_VOLUME = 'BY_PROFIT_VOLUME'
 }

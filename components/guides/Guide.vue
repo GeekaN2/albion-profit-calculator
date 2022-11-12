@@ -99,7 +99,7 @@ export default {
   scrollbar-width: none;
   -ms-overflow-style: none;
   font-weight: normal;
-  z-index: 20;
+  z-index: 1000;
 
   &__modal {
     max-width: 700px;

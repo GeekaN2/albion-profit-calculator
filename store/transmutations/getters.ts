@@ -55,5 +55,15 @@ export const getters: GetterTree<TransmutationsState, {}> = {
 
     return `T${tier}_${baseItemName}` +
       (subtier == 0 ? '' : `_LEVEL${subtier}@${subtier}`);
+  },
+
+  getItemByName: (state: TransmutationsState) => (itemName: string, location: 'sell' | 'buy'): ResponseModel | undefined => {
+    const baseItemName = state.currentItemInfo.name;
+    const { buyResourcesLocation, sellResourcesLocation } = state.settings.cities;
+
+    const city = location === 'sell' ? sellResourcesLocation : buyResourcesLocation;
+    const item: ResponseModel | undefined = state.prices[city][baseItemName].find(item => item.itemId === itemName);
+
+    return item;
   }
 }

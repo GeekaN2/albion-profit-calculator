@@ -33,12 +33,18 @@
     "sellItems": "Sell items",
     "sellResources": "Sell resources",
     "sellMaterials": "Sell materials",
+    "sellFragments": "Sell fragments",
+    "sellArtifacts": "Sell artifacts",
     "craftItems": "Craft items",
     "refining": "Refining",
     "buyResources": "Buy resources",
     "buyMaterials": "Buy materials",
+    "buyFragments": "Buy fragments",
+    "buyArtifacts": "Buy artifacts",
     "updateItemPrices": "Update item prices",
     "updateMaterialPrices": "Update material prices",
-    "updateResourcePrices": "Update resource prices"
+    "updateResourcePrices": "Update resource prices",
+    "updateArtifactPrices": "Update artifact prices",
+    "updateFragmentPrices": "Update fragment prices"
   }
 }

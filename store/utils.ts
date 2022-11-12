@@ -1,3 +1,4 @@
+import { MARKET_ORDER_FEE, MARKET_SELL_ORDER_FEE } from './constants';
 import { ResponseModel, Item } from './profit-tree/typeDefs'
 
 /**
@@ -215,14 +216,14 @@ export function normalizedPriceAndDate(item: ResponseModel): Item {
   const sellPriceRespone = {
     price: item.sellPriceMin,
     date: item.sellPriceMinDate,
-    marketFee: 4.5,
+    marketFee: MARKET_SELL_ORDER_FEE,
     quality: item.quality
   }
 
   const buyPriceResponse = {
     price: item.buyPriceMax,
     date: item.buyPriceMaxDate,
-    marketFee: 3,
+    marketFee: MARKET_ORDER_FEE,
     quality: item.quality
   }
 
@@ -342,7 +343,7 @@ export function normalizeItemBySellPriceMin(prices: ResponseModel[]) {
     let newPrice: Item = {
       price: item.sellPriceMin,
       date: item.sellPriceMinDate,
-      marketFee: 4.5,
+      marketFee: MARKET_SELL_ORDER_FEE,
       quality: item.quality
     };
 
@@ -367,8 +368,12 @@ export function isObjectEmpty(obj: object): boolean {
  * 
  * @param itemName - item name: T4_HEAD_CLOTH_HELL etc.
  */
-export function isArtifactItem(itemName: string): boolean {
-  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL', "INSIGHT", "CAPEITEM"];
+export function isArtifactItem(itemName: string, excludeRoyal?: boolean): boolean {
+  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', "INSIGHT", "CAPEITEM"];
+  
+  if (!excludeRoyal) {
+    artifacts.push('ROYAL');
+  }
 
   if (!itemName) {
     return false;
@@ -416,6 +421,21 @@ export const generateSubtiersUpTo = (baseName: string, highestSubtier: number) =
 
   for (let subtier = 0; subtier <= highestSubtier; subtier++) {
     names.push(`${baseName}${subtier > 0 ? '@' + subtier : ''}`);
+  }
+
+  return names;
+}
+
+/**
+ * Small function to help in tier names generation
+ * 
+ * @param baseName - item name without a tier, e.g. RUNE
+ */
+export const generateTiers = (baseName: string): string[] => {
+  let names = [];
+
+  for (let tier = 4; tier <= 8; tier++) {
+    names.push(`T${tier}_${baseName}`);
   }
 
   return names;

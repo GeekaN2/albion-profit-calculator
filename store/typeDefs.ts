@@ -2,6 +2,11 @@ export interface RootState {
   
 }
 
+export interface ProfitTreeItem {
+  name: string;
+  children?: ProfitTreeItem[];
+}
+
 /**
  * Response model for albion data api
  */

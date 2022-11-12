@@ -139,6 +139,7 @@ export default {
   border-radius: var(--radius-xs);
   box-shadow: 0px 0px 3px var(--color-primary-analog-contrast);
   bottom: calc(100% + 5px);
+  background: var(--color-primary-analog);
 }
 
 .image {

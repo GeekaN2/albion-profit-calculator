@@ -15,6 +15,8 @@
     "resources": "Loading resource prices",
     "materials": "Loading mateiral prices",
     "journals": "Loading journal prices",
+    "artifacts": "Loading artifact prices",
+    "fragments": "Loading fragment prices",
     "hearts": "Loading heart prices",
     "averageData": "Loading average data",
     "calculated": "Profit calculated"
@@ -25,6 +27,8 @@
     "resources": "Загружаем цены ресурсов",
     "materials": "Загружаем цены материалов",
     "journals": "Загружаем цены журналов",
+    "artifacts": "Загружаем цены артефактов",
+    "fragments": "Загружаем цены фрагментов",
     "hearts": "Загружаем сердца",
     "averageData": "Загружаем средние значения",
     "calculated": "Профит посчитан"

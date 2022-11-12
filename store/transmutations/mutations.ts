@@ -11,7 +11,6 @@ export const mutations: MutationTree<TransmutationsState> = {
   SET_STATE(state) {
     state.settings = {
       fee: 800,
-      gold: 2980,
       showTransmutationWays: false,
       cities: {
         buyResourcesLocation: 'Caerleon',
@@ -75,16 +74,6 @@ export const mutations: MutationTree<TransmutationsState> = {
   },
 
   /**
-   * Update gold
-   * 
-   * @param state - vuex state
-   * @param gold - market gold price
-   */
-  UPDATE_GOLD(state, gold: number) {
-    state.settings.gold = gold;
-  },
-
-  /**
    * Update fee
    * 
    * @param state - vuex state
@@ -106,5 +95,18 @@ export const mutations: MutationTree<TransmutationsState> = {
 
   UPDATE_SHOW_TRANSMUTATION_WAYS(state, showTransmutationWays: boolean) {
     state.settings.showTransmutationWays = showTransmutationWays;
+  },
+
+  UPDATE_ITEM_BY_ITEM_NAME(state, { itemName, item, location }: { itemName: string; item: ResponseModel, location: 'sell' | 'buy' }) {
+    const currentItemInfo = state.currentItemInfo;
+    const { buyResourcesLocation, sellResourcesLocation } = state.settings.cities;
+
+    const city = location === 'sell' ? sellResourcesLocation : buyResourcesLocation;
+    const resources = state.prices[city][currentItemInfo.name];
+    const storeResourceIndex = resources.findIndex((resource) => resource.itemId === itemName);
+
+    if (storeResourceIndex != -1) {
+      Vue.set(resources, storeResourceIndex, item);
+    }
   }
 }

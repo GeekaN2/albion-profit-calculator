@@ -1,6 +1,7 @@
 <template>
   <div>
     <nuxt />
+    <portal-target name="body" />
   </div>
 </template>
 
@@ -150,14 +151,28 @@ body {
   --space-2-xs: 4px;
   --space-xs: 8px;
   --space-s: 12px;
+  --space-m: 14px;
+  --space-l: 16px;
+  --space-xl: 20px;
+  --space-2-xl: 24px;
+  --space-3-xl: 28px;
 
+  --radius-2-xs: 2px;
   --radius-xs: 4px;
   --radius-s: 8px;
+  --radius-m: 12px;
 }
 
 
 a {
   text-decoration: none;
+}
+
+.tooltip > .tooltip-inner {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  padding: var(--space-3-xs) var(--space-xs);
+  border-radius: var(--radius-s);
 }
 </style>
 

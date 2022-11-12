@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { RefiningState } from './typeDefs'
+import { Features, RefiningState } from './typeDefs'
 import { ResponseModel, SettingsWithItem, ItemInfo, OneOfCitiesProp } from './typeDefs'
 import { getRawResourceNameByMaterial } from '../utils';
 import Vue from 'vue';
@@ -138,7 +138,31 @@ export const mutations: MutationTree<RefiningState> = {
    * @param state - vuex state
    * @param loadingText - text of loading
    */
-  SET_LOADING_TEXT(state, loadingText: string) {
+  SET_LOADING_TEXT(state, loadingText: Features['loadingText']) {
     state.features.loadingText = loadingText;
   },
+
+  UPDATE_ITEM_BY_ITEM_NAME(state, { 
+    itemName, 
+    item, 
+    itemGroup,
+  }: { 
+    itemName: string; 
+    item: ResponseModel, 
+    itemGroup: 'sellMaterials' | 'buyMaterials' | 'buyRawResources',
+  }) {
+    const currentItemInfo = state.currentItemInfo;
+    const cities = state.settings.cities;
+    let city = cities[itemGroup];
+
+    const prices = itemGroup === 'buyRawResources' ? state.rawResources : state.materials;
+    const baseItemName = itemGroup === 'buyRawResources' ? getRawResourceNameByMaterial(currentItemInfo.name) : currentItemInfo.name;
+
+    const items = prices[city][baseItemName];
+    const storeItemIndex = items.findIndex((resource) => resource.itemId === itemName);
+
+    if (storeItemIndex != -1) {
+      Vue.set(items, storeItemIndex, item);
+    }
+  }
 }

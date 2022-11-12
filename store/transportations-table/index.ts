@@ -11,12 +11,12 @@ Vue.use(Vuex);
 const transportationsModule: Module<TransportationsState, RootState> = {
   namespaced: true,
   state: () => ({
-    items: [],
+    transportations: [],
     settings: {
       locationFrom: 'Lymhurst',
       locationTo: 'Black Market',
       skip: 0,
-      useHeuristicSort: false
+      backendSorting: [],
     },
   }),
   getters,
