@@ -133,7 +133,7 @@
     "register": "Register",
     "logout": "Logout",
     "foodAndPotions": "Food & potions",
-    "artifactFoundry": "Artifacts foundry"
+    "artifactFoundry": "Artifact foundry"
   },
   "ru": {
     "tree": "Дерево профита",

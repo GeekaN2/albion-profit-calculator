@@ -36,10 +36,10 @@
       "en": {
         "averageMeanPrice": "Average mean price",
         "averageMeanProfit": "Average mean profit",
-        "averageMeanProfitPercentage": "Averagage mean profit percentage",
+        "averageMeanProfitPercentage": "Average mean profit percentage",
         "medianItemPrice": "Median item price",
         "medianItemProfit": "Median item profit",
-        "medianItemProfitPercentage": "Meadian item profit percentage",
+        "medianItemProfitPercentage": "Median item profit percentage",
         "fragmentExpenses": "Fragment expenses"
       },
     "ru": {
