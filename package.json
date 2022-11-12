@@ -48,7 +48,7 @@
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-vue": "^7.5.0",
-    "sharp": "^0.27.1"
+    "sharp": "^0.30.5"
   },
   "engines": {
     "node": "14.18.0",
