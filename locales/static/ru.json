@@ -33,12 +33,18 @@
     "sellItems": "Продажа предметов",
     "sellResources": "Продажа ресурсов",
     "sellMaterials": "Продажа материалов",
+    "sellFragments": "Продажа фрагментов",
+    "sellArtifacts": "Продажа артефактов",
     "craftItems": "Крафт предметов",
     "refining": "Переработка",
     "buyResources": "Покупка ресурсов",
     "buyMaterials": "Покупка материалов",
+    "buyFragments": "Покупка фрагментов",
+    "buyArtifacts": "Покупка артефактов",
     "updateItemPrices": "Обновить цены предметов",
     "updateMaterialPrices": "Обновить цены материалов",
-    "updateResourcePrices": "Обновить цены ресурсов"
+    "updateResourcePrices": "Обновить цены ресурсов",
+    "updateArtifactPrices": "Обновить цены артефактов",
+    "updateFragmentPrices": "Обновить цены фрагментов"
   }
 }

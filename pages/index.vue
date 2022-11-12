@@ -91,7 +91,8 @@
       @hide-modal-register="hideModalRegister"
     />
     <footer>
-      <a href="https://github.com/GeekaN2">&copy; GeekaN &nbsp;<Patreon /></a>
+      <a href="https://github.com/GeekaN2">&copy; GeekaN</a>
+      <SupportMe />
       <a
         href="https://www.albion-online-data.com/"
       >Powered by Albion Online Data Project</a>
@@ -155,7 +156,7 @@
 import Auth from "~/components/Auth";
 import Register from "~/components/Register";
 import ThemeToggle from "~/components/utils/ThemeToggle";
-import Patreon from '~/components/icons/Patreon.vue';
+import SupportMe from '~/components/utils/SupportMe.vue';
 
 export default {
   name: "MainPage",
@@ -163,7 +164,7 @@ export default {
     Auth,
     Register,
     ThemeToggle,
-    Patreon,
+    SupportMe,
   },
   data() {
     return {

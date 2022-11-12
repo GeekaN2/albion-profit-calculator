@@ -61,10 +61,10 @@ export interface ItemInfo {
  export interface Settings {
   useMultipleCities: boolean;
   cities: {
-    buyArtifacts: AlbionCities,
     sellArtifacts: AlbionCities,
-    sellFragments: AlbionCities,
     buyFragments: AlbionCities,
+    sellFragments: AlbionCities,
+    buyArtifacts: AlbionCities,
   }
 }
 
@@ -119,3 +119,5 @@ export interface BranchCells {
       expenses: number,
     }[],
 }
+
+export type ItemGroup =  'sellFragments' | 'buyFragments' | 'sellArtifacts' | 'buyArtifacts';

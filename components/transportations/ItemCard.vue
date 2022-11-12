@@ -91,7 +91,7 @@
 
 <script>
 import ImageWithoutNumber from "~/components/utils/ImageWithoutNumber";
-import { isOutdated, formatPrice, roundPrice } from "./utils";
+import { formatPrice, roundPrice } from "./utils";
 import PriceWithDate from "./ItemCardComponents/PriceWithDate";
 import SvgIcon from "../utils/SvgIcon.vue";
 import { MARKET_SELL_ORDER_FEE } from '../../store/constants';
@@ -156,7 +156,6 @@ export default {
             this.$toast.success("Copied");
         },
         formatPrice: formatPrice,
-        isOutdated: isOutdated,
         setItemPrice(itemId, direction, price) {
           this.$store.commit("transportations/UPDATE_ITEM_PRICE", {
             itemId,

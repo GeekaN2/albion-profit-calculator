@@ -154,11 +154,14 @@ export default {
 
 .excell-container {
     min-width: 450px;
-    border-left: 1px solid var(--color-primary-analog);
+    border: 1px solid var(--color- primary-analog);
+    border-right-width: 0;
     padding: var(--space-xs);
     display: flex;
     flex-direction: column;
     gap: var(--space-s);
+    border-top-left-radius: var(--radius-m);
+    border-bottom-left-radius: var(--radius-m);
 }
 
 .excell-artifacts {

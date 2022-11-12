@@ -2,17 +2,19 @@
   <section class="container">
     <Header />
     <div class="wrapper">
-      <div class="table">
-        <h2 class="table__header">
-          {{ $t("chooseFragments") }}
-        </h2>
-        <Row />
-        <Loading 
-          v-if="itemName"
-          :text="status" 
-        />
-         
-        <Table v-if="status == 'calculated' && itemName" />
+      <div class="wrapper-row">
+        <Settings />
+        <div class="table">
+          <h2 class="table__header">
+            {{ $t("chooseFragments") }}
+          </h2>
+          <Row />
+          <Loading 
+            v-if="itemName"
+            :text="status" 
+          />
+          <Table v-if="status == 'calculated' && itemName" />
+        </div>
       </div>
       <ExtendedCellTable v-if="status == 'calculated' && itemName && extendedCell " />
     </div>
@@ -36,6 +38,7 @@ import Row from "~/components/artifact-foundry/Row.vue";
 import Table from "~/components/artifact-foundry/Table.vue";
 import Loading from '~/components/utils/Loading.vue';
 import ExtendedCellTable from '~/components/artifact-foundry/ExtendedCellTable.vue';
+import Settings from '~/components/artifact-foundry/Settings.vue';
 import { mapState } from 'vuex'; 
 
 export default {
@@ -45,6 +48,7 @@ export default {
     Row,
     Loading,
     Table,
+    Settings,
     ExtendedCellTable,
   },
   computed: {
@@ -81,7 +85,13 @@ export default {
   }
 }
 
-@media (max-width: 991px) {
+.wrapper-row {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+@media (max-width: 1200px) {
   .wrapper {
     flex-direction: column;
     font-size: 0.9rem;
@@ -96,6 +106,10 @@ export default {
   .wrapper {
     width: 100%;
     font-size: 0.85rem;
+  }
+
+  .wrapper-row {
+    flex-direction: column;
   }
 }
 

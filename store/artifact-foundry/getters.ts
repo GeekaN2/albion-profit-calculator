@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex'
 import { ResponseModel } from '../typeDefs';
 import { generateTiers } from '../utils';
-import { ArtifactBranchType, ArtifactFoundryState, ArtifactsTreeForCurrentFragment, BranchCells } from './typeDefs';
+import { ArtifactBranchType, ArtifactFoundryState, ArtifactsTreeForCurrentFragment, BranchCells, ItemGroup } from './typeDefs';
 import { MARKET_SELL_ORDER_FEE } from '../constants';
 
 export const getters: GetterTree<ArtifactFoundryState, {}> = {
@@ -51,7 +51,8 @@ export const getters: GetterTree<ArtifactFoundryState, {}> = {
     const buyFragmentItems: ResponseModel[] = getters.buyFragments;
     const filteredItems = sellArtifactItems
       .filter(artifact => artifact.itemId.slice(1, 2) === String(tier))
-      .filter(artifact => branchItems.includes(artifact.itemId.slice(3)));
+      .filter(artifact => branchItems.includes(artifact.itemId.slice(3)))
+      .filter(artifact => artifact.sellPriceMin !== 0);
 
     const fragmentsPrice = buyFragmentItems.find(fragment => fragment.itemId.includes(`T${tier}`)); 
 
@@ -93,7 +94,7 @@ export const getters: GetterTree<ArtifactFoundryState, {}> = {
     const filteredItems = sellArtifactItems
       .filter(artifact => artifact.itemId.slice(1, 2) === String(tier))
       .filter(artifact => branchItems.includes(artifact.itemId.slice(3)));
-
+    const filteredItemsWithoutWorthless = filteredItems.filter(artifact => artifact.sellPriceMin != 0);
     const fragmentsPrice = buyFragmentItems.find(fragment => fragment.itemId.includes(`T${tier}`)); 
 
     if (!fragmentsPrice) {
@@ -105,17 +106,19 @@ export const getters: GetterTree<ArtifactFoundryState, {}> = {
     const getItemProfit = (item: ResponseModel) => item.sellPriceMin * (100 - MARKET_SELL_ORDER_FEE) / 100 - fragmentExpenses;
     const getItemProfitPercentage = (item: ResponseModel) => getItemProfit(item) / fragmentExpenses * 100;
 
+    
     // We have a normal distribution, so we use these formulas
-    const totalProfit = filteredItems.reduce((acc, item) => acc + getItemProfit(item), 0);
-    const averageMeanProfit = totalProfit / filteredItems.length;
-    const variance = filteredItems.reduce((acc, item) => acc + (getItemProfit(item) - averageMeanProfit) ** 2, 0) / filteredItems.length;
+    const totalProfit = filteredItemsWithoutWorthless.reduce((acc, item) => acc + getItemProfit(item), 0);
+    const averageMeanProfit = totalProfit / filteredItemsWithoutWorthless.length;
+    const variance = filteredItemsWithoutWorthless.reduce((acc, item) => acc + (getItemProfit(item) - averageMeanProfit) ** 2, 0) / filteredItemsWithoutWorthless.length;
     const quadraticMeanProfit = Math.sqrt(variance);
     
-    const totalItemsPrice = filteredItems.reduce((acc, item) => acc + item.sellPriceMin, 0);
-    const averageMeanPrice = totalItemsPrice / filteredItems.length;
+    const totalItemsPrice = filteredItemsWithoutWorthless.reduce((acc, item) => acc + item.sellPriceMin, 0);
+    const averageMeanPrice = totalItemsPrice / filteredItemsWithoutWorthless.length;
     const averageMeanProfitPercentage = averageMeanProfit / fragmentExpenses * 100;
 
-    const medianItem = filteredItems[Math.floor(filteredItems.length / 2)];
+    const sortedItems = [...filteredItemsWithoutWorthless].sort((item1, item2) => item1.sellPriceMin - item2.sellPriceMin);
+    const medianItem = sortedItems[Math.floor(filteredItemsWithoutWorthless.length / 2)];
     const medianItemPrice = medianItem.sellPriceMin;
     const medianItemProfit = medianItemPrice - fragmentExpenses;
     const medianItemProfitPercentage = medianItemProfit / fragmentExpenses * 100;
@@ -172,6 +175,18 @@ export const getters: GetterTree<ArtifactFoundryState, {}> = {
     const artifacts = state.artifacts[city].filter(({ itemId }) => allArtifactNames.includes(itemId.slice(3)));
 
     return artifacts;
-  }
+  },
 
+  getItemByName: (state, getters) => (itemName: string, itemGroup: ItemGroup) => {
+    let items: ResponseModel[] = [];
+
+    switch(itemGroup) {
+      case 'buyArtifacts' : items = getters.buyArtifacts; break;
+      case 'buyFragments' : items = getters.buyFragments; break;
+      case 'sellArtifacts' : items = getters.sellArtifacts; break;
+      case 'sellFragments' : items = getters.sellFragments; break;
+    }
+
+    return items.find(({ itemId }) => itemId === itemName);
+  },
 }

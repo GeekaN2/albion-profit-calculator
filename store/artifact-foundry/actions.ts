@@ -1,9 +1,7 @@
 import axios from 'axios';
 import { ActionTree } from 'vuex'
 import { ProfitTreeItem, ResponseModel } from '../typeDefs';
-import { isArtifactItem, isObjectEmpty } from '../utils';
 import { ArtifactFoundryState, ArtifactsTree, ItemInfo, LoadingStatus, SettingsWithItem, ArtifactBranch, ArtifactsTreeForCurrentFragment, BranchCells } from './typeDefs';
-import PromisePool from 'es6-promise-pool';
 
 const baseUrl = process.env.BASE_URL;
 
@@ -83,14 +81,14 @@ export const actions: ActionTree<ArtifactFoundryState, {}> = {
         'RELIC': [],
         'SHARD_AVALONIAN': [],
       };
-  
+
       const getAllArtifactLeafs = (treeItem: ProfitTreeItem) => {
         if (treeItem.children && !areAllChildrenLeafs(treeItem.children)) {
           treeItem.children.forEach((item) => getAllArtifactLeafs(item));
         } else if (treeItem.children && treeItem.children.length >= 4 && areAllChildrenLeafs(treeItem.children)) {
           const names = getAllLeafNames(treeItem.children);
           const [rune, soul, relic, avaShard] = names.slice(-4).map(name => 'ARTEFACT_' + name.slice(3));
-  
+
           artifactItems.RUNE.push(rune);
           artifactItems.SOUL.push(soul);
           artifactItems.RELIC.push(relic);
@@ -99,7 +97,7 @@ export const actions: ActionTree<ArtifactFoundryState, {}> = {
       }
 
       getAllArtifactLeafs(branchTree);
-  
+
       return artifactItems;
     }
 
@@ -111,6 +109,49 @@ export const actions: ActionTree<ArtifactFoundryState, {}> = {
         'MAGE_BRANCH': getArtifactBranch(mageBranch),
       } as ArtifactsTree
     });
+  },
+
+  /**
+   * Update a part of state
+   * 
+   * @param partOfState - part of the state to reset: artifact-prices | fragment-prices
+   */
+  async UPDATE_STATE({ dispatch, commit, state }, partOfState: string) {
+    const currentItemInfo = state.currentFragmentType;
+
+    const settingsWithItem: SettingsWithItem = {
+      currentItemInfo,
+      settings: state.settings,
+    }
+
+    if (!currentItemInfo.name) {
+      return;
+    }
+
+    switch (partOfState) {
+      case 'artifact-prices':
+        commit('DROP_ARTIFACTS');
+        await dispatch('FETCH_SELL_ARTIFACT_PRICES', settingsWithItem);
+
+        if (settingsWithItem.settings.cities.sellArtifacts !== settingsWithItem.settings.cities.buyArtifacts) {
+          await dispatch('FETCH_BUY_ARTIFACT_PRICES', settingsWithItem);
+        }
+
+        break;
+      case 'fragment-prices':
+        commit('DROP_FRAGMENTS');
+        await dispatch('FETCH_BUY_FRAGMENT_PRICES', settingsWithItem);
+
+        if (settingsWithItem.settings.cities.sellFragments !== settingsWithItem.settings.cities.buyFragments) {
+          await dispatch('FETCH_SELL_FRAGMENT_PRICES', settingsWithItem);
+        }
+
+        break;
+    }
+
+    commit('SET_LOADING_STATUS', LoadingStatus.SOMETHING_CHANGED);
+
+    await dispatch('CHECK_ALL');
   },
 
   async FETCH_SELL_ARTIFACT_PRICES({ commit, getters }, settingsWithItem: SettingsWithItem) {
@@ -175,7 +216,7 @@ export const actions: ActionTree<ArtifactFoundryState, {}> = {
       });
   },
 
-  SORT_EXTENDED_CELL_ARTIFACTS({ state, commit, getters}) {
+  SORT_EXTENDED_CELL_ARTIFACTS({ state, commit, getters }) {
     const branchArtifacts: BranchCells = getters.getCellItems;
     const branchArtifactIds = branchArtifacts.items.map(item => item.item.itemId);
     const city = state.settings.cities.sellArtifacts;
@@ -187,5 +228,5 @@ export const actions: ActionTree<ArtifactFoundryState, {}> = {
       .concat(sortedArtifacts.map(({ item }) => item));
 
     commit('SET_SORTED_CELL_ARTIFACTS', artifactsWithSortedBranch);
-  }
+  },
 }

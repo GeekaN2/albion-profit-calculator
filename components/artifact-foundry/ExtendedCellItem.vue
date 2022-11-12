@@ -7,24 +7,45 @@
           class="excellitem-itemName"
           @click="copyName($t(artifact.item.itemId))"
         >{{
-          $t(artifact.item.itemId) }}
+          $t(artifact.item.itemId)
+        }}
         </span>
-                
-                    
-        <span>
-          <InputWithView 
+
+        <span class="excellitem-price">
+          <InputWithView
             :set-text="(price) => {
               setArtifactPrice(artifact.item.itemId, price);
             }"
             :get-text="() => artifact.item.sellPriceMin"
             :format-text="formatPrice"
           />
-          <span>{{ formatDate(artifact.item.sellPriceMinDate) }}</span>
+          <span
+            :class="{
+              'profitable': !isOutdated(artifact.item.sellPriceMinDate),
+              'unprofitable': isOutdated(artifact.item.sellPriceMinDate)
+            }"
+          >{{ formatDate(artifact.item.sellPriceMinDate) }}</span>
         </span>
+        <span
+          v-if="!(artifact.item.sellPriceMin != 0)"
+          class="unknown removed-from-calculation"
+        >Removed from calculations</span>
       </div>
       <div class="excellitem-profits">
-        <span>{{ formatPrice(artifact.profit) }}</span>
-        <span>{{ formatPercentage(artifact.profitPercentage) }}%</span>
+        <span
+          :class="{
+            'unprofitable': artifact.profit < 0,
+            'profitable': artifact.profit > 0,
+            'unknown': artifact.profit == 0,
+          }"
+        >{{ formatPrice(artifact.profit) }}</span>
+        <span
+          :class="{
+            'unprofitable': artifact.profitPercentage < 0,
+            'profitable': artifact.profitPercentage > 0,
+            'unknown': artifact.profitPercentage == 0,
+          }"
+        >{{ formatPercentage(artifact.profitPercentage) }}%</span>
       </div>
     </div>
   </div>
@@ -37,9 +58,9 @@ import InputWithView from '../utils/InputWithView.vue';
 
 export default {
     name: "ExtendedCellItem",
-    components: { 
-        ImageWithoutNumber, 
-        InputWithView 
+    components: {
+        ImageWithoutNumber,
+        InputWithView
     },
     props: {
         /**
@@ -114,6 +135,13 @@ export default {
                 ? lastCheckInHours + this.$t('hours')
                 : Math.floor(lastCheckInHours / 24) + this.$t('days');
         },
+
+        isOutdated(date) {
+            const day = 24 * 60 * 60 * 1000;
+
+            return Date.now() - new Date(date).getTime() > day;
+        }
+
     }
 }
 </script>
@@ -127,6 +155,12 @@ export default {
         border: 1px solid var(--color-primary-analog);
         border-radius: var(--radius-xs);
         padding: var(--space-xs);
+    }
+
+    &-price {
+        display: flex;
+        flex-direction: row;
+        gap: var(--space-xs);
     }
 
     &-itemName {
@@ -153,5 +187,21 @@ export default {
         display: flex;
         justify-content: space-between;
     }
+}
+
+.profitable {
+    color: var(--color-profitable);
+}
+
+.unprofitable {
+    color: var(--color-unprofitable-secondary);
+}
+
+.unknown {
+    color: var(--color-unknown);
+}
+
+.removed-from-calculation {
+    font-size: 0.7em;
 }
 </style>

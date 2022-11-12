@@ -1,10 +1,16 @@
 <template>
   <div>
     <div class="item-table">
+      <MeldingRecipe />
       <div
         v-for="branch in ['WARRIOR_BRANCH', 'HUNTER_BRANCH', 'MAGE_BRANCH', 'ALL']"
         :key="branch"
+        class="af-branch"
       >
+        <img
+          class="branch-image"
+          :src="`/images/${branch}.png`"
+        >
         <ItemRow 
           :class="`branch-${branch}`"
           :row="getRow(branch)" 
@@ -15,23 +21,20 @@
 </template>
   
   <script>
-  import { mapGetters, mapState } from 'vuex';
+  import { mapGetters } from 'vuex';
+  import MeldingRecipe from './MeldingRecipe.vue';
   import ItemRow from './ItemRow';
   
   export default {
     name: "Table",
     components: {
       ItemRow,
+      MeldingRecipe,
     },
     computed: {
       ...mapGetters({
         getFragmentsMeldProfit: 'artifactFoundry/getFragmentsMeldProfit',
       }),
-  
-      ...mapState({
-        settings: state => state.refining.settings,
-        fragmentType: state => state.refining.currentItemInfo.name
-      })
     },
     methods: {
       /**
@@ -78,4 +81,17 @@
     width: 100%;
     font-size: 1em;
   }
-  </style>f
+
+  .af-branch {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .branch-image {
+    width: 30px;
+    height: 40px;
+    filter: contrast(80%) drop-shadow(0px 0px 1px var(--color-secondary));
+  }
+  </style>
