@@ -154,7 +154,7 @@ export default {
 
 .excell-container {
     min-width: 450px;
-    border: 1px solid var(--color- primary-analog);
+    border: 1px solid var(--color-primary-analog);
     border-right-width: 0;
     padding: var(--space-xs);
     display: flex;
