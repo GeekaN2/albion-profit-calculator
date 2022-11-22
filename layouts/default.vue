@@ -121,6 +121,7 @@ body {
   --subtier1: #6afe90;
   --subtier2: #4bc8d2;
   --subtier3: #b987f7;
+  --subtier4: #f0f07d;
 
   --normal-quality: #acacac;
   --good-quality: #5788bd;

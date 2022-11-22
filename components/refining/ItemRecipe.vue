@@ -39,7 +39,7 @@ export default {
   },
   computed: {
     allRecipes() {
-      const numberOfSubtiers = this.baseItemName != 'STONEBLOCK' ? 4 : 1;
+      const numberOfSubtiers = this.baseItemName != 'STONEBLOCK' ? 5 : 1;
       const recipes = [];
 
       for (let tier = 4; tier <= 8; tier++) {
@@ -63,7 +63,7 @@ export default {
 
     allSellMaterialNames() {
       const names = [];
-      const numberOfSubtiers = this.baseItemName != 'STONEBLOCK' ? 4 : 1;
+      const numberOfSubtiers = this.baseItemName != 'STONEBLOCK' ? 5 : 1;
 
       for (let tier = 4; tier <= 8; tier++) {
         for (let subtier = 0; subtier < numberOfSubtiers; subtier++) {

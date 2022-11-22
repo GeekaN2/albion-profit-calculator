@@ -1,7 +1,7 @@
 <template>
   <div class="item-table">
     <div
-      v-for="subtier in 4"
+      v-for="subtier in 5"
       :key="subtier"
       :class="`subtier${subtier - 1}`"
       class="item-table__row row"
@@ -169,6 +169,7 @@ export default {
         [30, 61, 125, 253, 509],
         [54, 118, 246, 502, 1014],
         [102, 229, 485, 997, 2021],
+        [204, 459, 970, 1994, 4042], // WIP: check this in the game
       ],
 
       itemAndArtefactValues: {
@@ -289,7 +290,7 @@ export default {
   },
   created() {
     for (let tier = 4; tier <= 8; tier++) {
-      for (let subtier = 0; subtier <= 3; subtier++) {
+      for (let subtier = 0; subtier <= 4; subtier++) {
         this.tableInfo[`T${tier}.${subtier}`] = {};
       }
     }
@@ -660,6 +661,11 @@ export default {
   .subtier3 {
     background: var(--subtier3);
     box-shadow: 0 0 4px 5px var(--subtier3);
+  }
+
+  .subtier4 {
+    background: var(--subtier4);
+    box-shadow: 0 0 4px 5px var(--subtier4);
   }
 
   .text-algin-left {

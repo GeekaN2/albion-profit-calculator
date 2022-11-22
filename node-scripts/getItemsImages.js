@@ -74,7 +74,7 @@ function createArrayOfAllItems(itemName) {
   let allNames = [];
 
   for (let tier = 4; tier <= 8; tier++) {
-    for (let subtier = 0; subtier <= 3; subtier++) {
+    for (let subtier = 0; subtier <= 4; subtier++) {
       allNames.push(`T${tier}` + itemName.slice(2) + (subtier != 0 ? `@${subtier}` : ''));
     }
   }
@@ -98,7 +98,9 @@ function createArrayOfAllResources(resource) {
       continue;
     }
 
-    for (let subtier = 0; subtier <= 3; subtier++) {
+    const highestSubtier = resource === 'ROCK' ? 3 : 4;
+
+    for (let subtier = 0; subtier <= highestSubtier; subtier++) {
       allNames.push(`T${tier}_` + resource + (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : ''));
     }
   }

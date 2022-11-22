@@ -3,7 +3,7 @@
     <div class="item-table">
       <ItemRecipe />
       <div
-        v-for="subtier in (baseItemName != 'STONEBLOCK' ? 4 : 1)"
+        v-for="subtier in (baseItemName != 'STONEBLOCK' ? 5 : 1)"
         :key="subtier"
       >
         <ItemRow 
@@ -31,13 +31,14 @@ export default {
   data() {
     return {
       /**
-       * Values of materials from t4.0 to t8.3 
+       * Values of materials from t4.0 to t8.4
        */
       materialValues: [
         [16, 32, 64, 128, 256],
         [32, 64, 128, 256, 512],
         [64, 128, 256, 512, 1024],
-        [128, 256, 512, 1024, 2048]
+        [128, 256, 512, 1024, 2048],
+        [256, 512, 1024, 2048, 4096]
       ]
     }
   },
@@ -66,7 +67,8 @@ export default {
         const itemName = this.getItemName(tier, subtier);
         const recipe = getItemRecipe(this.baseItemName, tier, subtier);
         const fee = this.craftFee(tier, subtier);
-
+        console.log('fuck', recipe.material.name);
+        console.log('BOL', this.buyMaterials);
         const itemPrice = Math.floor(this.sellMaterials[itemName].sellPriceMin * (1 - MARKET_SELL_ORDER_FEE / 100));
         const rawResourcesPrice = Math.floor(this.buyRawResources[recipe.rawResource.name].sellPriceMin
           * recipe.rawResource.quantity

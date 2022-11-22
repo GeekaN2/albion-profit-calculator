@@ -7,7 +7,7 @@
           :resource-to="'T5_' + baseItemName"
         />
         <div
-          v-for="subtier in baseItemName != 'ROCK' ? 4 : 1"
+          v-for="subtier in baseItemName != 'ROCK' ? 5 : 1"
           :key="subtier"
         >
           <ItemRow
@@ -25,7 +25,7 @@
           :resource-to="'T4_' + baseItemName + '_LEVEL1@1'"
         />
         <div
-          v-for="subtier in 4"
+          v-for="subtier in 5"
           :key="subtier"
         >
           <ItemRow
@@ -71,18 +71,21 @@ export default {
         [12, 10.66, 16, 25.6, 51.2],
         [28, 21.34, 32, 51.2, 102.4],
         [60, 42.66, 64, 102.4, 204.8],
+        [124, 85.32, 128, 204.8, 409.6],
       ],
       transCostPrevSubtierFormula: [
         [0, 0, 0, 0, 0],
         [1800, 1600, 2400, 3840, 7680],
         [3600, 3200, 4800, 7680, 15360],
-        [7200, 6400, 9600, 15360, 30720]
+        [7200, 6400, 9600, 15360, 30720],
+        [14800, 12800, 19200, 30720, 61440]
       ],
       transCostPrevTierFormula: [
         [0, 1070, 1600, 2560, 5120],
         [0, 2130, 3200, 5120, 10240],
         [0, 4270, 6400, 10240, 20480],
         [0, 8530, 12800, 20480, 40960],
+        [0, 17060, 25600, 40960, 81920],
       ],
       /**
        * It's a bit weird but rocks only have prev tier formula
@@ -108,11 +111,11 @@ export default {
      */
     getBestWaysToTransmute() {
       let bestWays = [];
-      // Started item, can't be T8.3
+      // Started item, can't be T8.4
       for (let tier = 4; tier <= 8; tier++) {
         for (
           let subtier = 0;
-          subtier <= 3 && !(tier == 8 && subtier == 3);
+          subtier <= 4 && !(tier == 8 && subtier == 4);
           subtier++
         ) {
           let allWays = this.getAllTransmuteWays(tier, subtier);

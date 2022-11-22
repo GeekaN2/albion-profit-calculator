@@ -154,6 +154,10 @@ export default {
     &:nth-child(16) {
       box-shadow: -8px 0 3px -3px  var(--subtier3);
     }
+
+    &:nth-child(21) {
+      box-shadow: -8px 0 3px -3px  var(--subtier4);
+    }
   }
 
   &:after {
