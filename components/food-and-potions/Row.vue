@@ -27,8 +27,6 @@
 </template>
 
 <script>
-import Table from "./Table";
-
 export default {
   name: "Row",
   props: {

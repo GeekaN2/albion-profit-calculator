@@ -39,9 +39,6 @@
             :disabled="!isSupporter"
             :to="localePath('/refining')"
             :class="[
-              {
-                'links__button--disabled': $auth.loggedIn && !isSupporter,
-              },
               'links__button--brown button',
             ]"
           >
@@ -51,9 +48,6 @@
             :disabled="!isSupporter"
             :to="localePath('/transportations')"
             :class="[
-              {
-                'links__button--disabled': $auth.loggedIn && !isSupporter,
-              },
               'links__button--brown button',
             ]"
           >
@@ -327,30 +321,6 @@ export default {
     &__button--brown:hover {
       color: var(--color-primary);
       background: var(--color-secondary);
-    }
-
-    &__button--disabled {
-      background: repeating-linear-gradient(
-        -45deg,
-        #c4c4c4,
-        #c4c4c4 5px,
-        transparent 5px,
-        transparent 15px
-      );
-      border-color: var(--color-disabled);
-      color: var(--color-disabled);
-
-      &:hover {
-        background: repeating-linear-gradient(
-          -45deg,
-          #c4c4c4,
-          #c4c4c4 5px,
-          transparent 5px,
-          transparent 15px
-        );
-        border-color: var(--color-disabled);
-        color: var(--color-disabled);
-      }
     }
   }
 }

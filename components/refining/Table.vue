@@ -67,8 +67,6 @@ export default {
         const itemName = this.getItemName(tier, subtier);
         const recipe = getItemRecipe(this.baseItemName, tier, subtier);
         const fee = this.craftFee(tier, subtier);
-        console.log('fuck', recipe.material.name);
-        console.log('BOL', this.buyMaterials);
         const itemPrice = Math.floor(this.sellMaterials[itemName].sellPriceMin * (1 - MARKET_SELL_ORDER_FEE / 100));
         const rawResourcesPrice = Math.floor(this.buyRawResources[recipe.rawResource.name].sellPriceMin
           * recipe.rawResource.quantity
