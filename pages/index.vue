@@ -33,7 +33,7 @@
             :to="localePath('/artifact-foundry')"
             class="links__button--brown button"
           >
-            🪨 {{ $t("artifactFoundry") }}
+            🗿 {{ $t("artifactFoundry") }}
           </nuxt-link>
           <nuxt-link
             :disabled="!isSupporter"

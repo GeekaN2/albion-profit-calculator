@@ -9,7 +9,7 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
     "get-images": "node node-scripts/getItemsImages.js",
     "get-dictionary": "node node-scripts/getDictionary.js",
     "get-items-from-dumps": "node node-scripts/getItemsFromDumps.js"
@@ -35,7 +35,7 @@
     "style-loader": "^2.0.0",
     "svg-sprite-loader": "^6.0.11",
     "v-click-outside": "^3.0.1",
-    "v-tooltip": "^2.1.3"
+    "v-tooltip": "^2"
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.7",

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt />
+    <div><nuxt /></div>
     <portal-target name="body" />
   </div>
 </template>
@@ -8,7 +8,6 @@
 <script>
 import Vue from 'vue';
 import LogRocket from 'logrocket';
-import { mapState } from 'vuex';
 
 if (process.client && process.env.HAWK_CATCHER_TOKEN) {
   try {
@@ -87,6 +86,9 @@ body {
   --color-selected: #583156;
   --color-selected-hover: #7b4c79;
   --color-blind: #908585;
+
+  --color-link: #005eff;
+  --color-link-visited: #a300b9;
 }
 
 .dark-mode body {
@@ -105,6 +107,9 @@ body {
   --color-selected: #b69bb5;
   --color-selected-hover: #916c8f;
   --color-blind: #908585;
+
+  --color-link: #4388fe;
+  --color-link-visited: #cc5bdb;
 }
 
 :root {
@@ -167,6 +172,11 @@ body {
 
 a {
   text-decoration: none;
+  color: var(--color-link);
+
+  &:visited {
+    color: var(--color-link-visited);
+  }
 }
 
 .tooltip > .tooltip-inner {

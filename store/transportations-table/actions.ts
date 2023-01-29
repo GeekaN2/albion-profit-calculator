@@ -22,6 +22,12 @@ export const actions: ActionTree<TransportationsState, {}> = {
     const count = 20;
     const skip = state.settings.skip;
 
+    if (state.features.transportationsStatus === 'loading') {
+      return;
+    }
+
+    commit('UPDATE_TRANSPORTATIONS_STATUS', 'loading');
+  
     await axios
       .get(`${baseUrl}transportations/sort?from=${settings.locationFrom}&to=${settings.locationTo}&count=${count}&skip=${skip}&sort=${settings.backendSorting.join(',')}`)
       .then(response => {
@@ -30,6 +36,8 @@ export const actions: ActionTree<TransportationsState, {}> = {
         commit('ADD_ITEMS_DATA', data);
         commit('UPDATE_SKIP', skip + count);
       });
+
+    commit('UPDATE_TRANSPORTATIONS_STATUS', 'success');
   },
 
   /**

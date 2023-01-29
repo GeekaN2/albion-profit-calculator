@@ -1,6 +1,7 @@
 <template>
   <section class="container">
     <Header />
+    <GlobalNotifies />
     <div class="wrapper">
       <Settings />
       <div class="centered">
@@ -57,11 +58,13 @@ import Settings from "~/components/tree/Settings";
 import ItemRecipe from "~/components/tree/ItemRecipe";
 import Loading from "~/components/utils/Loading";
 import Guide from "~/components/guides/Guide";
+import GlobalNotifies from "~/components/utils/GlobalNotifies/GlobalNotifies";
 import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "Tree",
   components: {
+    GlobalNotifies,
     Header,
     Row,
     ItemTable,

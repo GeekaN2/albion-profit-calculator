@@ -1,6 +1,7 @@
 <template>
   <section class="container">
     <Header />
+    <GlobalNotifies />
     <div class="wrapper">
       <div class="wrapper-row">
         <Settings />
@@ -39,11 +40,13 @@ import Table from "~/components/artifact-foundry/Table.vue";
 import Loading from '~/components/utils/Loading.vue';
 import ExtendedCellTable from '~/components/artifact-foundry/ExtendedCellTable.vue';
 import Settings from '~/components/artifact-foundry/Settings.vue';
+import GlobalNotifies from "~/components/utils/GlobalNotifies/GlobalNotifies";
 import { mapState } from 'vuex'; 
 
 export default {
   name: "FoodAndPotions",
   components: {
+    GlobalNotifies,
     Header,
     Row,
     Loading,

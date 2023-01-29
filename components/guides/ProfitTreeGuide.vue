@@ -8,6 +8,30 @@
       works.
     </p>
     <p class="guide__paragraph">
+      <span class="guide__subtitle">The client</span>
+      If you don't want to see <svg-icon
+        icon-class="clock"
+        class="guide__svg"
+      /> outdated prices, install it <a
+        class="guide__link"
+        target="_blank"
+        href="https://github.com/ao-data/albiondata-client/releases"
+      >from here</a> and update it by <a
+        class="guide__link"
+        target="_blank"
+        href="https://youtu.be/H6ynVMmYKgc"
+      >going through the market.</a>
+      All prices in the calculator are updated thanks to the people with the client. And also thanks to the guys who
+      created the <a
+        class="guide__link"
+        target="_blank"
+        href="https://www.albion-online-data.com/"
+      >Albion Online Data
+        Project.</a>
+      Prices are updated instantly, so you only need to reload the page or click the appropriate update buttons. Have a
+      nice day 🍪 GeekaN
+    </p>
+    <p class="guide__paragraph">
       <span class="guide__subtitle">How to select an item</span>
       The profit is calculated for the entier branch of the item. So you need to
       choose the branch. They have the same position as in the game.
@@ -57,9 +81,7 @@
     </p>
     <p class="guide__paragraph">
       Profit as a percentage:
-      <span
-        class="guide__code"
-      >profit_in_silver / crafting_expenses &times; 100</span>
+      <span class="guide__code">profit_in_silver / crafting_expenses &times; 100</span>
     </p>
     <p class="guide__paragraph">
       <span class="guide__subtitle">Tooltip</span>
@@ -90,7 +112,8 @@
         class="guide__link"
         target="_blank"
         href="https://www.albion-online-data.com/"
-      >the albion online data project</a> by players' hands.
+      >the albion online data
+        project</a> by players' hands.
     </p>
     <p class="guide__paragraph">
       The top left border shows the quality of the item. Matches color quality
@@ -128,8 +151,8 @@
       whose prices you want to change. The table has the same format as the
       profit table. Columns are tiers, rows are enchantments.
       <br>
-      It is also sometimes useful to look in here. This is where the minimum selling 
-      prices per resource unit are found. 
+      It is also sometimes useful to look in here. This is where the minimum selling
+      prices per resource unit are found.
       <img
         src="/images/guides/profit-tree/set-own-prices.png"
         class="guide__image"
@@ -179,9 +202,7 @@
       <br>
       Formula for calculating profit from journals:
       <br>
-      <span
-        class="guide__code"
-      >(journal_sell_price &minus; journal_buy_price) &times; filled_journals
+      <span class="guide__code">(journal_sell_price &minus; journal_buy_price) &times; filled_journals
         &times; (1 - fee)
       </span>
     </p>
@@ -193,9 +214,7 @@
       Changes the percentage of materials returned to the one that will be used
       when crafting with focus points. Material costs will be:
       <br>
-      <span
-        class="guide__code"
-      >material_buy_price &times; number_of_materials_needed &times; (1 -
+      <span class="guide__code">material_buy_price &times; number_of_materials_needed &times; (1 -
         return_percentage / 100)</span>
     </p>
     <p class="guide__paragraph">

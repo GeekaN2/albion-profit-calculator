@@ -18,6 +18,9 @@ const transportationsModule: Module<TransportationsState, RootState> = {
       skip: 0,
       backendSorting: [],
     },
+    features: {
+      transportationsStatus: 'initial'
+    }
   }),
   getters,
   actions,

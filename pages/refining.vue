@@ -1,6 +1,7 @@
 <template>
   <section class="container">
     <Header />
+    <GlobalNotifies />
     <div class="wrapper">
       <Settings />
       <div class="table">
@@ -37,11 +38,13 @@ import Settings from "~/components/refining/Settings"
 import Row from "~/components/refining/Row.vue";
 import Table from '~/components/refining/Table';
 import Loading from '~/components/utils/Loading.vue';
+import GlobalNotifies from "~/components/utils/GlobalNotifies/GlobalNotifies";
 import { mapGetters, mapState } from 'vuex'; 
 
 export default {
   name: "Refining",
   components: {
+    GlobalNotifies,
     Header,
     Settings,
     Row,
