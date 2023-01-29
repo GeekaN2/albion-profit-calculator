@@ -12,9 +12,9 @@
     {
       "en": {
         "yoo": "Yoo, If you don't want to see",
-        "outdated": "outdated prices, install it",
+        "outdated": "outdated prices, install the client",
         "fromHere": "from here",
-        "updateItBy": "and update it by",
+        "updateItBy": "and update price by",
         "throughMarket": "going through the market",
         "thanks": "All prices in the calculator are updated thanks to the people with the client. And also thanks to the guys who created the",
         "AODP": "Albion Online Data Project",
