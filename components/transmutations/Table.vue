@@ -75,17 +75,17 @@ export default {
       ],
       transCostPrevSubtierFormula: [
         [0, 0, 0, 0, 0],
-        [1800, 1600, 2400, 3840, 7680],
-        [3600, 3200, 4800, 7680, 15360],
-        [7200, 6400, 9600, 15360, 30720],
-        [14800, 12800, 19200, 30720, 61440]
+        [1980, 1760, 2640, 4230, 8450],
+        [3950, 3530, 5280, 8450, 16900],
+        [7920, 7040, 10560, 16900, 33800],
+        [79240, 70410, 105600, 168960, 337920]
       ],
       transCostPrevTierFormula: [
-        [0, 1070, 1600, 2560, 5120],
-        [0, 2130, 3200, 5120, 10240],
-        [0, 4270, 6400, 10240, 20480],
-        [0, 8530, 12800, 20480, 40960],
-        [0, 17060, 25600, 40960, 81920],
+        [0, 1180, 1760, 2820, 5640],
+        [0, 2350, 3520, 5640, 11270],
+        [0, 4700, 7040, 11270, 22530],
+        [0, 9390, 14080, 22530, 45060], // [0, x, x, x, 45060]
+        [0, 93880, 140800, 225280, 450560],
       ],
       /**
        * It's a bit weird but rocks only have prev tier formula
@@ -183,7 +183,9 @@ export default {
       const fee = this.settings.fee;
 
       // previously: 1 - (3000 - goldPrice) / 3000
-      const globalDiscount = 1.1; 
+      // I don't understand where in albion such a constant comes from.
+      // Calculations did not converge by a certain factor
+      const globalDiscount = 0.9316; 
 
       const transmutationCost =
         itemTransCost * globalDiscount +
@@ -320,7 +322,7 @@ export default {
       let cells = [];
       let bestWays = [];
 
-      for (let s = subtier; s <= 3; s++) {
+      for (let s = subtier; s <= 4; s++) {
         cells[s] = [];
 
         for (let t = tier; t <= 8; t++) {
@@ -329,7 +331,7 @@ export default {
       }
 
       for (let t = tier; t <= 8; t++) {
-        for (let s = subtier; s <= 3; s++) {
+        for (let s = subtier; s <= 4; s++) {
           let itemName = this.getItemName(t, s);
 
           if (t == tier && s == subtier) {
@@ -390,7 +392,7 @@ export default {
         this.sellItems[this.getItemName(tier, subtier)].sellPriceMin;
 
       for (let t = tier; t <= 8; t++) {
-        for (let s = subtier; s <= 3; s++) {
+        for (let s = subtier; s <= 4; s++) {
           if (t == tier && s == subtier) {
             continue;
           }
