@@ -71,8 +71,8 @@ export default {
     ItemRecipe,
     Settings,
     Loading,
-    Guide
-  },
+    Guide,
+},
   data() {
     return {
       /**
@@ -146,6 +146,7 @@ img {
 
 .wrapper {
   display: flex;
+  position: relative;
   justify-content: space-between;
   padding: 0 15px 10px 15px;
 

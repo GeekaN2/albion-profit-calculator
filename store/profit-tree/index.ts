@@ -27,6 +27,7 @@ const settings: Settings = {
   useExpertMode: false,
   returnPercentage: 15.2,
   craftFee: 10,
+  itemsMultiplier: 1,
   cities: {
     sellItems: "Caerleon",
     craftItems: "Caerleon",
@@ -51,6 +52,7 @@ const treeModule: Module<TreeState, RootState> = {
     recipes: {},
     settings: clonedeep(settings),
     settingsBackup: clonedeep(settings),
+    itemsMultiplier: 1,
     features: {
       loadingText: 'calculated'
     },

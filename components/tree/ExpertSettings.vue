@@ -70,6 +70,15 @@
       >
       <label for="masterpiece" />
     </div>
+    <div class="setting">
+      <h3>{{ $t('numberOfItemsToCraft') }}</h3>
+      <input
+        v-model.number="itemsMultiplier"
+        class="input input--number"
+        type="number"
+        placeholder="1"
+      >
+    </div>
   </div>
 </template>
 
@@ -79,13 +88,15 @@
     "expertMode": "Expert settings",
     "ownPercentage": "Use own return %",
     "useMinPrices": "Use min item prices",
-    "ownQualities": "Item qualities"
+    "ownQualities": "Item qualities",
+    "numberOfItemsToCraft": "Number of items to craft"
   },
   "ru": {
     "expertMode": "Режим эксперта",
     "ownPercentage": "Свой % возврата",
     "useMinPrices": "Использовать мин. цены предметов",
-    "ownQualities": "Качества предметов"
+    "ownQualities": "Качества предметов",
+    "numberOfItemsToCraft": "Количество предметов для крафта"
   }
 }
 </i18n>
@@ -140,6 +151,15 @@ export default {
         return this.settings.returnPercentage;
       }
     },
+
+    itemsMultiplier: {
+            set(numberOfItems) {
+                this.$store.commit("tree/SET_ITEMS_MULTIPLIER", numberOfItems);
+            },
+            get() {
+                return this.$store.state.tree.settings.itemsMultiplier;
+            },
+        },
 
     qualities: {
       set(qualities, event) {

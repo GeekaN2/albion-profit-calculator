@@ -241,6 +241,7 @@ export default {
        * Get recipe to calculate craft cost
        */
       "tree/getRecipe",
+      "tree/getRecipeForItemsNeededToCraft",
       
       /**
        * Get empty journals
@@ -340,13 +341,14 @@ export default {
             marketFee = MARKET_SELL_ORDER_FEE;
           }
 
-          itemPrice = Math.floor(itemPrice * (1 - marketFee / 100));
+          itemPrice = Math.floor(itemPrice * (1 - marketFee / 100)) *  this.settings.itemsMultiplier;;
 
           this.tableInfo[`T${tier}.${subtier}`].marketPrice = {
             name: itemName,
             percentage: -marketFee,
             price: itemPrice,
-            date: lastCheckDate
+            date: lastCheckDate,
+            addon: this.settings.itemsMultiplier === 1 ? '' : this.settings.itemsMultiplier,  
           };
 
           let creationCost = 0;
@@ -389,7 +391,6 @@ export default {
       }
 
       let artefactPrice = 0;
-      let name = 'Artifact';
       const artifactName = this['tree/getArtifactName'](tier);     
       let artefact = this['tree/getArtefacts'][artifactName];
 
@@ -398,15 +399,13 @@ export default {
         const numberOfSigils = tier >= 6 ? this.amountOfMaterials : this.amountOfMaterials * (tier - 3) / 4;
 
         artefactPrice = artefact.price * numberOfSigils;
-        name = 'Sigils';
       } else if (this.currentItemInfo.name.includes('INSIGHT')) {
         artefactPrice = artefact.price;
-        name = 'Skillbook';
       } else {
         artefactPrice = artefact.price;
       }
 
-      artefactPrice = artefactPrice || 0;
+      artefactPrice = (artefactPrice || 0) * this.settings.itemsMultiplier;;
 
       this.tableInfo[`T${tier}.${subtier}`].artefact = {
         name: artifactName,
@@ -436,7 +435,7 @@ export default {
           (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : "");
         
         const resource = recipe[0][0] == resourceName ? this['tree/getFirstResources'][resourceFullName] : this['tree/getSecondResources'][resourceFullName];
-        const cost = Math.floor(resource.price * amount * (1 - this['tree/returnMaterialPercentage'] / 100));
+        const cost = Math.floor(resource.price * amount * (1 - this['tree/returnMaterialPercentage'] / 100) * this.settings.itemsMultiplier);
         
         sumCost += cost;
 
@@ -491,19 +490,21 @@ export default {
       const emptyJournal = this['tree/getEmptyJournals'][journalName + '_EMPTY'];
       const fullJournal = this['tree/getFullJournals'][journalName + '_FULL'];
 
+      const filledJournals = this.formatFloat(craftFame / journalFame * this.settings.itemsMultiplier);
+
       let profit =
         (fullJournal.price - emptyJournal.price) *
         (craftFame / journalFame) * 
         (1 - fullJournal.marketFee / 100);
 
-      profit = Math.floor(profit);
+      profit = Math.floor(profit * this.settings.itemsMultiplier);
 
       this.$set(this.tableInfo[`T${tier}.${subtier}`], "journals", {
         name: "Journals",
         percentage: -fullJournal.marketFee,
         price: profit,
         date: fullJournal.date,
-        addon: `${this.formatFloat(craftFame / journalFame)}${this.$t('JournalsShort')}`
+        addon: `${filledJournals}${this.$t('JournalsShort')}`
       });
 
       return profit;
@@ -532,7 +533,7 @@ export default {
       }
       
       const feePrice = Math.floor(
-        (itemValue * this.amountOfMaterials) * fee / 100 * 0.1125
+        (itemValue * this.amountOfMaterials) * fee / 100 * 0.1125 * this.settings.itemsMultiplier
       );
 
       this.$set(this.tableInfo[`T${tier}.${subtier}`], "fee", {

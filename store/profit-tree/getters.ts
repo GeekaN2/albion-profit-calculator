@@ -1,11 +1,12 @@
 import { GetterTree } from 'vuex'
-import { TreeState, Item } from './typeDefs'
+import { TreeState, Item, Recipes, Recipe } from './typeDefs'
 import {
   isArtifactItem,
   normalizeItemsByMaxPriceFromMinPrices,
   normalizeItemBySellPriceMin,
   getHeartNameByItemName,
 } from '../utils'
+import cloneDeep from 'lodash.clonedeep';
 
 export const getters: GetterTree<TreeState, {}> = {
   /**
@@ -176,7 +177,7 @@ export const getters: GetterTree<TreeState, {}> = {
    * Returns the percentage of materials returned 
    * for profile cities
    */
-  returnMaterialPercentage: (state: TreeState) => {
+  returnMaterialPercentage: (state: TreeState): number => {
     if (state.settings.expert.useOwnPercentage) {
       return state.settings.returnPercentage;
     }
@@ -264,5 +265,69 @@ export const getters: GetterTree<TreeState, {}> = {
    */
   getJournalName: (state: TreeState) => (tier: number): string => {
     return `T${tier}_JOURNAL${state.currentItemInfo.root.slice(4)}`
+  },
+
+  getRecipeForItemsNeededToCraft: (state: TreeState, getters): Recipe => {
+    // TODO: get from settings
+    const itemsMultiplier = state.settings.itemsMultiplier;
+    const recipe = cloneDeep(getters.getRecipe as Recipe);
+    const returnMaterialPercentage = getters.returnMaterialPercentage as number;
+    // const numberOfItemsRequiredWithReturnPercentage = (100 - returnMaterialPercentage) / 100 * itemsMultiplier;
+
+    const getMaxCraftedItems = (initialNumberOfItems: number) => {
+      // get the number of items crafted in the "index" round
+      const getSeriesValue = (index: number) => Math.floor(initialNumberOfItems * ((returnMaterialPercentage / 100) ** index));
+
+      let index = 0;
+      let maxCraftedItems = 0;
+      
+      while (getSeriesValue(index) > 0 && isFinite(getSeriesValue(index))) {
+        maxCraftedItems += getSeriesValue(index);
+
+        index++;
+
+        // In case of infinite recursion
+        if (index > 100) break;
+      }
+
+      return maxCraftedItems;
+    }
+
+    // binary search by answer
+    // https://en.wikipedia.org/wiki/Binary_search_algorithm
+    const findInitialNumberOfItems = () => {
+      let leftBoundary = 0;
+      let rightBoundary = itemsMultiplier + 1;
+      let suggestedInitialItems = Math.floor((leftBoundary + rightBoundary) / 2);
+
+      let maxCraftedItems = getMaxCraftedItems(suggestedInitialItems);
+
+      do {
+        suggestedInitialItems = Math.floor((leftBoundary + rightBoundary) / 2);
+        maxCraftedItems = getMaxCraftedItems(suggestedInitialItems);
+
+        if (maxCraftedItems < itemsMultiplier) {
+          leftBoundary = suggestedInitialItems;
+        } else {
+          rightBoundary = suggestedInitialItems;
+        }
+      } while (maxCraftedItems < itemsMultiplier);
+
+      return suggestedInitialItems;
+    }
+
+    const numberOfRequiredItems = findInitialNumberOfItems();
+
+    for (let key in recipe) {
+      const numberOfMaterials = recipe[key as keyof Recipe];
+
+      if (!numberOfMaterials) {
+        continue;
+      }
+  
+      recipe[key as keyof Recipe] = numberOfMaterials * numberOfRequiredItems;
+    } 
+
+    return recipe || {};
   }
 }

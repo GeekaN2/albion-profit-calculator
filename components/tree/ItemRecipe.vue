@@ -2,7 +2,7 @@
   <div class="item-recipe">
     <template v-if="!rightSide">
       <template 
-        v-for="(value, material, index) in this['tree/getRecipe']"
+        v-for="(value, material, index) in this['tree/getRecipeForItemsNeededToCraft']"
       >
         <Ingredient 
           :key="material"
@@ -102,6 +102,7 @@ export default {
     },
 
     ...mapGetters([
+      "tree/getRecipeForItemsNeededToCraft",
       "tree/getRecipe",
       "tree/isArtifactItem",
       "tree/getArtifactName",
