@@ -77,6 +77,7 @@
         class="input input--number"
         type="number"
         placeholder="1"
+        min="0"
       >
     </div>
   </div>

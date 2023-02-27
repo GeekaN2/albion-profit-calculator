@@ -275,6 +275,8 @@ export const getters: GetterTree<TreeState, {}> = {
     // const numberOfItemsRequiredWithReturnPercentage = (100 - returnMaterialPercentage) / 100 * itemsMultiplier;
 
     const getMaxCraftedItems = (initialNumberOfItems: number) => {
+      if (returnMaterialPercentage >= 100) return Infinity;
+
       // get the number of items crafted in the "index" round
       const getSeriesValue = (index: number) => Math.floor(initialNumberOfItems * ((returnMaterialPercentage / 100) ** index));
 
@@ -300,18 +302,25 @@ export const getters: GetterTree<TreeState, {}> = {
       let rightBoundary = itemsMultiplier + 1;
       let suggestedInitialItems = Math.floor((leftBoundary + rightBoundary) / 2);
 
-      let maxCraftedItems = getMaxCraftedItems(suggestedInitialItems);
+      let maxCraftedItemsSuggestion = getMaxCraftedItems(suggestedInitialItems);
+      let maxCraftedItemsPrev = getMaxCraftedItems(suggestedInitialItems - 1);
 
       do {
         suggestedInitialItems = Math.floor((leftBoundary + rightBoundary) / 2);
-        maxCraftedItems = getMaxCraftedItems(suggestedInitialItems);
+        maxCraftedItemsSuggestion = getMaxCraftedItems(suggestedInitialItems);
+        maxCraftedItemsPrev = getMaxCraftedItems(suggestedInitialItems - 1);
 
-        if (maxCraftedItems < itemsMultiplier) {
+        if (!isFinite(maxCraftedItemsSuggestion)) {
+          suggestedInitialItems = 1;
+          break;
+        }
+
+        if (maxCraftedItemsSuggestion <= itemsMultiplier) {
           leftBoundary = suggestedInitialItems;
         } else {
           rightBoundary = suggestedInitialItems;
         }
-      } while (maxCraftedItems < itemsMultiplier);
+      } while (!(maxCraftedItemsSuggestion >= itemsMultiplier && maxCraftedItemsPrev < itemsMultiplier) && maxCraftedItemsSuggestion !== maxCraftedItemsPrev);
 
       return suggestedInitialItems;
     }
