@@ -18,6 +18,7 @@ const cities = {
   'Lymhurst': [],
   'Martlock': [],
   'Thetford': [],
+  'Brecilien': [],
 }
 
 const refiningModule: Module<FoodAndPotionsState, RootState>  = {

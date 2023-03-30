@@ -177,7 +177,7 @@ function createArrayOfAllArtifactFragments(itemName) {
  * @param itemName - item name: T4_ARTEFACT_HEAD_CLOTH_HELL etc.
  */
 function isArtifactItem(itemName) {
-  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL', 'INSIGHT', 'CAPEITEM'];
+  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'FEY', 'ROYAL', 'INSIGHT', 'CAPEITEM'];
 
   if (!itemName) {
     return false;

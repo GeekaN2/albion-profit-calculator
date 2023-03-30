@@ -17,7 +17,8 @@ export type AlbionCities = 'Caerleon'
   | 'Fort Sterling' 
   | 'Lymhurst'
   | 'Martlock'
-  | 'Thetford';
+  | 'Thetford'
+  | 'Brecilien';
 
 
 export enum LoadingStatus {

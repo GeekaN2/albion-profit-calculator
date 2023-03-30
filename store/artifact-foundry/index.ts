@@ -16,6 +16,7 @@ const cities = {
   'Lymhurst': [],
   'Martlock': [],
   'Thetford': [],
+  'Brecilien': [],
 }
 
 const fragments: { [key in FragmentType ]: string[]} = {

@@ -159,6 +159,11 @@ export const getters: GetterTree<FoodAndPotionsState, {}> = {
 
     let returnMaterialsPercentage = useFocus ? 43.5 : 15.2;
 
+    if (craftItemsCity === 'Brecilien') {
+      returnMaterialsPercentage = useFocus ? 47.9 : 24.8;
+    }
+
+    
     return returnMaterialsPercentage;
   },
 

@@ -369,7 +369,7 @@ export function isObjectEmpty(obj: object): boolean {
  * @param itemName - item name: T4_HEAD_CLOTH_HELL etc.
  */
 export function isArtifactItem(itemName: string, excludeRoyal?: boolean): boolean {
-  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', "INSIGHT", "CAPEITEM"];
+  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'FEY', "INSIGHT", "CAPEITEM"];
   
   if (!excludeRoyal) {
     artifacts.push('ROYAL');
