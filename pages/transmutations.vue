@@ -56,6 +56,7 @@ export default {
     Loading,
     Guide
   },
+  middleware: [],
   data() {
     return {};
   },

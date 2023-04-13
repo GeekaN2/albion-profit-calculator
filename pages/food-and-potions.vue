@@ -39,6 +39,7 @@ export default {
     Settings,
     Tree,
   },
+  middleware: [],
   created() {
     this.$store.dispatch('foodAndPotions/LOAD_FOOD_AND_POTIONS_TREE_ITEMS');
     this.$store.dispatch('foodAndPotions/LOAD_FOOD_AND_POTIONS_TREE');

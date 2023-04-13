@@ -36,7 +36,6 @@
             🗿 {{ $t("artifactFoundry") }}
           </nuxt-link>
           <nuxt-link
-            :disabled="!isSupporter"
             :to="localePath('/refining')"
             :class="[
               'links__button--brown button',
@@ -45,7 +44,6 @@
             ♻️ {{ $t("refining") }}
           </nuxt-link>
           <nuxt-link
-            :disabled="!isSupporter"
             :to="localePath('/transportations')"
             :class="[
               'links__button--brown button',
@@ -53,6 +51,24 @@
           >
             🐗 {{ $t("transportations") }}
           </nuxt-link>
+          <div class="links__helpers">
+            <nuxt-link
+              :to="localePath('/servers')"
+              :class="[
+                'links__button--brown button',
+              ]"
+            >
+              ⚙️ {{ $t("servers.servers") }}
+            </nuxt-link>
+            <nuxt-link
+              :to="localePath('/faq')"
+              :class="[
+                'links__button--brown button',
+              ]"
+            >
+              ❓ {{ $t("FAQ") }}
+            </nuxt-link>
+          </div>
         </div>
         <div class="auth-blocks">
           <span
@@ -297,6 +313,14 @@ export default {
 
   .links {
     padding-top: 15px;
+
+    &__helpers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xs);
+      flex-grow: 1;
+      grid-column: 1 / span 3;
+    }
 
     &__button--purple,
     &__button--brown {

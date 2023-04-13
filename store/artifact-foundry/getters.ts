@@ -11,7 +11,7 @@ export const getters: GetterTree<ArtifactFoundryState, {}> = {
     const currentFragmentType = state.currentFragmentType.name ?? 'RUNE';
 
     const getArtifactsWithTiers = (baseArtifactNames: string[]) => baseArtifactNames.reduce<string[]>((acc, baseName) => [...acc, ...generateTiers(baseName)], [])
-
+    console.log(WARRIOR_BRANCH[currentFragmentType]);
     return {
         'WARRIOR_BRANCH': getArtifactsWithTiers(WARRIOR_BRANCH[currentFragmentType]),
         'HUNTER_BRANCH': getArtifactsWithTiers(HUNTER_BRANCH[currentFragmentType]),

@@ -3,10 +3,11 @@ import { ActionTree } from 'vuex'
 import { isObjectEmpty } from '../utils';
 import { ConsumableItem } from './models';
 import { FoodAndPotionsState, LoadingStatus, SettingsWithItemTiers } from './typeDefs'
+import { RootState } from '../typeDefs';
 
 const baseUrl = process.env.BASE_URL;
 
-export const actions: ActionTree<FoodAndPotionsState, {}> = {
+export const actions: ActionTree<FoodAndPotionsState, RootState> = {
   /**
    * Check all prices of items, resources, artefactsa and journals
    * If there are no prices, then download them
@@ -92,14 +93,15 @@ export const actions: ActionTree<FoodAndPotionsState, {}> = {
    * @param state - vuex state
    * @param settingsWithItemTiers - сonvenient item data and settings
    */
-  async FETCH_ITEM_PRICES({ commit, getters }, settingsWithItemTiers: SettingsWithItemTiers) {
+  async FETCH_ITEM_PRICES({ commit, getters, rootState }, settingsWithItemTiers: SettingsWithItemTiers) {
     commit('SET_LOADING_STATUS', LoadingStatus.LOADING_ITEMS);
 
     const allNames = getters.getItemNamesWithSubtiers();
     const location = settingsWithItemTiers.settings.cities.sellItems;
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames}&locations=${location}&qualities=1`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}&qualities=1&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 
@@ -114,14 +116,15 @@ export const actions: ActionTree<FoodAndPotionsState, {}> = {
    * @param state - vuex state
    * @param settingsWithItemTiers - сonvenient item data and settings
    */
-  async FETCH_RESOURCE_PRICES({ commit, getters }, settingsWithItemTiers: SettingsWithItemTiers) {
+  async FETCH_RESOURCE_PRICES({ commit, getters, rootState }, settingsWithItemTiers: SettingsWithItemTiers) {
     commit('SET_LOADING_STATUS', LoadingStatus.LOADING_RESOURCES);
 
     const allNames = getters.getResourcesNeeded;
     const location = settingsWithItemTiers.settings.cities.buyResources;
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames}&locations=${location}&qualities=1`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}&qualities=1&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 
@@ -164,15 +167,16 @@ export const actions: ActionTree<FoodAndPotionsState, {}> = {
   /**
    * Fetch average data for items
    */
-  async FETCH_AVERAGE_DATA({ commit, getters }, settingsWithItemTiers: SettingsWithItemTiers) {
+  async FETCH_AVERAGE_DATA({ commit, getters, rootState }, settingsWithItemTiers: SettingsWithItemTiers) {
     commit('SET_LOADING_STATUS', 'averageData');
 
     const allNames = getters.getItemNamesWithSubtiers();
     const location = settingsWithItemTiers.settings.cities.sellItems;
     const baseURL = process.env.BASE_URL;
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseURL}average_data?items=${allNames}&locations=${location}`)
+      .get(`${baseURL}average_data?items=${allNames}&locations=${location}&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 

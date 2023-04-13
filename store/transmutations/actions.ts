@@ -2,10 +2,11 @@ import { ActionTree } from 'vuex'
 import axios from 'axios'
 import { createStringOfAllResources, isObjectEmpty } from '../utils'
 import { TransmutationsState, ItemInfo, SettingsWithItem } from './typeDefs'
+import { RootState } from '../typeDefs';
 
 const baseUrl = process.env.BASE_URL;
 
-export const actions: ActionTree<TransmutationsState, {}> = {
+export const actions: ActionTree<TransmutationsState, RootState> = {
   /**
    * Check prices of items
    * If there are no prices, then download them
@@ -90,15 +91,16 @@ export const actions: ActionTree<TransmutationsState, {}> = {
    * @param commit - vuex commit
    * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
    */
-  async FETCH_SELL_ITEM_PRICES({ commit }, settingsWithItem: SettingsWithItem) {
+  async FETCH_SELL_ITEM_PRICES({ commit, rootState }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_TEXT', 'items');
 
     const itemName = settingsWithItem.currentItemInfo.name;
     const allNames = createStringOfAllResources(itemName);
     const location = settingsWithItem.settings.cities.sellResourcesLocation;
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 
@@ -112,15 +114,16 @@ export const actions: ActionTree<TransmutationsState, {}> = {
    * @param commit - vuex commit
    * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
    */
-  async FETCH_BUY_ITEM_PRICES({ commit }, settingsWithItem: SettingsWithItem) {
+  async FETCH_BUY_ITEM_PRICES({ commit, rootState }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_TEXT', 'items');
 
     const itemName = settingsWithItem.currentItemInfo.name;
     const allNames = createStringOfAllResources(itemName);
     const location = settingsWithItem.settings.cities.buyResourcesLocation;
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 

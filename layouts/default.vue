@@ -89,6 +89,8 @@ body {
 
   --color-link: #005eff;
   --color-link-visited: #a300b9;
+
+  --success-analog: #1fc600;
 }
 
 .dark-mode body {
@@ -110,6 +112,8 @@ body {
 
   --color-link: #4388fe;
   --color-link-visited: #cc5bdb;
+
+  --success-analog: #1fc600;
 }
 
 :root {
