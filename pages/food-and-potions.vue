@@ -1,6 +1,7 @@
 <template>
   <section class="container">
     <Header />
+    <GlobalNotifies />
     <div class="wrapper">
       <Settings />
       <div class="table">
@@ -28,14 +29,17 @@
 import Header from "~/components/Header";
 import Settings from "~/components/food-and-potions/Settings";
 import Tree from "~/components/food-and-potions/Tree";
+import GlobalNotifies from "~/components/utils/GlobalNotifies/GlobalNotifies";
 
 export default {
   name: "FoodAndPotions",
   components: {
+    GlobalNotifies,
     Header,
     Settings,
     Tree,
   },
+  middleware: [],
   created() {
     this.$store.dispatch('foodAndPotions/LOAD_FOOD_AND_POTIONS_TREE_ITEMS');
     this.$store.dispatch('foodAndPotions/LOAD_FOOD_AND_POTIONS_TREE');

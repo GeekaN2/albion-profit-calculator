@@ -134,7 +134,8 @@ export default {
     't1s0 t2s0 t3s0 t4s0 t5s0 t6s0 t7s0 t8s0'
     't1s1 t2s1 t3s1 t4s1 t5s1 t6s1 t7s1 t8s1'
     't1s2 t2s2 t3s2 t4s2 t5s2 t6s2 t7s2 t8s2'
-    't1s3 t2s3 t3s3 t4s3 t5s3 t6s3 t7s3 t8s3';
+    't1s3 t2s3 t3s3 t4s3 t5s3 t6s3 t7s3 t8s3'
+    't1s4 t2s4 t3s4 t4s4 t5s4 t6s4 t7s4 t8s4';
   overflow: hidden;
   border-radius: var(--radius-xs);
   box-shadow: 0px 0px 3px var(--color-primary-analog-contrast);
@@ -203,11 +204,14 @@ export default {
 
     &-2 {
       border-left: 4px solid var(--subtier2);
-
     }
 
     &-3 {
       border-left: 4px solid var(--subtier3);
+    }
+
+    &-4 {
+      border-left: 4px solid var(--subtier4);
     }
   }
 }

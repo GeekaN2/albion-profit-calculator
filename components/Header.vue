@@ -5,7 +5,11 @@
         :to="localePath('/')"
         class="header__logo"
       >
-        Albion profit calculator
+        <img
+          src="/favicon.ico"
+          class="header__logo-img"
+        >
+        APC
       </nuxt-link>
       <a 
         class="header__social"
@@ -30,6 +34,7 @@
       </a>
     </div>
     <div class="header__wrapper">
+      <ServersSelect />
       <ThemeToggle class="header__toggle" />
       <nuxt-link
         :class="{
@@ -95,12 +100,14 @@
 <script>
 import ThemeToggle from './utils/ThemeToggle.vue';
 import Auth from './Auth.vue';
+import ServersSelect from './utils/ServersSelect.vue';
 
 export default {
   name: "Header",
   components: {
     ThemeToggle,
     Auth,
+    ServersSelect,
   },
   data() {
     return {
@@ -137,7 +144,7 @@ export default {
     background: none;
     color: var(--color-seondary);
     border: var(--color-secondary) 1px solid;
-    border-radius: var(--radius-xs);
+    border-radius: var(--radius-s);
     cursor: pointer;
     padding: var(--space-2-xs) var(--space-s);
 
@@ -155,6 +162,11 @@ export default {
   &__logo {
     color: var(--color-secondary);
     margin-right: 8px;
+
+    &-img {
+      height: 1.2em;
+      vertical-align: bottom;
+    }
   }
 
   &__social {

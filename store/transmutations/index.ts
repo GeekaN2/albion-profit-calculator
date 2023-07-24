@@ -16,6 +16,7 @@ const cities = {
   'Lymhurst': {},
   'Martlock': {},
   'Thetford': {},
+  'Brecilien': {},
 }
 
 const transmutationModule: Module<TransmutationsState, RootState> = {

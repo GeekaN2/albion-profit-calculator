@@ -33,32 +33,42 @@
             :to="localePath('/artifact-foundry')"
             class="links__button--brown button"
           >
-            🪨 {{ $t("artifactFoundry") }}
+            🗿 {{ $t("artifactFoundry") }}
           </nuxt-link>
           <nuxt-link
-            :disabled="!isSupporter"
             :to="localePath('/refining')"
             :class="[
-              {
-                'links__button--disabled': $auth.loggedIn && !isSupporter,
-              },
               'links__button--brown button',
             ]"
           >
             ♻️ {{ $t("refining") }}
           </nuxt-link>
           <nuxt-link
-            :disabled="!isSupporter"
             :to="localePath('/transportations')"
             :class="[
-              {
-                'links__button--disabled': $auth.loggedIn && !isSupporter,
-              },
               'links__button--brown button',
             ]"
           >
             🐗 {{ $t("transportations") }}
           </nuxt-link>
+          <div class="links__helpers">
+            <nuxt-link
+              :to="localePath('/servers')"
+              :class="[
+                'links__button--brown button',
+              ]"
+            >
+              ⚙️ {{ $t("servers.servers") }}
+            </nuxt-link>
+            <nuxt-link
+              :to="localePath('/faq')"
+              :class="[
+                'links__button--brown button',
+              ]"
+            >
+              ❓ {{ $t("FAQ") }}
+            </nuxt-link>
+          </div>
         </div>
         <div class="auth-blocks">
           <span
@@ -133,7 +143,7 @@
     "register": "Register",
     "logout": "Logout",
     "foodAndPotions": "Food & potions",
-    "artifactFoundry": "Artifacts foundry"
+    "artifactFoundry": "Artifact foundry"
   },
   "ru": {
     "tree": "Дерево профита",
@@ -304,6 +314,14 @@ export default {
   .links {
     padding-top: 15px;
 
+    &__helpers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xs);
+      flex-grow: 1;
+      grid-column: 1 / span 3;
+    }
+
     &__button--purple,
     &__button--brown {
       display: inline-block;
@@ -327,30 +345,6 @@ export default {
     &__button--brown:hover {
       color: var(--color-primary);
       background: var(--color-secondary);
-    }
-
-    &__button--disabled {
-      background: repeating-linear-gradient(
-        -45deg,
-        #c4c4c4,
-        #c4c4c4 5px,
-        transparent 5px,
-        transparent 15px
-      );
-      border-color: var(--color-disabled);
-      color: var(--color-disabled);
-
-      &:hover {
-        background: repeating-linear-gradient(
-          -45deg,
-          #c4c4c4,
-          #c4c4c4 5px,
-          transparent 5px,
-          transparent 15px
-        );
-        border-color: var(--color-disabled);
-        color: var(--color-disabled);
-      }
     }
   }
 }

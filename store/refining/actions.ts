@@ -2,10 +2,11 @@ import { ActionTree } from 'vuex'
 import axios from 'axios'
 import { createStringOfAllResources, isObjectEmpty, getRawResourceNameByMaterial } from '../utils'
 import { RefiningState, ItemInfo, SettingsWithItem } from './typeDefs'
+import { RootState } from '../typeDefs';
 
 const baseUrl = process.env.BASE_URL;
 
-export const actions: ActionTree<RefiningState, {}> = {
+export const actions: ActionTree<RefiningState, RootState> = {
   /**
    * Check all prices of materials and raw resources
    * If there are no prices, then download them
@@ -100,16 +101,17 @@ export const actions: ActionTree<RefiningState, {}> = {
    * @param state - vuex state
    * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
    */
-  async FETCH_BUY_RAW_RESOURCES({ commit }, settingsWithItem: SettingsWithItem) {
+  async FETCH_BUY_RAW_RESOURCES({ commit, rootState }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_TEXT', 'resources');
 
     const itemName = settingsWithItem.currentItemInfo.name;
     const rawResourceName = getRawResourceNameByMaterial(itemName);
     const allNames = createStringOfAllResources(rawResourceName);
     const location = settingsWithItem.settings.cities.buyRawResources;
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 
@@ -124,15 +126,16 @@ export const actions: ActionTree<RefiningState, {}> = {
    * @param state - vuex state
    * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
    */
-  async FETCH_SELL_MATERIALS({ commit }, settingsWithItem: SettingsWithItem) {
+  async FETCH_SELL_MATERIALS({ commit, rootState }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_TEXT', 'materials');
 
     const itemName = settingsWithItem.currentItemInfo.name;
     const allNames = createStringOfAllResources(itemName, 3);
     const location = settingsWithItem.settings.cities.sellMaterials;
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 
@@ -147,15 +150,16 @@ export const actions: ActionTree<RefiningState, {}> = {
    * @param state - vuex state
    * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
    */
-  async FETCH_BUY_MATERIALS({ commit }, settingsWithItem: SettingsWithItem) {
+  async FETCH_BUY_MATERIALS({ commit, rootState }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_TEXT', 'materials');
 
     const itemName = settingsWithItem.currentItemInfo.name;
     const allNames = createStringOfAllResources(itemName, 3);
     const location = settingsWithItem.settings.cities.buyMaterials;
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 

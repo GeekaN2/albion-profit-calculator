@@ -9,7 +9,8 @@ import {
   AverageDataForItem, 
   SettingsWithItem, 
   Resources, 
-  OneOfCitiesProp 
+  OneOfCitiesProp, 
+  Settings
 } from './typeDefs'
 import Vue from 'vue';
 import clonedeep from 'lodash.clonedeep';
@@ -37,6 +38,7 @@ export const mutations: MutationTree<TreeState> = {
       useExpertMode: false,
       returnPercentage: 15.2,
       craftFee: 500,
+      itemsMultiplier: 1,
       cities: {
         sellItems: "Caerleon",
         craftItems: "Caerleon",
@@ -418,5 +420,9 @@ export const mutations: MutationTree<TreeState> = {
    */
   RESET_SETTINGS(state): void {
     state.settings = clonedeep(state.settingsBackup);
+  },
+
+  SET_ITEMS_MULTIPLIER(state, itemsMultiplier: Settings['itemsMultiplier']) {
+    state.settings.itemsMultiplier = itemsMultiplier;
   }
 }

@@ -1,6 +1,7 @@
 <template>
   <section class="container">
     <Header />
+    <GlobalNotifies />
     <div class="wrapper">
       <Settings />
       <div class="table">
@@ -41,11 +42,13 @@ import Table from "~/components/transmutations/Table";
 import Row from "~/components/transmutations/Row.vue";
 import Loading from '~/components/utils/Loading.vue';
 import Guide from "~/components/guides/Guide";
+import GlobalNotifies from "~/components/utils/GlobalNotifies/GlobalNotifies";
 import { mapGetters, mapState } from 'vuex'; 
 
 export default {
   name: "Transmutations",
   components: {
+    GlobalNotifies,
     Header,
     Settings,
     Table,
@@ -53,6 +56,7 @@ export default {
     Loading,
     Guide
   },
+  middleware: [],
   data() {
     return {};
   },

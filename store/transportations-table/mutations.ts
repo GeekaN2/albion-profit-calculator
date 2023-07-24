@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { TransportationsState, Item, Transportation, BackendSorting } from './typeDefs'
+import { TransportationsState, Item, Transportation, BackendSorting, Features } from './typeDefs'
 
 export const mutations: MutationTree<TransportationsState> = {
   /**
@@ -15,6 +15,9 @@ export const mutations: MutationTree<TransportationsState> = {
       locationTo: 'Black Market',
       skip: 0,
       backendSorting: [BackendSorting.BY_LAST_TIME_CHECKED, BackendSorting.BY_PERCENTAGE_PROFIT],
+    }
+    state.features = {
+      transportationsStatus: 'initial',
     }
   },
 
@@ -81,5 +84,9 @@ export const mutations: MutationTree<TransportationsState> = {
     if (item) {
       item[direction].sellPriceMin = price;
     }
+  },
+
+  UPDATE_TRANSPORTATIONS_STATUS(state, status: Features['transportationsStatus']) {
+    state.features.transportationsStatus = status;
   }
 }

@@ -46,5 +46,12 @@
     "updateResourcePrices": "Обновить цены ресурсов",
     "updateArtifactPrices": "Обновить цены артефактов",
     "updateFragmentPrices": "Обновить цены фрагментов"
+  },
+  "servers": {
+    "servers": "Серверы",
+    "aod_west": "Европа AOD",
+    "aod_east": "Азия AOD",
+    "apc_west": "Европа APC",
+    "apc_east": "Азия APC"
   }
 }

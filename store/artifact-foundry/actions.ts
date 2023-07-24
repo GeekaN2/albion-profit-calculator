@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { ActionTree } from 'vuex'
-import { ProfitTreeItem, ResponseModel } from '../typeDefs';
+import { ProfitTreeItem, ResponseModel, RootState } from '../typeDefs';
 import { ArtifactFoundryState, ArtifactsTree, ItemInfo, LoadingStatus, SettingsWithItem, ArtifactBranch, ArtifactsTreeForCurrentFragment, BranchCells } from './typeDefs';
 
 const baseUrl = process.env.BASE_URL;
 
-export const actions: ActionTree<ArtifactFoundryState, {}> = {
+export const actions: ActionTree<ArtifactFoundryState, RootState> = {
   /**
  * Check all prices of materials and raw resources
  * If there are no prices, then download them
@@ -86,7 +86,11 @@ export const actions: ActionTree<ArtifactFoundryState, {}> = {
         if (treeItem.children && !areAllChildrenLeafs(treeItem.children)) {
           treeItem.children.forEach((item) => getAllArtifactLeafs(item));
         } else if (treeItem.children && treeItem.children.length >= 4 && areAllChildrenLeafs(treeItem.children)) {
-          const names = getAllLeafNames(treeItem.children);
+          let names = getAllLeafNames(treeItem.children);
+          
+          // filter fey items
+          names = names.filter(item => !item.includes('_FEY'));
+
           const [rune, soul, relic, avaShard] = names.slice(-4).map(name => 'ARTEFACT_' + name.slice(3));
 
           artifactItems.RUNE.push(rune);
@@ -154,15 +158,16 @@ export const actions: ActionTree<ArtifactFoundryState, {}> = {
     await dispatch('CHECK_ALL');
   },
 
-  async FETCH_SELL_ARTIFACT_PRICES({ commit, getters }, settingsWithItem: SettingsWithItem) {
+  async FETCH_SELL_ARTIFACT_PRICES({ commit, getters, rootState }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_STATUS', LoadingStatus.LOADING_ARTIFACTS);
 
     const allBranches = getters.getArtifactsNeeded as ArtifactsTreeForCurrentFragment;
     const location = settingsWithItem.settings.cities.sellArtifacts;
     const allNames = [...allBranches.WARRIOR_BRANCH, ...allBranches.HUNTER_BRANCH, ...allBranches.MAGE_BRANCH];
-
+    const serverId = rootState.features.currentServerId;
+  
     await axios
-      .get(`${baseUrl}data?items=${allNames.join(',')}&locations=${location}&qualities=1`)
+      .get(`${baseUrl}data?items=${allNames.join(',')}&locations=${location}&qualities=1&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 
@@ -170,15 +175,16 @@ export const actions: ActionTree<ArtifactFoundryState, {}> = {
       });
   },
 
-  async FETCH_BUY_ARTIFACT_PRICES({ commit, getters }, settingsWithItem: SettingsWithItem) {
+  async FETCH_BUY_ARTIFACT_PRICES({ commit, getters, rootState }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_STATUS', LoadingStatus.LOADING_ARTIFACTS);
 
     const allBranches = getters.getArtifactsNeeded as ArtifactsTreeForCurrentFragment;
     const location = settingsWithItem.settings.cities.buyArtifacts;
     const allNames = [...allBranches.WARRIOR_BRANCH, ...allBranches.HUNTER_BRANCH, ...allBranches.MAGE_BRANCH];
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames.join(',')}&locations=${location}&qualities=1`)
+      .get(`${baseUrl}data?items=${allNames.join(',')}&locations=${location}&qualities=1&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 
@@ -186,14 +192,15 @@ export const actions: ActionTree<ArtifactFoundryState, {}> = {
       });
   },
 
-  async FETCH_BUY_FRAGMENT_PRICES({ commit, getters }, settingsWithItem: SettingsWithItem) {
+  async FETCH_BUY_FRAGMENT_PRICES({ commit, getters, rootState }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_STATUS', LoadingStatus.LOADING_FRAGMENTS);
 
     const allNames = getters.getFragmentsNeeded as string[];
     const location = settingsWithItem.settings.cities.buyFragments;
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames.join(',')}&locations=${location}&qualities=1`)
+      .get(`${baseUrl}data?items=${allNames.join(',')}&locations=${location}&qualities=1&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 
@@ -201,14 +208,15 @@ export const actions: ActionTree<ArtifactFoundryState, {}> = {
       });
   },
 
-  async FETCH_SELL_FRAGMENT_PRICES({ commit, getters }, settingsWithItem: SettingsWithItem) {
+  async FETCH_SELL_FRAGMENT_PRICES({ commit, getters, rootState }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_STATUS', LoadingStatus.LOADING_FRAGMENTS);
 
     const allNames = getters.getFragmentsNeeded as string[];
     const location = settingsWithItem.settings.cities.sellFragments;
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames.join(',')}&locations=${location}&qualities=1`)
+      .get(`${baseUrl}data?items=${allNames.join(',')}&locations=${location}&qualities=1&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 

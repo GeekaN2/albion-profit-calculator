@@ -154,6 +154,11 @@ export default {
   box-shadow: 0 0 4px 5px var(--subtier3);
 }
 
+.subtier4 {
+  background: var(--subtier4);
+  box-shadow: 0 0 4px 5px var(--subtier4);
+}
+
 .text-algin-left {
   text-align: left;
 }

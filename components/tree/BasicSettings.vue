@@ -19,7 +19,8 @@
 
       <div 
         v-tooltip="{
-          content: $t('signInToSaveSettings'),
+          placement: 'top',
+          content: !$auth.loggedIn ? $t('signInToSaveSettings') : '',
           container: '#__layout',
         }"
         :title="$t('title.saveSettings')"
@@ -340,6 +341,7 @@ export default {
         "Lymhurst",
         "Martlock",
         "Thetford",
+        "Brecilien",
       ],
     };
   },

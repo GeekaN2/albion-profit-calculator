@@ -10,10 +10,11 @@ import {
 } from '../utils'
 import { TreeState, ItemInfo, SettingsWithItem } from './typeDefs'
 import { isArtifactItem } from '../utils'
+import { RootState } from '../typeDefs'
 
 const baseUrl = process.env.BASE_URL;
 
-export const actions: ActionTree<TreeState, {}> = {
+export const actions: ActionTree<TreeState, RootState> = {
   /**
    * Fetch json files data. Set recipes of items and tree structure of items
    * 
@@ -143,15 +144,16 @@ export const actions: ActionTree<TreeState, {}> = {
    * @param state - vuex state
    * @param {SettingsWithItem} settingsWithItem - сonvenient item data and settings
    */
-  async FETCH_ITEM_PRICES({ commit }, settingsWithItem: SettingsWithItem) {
+  async FETCH_ITEM_PRICES({ commit, rootState }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_TEXT', 'items');
 
     const itemName = settingsWithItem.currentItemInfo.name;
     const allNames = createStringOfAllItems(itemName);
     const location = settingsWithItem.settings.cities.sellItems;
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames}&locations=${location}&qualities=1,2,3,4,5`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}&qualities=1,2,3,4,5&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 
@@ -165,13 +167,14 @@ export const actions: ActionTree<TreeState, {}> = {
    * @param commit - vuex commit
    * @param state - vuex state
    */
-  async FETCH_RESOURCE_PRICES({ commit, state }, settingsWithItem: SettingsWithItem) {
+  async FETCH_RESOURCE_PRICES({ commit, rootState }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_TEXT', 'materials');
 
     const resources = ['CLOTH', 'LEATHER', 'PLANKS', 'METALBAR'];
     let locations = new Set();
     locations.add(settingsWithItem.settings.cities.resourcesFirstLocation);
     locations.add(settingsWithItem.settings.cities.resourcesSecondLocation);
+    const serverId = rootState.features.currentServerId;
 
     let allNames = resources.reduce((acc, resource) => {
       acc = acc + createStringOfAllResources(resource) + ',';
@@ -180,7 +183,7 @@ export const actions: ActionTree<TreeState, {}> = {
     }, '').slice(0, -1);
 
     await axios
-      .get(`${baseUrl}data?items=${allNames}&locations=${Array.from(locations).join(',')}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${Array.from(locations).join(',')}&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 
@@ -194,15 +197,16 @@ export const actions: ActionTree<TreeState, {}> = {
    * @param commit - vuex commit 
    * @param state - vuex state
    */
-  async FETCH_ARTEFACT_PRICES({ commit, state }, settingsWithItem: SettingsWithItem) {
+  async FETCH_ARTEFACT_PRICES({ commit, rootState }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_TEXT', 'artefacts');
 
     const itemName = settingsWithItem.currentItemInfo.name;
     let allNames = createStringOfAllArtifacts(itemName);
     const location = settingsWithItem.settings.cities.artefacts;
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 
@@ -216,14 +220,15 @@ export const actions: ActionTree<TreeState, {}> = {
    * @param commit - vuex commit 
    * @param state - vuex state
    */
-  async FETCH_JOURNAL_PRICES({ commit, state }, settingsWithItem: SettingsWithItem) {
+  async FETCH_JOURNAL_PRICES({ commit, state, rootState }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_TEXT', 'journals');
 
     let allNames = createStringOfAllJournals(state.currentItemInfo.root);
     const location = settingsWithItem.settings.cities.journals;
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames}&locations=${location}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${location}&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 
@@ -231,14 +236,15 @@ export const actions: ActionTree<TreeState, {}> = {
       });
   },
 
-  async FETCH_HEART_PRICES({ commit, state }, settingsWithItem: SettingsWithItem) {
+  async FETCH_HEART_PRICES({ commit, rootState }, settingsWithItem: SettingsWithItem) {
     commit('SET_LOADING_TEXT', 'hearts');
 
     const city = settingsWithItem.settings.cities.hearts;
     let allNames = createArrayOfAllHearts().join(',');
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseUrl}data?items=${allNames}&locations=${city}`)
+      .get(`${baseUrl}data?items=${allNames}&locations=${city}&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 
@@ -249,16 +255,17 @@ export const actions: ActionTree<TreeState, {}> = {
   /**
    * Fetch average data for items
    */
-  async FETCH_AVERAGE_DATA({ commit, state }, settingsWithItem) {
+  async FETCH_AVERAGE_DATA({ commit, rootState }, settingsWithItem) {
     commit('SET_LOADING_TEXT', 'averageData');
 
     const itemName = settingsWithItem.currentItemInfo.name;
     const allNames = createStringOfAllItems(itemName);
     const location = settingsWithItem.settings.cities.sellItems;
     const baseURL = process.env.BASE_URL;
+    const serverId = rootState.features.currentServerId;
 
     await axios
-      .get(`${baseURL}average_data?items=${allNames}&locations=${location}`)
+      .get(`${baseURL}average_data?items=${allNames}&locations=${location}&serverId=${serverId}`)
       .then(response => {
         const data = response.data;
 

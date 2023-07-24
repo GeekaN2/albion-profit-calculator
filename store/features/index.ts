@@ -11,7 +11,9 @@ Vue.use(Vuex);
 const featuresModule: Module<FeaturesState, RootState> = {
   namespaced: true,
   state: () => ({
-    isModalShown: false
+    isModalShown: false,
+    servers: [],
+    currentServerId: '',
   }),
   getters,
   actions,

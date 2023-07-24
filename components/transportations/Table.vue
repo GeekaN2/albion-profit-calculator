@@ -46,19 +46,20 @@ export default {
         this.$store.dispatch("transportations/GET_ITEMS");
     },
     mounted() {
-        this.scroll();
+        window.addEventListener("scroll", this.scroll);
+    },
+    destroyed() {
+        window.removeEventListener("scroll", this.scroll);
     },
     methods: {
         scroll() {
-            window.onscroll = () => {
-                let bottomOfWindow =
-                    document.documentElement.scrollTop + window.innerHeight >=
-                    document.documentElement.offsetHeight;
+            let bottomOfWindow =
+                document.documentElement.scrollTop + window.innerHeight >=
+                document.documentElement.offsetHeight;
 
-                if (bottomOfWindow) {
-                    this.$store.dispatch("transportations/UPDATE_TABLE");
-                }
-            };
+            if (bottomOfWindow) {
+                this.$store.dispatch("transportations/UPDATE_TABLE");
+            }
         },
     },
 };

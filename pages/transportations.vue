@@ -1,17 +1,20 @@
 <template>
   <section class="container">
     <Header />
-    <Table />
+    <GlobalNotifies />
+    <Table  v-if="$store.state.features.currentServerId"/>
   </section>
 </template>
 
 <script>
 import Header from "~/components/Header";
 import Table from "~/components/transportations/Table";
+import GlobalNotifies from "~/components/utils/GlobalNotifies/GlobalNotifies";
 
 export default {
   name: "Transportations",
   components: {
+    GlobalNotifies,
     Header,
     Table
   },

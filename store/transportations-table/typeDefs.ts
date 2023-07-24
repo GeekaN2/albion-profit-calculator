@@ -4,6 +4,11 @@
 export interface TransportationsState {
   transportations: Transportation[];
   settings: Settings;
+  features: Features;
+}
+
+export interface Features {
+  transportationsStatus: 'initial' | 'loading' | 'success' | 'error';
 }
 
 /**

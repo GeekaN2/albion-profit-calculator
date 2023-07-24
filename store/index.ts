@@ -10,7 +10,7 @@ import artifactFoundryModule from './artifact-foundry';
 import { RootState } from './typeDefs';
 
 const store: StoreOptions<RootState> ={
-  state: () => ({}),
+  state: () => ({} as RootState),
   modules: {
     /**
      * Profit tree module
@@ -54,4 +54,4 @@ const store: StoreOptions<RootState> ={
   }
 };
 
-export default () => new Vuex.Store<{}>(store);
+export default () => new Vuex.Store<RootState>(store);

@@ -11,6 +11,7 @@ const cities = {
   'Lymhurst': [],
   'Martlock': [],
   'Thetford': [],
+  'Brecilien': [],
 }
 
 export const mutations: MutationTree<ArtifactFoundryState> = {

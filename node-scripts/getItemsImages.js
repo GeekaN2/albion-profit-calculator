@@ -74,7 +74,7 @@ function createArrayOfAllItems(itemName) {
   let allNames = [];
 
   for (let tier = 4; tier <= 8; tier++) {
-    for (let subtier = 0; subtier <= 3; subtier++) {
+    for (let subtier = 0; subtier <= 4; subtier++) {
       allNames.push(`T${tier}` + itemName.slice(2) + (subtier != 0 ? `@${subtier}` : ''));
     }
   }
@@ -98,7 +98,9 @@ function createArrayOfAllResources(resource) {
       continue;
     }
 
-    for (let subtier = 0; subtier <= 3; subtier++) {
+    const highestSubtier = resource === 'ROCK' ? 3 : 4;
+
+    for (let subtier = 0; subtier <= highestSubtier; subtier++) {
       allNames.push(`T${tier}_` + resource + (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : ''));
     }
   }
@@ -175,7 +177,7 @@ function createArrayOfAllArtifactFragments(itemName) {
  * @param itemName - item name: T4_ARTEFACT_HEAD_CLOTH_HELL etc.
  */
 function isArtifactItem(itemName) {
-  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'ROYAL', 'INSIGHT', 'CAPEITEM'];
+  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'FEY', 'ROYAL', 'INSIGHT', 'CAPEITEM'];
 
   if (!itemName) {
     return false;

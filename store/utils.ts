@@ -37,7 +37,7 @@ export function createArrayOfAllIngredients(itemName: string): string[] {
 export function createStringOfAllItems(itemName: string): string {
   let allNames = '';
 
-  for (let subtier = 0; subtier <= 3; subtier++) {
+  for (let subtier = 0; subtier <= 4; subtier++) {
     for (let tier = 4; tier <= 8; tier++) {
       allNames = allNames + `T${tier}` + itemName.slice(2) + (subtier != 0 ? `@${subtier}` : '') + ',';
     }
@@ -55,7 +55,7 @@ export function createStringOfAllItems(itemName: string): string {
 export function createStringOfAllResources(resource: string, startTier = 4): string {
   let allNames = '';
 
-  for (let subtier = 0; subtier <= 3; subtier++) {
+  for (let subtier = 0; subtier <= 4; subtier++) {
     for (let tier = startTier; tier <= 8; tier++) {
       if (tier < 4 && subtier > 0) {
         continue;
@@ -369,7 +369,7 @@ export function isObjectEmpty(obj: object): boolean {
  * @param itemName - item name: T4_HEAD_CLOTH_HELL etc.
  */
 export function isArtifactItem(itemName: string, excludeRoyal?: boolean): boolean {
-  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', "INSIGHT", "CAPEITEM"];
+  const artifacts = ['UNDEAD', 'KEEPER', 'HELL', 'MORGANA', 'AVALON', 'FEY', "INSIGHT", "CAPEITEM"];
   
   if (!excludeRoyal) {
     artifacts.push('ROYAL');

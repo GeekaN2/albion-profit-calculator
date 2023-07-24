@@ -90,12 +90,15 @@ export interface Artefacts {
  * item -> resources for crafting
  */
 export interface Recipes {
-  [key: string]: {
-    PLANKS?: number;
-    METALBAR?: number;
-    CLOTH?: number;
-    LEATHER?: number;
-  }
+  [key: string]: Recipe;
+}
+
+// Number of basic materials needed to craft 1 item
+export interface Recipe {
+  PLANKS?: number;
+  METALBAR?: number;
+  CLOTH?: number;
+  LEATHER?: number;
 }
 
 /**
@@ -140,6 +143,7 @@ export interface Settings {
   returnPercentage: number;
   craftFee: number;
   cities: Cities,
+  itemsMultiplier: number,
   expert: {
     useOwnPercentage: boolean;
     useMinPricesNormalization: boolean;
