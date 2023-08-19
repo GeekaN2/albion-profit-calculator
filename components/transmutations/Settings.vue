@@ -3,12 +3,30 @@
     <h2>{{ $t('settings.settings') }}</h2>
     <div class="setting">
       <h3>{{ $t('settings.feeForNutrition') }}</h3>
-      <input 
+      <input
         v-model.number="fee"
         class="input input--number"
-        placeholder="800" 
+        placeholder="800"
         maxlength="10"
-        @change="updateFee"
+      >
+    </div>
+    <div class="setting">
+      <h3
+        v-tooltip="{
+          placement: 'right',
+          content: `${$t('needToCalcGlobalDiscount')} (${globalDiscount.toFixed(3)})`,
+        }"
+      >
+        {{ $t('gameItemFee') }}
+        <svg-icon
+          icon-class="question-circle"
+        />
+      </h3>
+      <input
+        v-model.number="gameItemFee"
+        class="input input--number"
+        placeholder="33500"
+        maxlength="20"
       >
     </div>
     <div class="setting">
@@ -22,7 +40,7 @@
     </div>
     <div class="setting">
       <div
-        class="refresh" 
+        class="refresh"
         @click="updateState('sell-items')"
       >
         <svg-icon
@@ -34,7 +52,7 @@
     </div>
     <div class="setting">
       <div
-        class="refresh" 
+        class="refresh"
         @click="updateState('buy-items')"
       >
         <svg-icon
@@ -48,9 +66,9 @@
       <h3 class="setting__city-header">
         {{ $t('sellLocation') }}
       </h3>
-      <select 
-        v-model="cities.sellResourcesLocation" 
-        class="city" 
+      <select
+        v-model="cities.sellResourcesLocation"
+        class="city"
         @change="changeCity"
       >
         <template v-for="baseCity in baseCities">
@@ -64,9 +82,9 @@
       <h3 class="setting__city-header">
         {{ $t('buyLocation') }}
       </h3>
-      <select 
-        v-model="cities.buyResourcesLocation" 
-        class="city" 
+      <select
+        v-model="cities.buyResourcesLocation"
+        class="city"
         @change="changeCity"
       >
         <template v-for="baseCity in baseCities">
@@ -86,26 +104,29 @@
     "showTransmutationWays": "Transmutation ways",
     "buyLocation": "Buy resources",
     "updateSellPrice": "Update sell prices",
-    "updateBuyPrices": "Update buy prices"
+    "updateBuyPrices": "Update buy prices",
+    "gameItemFee": "T4.3 → T4.4 transmutation cost",
+    "needToCalcGlobalDiscount": "Necessary to calculate the global discount"
   },
   "ru": {
     "sellLocation": "Продажа ресурсов",
     "showTransmutationWays": "Пути трансмутации",
     "buyLocation": "Покупка ресурсов",
     "updateSellPrice": "Обновить цены продажи",
-    "updateBuyPrices": "Обновить цены покупки"
+    "updateBuyPrices": "Обновить цены покупки",
+    "gameItemFee": "T4.3 → T4.4 transmutation cost",
+    "needToCalcGlobalDiscount": "Нужно для расчета глобальной скидки"
   }
 }
 </i18n>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   name: 'Settings',
   data() {
     return {
-      fee: 800,
       cities: {
         sellResourcesLocation: 'Caerleon',
         buyResourcesLocation: 'Caerleon'
@@ -138,18 +159,33 @@ export default {
       }
     },
 
+    fee: {
+      set(fee) {
+        this.$store.commit('transmutations/UPDATE_FEE', fee);
+      },
+      get() {
+        return this.settings.fee;
+      }
+    },
+
+    gameItemFee: {
+      set(gameItemFee) {
+        this.$store.commit('transmutations/UPDATE_GAME_ITEM_FEE', gameItemFee);
+      },
+      get() {
+        return this.settings.gameItemFee;
+      }
+    },
+
     ...mapState({
       settings: state => state.transmutations.settings
+    }),
+
+    ...mapGetters({
+      globalDiscount: 'transmutations/globalDiscount'
     })
   },
   methods: {
-    /**
-     * Update craft bench fee
-     */
-    updateFee() {
-      this.$store.commit('transmutations/UPDATE_FEE', this.fee);
-    },
-
     /**
      * Change cities at the state
      */

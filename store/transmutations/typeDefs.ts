@@ -44,6 +44,7 @@ export interface ResponseModel {
  * Transmutation settings
  */
 export interface Settings {
+  gameItemFee: number;
   fee: number;
   showTransmutationWays: boolean;
   cities: {

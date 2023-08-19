@@ -99,6 +99,7 @@ export default {
       buyItems: "transmutations/buyItemPrices",
       getItemName: "transmutations/getItemName",
       loadingText: "transmutations/loadingText",
+      globalDiscount: 'transmutations/globalDiscount'
     }),
 
     ...mapState({
@@ -185,7 +186,7 @@ export default {
       // previously: 1 - (3000 - goldPrice) / 3000
       // I don't understand where in albion such a constant comes from.
       // Calculations did not converge by a certain factor
-      const globalDiscount = 0.9316; 
+      const globalDiscount = this.globalDiscount;
 
       const transmutationCost =
         itemTransCost * globalDiscount +

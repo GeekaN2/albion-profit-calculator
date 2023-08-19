@@ -5,11 +5,12 @@ import Vue from 'vue';
 export const mutations: MutationTree<TransmutationsState> = {
   /**
    * Set json files data into state
-   * 
+   *
    * @param state - vuex state
    */
   SET_STATE(state) {
     state.settings = {
+      gameItemFee: 75000,
       fee: 800,
       showTransmutationWays: false,
       cities: {
@@ -27,10 +28,10 @@ export const mutations: MutationTree<TransmutationsState> = {
 
   /**
    * Set item prices to state
-   * 
+   *
    * @param state - vuex state
    * @param data - api response
-   * @param settingsWithItem - сonvenient item data and settings 
+   * @param settingsWithItem - сonvenient item data and settings
    */
   SET_SELL_ITEM_PRICES(state, { data, settingsWithItem }: { data: ResponseModel[], settingsWithItem: SettingsWithItem}) {
     const itemName = settingsWithItem.currentItemInfo.name;
@@ -41,10 +42,10 @@ export const mutations: MutationTree<TransmutationsState> = {
 
   /**
    * Set item prices to state
-   * 
+   *
    * @param state - vuex state
    * @param data - api response
-   * @param settingsWithItem - сonvenient item data and settings 
+   * @param settingsWithItem - сonvenient item data and settings
    */
   SET_BUY_ITEM_PRICES(state, { data, settingsWithItem }: { data: ResponseModel[], settingsWithItem: SettingsWithItem}) {
     const itemName = settingsWithItem.currentItemInfo.name;
@@ -55,7 +56,7 @@ export const mutations: MutationTree<TransmutationsState> = {
 
   /**
    * Set information about selected resoruce
-   * 
+   *
    * @param state - vuex state
    * @param resourceName - resource name
    */
@@ -65,7 +66,7 @@ export const mutations: MutationTree<TransmutationsState> = {
 
   /**
    * Set loading text
-   * 
+   *
    * @param state - vuex state
    * @param loadingText - text of loading
    */
@@ -75,7 +76,7 @@ export const mutations: MutationTree<TransmutationsState> = {
 
   /**
    * Update fee
-   * 
+   *
    * @param state - vuex state
    * @param fee - fee
    */
@@ -83,9 +84,13 @@ export const mutations: MutationTree<TransmutationsState> = {
     state.settings.fee = fee;
   },
 
+  UPDATE_GAME_ITEM_FEE(state, gameItemFee: number) {
+    state.settings.gameItemFee = gameItemFee;
+  },
+
   /**
    * Update resource prices locations
-   * 
+   *
    * @param state - vuex state
    * @param fee - fee
    */
