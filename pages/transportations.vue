@@ -2,7 +2,7 @@
   <section class="container">
     <Header />
     <GlobalNotifies />
-    <Table  v-if="$store.state.features.currentServerId"/>
+    <Table v-if="$store.state.features.currentServerId" />
   </section>
 </template>
 

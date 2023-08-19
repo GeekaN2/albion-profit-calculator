@@ -5,7 +5,7 @@ import { normalizeItemBySellPriceMin } from '../utils'
 export const getters: GetterTree<TransmutationsState, {}> = {
   /**
    * Get t4-t8 item prices
-   * 
+   *
    * @param state - vuex state
    */
   sellItemPrices: (state: TransmutationsState) => {
@@ -21,7 +21,7 @@ export const getters: GetterTree<TransmutationsState, {}> = {
 
   /**
    * Get t4-t8 item prices
-   * 
+   *
    * @param state - vuex state
    */
   buyItemPrices: (state: TransmutationsState) => {
@@ -37,7 +37,7 @@ export const getters: GetterTree<TransmutationsState, {}> = {
 
   /**
    * Get text of loading
-   * 
+   *
    * @param state - vuex state
    */
   loadingText: (state: TransmutationsState) => {
@@ -46,7 +46,7 @@ export const getters: GetterTree<TransmutationsState, {}> = {
 
   /**
    * Get item current item name by tier and subtier
-   * 
+   *
    * @param tier - item tier
    * @param subtier - item subtier
    */
@@ -65,5 +65,16 @@ export const getters: GetterTree<TransmutationsState, {}> = {
     const item: ResponseModel | undefined = state.prices[city][baseItemName].find(item => item.itemId === itemName);
 
     return item;
+  },
+
+  globalDiscount: (state: TransmutationsState) => {
+    // cost for transmutation from t4.3 to t4.4
+    const itemTransCost = 79240;
+
+    // tier 4.4
+    const itemValue = 124;
+    const globalDiscount = (state.settings.gameItemFee - itemValue * state.settings.fee / 100 * 0.1125) / itemTransCost;
+
+    return globalDiscount;
   }
 }
