@@ -231,7 +231,7 @@ export default {
   flex-direction: column;
   font-size: 1em;
   margin-bottom: 10px;
-  width: 200px;
+  min-width: 220px;
 
   .checkbox {
     display: none;
