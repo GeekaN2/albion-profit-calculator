@@ -26,7 +26,9 @@
     "fee": "Налог",
     "craftFee": "Налог станка",
     "feeForNutrition": "Налог за 100 еды",
-    "numberOfItemsSold": "Кол-во проданных предметов"
+    "numberOfItemsSold": "Кол-во проданных предметов",
+    "calibrate": "Откалибровать",
+    "change": "Изменить"
   },
   "cities": {
     "mainCity": "Основной город",

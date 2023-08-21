@@ -68,6 +68,9 @@ export const getters: GetterTree<TransmutationsState, {}> = {
   },
 
   globalDiscount: (state: TransmutationsState) => {
+    if (state.settings.isCalibrated) {
+      return state.settings.lastGlobalDiscount;
+    }
     // cost for transmutation from t4.3 to t4.4
     const itemTransCost = 79240;
 
