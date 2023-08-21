@@ -11,6 +11,8 @@ export const mutations: MutationTree<TransmutationsState> = {
   SET_STATE(state) {
     state.settings = {
       gameItemFee: 75000,
+      lastGlobalDiscount: 0.95,
+      isCalibrated: false,
       fee: 800,
       showTransmutationWays: false,
       cities: {
@@ -100,6 +102,14 @@ export const mutations: MutationTree<TransmutationsState> = {
 
   UPDATE_SHOW_TRANSMUTATION_WAYS(state, showTransmutationWays: boolean) {
     state.settings.showTransmutationWays = showTransmutationWays;
+  },
+
+  UPDATE_IS_CALIBRATED(state, isCalibrated: boolean) {
+    state.settings.isCalibrated = isCalibrated;
+  },
+
+  UPDATE_SET_LAST_GLOBAL_DISCOUNT(state, lastGlobalDiscount: number) {
+    state.settings.lastGlobalDiscount = lastGlobalDiscount;
   },
 
   UPDATE_ITEM_BY_ITEM_NAME(state, { itemName, item, location }: { itemName: string; item: ResponseModel, location: 'sell' | 'buy' }) {

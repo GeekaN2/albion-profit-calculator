@@ -45,6 +45,8 @@ export interface ResponseModel {
  */
 export interface Settings {
   gameItemFee: number;
+  lastGlobalDiscount: number;
+  isCalibrated: boolean;
   fee: number;
   showTransmutationWays: boolean;
   cities: {

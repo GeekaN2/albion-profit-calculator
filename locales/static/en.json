@@ -26,7 +26,9 @@
     "fee": "Fee",
     "craftFee": "Craft fee",
     "feeForNutrition": "Fee for 100 nutrition",
-    "numberOfItemsSold": "Number of items sold"
+    "numberOfItemsSold": "Number of items sold",
+    "calibrate": "Calibrate",
+    "change": "Change"
   },
   "cities": {
     "mainCity": "Main city",
