@@ -75,7 +75,7 @@ export const getters: GetterTree<TransmutationsState, {}> = {
     const itemTransCost = 79240;
 
     // tier 4.4
-    const itemValue = 124;
+    const itemValue = 128;
     const globalDiscount = (state.settings.gameItemFee - itemValue * state.settings.fee / 100 * 0.1125) / itemTransCost;
 
     return globalDiscount;
