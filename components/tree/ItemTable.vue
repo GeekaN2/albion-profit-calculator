@@ -19,7 +19,7 @@
           <span>{{ item.profit | formatPrice }}</span>
           <div class="base-item-info__secondary-info">
             <span class="secondary-info__profit-percentage">{{ item.percentageProfit | formatPercentage }}%</span>
-            <span 
+            <span
               v-if="settings.showAverageItems"
               class="secondary-info__average-items"
             >{{ item.averageItems | formatFloat }}/{{ $t('days') }}</span>
@@ -31,9 +31,9 @@
             icon-class="exclamation-triangle"
             class="item__warnings__icon"
           />
-          <svg-icon 
-            v-if="outdated(item.date, 'item date')" 
-            icon-class="clock" 
+          <svg-icon
+            v-if="outdated(item.date, 'item date')"
+            icon-class="clock"
             class="item__warnings__icon"
           />
           <svg-icon
@@ -44,7 +44,7 @@
           />
           <div
             :class="[
-              'item__warnings__tooltip tooltip', 
+              'item__warnings__tooltip tooltip',
               `tooltip--tier${name.slice(1, 2)}`,
               `tooltip--quality-${item.quality}`]"
           >
@@ -129,7 +129,7 @@ export default {
     formatPercentage(num) {
       if (typeof num !== 'number') {
         return 0;
-      } 
+      }
 
       if (Math.floor(num) == num) {
         return num;
@@ -165,11 +165,11 @@ export default {
        * Craft bench fee per unit of material
        */
       itemValues: [
-        [14, 30, 62, 126, 254],
-        [30, 61, 125, 253, 509],
-        [54, 118, 246, 502, 1014],
-        [102, 229, 485, 997, 2021],
-        [204, 459, 970, 1994, 4042], // WIP: check this in the game
+        [16, 32, 64, 128, 256],
+        [32, 62, 128, 256, 512],
+        [64, 128, 256, 502, 1024],
+        [128, 256, 512, 1024, 2048],
+        [256, 512, 1024, 2056, 4096], // WIP: check this in the game
       ],
 
       itemAndArtefactValues: {
@@ -192,7 +192,7 @@ export default {
         T7_rune: 32,
         T7_soul: 95.5,
         T7_relic: 222.5,
-        T7_avalon: 480, 
+        T7_avalon: 480,
         T8_royal: 64,
         T8_rune: 63.5,
         T8_soul: 190.5,
@@ -236,13 +236,13 @@ export default {
        * Get artefacts. If artifacts are not needed returns {}
        */
       "tree/getArtefacts",
-      
+
       /**
        * Get recipe to calculate craft cost
        */
       "tree/getRecipe",
       "tree/getRecipeForItemsNeededToCraft",
-      
+
       /**
        * Get empty journals
        */
@@ -262,14 +262,14 @@ export default {
        * Get return percentage of materials
        */
       "tree/returnMaterialPercentage",
-      
+
       /**
        * Does this item need an artifact
        */
       "tree/isArtifactItem",
 
       /**
-       * Do we need hearts for the current item or not 
+       * Do we need hearts for the current item or not
        */
       "tree/areHeartsNeeded",
 
@@ -341,14 +341,14 @@ export default {
             marketFee = MARKET_SELL_ORDER_FEE;
           }
 
-          itemPrice = Math.floor(itemPrice * (1 - marketFee / 100)) *  this.settings.itemsMultiplier;;
+          itemPrice = Math.floor(itemPrice * (1 - marketFee / 100)) *  this.settings.itemsMultiplier;
 
           this.tableInfo[`T${tier}.${subtier}`].marketPrice = {
             name: itemName,
             percentage: -marketFee,
             price: itemPrice,
             date: lastCheckDate,
-            addon: this.settings.itemsMultiplier === 1 ? '' : this.settings.itemsMultiplier,  
+            addon: this.settings.itemsMultiplier === 1 ? '' : this.settings.itemsMultiplier,
           };
 
           let creationCost = 0;
@@ -391,7 +391,7 @@ export default {
       }
 
       let artefactPrice = 0;
-      const artifactName = this['tree/getArtifactName'](tier);     
+      const artifactName = this['tree/getArtifactName'](tier);
       let artefact = this['tree/getArtefacts'][artifactName];
 
       if (this.currentItemInfo.name.includes('ROYAL')) {
@@ -405,7 +405,7 @@ export default {
         artefactPrice = artefact.price;
       }
 
-      artefactPrice = (artefactPrice || 0) * this.settings.itemsMultiplier;;
+      artefactPrice = (artefactPrice || 0) * this.settings.itemsMultiplier;
 
       this.tableInfo[`T${tier}.${subtier}`].artefact = {
         name: artifactName,
@@ -433,10 +433,10 @@ export default {
         const resourceFullName =
           `T${tier}_${resourceName}` +
           (subtier != 0 ? `_LEVEL${subtier}@${subtier}` : "");
-        
+
         const resource = recipe[0][0] == resourceName ? this['tree/getFirstResources'][resourceFullName] : this['tree/getSecondResources'][resourceFullName];
         const cost = Math.floor(resource.price * amount * (1 - this['tree/returnMaterialPercentage'] / 100) * this.settings.itemsMultiplier);
-        
+
         sumCost += cost;
 
         // update tableInfo
@@ -494,7 +494,7 @@ export default {
 
       let profit =
         (fullJournal.price - emptyJournal.price) *
-        (craftFame / journalFame) * 
+        (craftFame / journalFame) *
         (1 - fullJournal.marketFee / 100);
 
       profit = Math.floor(profit * this.settings.itemsMultiplier);
@@ -531,7 +531,7 @@ export default {
       } else if (isHereticCape) {
         itemValue += 1000 / this.amountOfMaterials;
       }
-      
+
       const feePrice = Math.floor(
         (itemValue * this.amountOfMaterials) * fee / 100 * 0.1125 * this.settings.itemsMultiplier
       );
@@ -610,7 +610,7 @@ export default {
 
     /**
      * Copy text to the clipboard
-     * 
+     *
      * @param {string} text - text to copy
      */
     copyName(text) {
@@ -629,7 +629,7 @@ export default {
 
     /**
      * Format float number
-     * 
+     *
      * @param {number} - number to format
      * @returns {number}
      */
@@ -782,7 +782,7 @@ export default {
       opacity: 1;
     }
   }
-  
+
   &__base-item-info {
     display: flex;
     flex-direction: column;
@@ -852,7 +852,7 @@ export default {
     &-5 {
       border-top: 4px solid var(--masterpiece-quality);
       border-left: 4px solid var(--masterpiece-quality);
-    } 
+    }
   }
 }
 
