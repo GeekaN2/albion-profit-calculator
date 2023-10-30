@@ -54,7 +54,7 @@ import { mapGetters, mapState } from "vuex";
 import ItemRow from "./ItemRow";
 import LongWayTransmutationRow from "./LongWayTransmutationRow";
 import ItemRecipe from "./ItemRecipe.vue";
-import { MARKET_SELL_ORDER_FEE } from '../../store/constants';
+import { MARKET_SELL_ORDER_FEE } from "../../store/constants";
 
 export default {
   name: "Table",
@@ -75,17 +75,17 @@ export default {
       ],
       transCostPrevSubtierFormula: [
         [0, 0, 0, 0, 0],
-        [1980, 1760, 2640, 4230, 8450],
-        [3950, 3530, 5280, 8450, 16900],
-        [7920, 7040, 10560, 16900, 33800],
-        [79240, 70410, 105600, 168960, 337920]
+        [1500, 2000, 3000, 4800, 14400],
+        [3000, 4000, 6000, 15120, 45360],
+        [6000, 8000, 19800, 49896, 149688],
+        [24000, 32000, 79200, 199584, 748440],
       ],
       transCostPrevTierFormula: [
-        [0, 1180, 1760, 2820, 5640],
-        [0, 2350, 3520, 5640, 11270],
-        [0, 4700, 7040, 11270, 22530],
-        [0, 9390, 14080, 22530, 45060], // [0, x, x, x, 45060]
-        [0, 93880, 140800, 225280, 450560],
+        [0, 781, 1250, 2500, 5000],
+        [0, 1563, 2500, 5000, 15000],
+        [0, 3125, 5000, 15750, 47250],
+        [0, 6250, 16500, 51975, 155925],
+        [0, 25000, 66000, 207900, 779625],
       ],
       /**
        * It's a bit weird but rocks only have prev tier formula
@@ -99,7 +99,7 @@ export default {
       buyItems: "transmutations/buyItemPrices",
       getItemName: "transmutations/getItemName",
       loadingText: "transmutations/loadingText",
-      globalDiscount: 'transmutations/globalDiscount'
+      globalDiscount: "transmutations/globalDiscount",
     }),
 
     ...mapState({
@@ -114,20 +114,14 @@ export default {
       let bestWays = [];
       // Started item, can't be T8.4
       for (let tier = 4; tier <= 8; tier++) {
-        for (
-          let subtier = 0;
-          subtier <= 4 && !(tier == 8 && subtier == 4);
-          subtier++
-        ) {
+        for (let subtier = 0; subtier <= 4 && !(tier == 8 && subtier == 4); subtier++) {
           let allWays = this.getAllTransmuteWays(tier, subtier);
 
           bestWays.push(...allWays);
         }
       }
 
-      bestWays.sort(
-        (row1, row2) => row2.profitPercentage - row1.profitPercentage
-      );
+      bestWays.sort((row1, row2) => row2.profitPercentage - row1.profitPercentage);
 
       return bestWays;
     },
@@ -189,8 +183,7 @@ export default {
       const globalDiscount = this.globalDiscount;
 
       const transmutationCost =
-        itemTransCost * globalDiscount +
-        ((value * fee) / 100) * 0.1125;
+        itemTransCost * globalDiscount + ((value * fee) / 100) * 0.1125;
 
       return transmutationCost;
     },
@@ -222,12 +215,11 @@ export default {
         }
 
         const item = this.sellItems[itemName];
-        const price = Math.floor(item.sellPriceMin * (100 - MARKET_SELL_ORDER_FEE) / 100);
+        const price = Math.floor(
+          (item.sellPriceMin * (100 - MARKET_SELL_ORDER_FEE)) / 100
+        );
         const fee = Math.floor(
-          this.getTransmutationFee(
-            itemName,
-            this.getItemTransCostPrevTierFormula
-          )
+          this.getTransmutationFee(itemName, this.getItemTransCostPrevTierFormula)
         );
         const materialName =
           `T${tier - 1}_${this.baseItemName}` +
@@ -284,10 +276,7 @@ export default {
         const item = this.sellItems[itemName];
         const price = Math.floor(item.sellPriceMin * 0.955);
         const fee = Math.floor(
-          this.getTransmutationFee(
-            itemName,
-            this.getItemTransCostPrevSubtierFormula
-          )
+          this.getTransmutationFee(itemName, this.getItemTransCostPrevSubtierFormula)
         );
         const materialName =
           `T${tier}_${this.baseItemName}` +
@@ -351,27 +340,18 @@ export default {
           if (t - 1 >= tier) {
             prevTierFee =
               cells[s][t - 1].transmutationFee +
-              this.getTransmutationFee(
-                itemName,
-                this.getItemTransCostPrevTierFormula
-              );
+              this.getTransmutationFee(itemName, this.getItemTransCostPrevTierFormula);
           }
 
           if (s - 1 >= subtier) {
             prevSubtierFee =
               cells[s - 1][t].transmutationFee +
-              this.getTransmutationFee(
-                itemName,
-                this.getItemTransCostPrevSubtierFormula
-              );
+              this.getTransmutationFee(itemName, this.getItemTransCostPrevSubtierFormula);
           }
 
           cells[s][t].cost = 0;
 
-          if (
-            (prevTierFee < prevSubtierFee && prevTierFee != 0) ||
-            prevSubtierFee == 0
-          ) {
+          if ((prevTierFee < prevSubtierFee && prevTierFee != 0) || prevSubtierFee == 0) {
             cells[s][t] = {
               transmutationFee: prevTierFee,
               prevTier: t - 1,
