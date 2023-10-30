@@ -72,10 +72,11 @@ export const getters: GetterTree<TransmutationsState, {}> = {
       return state.settings.lastGlobalDiscount;
     }
     // cost for transmutation from t4.3 to t4.4
-    const itemTransCost = 79240;
+    // TODO: Move to SSOT
+    const itemTransCost = 24000;
 
     // tier 4.4
-    const itemValue = 128;
+    const itemValue = 124;
     const globalDiscount = (state.settings.gameItemFee - itemValue * state.settings.fee / 100 * 0.1125) / itemTransCost;
 
     return globalDiscount;
