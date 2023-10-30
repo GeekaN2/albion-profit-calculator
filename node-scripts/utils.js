@@ -1,4 +1,5 @@
 const fs = require('fs');
+const axios = require('axios');
 
 /**
  * @returns {string[]} - array of all base food and potion names that we need with tiers
@@ -38,7 +39,7 @@ function getAllFoodAndPotionNames() {
 
 /**
  * Creates an array with all names of full journals of all tiers and subtiers
- * 
+ *
  * @param {string} root - journals branch: WARRIOR, MAGE etc.
  * @returns {string[]} - array with all tiers and subtiers for empty and full journals
  */
@@ -55,7 +56,7 @@ function createArrayOfAllJournals(root) {
 
 /**
  * Creates and array with all names of food, potions and relative items in their branches
- * 
+ *
  * @returns {string[]}
  */
 function createArrayOfAllFoodAndPotions() {
@@ -116,8 +117,30 @@ function createArrayOfAllFoodAndPotions() {
   return allNames;
 }
 
+/**
+ * Get items from ao-bin-dumps
+ */
+async function getItems() {
+  console.log('Downloading items dump...');
+
+  try {
+    const request = await axios.get('https://raw.githubusercontent.com/ao-data/ao-bin-dumps/master/items.json');
+
+    console.log('Dump downloaded');
+
+    return request.data;
+  } catch (error) {
+    console.log('Something went wrong while downloading', error);
+
+    return [];
+  }
+}
+
+
 module.exports = {
+  getItems,
   createArrayOfAllJournals,
   getAllFoodAndPotionNames,
   createArrayOfAllFoodAndPotions
 }
+
