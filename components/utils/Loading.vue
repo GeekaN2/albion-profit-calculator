@@ -13,7 +13,7 @@
     "items": "Loading item prices",
     "artefacts": "Loading artifact prices",
     "resources": "Loading resource prices",
-    "materials": "Loading mateiral prices",
+    "materials": "Loading material prices",
     "journals": "Loading journal prices",
     "artifacts": "Loading artifact prices",
     "fragments": "Loading fragment prices",
