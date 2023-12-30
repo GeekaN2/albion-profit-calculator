@@ -76,12 +76,12 @@ export const getters: GetterTree<RefiningState, {}> = {
     const city = state.settings.cities.refiningResources;
     const useFocus = state.settings.useFocus;
 
-    const bonusCity = getDoesItemHaveProductionBonusForCity(itemName, city);
+    const hasProductionBonus = getDoesItemHaveProductionBonusForCity(itemName, city);
 
-    if (!bonusCity) {
-      return useFocus ? 43.5 : 15.2;;
-    } else {
+    if (hasProductionBonus) {
       return useFocus ? 53.9 : 36.7;
+    } else {
+      return useFocus ? 43.5 : 15.2;;
     }
   },
 
