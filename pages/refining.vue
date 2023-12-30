@@ -24,7 +24,7 @@
 <i18n>
 {
   "en": {
-    "chooseBranch": "Choose a resource to refining"
+    "chooseBranch": "Choose a resource to refine"
   },
   "ru": {
     "chooseBranch": "Выберите ресурс для переработки"
