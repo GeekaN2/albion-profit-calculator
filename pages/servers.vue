@@ -15,7 +15,7 @@
           :value="server.id"
         >
           <h3 class="server-title">
-            {{ $t(`servers.${server.id}`) }}
+            {{ server.name }}
             <span class="healthcheck" />
           </h3>
           <span class="server-subtitle">NATS URL</span>
@@ -46,7 +46,7 @@
     </div>
   </section>
 </template>
-  
+
 <i18n>
   {
     "en": {
@@ -67,7 +67,7 @@
     }
   }
   </i18n>
-  
+
 <script>
 import Header from "~/components/Header";
 import { mapState } from 'vuex';
@@ -93,7 +93,7 @@ export default {
   },
 };
 </script>
-  
+
 <style scoped lang='scss'>
 .servers-title {
   text-align: center;
