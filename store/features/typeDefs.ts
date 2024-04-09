@@ -9,6 +9,7 @@ export interface FeaturesState {
 
 export interface Server {
   id: string;
+  name: string;
   description: string;
   natsUrl: string;
   healthCheck: string;
