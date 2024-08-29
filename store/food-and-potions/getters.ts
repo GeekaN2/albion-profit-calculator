@@ -153,19 +153,24 @@ export const getters: GetterTree<FoodAndPotionsState, {}> = {
     if (state.settings.useOwnPercentage) {
       return state.settings.returnPercentage;
     }
-
     const useFocus = state.settings.useFocus;
     const craftItemsCity = state.settings.cities.craftItems;
+    const currentItemTiers = state.currentItemTiers;
 
     let returnMaterialsPercentage = useFocus ? 43.5 : 15.2;
 
-    if (craftItemsCity === 'Brecilien') {
-      returnMaterialsPercentage = useFocus ? 47.9 : 24.8;
+    const isPotion = currentItemTiers.some(item => item.includes('POTION'));
+    const isMeal = currentItemTiers.some(item => item.includes('MEAL'));
+
+    if (isPotion && craftItemsCity === 'Brecilien') {
+        returnMaterialsPercentage = useFocus ? 47.9 : 24.8;
+    } else if (isMeal && craftItemsCity === 'Caerleon') {
+        returnMaterialsPercentage = useFocus ? 47.9 : 24.8;
     }
 
     
     return returnMaterialsPercentage;
-  },
+},
 
   getResourceValueByName: (state) => (resourceName: string): Number => {
     if (resourceName.includes('QUESTITEM_TOKEN_AVALON')) {
