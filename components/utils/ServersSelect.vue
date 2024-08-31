@@ -1,4 +1,4 @@
-<template>   
+<template>
   <select
     v-model="currentServerId"
     class="servers-select"
@@ -8,12 +8,12 @@
         :key="server.id"
         :value="server.id"
       >
-        {{ $t(`servers.${server.id}`) }}
+        {{ server.name }}
       </option>
     </template>
   </select>
 </template>
-  
+
 <script>
 import { mapState } from 'vuex';
 
@@ -40,7 +40,7 @@ export default {
     }
 };
 </script>
-  
+
 <style scoped lang="scss">
 .servers-select {
     margin-right: var(--space-s);
